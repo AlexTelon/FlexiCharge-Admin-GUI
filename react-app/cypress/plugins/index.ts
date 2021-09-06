@@ -16,15 +16,15 @@
 /**
  * @type {Cypress.PluginConfig}
  */
-module.exports = (on, config) => {
+export function pluginConfig (on: any, config: any): void {
   // `on` is used to hook into various events Cypress emits
   // `config` is the resolved Cypress config
   on('task', {
-    log(x) {
+    log (x: any) {
       // prints into the terminal's console
-      console.log(x)
+      console.log(x);
 
-      return null
+      return null;
     }
-  })
+  });
 }

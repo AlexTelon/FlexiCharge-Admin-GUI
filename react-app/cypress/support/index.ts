@@ -14,5 +14,5 @@
 // https://on.cypress.io/configuration
 // ***********************************************************
 Cypress.Commands.add('customCommand', () => {
-  return cy.wrap(42)
-})
+  return cy.wrap(42);
+});

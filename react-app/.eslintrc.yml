@@ -1,9 +1,10 @@
 env:
   browser: true
   es2021: true
+root: true
 extends:
-  - plugin:react/recommended
   - standard-with-typescript
+  - plugin:react/recommended
 parser: '@typescript-eslint/parser'
 parserOptions:
   ecmaFeatures:
@@ -14,8 +15,31 @@ parserOptions:
 plugins:
   - react
   - '@typescript-eslint'
-rules: 
-  - '@typescript-eslint/semi': ["on"]
-  - '@typescript-eslint/no-floating-promises':
-    - ignoreVoid: true,
-    - sssignoreIIFE: true
+globals: {
+  cy: true,
+  Cypress: true
+}
+settings: {
+  react: {
+    version: detect
+  }
+}  
+rules: {
+  'semi': 'off',
+  'indent': 'off',
+  'eol-last': ['error', 'never'],
+  '@typescript-eslint/semi': ['error', 'always'],
+  '@typescript-eslint/indent': ['error', 2],
+  '@typescript-eslint/no-floating-promises': 0,
+  '@typescript-eslint/strict-boolean-expressions': 0,
+  '@typescript-eslint/triple-slash-reference': 0,
+  '@typescript-eslint/explicit-function-return-type': 0,
+  '@typescript-eslint/consistent-type-definitions': 0,
+  '@typescript-eslint/return-await': 0,
+  '@typescript-eslint/space-before-function-paren': 0,
+  no-return-assign: 0,
+  operator-linebreak: 0,
+  react/jsx-tag-spacing: 2,
+  react/prop-types: 0,
+  react/display-name: 0,
+}

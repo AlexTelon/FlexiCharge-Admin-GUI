@@ -8,7 +8,7 @@
     ],
     "outDir": "./dist/",
     "noImplicitAny": true,
-    "allowJs": true,
+    "allowJs": false,
     "skipLibCheck": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
@@ -24,6 +24,8 @@
     "types": ["cypress"]
   },
   "include": [
+    "cypress/**/*.ts",
+    "cypress/**/*.tsx",
     "src/**/*.ts",
     "src/**/*.tsx",
   ]
