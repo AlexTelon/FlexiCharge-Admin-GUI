@@ -9,6 +9,10 @@ services:
     volumes:
       - ./react-app/cypress:/react-app/cypress
       - ./react-app/src:/react-app/src
+    environment:
+      - HOST=0.0.0.0
+      - PORT=${DEV_PORT}
+      - CHOKIDAR_USEPOLLING=true
     ports:
-      - ${DEV_PORT}:3000
+      - ${DEV_PORT}:${DEV_PORT}
       - ${TEST_PORT}:9000
