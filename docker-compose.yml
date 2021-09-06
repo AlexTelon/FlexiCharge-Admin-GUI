@@ -9,6 +9,7 @@ services:
     env_file:
       - .env
     volumes:
+      - ./react-app/cypress:/react-app/cypress
       - ./react-app/src:/react-app/src
     environment:
       NODE_ENV: ${NODE_ENV}
