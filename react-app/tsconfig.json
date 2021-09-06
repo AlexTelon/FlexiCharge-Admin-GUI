@@ -24,8 +24,7 @@
     "types": ["cypress"]
   },
   "include": [
-    "cypress/**/*.ts",
-    "cypress/**/*.tsx",
+    "cypress/**/*.{ts, tsx}",
     "src/**/*.ts",
     "src/**/*.tsx",
   ]
