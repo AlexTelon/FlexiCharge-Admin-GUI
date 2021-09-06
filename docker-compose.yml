@@ -1,0 +1,16 @@
+version: '3.4'
+
+services:
+  react-app:
+    build:
+      context: .
+      dockerfile: ./react-app/Dockerfile
+    container_name: ${APP_NAME}-react-app
+    env_file:
+      - .env
+    volumes:
+      - ./react-app/src:/react-app/src
+    environment:
+      NODE_ENV: ${NODE_ENV}
+    ports:
+      - ${DEV_PORT}:8080
