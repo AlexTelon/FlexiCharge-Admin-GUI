@@ -1,0 +1,18 @@
+version: '3.4'
+
+services:
+  react-app:
+    build: ./react-app
+    container_name: ${APP_NAME}-react-app
+    env_file:
+      - .env
+    volumes:
+      - ./react-app/cypress:/react-app/cypress
+      - ./react-app/src:/react-app/src
+    environment:
+      - HOST=0.0.0.0
+      - PORT=${DEV_PORT}
+      - CHOKIDAR_USEPOLLING=true
+    ports:
+      - ${DEV_PORT}:${DEV_PORT}
+      - ${TEST_PORT}:9000
