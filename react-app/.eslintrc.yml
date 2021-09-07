@@ -37,6 +37,7 @@ rules: {
   '@typescript-eslint/consistent-type-definitions': 0,
   '@typescript-eslint/return-await': 0,
   '@typescript-eslint/space-before-function-paren': 0,
+  'no-trailing-spaces': 'off',
   no-return-assign: 0,
   operator-linebreak: 0,
   react/jsx-tag-spacing: 2,
