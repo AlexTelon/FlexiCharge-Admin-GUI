@@ -1,6 +1,5 @@
 import React from 'react';
 import { Paper, makeStyles, createStyles, Theme, AppBar, Toolbar, Typography, InputAdornment, TextField, Button } from '@material-ui/core';
-// import 'bootstrap/dist/css/bootstrap.min.css';
 import './Login.css';
 import { Lock, Person } from '@material-ui/icons';
 import backgroundLogo from '../../assets/logo.svg';
@@ -73,7 +72,7 @@ const Login = () => {
           <img src={backgroundLogo} alt="1234" />
           <img src={backgroundTitle} alt="1234" />
         </div>
-        <div className="login-form-wrapper col-10 col-sm-5">
+        <div className="login-form-wrapper col-10 col-md-3">
           <Paper className={classes.loginPaper} elevation={7}>
             <AppBar className={classes.appBar} position="static">
               <Toolbar>
