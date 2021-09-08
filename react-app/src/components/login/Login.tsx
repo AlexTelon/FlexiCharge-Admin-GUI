@@ -4,7 +4,7 @@ import { Paper, makeStyles, createStyles, Theme, AppBar, Toolbar, Typography, In
 import './Login.css';
 import { Lock, Person } from '@material-ui/icons';
 import backgroundLogo from '../../assets/logo.svg';
-import backgroundTitle from '../../assets/title.png';
+import backgroundTitle from '../../assets/title.svg';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -36,6 +36,14 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     inputField: {
       marginTop: '1rem'
+    },
+    logoStyle: {
+      width: '10rem',
+      height: '10.5rem'
+    },
+    titleStyle: {
+      width: '40rem',
+      height: '5rem'
     }
   })
 );
@@ -52,7 +60,7 @@ const LoginFields = () => {
             </InputAdornment>)
           }} />
         <TextField className={classes.inputField}
-          id="input-with-icon-textfield" label="password" variant="filled" InputProps={{
+          id="input-with-icon-textfield" label="password" type="password" variant="filled" InputProps={{
             startAdornment: (<InputAdornment position="start">
               <Lock />
             </InputAdornment>)
@@ -69,16 +77,16 @@ const Login = () => {
   return (
     <>
       <div className="login-page">
-        <div className="flexicharge-logo-title">
-          <img src={backgroundLogo} alt="1234" />
-          <img src={backgroundTitle} alt="1234" />
+        <div className="flexicharge-logo-title col-4 col-xl-5">
+          <img className={classes.logoStyle} src={backgroundLogo} alt="logo" />
+          <img className={classes.titleStyle} src={backgroundTitle} alt="title" />
         </div>
-        <div className="login-form-wrapper col-10 col-sm-5">
+        <div className="login-form-wrapper col-4 col-sm-3">
           <Paper className={classes.loginPaper} elevation={7}>
             <AppBar className={classes.appBar} position="static">
               <Toolbar>
                 <Typography variant="h6">
-                  Admin Portal
+                  <h4 className="paper-title">Admin Portal</h4>
                 </Typography>
               </Toolbar>
             </AppBar>
