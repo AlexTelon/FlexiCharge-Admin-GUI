@@ -20,13 +20,14 @@ const useStyles = makeStyles((theme: Theme) =>
       justifyContent: 'center'
     },
     loginPaper: {
-      background: '#ffffff'
+      background: '#ffffff',
+      paddingBottom: '1.5rem'
     },
     buttonStyle: {
-      marginTop: '25px',
+      marginTop: '1.5rem',
       borderRadius: '1.5rem',
-      width: '2rem',
-      height: '1.5rem',
+      width: '7rem',
+      height: '2rem',
       backgroundColor: '#78bd76',
       color: '#ffffff',
       marginBottom: '.5rem',
@@ -94,11 +95,12 @@ const LoginFields = () => {
           className={classes.inputField}
           onChange={handleUsernameChange}
           id="input-with-icon-textfield"
-          label="username"
+          label="Username"
+          size="small"
           value={username}
           error={errorState.usernameError !== undefined}
           helperText={errorState.usernameError}
-          variant="filled" InputProps={{
+          variant="standard" InputProps={{
             startAdornment: (<InputAdornment position="start">
               <Person />
             </InputAdornment>)
@@ -107,9 +109,10 @@ const LoginFields = () => {
           className={classes.inputField}
           onChange={handlePasswordChange}
           id="input-with-icon-textfield"
-          label="password"
+          label="Password"
           type="password"
-          variant="filled"
+          variant="standard"
+          size="small"
           value={password}
           error={errorState.passwordError !== undefined}
           helperText={errorState.passwordError}
