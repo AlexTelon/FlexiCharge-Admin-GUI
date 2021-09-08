@@ -1,6 +1,6 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
-import AuthenticationProvider from '../../remote-access/mock/AuthenticationProvider';
+import { authenticationProvider } from '../../remote-access';
 
 const Dashboard = () => {
   return (
@@ -11,7 +11,7 @@ const Dashboard = () => {
 export const DashboardRoute = ({ ...rest }) => {
   return (
     <Route {...rest} render={() => {
-      return AuthenticationProvider.instance.isAuthenticated
+      return authenticationProvider.isAuthenticated
         ? <Dashboard />
         : <Redirect to='/login' />;
     }} />

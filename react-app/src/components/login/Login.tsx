@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import { Paper, makeStyles, createStyles, Theme, AppBar, Toolbar, Typography, InputAdornment, TextField, Button } from '@material-ui/core';
+import { Redirect } from 'react-router';
+import { Alert } from '@material-ui/lab';
 import './Login.css';
 import { Lock, Person } from '@material-ui/icons';
 import backgroundLogo from '../../assets/logo.svg';
 import backgroundTitle from '../../assets/title.svg';
+import { authenticationProvider } from '../../remote-access';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -36,30 +39,65 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     inputField: {
       marginTop: '1rem'
+    },
+    alertBox: {
+      width: '100%'
     }
   })
 );
 
 const LoginFields = () => {
   const classes = useStyles();
-  const [passwordInput, setPasswordInput] = useState<string>();
-  const [usernameInput, setUsernameInput] = useState<string>();
-
-  console.log(passwordInput, usernameInput);
+  const [password, setPassword] = useState<string>();
+  const [username, setUserame] = useState<string>();
+  const [errorState, setErrorState] = useState<any>({});
+  
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPasswordInput(e.target.value);
+    setPassword(e.target.value);
   };  
   const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setUsernameInput(e.target.value);
+    setUserame(e.target.value);
   };
+  const handleSubmitClicked = async () => {
+    if (username && password) {
+      const [wasSuccess, errors] = await authenticationProvider.login(username, password);
+      if (wasSuccess) {
+        setErrorState({});
+        // goto dashboard
+      } else if (errors.invalidCredentials) {
+        setErrorState({
+          alertError: 'Invalid credentials'
+        });
+      }
+    } else {
+      setErrorState({
+        usernameError: !username ? 'Required' : undefined,
+        passwordError: !password ? 'Required' : undefined
+      });
+    }
+  };
+
+  console.log(authenticationProvider);
+  if (authenticationProvider.isAuthenticated) {
+    return (
+      <Redirect to="/dashboard" />
+    );
+  }
+
   return (
     <>
-      <div className="login-input-fields">
+      <form className="login-input-fields">
+        {errorState.alertError !== undefined &&
+          <Alert className={classes.alertBox} severity="warning">{errorState.alertError}</Alert>
+        }
         <TextField 
           className={classes.inputField}
           onChange={handleUsernameChange}
           id="input-with-icon-textfield"
           label="username"
+          value={username}
+          error={errorState.usernameError !== undefined}
+          helperText={errorState.usernameError}
           variant="filled" InputProps={{
             startAdornment: (<InputAdornment position="start">
               <Person />
@@ -70,14 +108,18 @@ const LoginFields = () => {
           onChange={handlePasswordChange}
           id="input-with-icon-textfield"
           label="password"
+          type="password"
           variant="filled"
+          value={password}
+          error={errorState.passwordError !== undefined}
+          helperText={errorState.passwordError}
           InputProps={{
             startAdornment: (<InputAdornment position="start">
               <Lock />
             </InputAdornment>)
           }} />
-        <Button className={classes.buttonStyle} variant="outlined">Login</Button>
-      </div>
+        <Button onClick={handleSubmitClicked} className={classes.buttonStyle} variant="outlined">Login</Button>
+      </form>
     </>
   );
 };
