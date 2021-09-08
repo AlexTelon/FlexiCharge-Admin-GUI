@@ -26,25 +26,28 @@ const useStyles = makeStyles((theme: Theme) =>
       background: '#ffffff'
     },
     buttonStyle: {
-      marginTop: '25px',
+      marginTop: theme.spacing(3),
       borderRadius: '1.5rem',
       width: '2rem',
       height: '1.5rem',
       backgroundColor: '#78bd76',
       color: '#ffffff',
-      marginBottom: '.5rem',
+      marginBottom: theme.spacing(3),
       border: 'none'
     },
     appBar: {
       backgroundColor: '#78bd76',
-      marginBottom: '1rem',
+      marginBottom: theme.spacing(2),
       alignItems: 'center'
     },
     inputField: {
-      marginTop: '1rem'
+      marginTop: theme.spacing(1)
     },
     alertBox: {
       width: '100%'
+    },
+    inputIcon: {
+      color: '#222222'
     }
   })
 );
@@ -107,9 +110,11 @@ const LoginFields: FC<LoginFieldProps> = ({ setLoading }) => {
           error={errorState.usernameError !== undefined}
           helperText={errorState.usernameError}
           variant="filled" InputProps={{
-            startAdornment: (<InputAdornment position="start">
-              <Person />
-            </InputAdornment>)
+            startAdornment: (
+              <InputAdornment position="start">
+                <Person className={classes.inputIcon} />
+              </InputAdornment>
+            )
           }} />
         <TextField
           className={classes.inputField}
@@ -122,9 +127,11 @@ const LoginFields: FC<LoginFieldProps> = ({ setLoading }) => {
           error={errorState.passwordError !== undefined}
           helperText={errorState.passwordError}
           InputProps={{
-            startAdornment: (<InputAdornment position="start">
-              <Lock />
-            </InputAdornment>)
+            startAdornment: (
+              <InputAdornment position="start">
+                <Lock className={classes.inputIcon} />
+              </InputAdornment>
+            )
           }} />
         <Button onClick={handleSubmitClicked} className={classes.buttonStyle} variant="outlined">Login</Button>
       </form>
