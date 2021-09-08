@@ -15,6 +15,7 @@ body > * {
 
 .flexicharge-logo-title {
   top: 3rem;
+  z-index: 1;
   position: fixed;
   display: flex;
   align-items: center;
@@ -26,6 +27,10 @@ body > * {
 }
 .flexicharge-logo-title:nth-child(2) {
   height: 5rem;
+}
+
+.login-form-wrapper {
+  z-index: 10;
 }
 
 .login-page {
@@ -49,4 +54,10 @@ body > * {
 
 .paper-title {
   color: floralwhite
+}
+
+@media screen and (max-width: 768px) {
+  .flexicharge-logo-title {
+    top: 1.5rem;
+  }
 }

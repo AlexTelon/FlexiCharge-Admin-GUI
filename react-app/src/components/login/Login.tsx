@@ -31,18 +31,11 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     appBar: {
       backgroundColor: '#78bd76',
-      marginBottom: '1rem'
+      marginBottom: '1rem',
+      alignItems: 'center'
     },
     inputField: {
       marginTop: '1rem'
-    },
-    logoStyle: {
-      width: '10rem',
-      height: '10.5rem'
-    },
-    titleStyle: {
-      width: '40rem',
-      height: '5rem'
     }
   })
 );
@@ -95,9 +88,9 @@ const Login = () => {
   return (
     <>
       <div className="login-page">
-        <div className="flexicharge-logo-title col-4 col-xl-5">
-          <img className={classes.logoStyle} src={backgroundLogo} alt="logo" />
-          <img className={classes.titleStyle} src={backgroundTitle} alt="title" />
+        <div className="flexicharge-logo-title container row">
+          <img className="col-3 col-md-2" src={backgroundLogo} alt="logo" />
+          <img className="col-10 col-md-6" src={backgroundTitle} alt="title" />
         </div>
         <div className="login-form-wrapper col-10 col-md-3">
           <Paper className={classes.loginPaper} elevation={7}>
