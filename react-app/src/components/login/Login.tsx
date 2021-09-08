@@ -1,13 +1,15 @@
 import React from 'react';
-import { Paper, makeStyles, createStyles, Theme, TextField, AppBar, Toolbar, Typography } from '@material-ui/core';
+import { Paper, makeStyles, createStyles, Theme, AppBar, Toolbar, Typography, InputAdornment, TextField, Button } from '@material-ui/core';
 // import 'bootstrap/dist/css/bootstrap.min.css';
 import './Login.css';
-// import backgroundImage from '../../assets/background.svg';
+import { Lock, Person } from '@material-ui/icons';
+import backgroundLogo from '../../assets/logo.svg';
+import backgroundTitle from '../../assets/title.png';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     appBar: {
-      backgroundColor: '#E5E5E5'
+      backgroundColor: '#fffff'
     },
     root: {
       position: 'absolute',
@@ -18,9 +20,28 @@ const useStyles = makeStyles((theme: Theme) =>
       justifyContent: 'center'
     },
     loginPaper: {
-      background: '#128541',
-      height: '5rem',
-      width: '15rem'
+      background: '#ffffff',
+      height: '40vh',
+      width: '25rem',
+      margin: '200px auto'
+    },
+    usernameField: {
+      marginTop: '50px',
+      marginLeft: '4.6rem',
+      margin: theme.spacing(1)
+    },
+    passwordField: {
+      marginTop: '15px',
+      marginLeft: '4.6rem'
+    },
+    buttonStyle: {
+      marginTop: '25px',
+      marginLeft: '9.5rem'
+    },
+    LogoTitle: {
+      display: 'flex',
+      justifyContent: 'center',
+      margin: '20px auto'
     }
   })
 );
@@ -29,20 +50,35 @@ const Login = () => {
   const classes = useStyles();
 
   return (
-    <div className={classes.root}>
-      {/* <img src={backgroundImage} alt="BackgroundImage" /> */}
-      <Paper className={classes.loginPaper} elevation={10}>
+    <><div>
+      <img className={classes.LogoTitle} src={backgroundLogo} alt="1234" />
+      <img className={classes.LogoTitle} src={backgroundTitle} alt="1234" />
+    </div><div className={classes.root}>
+      <Paper className={classes.loginPaper} elevation={7}>
         <AppBar position="static">
           <Toolbar>
             <Typography variant="h6">
-              Hello world
+              Admin Portal
             </Typography>
           </Toolbar>
         </AppBar>
-        <TextField label="username" variant="outlined" />
-        <TextField />
+        <div>
+          <TextField className={classes.usernameField}
+            id="input-with-icon-textfield" label="username" variant="outlined" InputProps={{
+              startAdornment: (<InputAdornment position="start">
+                <Person />
+              </InputAdornment>)
+            }} />
+          <TextField className={classes.passwordField}
+            id="input-with-icon-textfield" label="password" variant="outlined" InputProps={{
+              startAdornment: (<InputAdornment position="start">
+                <Lock />
+              </InputAdornment>)
+            }} />
+          <Button className={classes.buttonStyle} variant="outlined">Login</Button>
+        </div>
       </Paper>
-    </div>
+    </div></>
   );
 };
 
