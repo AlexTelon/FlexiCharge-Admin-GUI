@@ -1,5 +1,8 @@
-import React, { useState } from 'react';
-import { Paper, makeStyles, createStyles, Theme, AppBar, Toolbar, Typography, InputAdornment, TextField, Button } from '@material-ui/core';
+import React, { FC, useState } from 'react';
+import {
+  Paper, makeStyles, createStyles, Theme, AppBar, Toolbar,
+  Typography, InputAdornment, TextField, Button, LinearProgress
+} from '@material-ui/core';
 import { Redirect } from 'react-router';
 import { Alert } from '@material-ui/lab';
 import './Login.css';
@@ -46,7 +49,11 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const LoginFields = () => {
+interface LoginFieldProps {
+  setLoading: (isLoading: boolean) => void
+}
+
+const LoginFields: FC<LoginFieldProps> = ({ setLoading }) => {
   const classes = useStyles();
   const [password, setPassword] = useState<string>();
   const [username, setUserame] = useState<string>();
@@ -60,6 +67,7 @@ const LoginFields = () => {
   };
   const handleSubmitClicked = async () => {
     if (username && password) {
+      setLoading(true);
       const [wasSuccess, errors] = await authenticationProvider.login(username, password);
       if (wasSuccess) {
         setErrorState({});
@@ -126,6 +134,7 @@ const LoginFields = () => {
 
 const Login = () => {
   const classes = useStyles();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   return (
     <>
@@ -135,6 +144,9 @@ const Login = () => {
           <img className="col-10 col-md-6" src={backgroundTitle} alt="title" />
         </div>
         <div className="login-form-wrapper col-10 col-md-3">
+          {(isLoading) &&
+            <LinearProgress />        
+          }
           <Paper className={classes.loginPaper} elevation={7}>
             <AppBar className={classes.appBar} position="static">
               <Toolbar>
@@ -143,7 +155,7 @@ const Login = () => {
                 </Typography>
               </Toolbar>
             </AppBar>
-            <LoginFields />
+            <LoginFields setLoading={setIsLoading} />
           </Paper>
         </div>
       </div>

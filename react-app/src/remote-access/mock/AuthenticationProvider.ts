@@ -8,13 +8,17 @@ export default class AuthenticationProvider implements IAuthenticationProvider {
   }
 
   async login(username: string, password: string): Promise<[boolean, any | null]> {
-    console.log(username, password);
-    if (username === 'admin' && password === 'admin') {
-      this.isAuthenticated = true;
-      return [true, {}];
-    } else {
-      this.isAuthenticated = false;
-      return [this.isAuthenticated, { invalidCredentials: true }];
-    }
+    return new Promise((resolve, reject) => {
+      console.log(username, password);
+      setTimeout(() => {
+        if (username === 'admin' && password === 'admin') {
+          this.isAuthenticated = true;
+          resolve([true, {}]);
+        } else {
+          this.isAuthenticated = false;
+          resolve([this.isAuthenticated, { invalidCredentials: true }]);
+        }
+      }, 5000);
+    });
   }
 }
