@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Paper, makeStyles, createStyles, Theme, AppBar, Toolbar, Typography, InputAdornment, TextField, Button } from '@material-ui/core';
 import './Login.css';
 import { Lock, Person } from '@material-ui/icons';
@@ -41,17 +41,36 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const LoginFields = () => {
   const classes = useStyles();
+  const [passwordInput, setPasswordInput] = useState<string>();
+  const [usernameInput, setUsernameInput] = useState<string>();
+
+  console.log(passwordInput, usernameInput);
+  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPasswordInput(e.target.value);
+  };  
+  const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setUsernameInput(e.target.value);
+  };
   return (
     <>
       <div className="login-input-fields">
-        <TextField className={classes.inputField}
-          id="input-with-icon-textfield" label="username" variant="filled" InputProps={{
+        <TextField 
+          className={classes.inputField}
+          onChange={handleUsernameChange}
+          id="input-with-icon-textfield"
+          label="username"
+          variant="filled" InputProps={{
             startAdornment: (<InputAdornment position="start">
               <Person />
             </InputAdornment>)
           }} />
-        <TextField className={classes.inputField}
-          id="input-with-icon-textfield" label="password" variant="filled" InputProps={{
+        <TextField
+          className={classes.inputField}
+          onChange={handlePasswordChange}
+          id="input-with-icon-textfield"
+          label="password"
+          variant="filled"
+          InputProps={{
             startAdornment: (<InputAdornment position="start">
               <Lock />
             </InputAdornment>)
