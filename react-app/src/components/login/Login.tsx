@@ -74,12 +74,12 @@ const LoginFields: FC<LoginFieldProps> = ({ setLoading }) => {
       const [wasSuccess, errors] = await authenticationProvider.login(username, password);
       if (wasSuccess) {
         setErrorState({});
-        // goto dashboard
       } else if (errors.invalidCredentials) {
         setErrorState({
           alertError: 'Invalid credentials'
         });
       }
+      setLoading(false);
     } else {
       setErrorState({
         usernameError: !username ? 'Required' : undefined,
