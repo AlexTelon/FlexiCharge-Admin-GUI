@@ -166,7 +166,7 @@ const Login = () => {
           <img className="col-3 col-md-2" src={backgroundLogo} alt="logo" />
           <img className="col-10 col-md-6" src={backgroundTitle} alt="title" />
         </div>
-        <div className="login-form-wrapper col-10 col-md-6 col-lg-4">
+        <div className="login-form-wrapper col-10 col-md-6 col-lg-4 col-xl-3">
           {(isLoading) &&
             <LinearProgress className={classes.progressBarColor} />        
           }
