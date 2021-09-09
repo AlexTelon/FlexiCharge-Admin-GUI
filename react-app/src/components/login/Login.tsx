@@ -106,10 +106,11 @@ const LoginFields: FC<LoginFieldProps> = ({ setLoading }) => {
           onChange={handleUsernameChange}
           id="input-with-icon-textfield"
           label="username"
+          autoFocus={false}
           value={username}
           error={errorState.usernameError !== undefined}
           helperText={errorState.usernameError}
-          variant="filled" InputProps={{
+          variant="standard" InputProps={{
             startAdornment: (
               <InputAdornment position="start">
                 <Person className={classes.inputIcon} />
