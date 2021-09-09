@@ -21,6 +21,7 @@ declare module '@material-ui/core/styles/createTheme' {
         neutral: string
         error: string
       }
+      gradient: string
     }
   }
   // To allow configuration using `createTheme`
@@ -44,6 +45,7 @@ declare module '@material-ui/core/styles/createTheme' {
         neutral: string
         error: string
       }
+      gradient: string
     }
   }
 }
@@ -67,7 +69,8 @@ const flexiChargeTheme = createTheme({
       warning: '#f0c200',
       neutral: '#5e5eb7',
       error: '#ef6048'
-    }
+    },
+    gradient: 'linear-gradient(90deg, rgba(240,194,0,1) 0%, rgba(208,195,48,1) 15%, rgba(120,219,118,1) 80%, rgba(64,156,104,1) 100%)'
   }
 });
 
