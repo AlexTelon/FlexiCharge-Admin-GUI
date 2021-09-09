@@ -54,12 +54,16 @@ body > * {
   padding-right: 2rem;
 }
 
-.paper-title {
-  color: floralwhite
-}
-
 @media screen and (max-width: 768px) {
   .flexicharge-logo-title {
     top: 1.5rem;
   }
+}
+
+.MuiLinearProgress-root {
+  background-color: white !important;
+}
+
+.MuiLinearProgress-barColorPrimary {
+  background-color: #5e5eb7 !important;
 }

@@ -34,7 +34,12 @@ const useStyles = makeStyles((theme: Theme) =>
       backgroundColor: '#78bd76',
       color: '#ffffff',
       marginBottom: theme.spacing(3),
-      border: 'none'
+      border: 'none',
+      fontFamily: '"Lato", sans-serif',
+      '&:hover': {
+        backgroundColor: '#78bd76'
+      }
+      
     },
     appBar: {
       backgroundColor: '#78bd76',
@@ -42,13 +47,21 @@ const useStyles = makeStyles((theme: Theme) =>
       alignItems: 'center'
     },
     inputField: {
-      marginTop: theme.spacing(1)
+      marginTop: theme.spacing(1),
+      fontFamily: '"Lato", sans-serif'
     },
     alertBox: {
       width: '100%'
     },
     inputIcon: {
       color: '#222222'
+    },
+    progressBarColor: {
+      color: '#000000'
+    },
+    loginTitle: {
+      fontFamily: '"Lato", sans-serif',
+      fontSize: '2em'
     }
   })
 );
@@ -153,15 +166,15 @@ const Login = () => {
           <img className="col-3 col-md-2" src={backgroundLogo} alt="logo" />
           <img className="col-10 col-md-6" src={backgroundTitle} alt="title" />
         </div>
-        <div className="login-form-wrapper col-10 col-md-3">
+        <div className="login-form-wrapper col-10 col-md-6 col-lg-4">
           {(isLoading) &&
-            <LinearProgress />        
+            <LinearProgress className={classes.progressBarColor} />        
           }
           <Paper className={classes.loginPaper} elevation={7}>
             <AppBar className={classes.appBar} position="static">
               <Toolbar>
-                <Typography variant="h6">
-                  <h4 className="paper-title">Admin Portal</h4>
+                <Typography className={classes.loginTitle} variant="h4">
+                  Admin Portal
                 </Typography>
               </Toolbar>
             </AppBar>
