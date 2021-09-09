@@ -18,7 +18,7 @@ export default class AuthenticationProvider implements IAuthenticationProvider {
           this.isAuthenticated = false;
           resolve([this.isAuthenticated, { invalidCredentials: true }]);
         }
-      }, 5000);
+      }, 3000);
     });
   }
 }

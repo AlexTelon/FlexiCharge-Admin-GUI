@@ -4,7 +4,7 @@ import { authenticationProvider } from '../../remote-access';
 
 const Dashboard = () => {
   return (
-    <h3>Successfully logged in!</h3>
+    <h3></h3>
   );
 };
 
