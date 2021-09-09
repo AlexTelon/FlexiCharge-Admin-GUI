@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme: Theme) =>
       justifyContent: 'center'
     },
     loginPaper: {
-      background: '#ffffff',
+      background: theme.flexiCharge.primary.white,
       paddingBottom: '1.5rem'
     },
     buttonStyle: {
@@ -31,36 +31,36 @@ const useStyles = makeStyles((theme: Theme) =>
       borderRadius: '1.5rem',
       width: '7rem',
       height: '2rem',
-      backgroundColor: '#78bd76',
-      color: '#ffffff',
+      backgroundColor: theme.flexiCharge.accent.primary,
+      color: theme.flexiCharge.primary.white,
       marginBottom: theme.spacing(3),
       border: 'none',
-      fontFamily: '"Lato", sans-serif',
+      fontFamily: theme.flexiCharge.font._main,
       '&:hover': {
-        backgroundColor: '#78bd76'
+        backgroundColor: theme.flexiCharge.accent.primary
       }
       
     },
     appBar: {
-      backgroundColor: '#78bd76',
+      backgroundColor: theme.flexiCharge.accent.primary,
       marginBottom: theme.spacing(2),
       alignItems: 'center'
     },
     inputField: {
       marginTop: theme.spacing(1),
-      fontFamily: '"Lato", sans-serif'
+      fontFamily: theme.flexiCharge.font._main
     },
     alertBox: {
       width: '100%'
     },
     inputIcon: {
-      color: '#222222'
+      color: theme.flexiCharge.primary.darkGrey
     },
     progressBarColor: {
-      color: '#000000'
+      color: theme.flexiCharge.primary.black
     },
     loginTitle: {
-      fontFamily: '"Lato", sans-serif',
+      fontFamily: theme.flexiCharge.font.Lato,
       fontSize: '2em'
     }
   })
