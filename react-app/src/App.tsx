@@ -3,7 +3,6 @@ import { Switch, useLocation, Route, Redirect } from 'react-router-dom';
 import './App.css';
 import { DashboardRoute } from './components/dashboard/Dashboard';
 import Login from './components/login/Login';
-// import AuthenticationProvider from './remote-access/mock/AuthenticationProvider';
 
 function App(): JSX.Element {
   const location = useLocation();
