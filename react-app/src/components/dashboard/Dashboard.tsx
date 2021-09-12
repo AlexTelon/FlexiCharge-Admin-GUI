@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet';
 import { Box, styled } from '@material-ui/core';
 import { Route, Redirect, Link } from 'react-router-dom';
 import { authenticationProvider } from '../../remote-access';
-import ChargersPage from '../chargers/ChargersPage';
+import ChargerStations from '../charger-stations/ChargerStations';
 
 const DashboardLayout = styled('div')(
   ({ theme }) => ({
@@ -44,7 +44,7 @@ const Dashboard = (props: any) => {
             <Box sx={{ position: 'absolute' }}>
               <Link to="/dashboard/chargers">asd</Link>
             </Box>
-            <Route path="/dashboard/chargers" render={() => (<ChargersPage />)} />
+            <Route path="/dashboard/chargers" render={() => (<ChargerStations />)} />
           </DashboardContent>
         </DashboardContainer>
       </DashboardLayout>
