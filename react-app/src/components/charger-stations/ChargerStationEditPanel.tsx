@@ -1,9 +1,9 @@
 import {
   Paper, AppBar, Toolbar, Typography,
-  IconButton, Divider, Box, Button, Theme, FormControl, InputLabel, Input, FormHelperText, Grid
+  IconButton, Divider, Box, Button, Theme, FormControl, InputLabel, Input, FormHelperText, Grid, useMediaQuery, Dialog, DialogTitle, DialogContent, DialogActions
 } from '@material-ui/core';
 import { ChevronRight, Close } from '@material-ui/icons';
-import { createStyles, makeStyles } from '@material-ui/styles';
+import { createStyles, makeStyles, useTheme } from '@material-ui/styles';
 import React from 'react';
 
 const useStyle = makeStyles((theme: Theme) => 
@@ -23,12 +23,27 @@ const useStyle = makeStyles((theme: Theme) =>
       color: theme.flexiCharge.primary.white,
       marginBottom: theme.spacing(2),
       marginTop: theme.spacing(2)
+    },
+    dialogDelete: {
+      color: theme.flexiCharge.accent.error
     }
   })
 );
 
 const ChargerStationEditPanel = () => {
   const classes = useStyle();
+
+  const [deleteDialogOpen, setDeleteDialogOpen] = React.useState<boolean>(false);
+  const theme: Theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
+
+  const handleDeleteDialogOpen = () => {
+    setDeleteDialogOpen(true);
+  };
+
+  const handleDeleteDialogClose = () => {
+    setDeleteDialogOpen(false);
+  };
   return (
     <Paper component="aside">
       <AppBar position="static" elevation={0} className={classes.panelAppBar}>
@@ -102,9 +117,30 @@ const ChargerStationEditPanel = () => {
             </Typography>
           </Grid>
           <Grid item xs={12} lg={4}>
-            <Button fullWidth variant="contained" className={classes.deleteButton}>
+            <Button fullWidth variant="contained" className={classes.deleteButton} onClick={handleDeleteDialogOpen}>
               Delete
             </Button>
+            <Dialog
+              fullScreen={fullScreen}
+              open={deleteDialogOpen}
+              onClose={handleDeleteDialogClose}
+              aria-labelledby="delete-station-dialog"
+            >
+              <DialogTitle id="delelte-station-dialog">Are you sure?</DialogTitle>
+              <DialogContent>
+                Are you sure you want to delete this Charger Station?
+                <br />
+                Deleting a Charger Station marks it as <em>Inactive</em> in the database
+              </DialogContent>
+              <DialogActions>
+                <Button autoFocus onClick={handleDeleteDialogClose} color="primary">
+                  Cancel
+                </Button>
+                <Button onClick={handleDeleteDialogClose} className={classes.dialogDelete}>
+                  Delete
+                </Button>
+              </DialogActions>
+            </Dialog>
           </Grid>
         </Grid>
       </Box>
