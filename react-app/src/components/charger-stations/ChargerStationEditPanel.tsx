@@ -126,20 +126,25 @@ const ChargerStationEditPanel = () => {
               onClose={handleDeleteDialogClose}
               aria-labelledby="delete-station-dialog"
             >
-              <DialogTitle id="delelte-station-dialog">Are you sure?</DialogTitle>
-              <DialogContent>
-                Are you sure you want to delete this Charger Station?
-                <br />
-                Deleting a Charger Station marks it as <em>Inactive</em> in the database
-              </DialogContent>
-              <DialogActions>
-                <Button autoFocus onClick={handleDeleteDialogClose} color="primary">
-                  Cancel
-                </Button>
-                <Button onClick={handleDeleteDialogClose} className={classes.dialogDelete}>
-                  Delete
-                </Button>
-              </DialogActions>
+              <Box
+                border={1}
+                borderColor="error.main"
+              >
+                <DialogTitle id="delelte-station-dialog">Are you sure?</DialogTitle>
+                <DialogContent>
+                  Are you sure you want to delete this Charger Station?
+                  <br />
+                  Deleting a Charger Station marks it as <em>Inactive</em> in the database
+                </DialogContent>
+                <DialogActions>
+                  <Button autoFocus onClick={handleDeleteDialogClose} color="primary">
+                    Cancel
+                  </Button>
+                  <Button onClick={handleDeleteDialogClose} className={classes.dialogDelete}>
+                    Delete
+                  </Button>
+                </DialogActions>
+              </Box>
             </Dialog>
           </Grid>
         </Grid>
