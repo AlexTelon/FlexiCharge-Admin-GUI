@@ -51,6 +51,13 @@ declare module '@material-ui/core/styles/createTheme' {
 }
 
 const flexiChargeTheme = createTheme({
+  palette: {
+    primary: {
+      main: '#78bd76',
+      light: '#78bd76',
+      dark: '#78bd76'
+    }
+  },
   flexiCharge: {
     font: {
       _main: '"Lato", sans-serif',

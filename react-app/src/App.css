@@ -2,6 +2,23 @@ body {
   height: 100vh;
 }
 
+body::after {
+  content: "";
+  top: 0;
+  position: absolute;
+  background: #222222;
+  clip-path: polygon(0% 70%, 0% 100%, 100% 100%, 100% 30%);
+  height: 100vh;
+  width: 100%;
+  z-index: 0;
+  overflow: hidden;
+}
+
+body > * {
+  z-index: 10;
+  position: relative;
+}
+
 .App {
   text-align: center;
 }
@@ -18,6 +35,9 @@ body {
   }
 }
 
+#root {
+  height: 100%;
+}
 
 .App-header {
   background-color: #282c34;
