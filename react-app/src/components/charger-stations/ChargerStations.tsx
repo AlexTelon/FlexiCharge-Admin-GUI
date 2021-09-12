@@ -150,14 +150,16 @@ const ChargerStationsSettingsAccordian = ({ classes }: any) => {
         aria-controls="chargers-actions-panel"
         id="chargers-actions-panel-header"
       >
-        <div className="col-11">
-          <Typography>
-            0 Selected
-          </Typography>
-        </div>
-        <div className="col-1">
-          More Actions
-        </div>
+        <Grid container>
+          <Grid item xs={9} md={10}>
+            <Typography>
+              0 Selected
+            </Typography>
+          </Grid>
+          <Grid item xs={3} md={2}>
+            More Actions
+          </Grid>
+        </Grid>
       </AccordionSummary>
       <AccordionDetails>
         <div className="col-9"></div>
