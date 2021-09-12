@@ -200,7 +200,7 @@ const ChargerStations = () => {
         <Box className={classes.contentBox}>
           <Container component="section" maxWidth={false}>
             <Grid container spacing={1} className={`${classes.contentContainer}`}>
-              <Grid item sm={9}>
+              <Grid item xs={12} md={9}>
                 <AppBar position="static" className={classes.contentAppBar} elevation={1}>
                   <Toolbar variant="dense">
                     <Typography className={classes.contentTitle} variant="h6">
@@ -221,7 +221,7 @@ const ChargerStations = () => {
                   <ChargersTable classes={classes} />
                 </Paper>
               </Grid>
-              <Grid item sm={3}>
+              <Grid item xs={12} md={3}>
                 <ChargerStationEditPanel />
               </Grid>
             </Grid>
