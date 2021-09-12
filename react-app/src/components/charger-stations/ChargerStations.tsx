@@ -20,7 +20,6 @@ const useStyles = makeStyles((theme: Theme) =>
     contentBox: {
       padding: theme.spacing(2),
       paddingTop: theme.spacing(8),
-      position: 'absolute',
       width: '100%',
       height: '100%',
       maxHeight: '100%',
@@ -51,6 +50,9 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     buttonLight: {
       color: theme.flexiCharge.primary.white
+    },
+    tableContainer: {
+      maxHeight: '600px'
     }
   })
 );
@@ -102,12 +104,12 @@ const ChargersTable = ({ classes }: any) => {
   };
 
   const chargerCells = [];
-  for (let i = 0; i < 6; i++) {
+  for (let i = 0; i < 12; i++) {
     chargerCells.push(<ChargerTableCell classes={classes} />);
   }
   return (
     <>
-      <TableContainer>
+      <TableContainer className={classes.tableContainer}>
         <Table stickyHeader aria-aria-label="sticky table">
           <TableHead>
             <TableRow>
