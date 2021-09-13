@@ -13,7 +13,6 @@ const DashboardLayout = styled('div')(
     width: '100%',
     flex: '1 1 auto',
     backgroundColor: 'yellow',
-    overflow: 'hidden',
     [theme.breakpoints.up('xs')]: {
       backgroundColor: 'transparent'
     }
@@ -22,14 +21,12 @@ const DashboardLayout = styled('div')(
 
 const DashboardContainer = styled('div')({
   display: 'flex',
-  flex: '1 1 auto',
-  overflow: 'hidden'
+  flex: '1 1 auto'
 });
 
 const DashboardContent = styled('div')({
   flex: '1 1 auto',
-  height: '100%',
-  overflow: 'auto'
+  height: '100%'
 });
 
 const Dashboard = (props: any) => {

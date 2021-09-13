@@ -3,7 +3,8 @@ import {
   Grid, IconButton, makeStyles, Table, TableCell,
   TableHead, TableRow, Theme, Toolbar, Typography,
   Accordion, AccordionDetails, AccordionSummary, AccordionActions,
-  Button, Divider, TableBody, TablePagination, TableContainer, Paper
+  Button, Divider, TableBody, TablePagination, TableContainer, Paper,
+  Hidden, useMediaQuery, TableProps
 } from '@material-ui/core';
 import { Helmet } from 'react-helmet';
 import { Edit, ExpandMore, FilterList } from '@material-ui/icons';
@@ -19,11 +20,15 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     contentBox: {
       padding: theme.spacing(2),
-      paddingTop: theme.spacing(8),
+      paddingTop: theme.spacing(2),
       width: '100%',
       height: '100%',
       maxHeight: '100%',
-      top: 0
+      top: 0,
+      [theme.breakpoints.down('xs')]: {
+        margin: 0,
+        paddingTop: theme.spacing(1)
+      }
     },
     contentAppBar: {
       backgroundColor: theme.flexiCharge.primary.white,
@@ -34,6 +39,16 @@ const useStyles = makeStyles((theme: Theme) =>
       backgroundColor: 'transparent',
       [theme.breakpoints.down('sm')]: {
         flexDirection: 'column-reverse'
+      },
+      [theme.breakpoints.down('xs')]: {
+        flexDirection: 'column-reverse'
+      }
+    },
+    contentSection: {
+      [theme.breakpoints.down('xs')]: {
+        margin: 0,
+        paddingLeft: 0,
+        paddingRight: 0
       }
     },
     contentTitle: {
@@ -89,9 +104,11 @@ const ChargerTableCell = (props: any) => {
           Busy
         </TableCell>
         <TableCell align="right">
-          <Button className={props.classes.buttonDark} color="primary">
-            Manage Chargers
-          </Button>
+          <Hidden xsDown>
+            <Button className={props.classes.buttonDark} color="primary">
+              Manage Chargers
+            </Button>
+          </Hidden>
           <Button startIcon={<Edit />} className={props.classes.buttonLight} variant="contained" color="primary">
             Edit
           </Button>
@@ -110,10 +127,17 @@ const ChargersTable = ({ classes }: any) => {
   for (let i = 0; i < 12; i++) {
     chargerCells.push(<ChargerTableCell classes={classes} />);
   }
+
+  const isSmallScreen = useMediaQuery((theme: Theme) => theme.breakpoints.down('xs'));
+  const tableProps: TableProps = {
+    size: isSmallScreen ? 'small' : 'medium'
+  };
+
+  console.log(tableProps);
   return (
     <>
       <TableContainer className={classes.tableContainer}>
-        <Table stickyHeader aria-aria-label="sticky table">
+        <Table {...tableProps} stickyHeader aria-aria-label="sticky table">
           <TableHead>
             <TableRow>
               <TableCell padding="checkbox">
@@ -136,10 +160,9 @@ const ChargersTable = ({ classes }: any) => {
         </Table>
       </TableContainer>
       <TablePagination
-        rowsPerPageOptions={[10, 25, 100]}
         component="div"
         count={chargerCells.length}
-        rowsPerPage={6}
+        rowsPerPage={5}
         page={1}
         onPageChange={handleChangePage}
       />
@@ -190,7 +213,7 @@ const ChargerStations = () => {
         <title>Admin | Chargers</title>
       </Helmet>
       <Box sx={{ minHeight: '100%' }}>
-        <AppBar position="static" className={classes.appBar} >
+        <AppBar position="sticky" className={classes.appBar} >
           <Toolbar variant="dense">
             <Typography variant="h6">
               Flexi Charge
@@ -198,7 +221,7 @@ const ChargerStations = () => {
           </Toolbar>
         </AppBar>
         <Box className={classes.contentBox}>
-          <Container component="section" maxWidth={false}>
+          <Container component="section" className={classes.contentSection} maxWidth={false}>
             <Grid container spacing={1} className={`${classes.contentContainer}`}>
               <Grid item xs={12} md={8} lg={9}>
                 <AppBar position="static" className={classes.contentAppBar} elevation={1}>
