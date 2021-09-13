@@ -8,8 +8,9 @@ import {
 } from '@material-ui/core';
 import { Helmet } from 'react-helmet';
 import { Edit, ExpandMore, FilterList } from '@material-ui/icons';
-import React from 'react';
+import React, { useState } from 'react';
 import ChargerStationEditPanel from './ChargerStationEditPanel';
+import AddSingleStationDialog from './AddStationDialog';
 
 const useStyles = makeStyles((theme: Theme) => 
   createStyles({
@@ -27,6 +28,7 @@ const useStyles = makeStyles((theme: Theme) =>
       top: 0,
       [theme.breakpoints.down('xs')]: {
         margin: 0,
+        padding: theme.spacing(1),
         paddingTop: theme.spacing(1)
       }
     },
@@ -176,14 +178,22 @@ const ChargersTable = ({ classes }: any) => {
 };
 
 const ChargerStationsSettingsAccordian = ({ classes }: any) => {
+  const [openAddStationDialog, setOpenAddStationDialog] = useState<boolean>(false);
+  const handleOpenAddStationDialog = () => {
+    setOpenAddStationDialog(true);
+  };
+  const handleCloseAddStationDialog = () => {
+    setOpenAddStationDialog(false);
+  };
+
   return (
     <Accordion defaultExpanded>
       <AccordionSummary
         expandIcon={<ExpandMore />}
-        aria-controls="chargers-actions-panel"
-        id="chargers-actions-panel-header"
+        aria-controls="charger-stations-actions-panel"
+        id="charger-stations-actions-panel-header"
       >
-        <Grid container>
+        <Grid container id="charger-stations-actions-panel">
           <Grid item xs={9} md={10}>
             <Typography>
               0 Selected
@@ -201,10 +211,12 @@ const ChargerStationsSettingsAccordian = ({ classes }: any) => {
         <Button className={classes.buttonDark}>
               Add Multiple
         </Button>
-        <Button variant="contained" className={classes.buttonLight} color='primary'>
+        <Button variant="contained" className={classes.buttonLight} color='primary' onClick={handleOpenAddStationDialog}>
               Add Station
         </Button>
       </AccordionActions>
+
+      <AddSingleStationDialog open={openAddStationDialog} handleClose={handleCloseAddStationDialog} />
     </Accordion>
   );
 };

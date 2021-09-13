@@ -68,6 +68,11 @@ const ChargerStationEditPanel = () => {
             <Input id="station-name-input" aria-describedby="station-name-helper" />
           </FormControl>
           <FormControl fullWidth variant="filled">
+            <InputLabel htmlFor="station-address-input">Address</InputLabel>
+            <Input id="station-address-input" aria-describedby="station-address-helper" />
+            <FormHelperText id="station-address-helper">Street Address</FormHelperText>
+          </FormControl>
+          <FormControl fullWidth variant="filled">
             <InputLabel htmlFor="station-longitude-input">Longitude</InputLabel>
             <Input id="station-longitude-input" aria-describedby="station-longitude-helper" type="number" />
             <FormHelperText id="station-longitude-helper">Geographic Coordinate</FormHelperText>
@@ -76,15 +81,6 @@ const ChargerStationEditPanel = () => {
             <InputLabel htmlFor="station-latitude-input">Latitude</InputLabel>
             <Input id="station-latitude-input" aria-describedby="station-latitude-helper" type="number" />
             <FormHelperText id="station-latitude-helper">Geographic Coordinate</FormHelperText>
-          </FormControl>
-          <FormControl fullWidth variant="filled">
-            <InputLabel htmlFor="station-address-input">Address</InputLabel>
-            <Input id="station-address-input" aria-describedby="station-address-helper" />
-            <FormHelperText id="station-address-helper">Street Address</FormHelperText>
-          </FormControl>
-          <FormControl fullWidth variant="filled">
-            <InputLabel htmlFor="station-town-input">Town</InputLabel>
-            <Input id="station-town-input" aria-describedby="station-town-helper" />
           </FormControl>
           <Box display="flex" sx={{ flexDirection: 'row-reverse', py: 1 }}>
             <Button variant="contained" color="primary" className={classes.saveButton}>
