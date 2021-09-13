@@ -71,6 +71,9 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     tableContainer: {
       maxHeight: '600px'
+    },
+    stationNameCell: {
+      maxWidth: '15vw'
     }
   })
 );
@@ -95,8 +98,10 @@ const ChargerTableCell = (props: any) => {
             <Typography
               color="textPrimary"
               variant="body1"
+              className={props.classes.stationNameCell}
+              noWrap
             >
-              123456
+              123456555555555555
             </Typography>
           </Box>
         </TableCell>
