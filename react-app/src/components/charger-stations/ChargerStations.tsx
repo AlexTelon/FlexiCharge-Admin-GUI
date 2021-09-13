@@ -31,7 +31,10 @@ const useStyles = makeStyles((theme: Theme) =>
       fontFamily: theme.flexiCharge.font._main
     },
     contentContainer: {
-      backgroundColor: 'transparent'
+      backgroundColor: 'transparent',
+      [theme.breakpoints.down('sm')]: {
+        flexDirection: 'column-reverse'
+      }
     },
     contentTitle: {
       flexGrow: 1
