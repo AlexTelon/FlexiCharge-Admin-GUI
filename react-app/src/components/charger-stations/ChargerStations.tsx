@@ -4,13 +4,14 @@ import {
   TableHead, TableRow, Theme, Toolbar, Typography,
   Accordion, AccordionDetails, AccordionSummary, AccordionActions,
   Button, Divider, TableBody, TablePagination, TableContainer, Paper,
-  Hidden, useMediaQuery, TableProps
+  Hidden, useMediaQuery, TableProps, Collapse
 } from '@material-ui/core';
 import { Helmet } from 'react-helmet';
 import { Edit, ExpandMore, FilterList } from '@material-ui/icons';
 import React, { useState } from 'react';
 import ChargerStationEditPanel from './ChargerStationEditPanel';
 import AddSingleStationDialog from './AddStationDialog';
+import { useTheme } from '@material-ui/styles';
 
 const useStyles = makeStyles((theme: Theme) => 
   createStyles({
@@ -72,7 +73,8 @@ const useStyles = makeStyles((theme: Theme) =>
       color: theme.flexiCharge.primary.white
     },
     tableContainer: {
-      maxHeight: '600px'
+      maxHeight: '600px',
+      marginTop: theme.spacing(1)
     },
     stationNameCell: {
       maxWidth: '15vw'
@@ -81,11 +83,15 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const ChargerTableCell = (props: any) => {
+  const [open, setOpen] = useState(false);
+  const theme: Theme = useTheme();
   return (
     <>
       <TableRow
         hover
         key="meep"
+        onClick={() => setOpen(!open)}
+        style={{ backgroundColor: open ? 'rgba(240,240,240,1)' : theme.flexiCharge.primary.white }}
       >
         <TableCell padding="checkbox">
           <Checkbox />
@@ -121,6 +127,15 @@ const ChargerTableCell = (props: any) => {
           </Button>
         </TableCell>
       </TableRow>
+      <TableRow>
+        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+          <Collapse in={open} timeout="auto" unmountOnExit>
+            <Box component="td" margin={1}>
+              sad
+            </Box>
+          </Collapse>
+        </TableCell>
+      </TableRow>
     </>
   );
 };
@@ -139,12 +154,10 @@ const ChargersTable = ({ classes }: any) => {
   const tableProps: TableProps = {
     size: isSmallScreen ? 'small' : 'medium'
   };
-
-  console.log(tableProps);
   return (
     <>
       <TableContainer className={classes.tableContainer}>
-        <Table {...tableProps} stickyHeader aria-aria-label="sticky table">
+        <Table {...tableProps} stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow>
               <TableCell padding="checkbox">
@@ -167,6 +180,7 @@ const ChargersTable = ({ classes }: any) => {
         </Table>
       </TableContainer>
       <TablePagination
+        rowsPerPageOptions={[5, 10, 15]}
         component="div"
         count={chargerCells.length}
         rowsPerPage={5}
@@ -208,9 +222,6 @@ const ChargerStationsSettingsAccordian = ({ classes }: any) => {
       </AccordionDetails>
       <Divider />
       <AccordionActions>
-        <Button className={classes.buttonDark}>
-              Add Multiple
-        </Button>
         <Button variant="contained" className={classes.buttonLight} color='primary' onClick={handleOpenAddStationDialog}>
               Add Station
         </Button>
