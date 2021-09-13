@@ -164,13 +164,6 @@ const ChargerStationsSettingsAccordian = ({ classes }: any) => {
         </Grid>
       </AccordionSummary>
       <AccordionDetails>
-        <div className="col-9"></div>
-        <div className="col-4">
-          <Typography variant="caption">
-            Perform actions on all selected chargers
-            <br />
-          </Typography>
-        </div>
       </AccordionDetails>
       <Divider />
       <AccordionActions>
@@ -204,7 +197,7 @@ const ChargerStations = () => {
         <Box className={classes.contentBox}>
           <Container component="section" maxWidth={false}>
             <Grid container spacing={1} className={`${classes.contentContainer}`}>
-              <Grid item xs={12} md={9}>
+              <Grid item xs={12} md={8} lg={9}>
                 <AppBar position="static" className={classes.contentAppBar} elevation={1}>
                   <Toolbar variant="dense">
                     <Typography className={classes.contentTitle} variant="h6">
@@ -225,7 +218,7 @@ const ChargerStations = () => {
                   <ChargersTable classes={classes} />
                 </Paper>
               </Grid>
-              <Grid item xs={12} md={3}>
+              <Grid item xs={12} md={4} lg={3}>
                 <ChargerStationEditPanel />
               </Grid>
             </Grid>

@@ -84,7 +84,7 @@ const ChargerStationEditPanel = () => {
           </FormControl>
           <FormControl fullWidth variant="filled">
             <InputLabel htmlFor="station-town-input">Town</InputLabel>
-            <Input id="station-town-input" aria-describedby="station-town-helper" type="number" />
+            <Input id="station-town-input" aria-describedby="station-town-helper" />
           </FormControl>
           <Box display="flex" sx={{ flexDirection: 'row-reverse', py: 1 }}>
             <Button variant="contained" color="primary" className={classes.saveButton}>

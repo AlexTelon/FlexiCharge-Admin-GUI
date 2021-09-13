@@ -59,7 +59,8 @@ const flexiChargeTheme = createTheme({
           borderRadius: '5px'
         },
         '*::-webkit-scrollbar': {
-          width: '10px'
+          width: '5px',
+          height: '5px'
         },
         '*::webskit-scrollbar-track': {
           backgroundColor: 'transparent',
