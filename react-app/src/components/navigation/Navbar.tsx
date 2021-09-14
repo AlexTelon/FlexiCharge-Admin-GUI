@@ -13,6 +13,10 @@ import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import { Link } from 'react-router-dom';
+import TransitEnterexitIcon from '@material-ui/icons/TransitEnterexit';
+// import { ReactComponent as Logo } from '../../assets/logo.svg';
+import { ReactComponent as Title } from '../../assets/title.svg';
+import { SvgIcon } from '@material-ui/core';
 
 const drawerWidth = 240;
 
@@ -45,8 +49,7 @@ const useStyles = makeStyles((theme: Theme) =>
       }
     },
     content: {
-      flexGrow: 1,
-      padding: theme.spacing(3)
+      flexGrow: 1
     },
     openDrawButton: {
       float: 'right',
@@ -54,11 +57,21 @@ const useStyles = makeStyles((theme: Theme) =>
       justifyContent: 'flex-end'
     },
     navBotSection: {
-      position: 'inherit',
-      display: 'flex',
       bottom: 0,
-      flexGrow: 1
-
+      marginTop: 'auto',
+      paddingLeft: theme.spacing(1)
+    },
+    categoryHeader: {
+      paddingTop: theme.spacing(3),
+      paddingBottom: theme.spacing(3),
+      paddingLeft: theme.spacing(3),
+      display: 'flex'
+    },
+    listPosition: {
+      paddingLeft: theme.spacing(1)
+    },
+    headerPosition: {
+      width: '100px'
     }
   })
 );
@@ -91,7 +104,13 @@ export default function MiniDrawer() {
         }}
       >
         <Divider />
-        <List>
+
+        <List className={classes.categoryHeader}>
+          <SvgIcon className={classes.headerPosition}>
+            <Title />
+          </SvgIcon>
+        </List>
+        <List className={classes.listPosition}>
           {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
             <ListItem button key={text}>
               <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
@@ -100,7 +119,7 @@ export default function MiniDrawer() {
           ))}
         </List>
         <Divider />
-        <List>
+        <List className={classes.listPosition}>
           {['All mail', 'Trash', 'Spam'].map((text, index) => (
             <ListItem button key={text}>
               <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
@@ -117,7 +136,14 @@ export default function MiniDrawer() {
           </ListItem>
         </List>
 
+        <Divider />
+        
         <List className={classes.navBotSection}>
+          <ListItem>
+            <ListItemIcon><TransitEnterexitIcon /></ListItemIcon>
+            <ListItemText>SignOut</ListItemText>
+          </ListItem>
+          <Divider />
           <ListItem
             button
             onClick={() => {
