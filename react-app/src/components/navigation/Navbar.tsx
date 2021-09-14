@@ -113,7 +113,10 @@ export default function MiniDrawer() {
   
         <List>
           <ListItem>
-            <Link to="/dashboard/chargers">Charger Stations</Link>
+            <Link to="/dashboard/charger-stations">Charger Stations</Link>
+          </ListItem>
+          <ListItem>
+            <Link to="/dashboard/chargers">Chargers</Link>
           </ListItem>
         </List>
 
