@@ -1,6 +1,7 @@
 import { createContainer, asClass, Lifetime, InjectionMode } from 'awilix';
 //
 import AuthenticationProvider from './remote-access/mock/AuthenticationProvider';
+import ChargerStationCollection from './remote-access/mock/ChargerStationCollection';
 //
 
 const container = createContainer({
@@ -8,7 +9,8 @@ const container = createContainer({
 });
 
 container.register({
-  authenticationProvider: asClass(AuthenticationProvider, { lifetime: Lifetime.SINGLETON })
+  authenticationProvider: asClass(AuthenticationProvider, { lifetime: Lifetime.SINGLETON }),
+  chargerStationCollection: asClass(ChargerStationCollection, { lifetime: Lifetime.SCOPED })
 });
 
 export default container;

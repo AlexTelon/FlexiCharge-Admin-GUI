@@ -8,10 +8,12 @@ import {
 } from '@material-ui/core';
 import { Helmet } from 'react-helmet';
 import { Edit, ExpandMore, FilterList } from '@material-ui/icons';
-import React, { useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import ChargerStationEditPanel from './ChargerStationEditPanel';
 import AddSingleStationDialog from './AddStationDialog';
 import { useTheme } from '@material-ui/styles';
+import { chargerStationCollection } from '../../remote-access';
+import { ChargerStation } from '../../remote-access/interfaces';
 
 const useStyles = makeStyles((theme: Theme) => 
   createStyles({
@@ -81,14 +83,19 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const ChargerTableCell = (props: any) => {
+interface StationTableRowProps {
+  station: ChargerStation
+  classes: any
+}
+
+const ChargerTableCell: FC<StationTableRowProps> = ({ station, classes }) => {
   const [open, setOpen] = useState(false);
   const theme: Theme = useTheme();
   return (
     <>
       <TableRow
         hover
-        key="meep"
+        key={station.id}
         onClick={() => setOpen(!open)}
         style={{ backgroundColor: open ? 'rgba(240,240,240,1)' : theme.flexiCharge.primary.white }}
       >
@@ -105,10 +112,10 @@ const ChargerTableCell = (props: any) => {
             <Typography
               color="textPrimary"
               variant="body1"
-              className={props.classes.stationNameCell}
+              className={classes.stationNameCell}
               noWrap
             >
-              123456555555555555
+              {station.name}
             </Typography>
           </Box>
         </TableCell>
@@ -117,11 +124,11 @@ const ChargerTableCell = (props: any) => {
         </TableCell>
         <TableCell align="right">
           <Hidden xsDown>
-            <Button className={props.classes.buttonDark} color="primary">
+            <Button className={classes.buttonDark} color="primary">
               Manage Chargers
             </Button>
           </Hidden>
-          <Button startIcon={<Edit />} className={props.classes.buttonLight} variant="contained" color="primary">
+          <Button startIcon={<Edit />} className={classes.buttonLight} variant="contained" color="primary">
             Edit
           </Button>
         </TableCell>
@@ -139,20 +146,53 @@ const ChargerTableCell = (props: any) => {
   );
 };
 
-const ChargersTable = ({ classes }: any) => {
-  const handleChangePage = (event: unknown, newPage: number) => {
-    // 
-  };
+interface StationTableState {
+  loaded?: boolean
+  stations?: ChargerStation[]
+  error?: boolean
+  errorMessage?: string
+}
 
-  const chargerCells = [];
-  for (let i = 0; i < 12; i++) {
-    chargerCells.push(<ChargerTableCell classes={classes} />);
+const ChargersTable = ({ classes }: any) => {
+  const [state, setState] = useState<StationTableState>({
+    loaded: false
+  });
+  
+  useEffect(() => {
+    chargerStationCollection.getAllChargerStations().then((stations) => {
+      setState({
+        loaded: true,
+        stations: stations
+      });
+    }).catch((_) => {
+      setState({
+        loaded: true,
+        error: true,
+        errorMessage: 'Could not load staions, check connect or try again later'
+      });
+    });
+  }, []);
+
+  console.log(state);
+  let chargerCells = null;
+  if (state.loaded && state.stations) {
+    chargerCells = [];
+    for (let i = 0; i < state.stations.splice(0, 12).length; i++) {
+      const station = state.stations[i];
+      console.log(station);
+      chargerCells.push(<ChargerTableCell station={station} classes={classes} />);
+    }
   }
 
   const isSmallScreen = useMediaQuery((theme: Theme) => theme.breakpoints.down('xs'));
   const tableProps: TableProps = {
     size: isSmallScreen ? 'small' : 'medium'
   };
+
+  const handleChangePage = (event: unknown, newPage: number) => {
+    // 
+  };
+
   return (
     <>
       <TableContainer className={classes.tableContainer}>
@@ -178,14 +218,16 @@ const ChargersTable = ({ classes }: any) => {
           </TableBody>
         </Table>
       </TableContainer>
-      <TablePagination
-        rowsPerPageOptions={[5, 10, 15]}
-        component="div"
-        count={chargerCells.length}
-        rowsPerPage={5}
-        page={1}
-        onPageChange={handleChangePage}
-      />
+      {state.stations && !state.error &&
+        <TablePagination
+          rowsPerPageOptions={[5, 10, 15]}
+          component="div"
+          count={chargerCells ? chargerCells.length : 0}
+          rowsPerPage={5}
+          page={1}
+          onPageChange={handleChangePage}
+        />
+      }
     </>
   );
 };
