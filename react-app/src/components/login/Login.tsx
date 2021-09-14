@@ -43,6 +43,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     appBar: {
       backgroundColor: theme.flexiCharge.accent.primary,
+      color: theme.flexiCharge.primary.white,
       marginBottom: theme.spacing(2),
       alignItems: 'center'
     },

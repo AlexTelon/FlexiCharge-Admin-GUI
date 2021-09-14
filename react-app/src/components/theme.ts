@@ -51,6 +51,32 @@ declare module '@material-ui/core/styles/createTheme' {
 }
 
 const flexiChargeTheme = createTheme({
+  overrides: {
+    MuiCssBaseline: {
+      '@global': {
+        '*::-webkit-scrollbar-thumb': {
+          backgroundColor: '#78bd76',
+          borderRadius: '5px'
+        },
+        '*::-webkit-scrollbar': {
+          width: '5px',
+          height: '5px'
+        },
+        '*::webskit-scrollbar-track': {
+          backgroundColor: 'transparent',
+          marginBottom: '3px',
+          marginTop: '3px'
+        }
+      }
+    }
+  },
+  palette: {
+    primary: {
+      main: '#78bd76',
+      light: '#78bd76',
+      dark: '#78bd76'
+    }
+  },
   flexiCharge: {
     font: {
       _main: '"Lato", sans-serif',
