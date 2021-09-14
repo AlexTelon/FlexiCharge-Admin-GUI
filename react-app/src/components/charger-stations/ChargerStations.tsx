@@ -12,7 +12,6 @@ import React, { useState } from 'react';
 import ChargerStationEditPanel from './ChargerStationEditPanel';
 import AddSingleStationDialog from './AddStationDialog';
 import { useTheme } from '@material-ui/styles';
-import Navbar from '../navigation/Navbar';
 
 const useStyles = makeStyles((theme: Theme) => 
   createStyles({
@@ -22,7 +21,6 @@ const useStyles = makeStyles((theme: Theme) =>
       fontFamily: theme.flexiCharge.font._main
     },
     contentBox: {
-      padding: theme.spacing(2),
       paddingTop: theme.spacing(2),
       width: '100%',
       height: '100%',
@@ -88,10 +86,6 @@ const ChargerTableCell = (props: any) => {
   const theme: Theme = useTheme();
   return (
     <>
-      <div>
-        <Navbar />
-      </div>
-
       <TableRow
         hover
         key="meep"

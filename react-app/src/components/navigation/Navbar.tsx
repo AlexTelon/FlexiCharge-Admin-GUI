@@ -5,7 +5,6 @@ import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import List from '@material-ui/core/List';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
@@ -17,7 +16,6 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
-import { Link } from 'react-router-dom';
 
 const drawerWidth = 240;
 
@@ -99,8 +97,7 @@ export default function MiniDrawer() {
   };
 
   return (
-    <div className={classes.root}>
-      <CssBaseline />
+    <>
       <AppBar
         position="fixed"
         className={clsx(classes.appBar, {
@@ -118,7 +115,6 @@ export default function MiniDrawer() {
             })}
           >
             <MenuIcon />
-            <Link to="/dashboard/chargers">asdddddddddddddddddddddddddddddddddddddddddddddddddddddd</Link>
           </IconButton>
           <Typography variant="h6" noWrap>
             Mini variant drawer
@@ -162,6 +158,6 @@ export default function MiniDrawer() {
           ))}
         </List>
       </Drawer>
-    </div>
+    </>
   );
 }
