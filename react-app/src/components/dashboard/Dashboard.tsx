@@ -1,9 +1,10 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import { Box } from '@material-ui/core';
-import { Route, Redirect, Link } from 'react-router-dom';
+import { Route, Redirect } from 'react-router-dom';
 import { authenticationProvider } from '../../remote-access';
 import ChargerStations from '../charger-stations/ChargerStations';
+import Navbar from '../navigation/Navbar';
 
 const Dashboard = (props: any) => {
   return (
@@ -11,11 +12,15 @@ const Dashboard = (props: any) => {
       <Helmet>
         <title>Admin | Dashboard</title>
       </Helmet>
-      <Box sx={{ position: 'absolute' }}>
-        <Link to="/dashboard/chargers">asd</Link>
+      <Box sx={{ display: 'flex' }}>
+        {/* <Box sx={{ position: 'relative', display: 'flex' }}>
+          <Link to="/dashboard/chargers">asdddddddddddddddddddddddddddddddddddddddddddddddddddddd</Link>
+        </Box> */}
+        <Navbar />
+        <Box component="main" sx={{ flexGrow: 1 }}>
+          <Route path="/dashboard/chargers" render={() => (<ChargerStations />)} />
+        </Box>
       </Box>
-      <Route path="/dashboard/chargers" render={() => (<ChargerStations />)} />
-
     </>
   );
 };

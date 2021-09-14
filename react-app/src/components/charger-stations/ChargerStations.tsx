@@ -21,7 +21,6 @@ const useStyles = makeStyles((theme: Theme) =>
       fontFamily: theme.flexiCharge.font._main
     },
     contentBox: {
-      padding: theme.spacing(2),
       paddingTop: theme.spacing(2),
       width: '100%',
       height: '100%',
