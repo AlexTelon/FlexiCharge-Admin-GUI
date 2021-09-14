@@ -52,6 +52,13 @@ const useStyles = makeStyles((theme: Theme) =>
       float: 'right',
       display: 'flex',
       justifyContent: 'flex-end'
+    },
+    navBotSection: {
+      position: 'inherit',
+      display: 'flex',
+      bottom: 0,
+      flexGrow: 1
+
     }
   })
 );
@@ -100,6 +107,17 @@ export default function MiniDrawer() {
               <ListItemText primary={text} />
             </ListItem>
           ))}
+        </List>
+
+        <Divider />
+  
+        <List>
+          <ListItem>
+            <Link to="/dashboard/chargers">Charger Stations</Link>
+          </ListItem>
+        </List>
+
+        <List className={classes.navBotSection}>
           <ListItem
             button
             onClick={() => {
@@ -114,9 +132,6 @@ export default function MiniDrawer() {
             >
               {!open ? <ChevronRightIcon /> : <ChevronLeftIcon />}
             </IconButton>
-          </ListItem>
-          <ListItem>
-            <Link to="/dashboard/chargers">Charger Stations</Link>
           </ListItem>
         </List>
       </Drawer>
