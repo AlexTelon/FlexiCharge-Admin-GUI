@@ -22,7 +22,7 @@ const drawerWidth = 240;
 
 const categories = [
   {
-    id: 'Manage',
+    id: '',
     children: [
       { id: 'Dashboard', icon: <PeopleIcon />, active: false },
       { id: 'ChargerStation', icon: <EvStationIcon /> },
@@ -75,7 +75,6 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     categoryHeader: {
       paddingTop: theme.spacing(3),
-      paddingBottom: theme.spacing(3),
       paddingLeft: theme.spacing(3),
       display: 'flex'
     },
@@ -86,8 +85,9 @@ const useStyles = makeStyles((theme: Theme) =>
       width: '100px'
     },
     item: {
-      paddingTop: 1,
-      paddingBottom: 1,
+      paddingTop: theme.spacing(2),
+      paddingLeft: theme.spacing(3),
+      paddingBottom: theme.spacing(2),
       color: 'rgba(255, 255, 255, 0.7)',
       '&:hover,&:focus': {
         backgroundColor: theme.flexiCharge.primary.lightGrey
@@ -95,11 +95,13 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     itemIcon: {
       minWidth: 'auto',
-      marginRight: theme.spacing(2),
-      color: theme.flexiCharge.primary.darkGrey
+      marginRight: theme.spacing(1),
+      color: theme.flexiCharge.primary.darkGrey,
+      paddingTop: theme.spacing(0)
     },
     itemText: {
       fontSize: 'inherit',
+      paddingLeft: theme.spacing(2),
       color: theme.flexiCharge.primary.black
     }
   })
@@ -164,12 +166,7 @@ export default function MiniDrawer() {
             ))}
           </React.Fragment>
         
-        )
-
-          // <List className={classes.listPosition}>
-         
-          // </List>
-        }
+        )}
 
         <Divider />
   
