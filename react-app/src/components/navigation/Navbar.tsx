@@ -10,13 +10,14 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import { Link } from 'react-router-dom';
 import { ReactComponent as Title } from '../../assets/title.svg';
 import { Icon, SvgIcon } from '@material-ui/core';
 import PeopleIcon from '@material-ui/icons/People';
 import EvStationIcon from '@material-ui/icons/EvStation';
 import BatteryChargingFullIcon from '@material-ui/icons/BatteryChargingFull';
 import DescriptionIcon from '@material-ui/icons/Description';
+import { useHistory } from 'react-router';
+// import { People } from '@material-ui/icons';
 
 const drawerWidth = 240;
 
@@ -24,10 +25,10 @@ const categories = [
   {
     id: 'Manage',
     children: [
-      { id: 'Dashboard', icon: <PeopleIcon />, active: false },
-      { id: 'ChargerStation', icon: <EvStationIcon /> },
-      { id: 'Chargers', icon: <BatteryChargingFullIcon /> },
-      { id: 'Invoices', icon: <DescriptionIcon /> }
+      { id: 'Dashboard', icon: <PeopleIcon />, location: '/Dashboard', active: false },
+      { id: 'Charger Station', icon: <EvStationIcon />, location: '/Dashboard/Chargers' },
+      { id: 'Chargers', icon: <BatteryChargingFullIcon />, location: '/Dashboard' },
+      { id: 'Invoices', icon: <DescriptionIcon />, location: '/Dashbgitoard' }
     ]
   }
 ];
@@ -117,6 +118,9 @@ export default function MiniDrawer() {
     setOpen(false);
   };
 
+  const history = useHistory();
+  // const location = useLocation();
+
   return (
     <>
       <Drawer
@@ -150,11 +154,14 @@ export default function MiniDrawer() {
                 {id}
               </ListItemText>
             </ListItem>
-            {children.map(({ id: childId, icon }) => (
+            {children.map(({ id: childId, icon, location: pathLocation }) => (
               <ListItem
                 key={childId}
                 button
                 className= {clsx(classes.item)}
+                onClick={() => {
+                  history.push(pathLocation);
+                }}
               >
                 <ListItemIcon className={classes.itemIcon}>{icon}</ListItemIcon>
                 <ListItemText classes={{ primary: classes.itemText }}>
@@ -175,7 +182,7 @@ export default function MiniDrawer() {
   
         <List>
           <ListItem>
-            <Link to="/dashboard/chargers">Charger Stations</Link>
+            {/* <Link to="/dashboard/chargers">Charger Stations</Link> */}
           </ListItem>
         </List>
 
