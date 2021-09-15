@@ -13,6 +13,6 @@ export interface IAuthenticationProvider {
 }
 
 export interface IChargerStationCollection {
-  stations: ChargerStation[]
   getAllChargerStations: () => Promise<ChargerStation[]>
+  getChargerStationById: (stationId: string) => Promise<ChargerStation | null>
 }

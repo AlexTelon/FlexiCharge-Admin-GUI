@@ -4,7 +4,7 @@ import {
   TableHead, TableRow, Theme, Toolbar, Typography,
   Accordion, AccordionDetails, AccordionSummary, AccordionActions,
   Button, Divider, TableBody, TablePagination, TableContainer, Paper,
-  Hidden, useMediaQuery, TableProps, Collapse
+  Hidden, useMediaQuery, TableProps, Collapse, LinearProgress
 } from '@material-ui/core';
 import { Helmet } from 'react-helmet';
 import { Edit, ExpandMore, FilterList } from '@material-ui/icons';
@@ -83,12 +83,13 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-interface StationTableRowProps {
+interface ChargerStationTableRowProps {
   station: ChargerStation
   classes: any
+  editClicked: (stationId: string) => void
 }
 
-const ChargerTableCell: FC<StationTableRowProps> = ({ station, classes }) => {
+const ChargerStationTableRow: FC<ChargerStationTableRowProps> = ({ station, classes, editClicked }) => {
   const [open, setOpen] = useState(false);
   const theme: Theme = useTheme();
   return (
@@ -120,7 +121,7 @@ const ChargerTableCell: FC<StationTableRowProps> = ({ station, classes }) => {
           </Box>
         </TableCell>
         <TableCell>
-          Busy
+          {station.address}
         </TableCell>
         <TableCell align="right">
           <Hidden xsDown>
@@ -128,17 +129,23 @@ const ChargerTableCell: FC<StationTableRowProps> = ({ station, classes }) => {
               Manage Chargers
             </Button>
           </Hidden>
-          <Button startIcon={<Edit />} className={classes.buttonLight} variant="contained" color="primary">
+          <Button
+            startIcon={<Edit />}
+            className={classes.buttonLight}
+            variant="contained"
+            color="primary"
+            onClick={() => editClicked(station.id)}
+          >
             Edit
           </Button>
         </TableCell>
       </TableRow>
-      <TableRow>
+      <TableRow
+        key={station.id + '-details'}
+      >
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
           <Collapse in={open} timeout="auto" unmountOnExit>
-            <Box component="td" margin={1}>
               sad
-            </Box>
           </Collapse>
         </TableCell>
       </TableRow>
@@ -153,34 +160,33 @@ interface StationTableState {
   errorMessage?: string
 }
 
-const ChargersTable = ({ classes }: any) => {
+const ChargerStationsTable = ({ classes, ...rest }: any) => {
   const [state, setState] = useState<StationTableState>({
     loaded: false
   });
-  
+
   useEffect(() => {
     chargerStationCollection.getAllChargerStations().then((stations) => {
       setState({
         loaded: true,
-        stations: stations
+        stations
       });
     }).catch((_) => {
       setState({
         loaded: true,
         error: true,
-        errorMessage: 'Could not load staions, check connect or try again later'
+        errorMessage: 'Failed to load'
       });
     });
   }, []);
 
-  console.log(state);
-  let chargerCells = null;
-  if (state.loaded && state.stations) {
-    chargerCells = [];
-    for (let i = 0; i < state.stations.splice(0, 12).length; i++) {
+  let stationRows = null;
+  if (state.stations) {
+    stationRows = [];
+    const length = state.stations.length > 5 ? 5 : state.stations.length;
+    for (let i = 0; i < length; i++) {
       const station = state.stations[i];
-      console.log(station);
-      chargerCells.push(<ChargerTableCell station={station} classes={classes} />);
+      stationRows.push(<ChargerStationTableRow key={station.id} {...rest} station={station} classes={classes} />);
     }
   }
 
@@ -196,9 +202,12 @@ const ChargersTable = ({ classes }: any) => {
   return (
     <>
       <TableContainer className={classes.tableContainer}>
+        {!state.loaded &&
+                <LinearProgress />
+        }
         <Table {...tableProps} stickyHeader aria-label="sticky table">
           <TableHead>
-            <TableRow>
+            <TableRow key="header">
               <TableCell padding="checkbox">
                 <Checkbox className={classes.checkBox} />
               </TableCell>
@@ -206,7 +215,7 @@ const ChargersTable = ({ classes }: any) => {
                 Station Name
               </TableCell>
               <TableCell>
-                Status
+                Address
               </TableCell>
               <TableCell align="right">
                 Actions
@@ -214,17 +223,17 @@ const ChargersTable = ({ classes }: any) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {chargerCells}
+            {stationRows}
           </TableBody>
         </Table>
       </TableContainer>
-      {state.stations && !state.error &&
+      {state.stations &&
         <TablePagination
           rowsPerPageOptions={[5, 10, 15]}
           component="div"
-          count={chargerCells ? chargerCells.length : 0}
+          count={state.stations ? state.stations.length : 0}
           rowsPerPage={5}
-          page={1}
+          page={0}
           onPageChange={handleChangePage}
         />
       }
@@ -275,7 +284,11 @@ const ChargerStationsSettingsAccordian = ({ classes }: any) => {
 
 const ChargerStations = () => {
   const classes = useStyles();
+  const [activeStationId, setActiveStationId] = useState<string>();
 
+  const handleStationEditClicked = (stationId: string) => {
+    setActiveStationId(stationId);
+  };
   return (
     <>
       <Helmet>
@@ -310,11 +323,11 @@ const ChargerStations = () => {
                 </AppBar>
                 <ChargerStationsSettingsAccordian classes={classes} />
                 <Paper elevation={2}>
-                  <ChargersTable classes={classes} />
+                  <ChargerStationsTable editClicked={handleStationEditClicked} classes={classes} />
                 </Paper>
               </Grid>
               <Grid item xs={12} md={4} lg={3}>
-                <ChargerStationEditPanel />
+                <ChargerStationEditPanel stationId={activeStationId} />
               </Grid>
             </Grid>
           </Container>

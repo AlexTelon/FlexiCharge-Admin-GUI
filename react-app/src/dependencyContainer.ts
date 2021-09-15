@@ -10,7 +10,7 @@ const container = createContainer({
 
 container.register({
   authenticationProvider: asClass(AuthenticationProvider, { lifetime: Lifetime.SINGLETON }),
-  chargerStationCollection: asClass(ChargerStationCollection, { lifetime: Lifetime.SCOPED })
+  chargerStationCollection: asClass(ChargerStationCollection, { lifetime: Lifetime.SINGLETON })
 });
 
 export default container;

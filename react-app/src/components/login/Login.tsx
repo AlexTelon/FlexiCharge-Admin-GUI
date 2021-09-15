@@ -103,7 +103,6 @@ const LoginFields: FC<LoginFieldProps> = ({ setLoading }) => {
     }
   };
 
-  console.log(authenticationProvider);
   if (authenticationProvider.isAuthenticated) {
     return (
       <Redirect to="/dashboard" />
