@@ -4,7 +4,6 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
-import IconButton from '@material-ui/core/IconButton';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
@@ -12,7 +11,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import { Link } from 'react-router-dom';
 import { ReactComponent as Title } from '../../assets/title.svg';
-import { Icon, SvgIcon } from '@material-ui/core';
+import { Icon } from '@material-ui/core';
 import PeopleIcon from '@material-ui/icons/People';
 import EvStationIcon from '@material-ui/icons/EvStation';
 import BatteryChargingFullIcon from '@material-ui/icons/BatteryChargingFull';
@@ -135,9 +134,7 @@ export default function MiniDrawer() {
         <Divider />
 
         <List className={classes.categoryHeader}>
-          <SvgIcon className={classes.headerPosition}>
-            <Title />
-          </SvgIcon>
+          <Title />
         </List>
         
         {categories.map(({ id, children }) => 
@@ -196,13 +193,7 @@ export default function MiniDrawer() {
             }}
             className={classes.openDrawButton}
           >
-            <IconButton
-              color="inherit"
-              aria-label="open close drawer"
-              edge="start"
-            >
-              {!open ? <ChevronRightIcon /> : <ChevronLeftIcon />}
-            </IconButton>
+            {!open ? <ChevronRightIcon /> : <ChevronLeftIcon />}
           </ListItem>
         </List>
       </Drawer>
