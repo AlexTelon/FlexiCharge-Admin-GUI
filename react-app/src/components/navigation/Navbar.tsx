@@ -4,14 +4,13 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
-import IconButton from '@material-ui/core/IconButton';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import { ReactComponent as Title } from '../../assets/title.svg';
-import { Icon, SvgIcon } from '@material-ui/core';
+import { Icon } from '@material-ui/core';
 import PeopleIcon from '@material-ui/icons/People';
 import EvStationIcon from '@material-ui/icons/EvStation';
 import BatteryChargingFullIcon from '@material-ui/icons/BatteryChargingFull';
@@ -23,7 +22,7 @@ const drawerWidth = 240;
 
 const categories = [
   {
-    id: 'Manage',
+    id: '',
     children: [
       { id: 'Dashboard', icon: <PeopleIcon />, location: '/Dashboard', active: false },
       { id: 'Charger Station', icon: <EvStationIcon />, location: '/Dashboard/Chargers' },
@@ -76,7 +75,6 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     categoryHeader: {
       paddingTop: theme.spacing(3),
-      paddingBottom: theme.spacing(3),
       paddingLeft: theme.spacing(3),
       display: 'flex'
     },
@@ -87,8 +85,9 @@ const useStyles = makeStyles((theme: Theme) =>
       width: '100px'
     },
     item: {
-      paddingTop: 1,
-      paddingBottom: 1,
+      paddingTop: theme.spacing(2),
+      paddingLeft: theme.spacing(3),
+      paddingBottom: theme.spacing(2),
       color: 'rgba(255, 255, 255, 0.7)',
       '&:hover,&:focus': {
         backgroundColor: theme.flexiCharge.primary.lightGrey
@@ -96,11 +95,13 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     itemIcon: {
       minWidth: 'auto',
-      marginRight: theme.spacing(2),
-      color: theme.flexiCharge.primary.darkGrey
+      marginRight: theme.spacing(1),
+      color: theme.flexiCharge.primary.darkGrey,
+      paddingTop: theme.spacing(0)
     },
     itemText: {
       fontSize: 'inherit',
+      paddingLeft: theme.spacing(2),
       color: theme.flexiCharge.primary.black
     }
   })
@@ -139,9 +140,7 @@ export default function MiniDrawer() {
         <Divider />
 
         <List className={classes.categoryHeader}>
-          <SvgIcon className={classes.headerPosition}>
-            <Title />
-          </SvgIcon>
+          <Title />
         </List>
         
         {categories.map(({ id, children }) => 
@@ -171,12 +170,7 @@ export default function MiniDrawer() {
             ))}
           </React.Fragment>
         
-        )
-
-          // <List className={classes.listPosition}>
-         
-          // </List>
-        }
+        )}
 
         <Divider />
   
@@ -203,13 +197,7 @@ export default function MiniDrawer() {
             }}
             className={classes.openDrawButton}
           >
-            <IconButton
-              color="inherit"
-              aria-label="open close drawer"
-              edge="start"
-            >
-              {!open ? <ChevronRightIcon /> : <ChevronLeftIcon />}
-            </IconButton>
+            {!open ? <ChevronRightIcon /> : <ChevronLeftIcon />}
           </ListItem>
         </List>
       </Drawer>
