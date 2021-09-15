@@ -14,6 +14,9 @@ import { Link } from 'react-router-dom';
 import { ReactComponent as Title } from '../../assets/title.svg';
 import { Icon, SvgIcon } from '@material-ui/core';
 import PeopleIcon from '@material-ui/icons/People';
+import EvStationIcon from '@material-ui/icons/EvStation';
+import BatteryChargingFullIcon from '@material-ui/icons/BatteryChargingFull';
+import DescriptionIcon from '@material-ui/icons/Description';
 
 const drawerWidth = 240;
 
@@ -22,8 +25,9 @@ const categories = [
     id: 'Manage',
     children: [
       { id: 'Dashboard', icon: <PeopleIcon />, active: false },
-      { id: 'ChargerStation', icon: <PeopleIcon /> },
-      { id: 'Chargers', icon: <PeopleIcon /> }
+      { id: 'ChargerStation', icon: <EvStationIcon /> },
+      { id: 'Chargers', icon: <BatteryChargingFullIcon /> },
+      { id: 'Invoices', icon: <DescriptionIcon /> }
     ]
   }
 ];
