@@ -4,17 +4,32 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
-import IconButton from '@material-ui/core/IconButton';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
 import { Link } from 'react-router-dom';
+import { ReactComponent as Title } from '../../assets/title.svg';
+import { Icon } from '@material-ui/core';
+import PeopleIcon from '@material-ui/icons/People';
+import EvStationIcon from '@material-ui/icons/EvStation';
+import BatteryChargingFullIcon from '@material-ui/icons/BatteryChargingFull';
+import DescriptionIcon from '@material-ui/icons/Description';
 
 const drawerWidth = 240;
+
+const categories = [
+  {
+    id: '',
+    children: [
+      { id: 'Dashboard', icon: <PeopleIcon />, active: false },
+      { id: 'ChargerStation', icon: <EvStationIcon /> },
+      { id: 'Chargers', icon: <BatteryChargingFullIcon /> },
+      { id: 'Invoices', icon: <DescriptionIcon /> }
+    ]
+  }
+];
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -45,8 +60,7 @@ const useStyles = makeStyles((theme: Theme) =>
       }
     },
     content: {
-      flexGrow: 1,
-      padding: theme.spacing(3)
+      flexGrow: 1
     },
     openDrawButton: {
       float: 'right',
@@ -54,11 +68,40 @@ const useStyles = makeStyles((theme: Theme) =>
       justifyContent: 'flex-end'
     },
     navBotSection: {
-      position: 'inherit',
-      display: 'flex',
       bottom: 0,
-      flexGrow: 1
-
+      marginTop: 'auto',
+      paddingLeft: theme.spacing(1)
+    },
+    categoryHeader: {
+      paddingTop: theme.spacing(3),
+      paddingLeft: theme.spacing(3),
+      display: 'flex'
+    },
+    listPosition: {
+      paddingLeft: theme.spacing(1)
+    },
+    headerPosition: {
+      width: '100px'
+    },
+    item: {
+      paddingTop: theme.spacing(2),
+      paddingLeft: theme.spacing(3),
+      paddingBottom: theme.spacing(2),
+      color: 'rgba(255, 255, 255, 0.7)',
+      '&:hover,&:focus': {
+        backgroundColor: theme.flexiCharge.primary.lightGrey
+      }
+    },
+    itemIcon: {
+      minWidth: 'auto',
+      marginRight: theme.spacing(1),
+      color: theme.flexiCharge.primary.darkGrey,
+      paddingTop: theme.spacing(0)
+    },
+    itemText: {
+      fontSize: 'inherit',
+      paddingLeft: theme.spacing(2),
+      color: theme.flexiCharge.primary.black
     }
   })
 );
@@ -91,23 +134,36 @@ export default function MiniDrawer() {
         }}
       >
         <Divider />
-        <List>
-          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
+
+        <List className={classes.categoryHeader}>
+          <Title />
         </List>
-        <Divider />
-        <List>
-          {['All mail', 'Trash', 'Spam'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-              <ListItemText primary={text} />
+        
+        {categories.map(({ id, children }) => 
+
+          <React.Fragment key={id}>
+            <ListItem className={classes.categoryHeader}>
+              <ListItemText classes={{
+                primary: classes.itemText
+              }}>
+                {id}
+              </ListItemText>
             </ListItem>
-          ))}
-        </List>
+            {children.map(({ id: childId, icon }) => (
+              <ListItem
+                key={childId}
+                button
+                className= {clsx(classes.item)}
+              >
+                <ListItemIcon className={classes.itemIcon}>{icon}</ListItemIcon>
+                <ListItemText classes={{ primary: classes.itemText }}>
+                  {childId}
+                </ListItemText>
+              </ListItem>
+            ))}
+          </React.Fragment>
+        
+        )}
 
         <Divider />
   
@@ -117,7 +173,16 @@ export default function MiniDrawer() {
           </ListItem>
         </List>
 
+        <Divider />
+        
         <List className={classes.navBotSection}>
+          <ListItem button>
+            <ListItemIcon>
+              <Icon>logout</Icon>
+            </ListItemIcon>
+            <ListItemText>SignOut</ListItemText>
+          </ListItem>
+          <Divider />
           <ListItem
             button
             onClick={() => {
@@ -125,13 +190,7 @@ export default function MiniDrawer() {
             }}
             className={classes.openDrawButton}
           >
-            <IconButton
-              color="inherit"
-              aria-label="open close drawer"
-              edge="start"
-            >
-              {!open ? <ChevronRightIcon /> : <ChevronLeftIcon />}
-            </IconButton>
+            {!open ? <ChevronRightIcon /> : <ChevronLeftIcon />}
           </ListItem>
         </List>
       </Drawer>
