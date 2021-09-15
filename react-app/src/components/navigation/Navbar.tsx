@@ -10,15 +10,23 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
 import { Link } from 'react-router-dom';
-import TransitEnterexitIcon from '@material-ui/icons/TransitEnterexit';
-// import { ReactComponent as Logo } from '../../assets/logo.svg';
 import { ReactComponent as Title } from '../../assets/title.svg';
-import { SvgIcon } from '@material-ui/core';
+import { Icon, SvgIcon } from '@material-ui/core';
+import PeopleIcon from '@material-ui/icons/People';
 
 const drawerWidth = 240;
+
+const categories = [
+  {
+    id: 'Manage',
+    children: [
+      { id: 'Dashboard', icon: <PeopleIcon />, active: false },
+      { id: 'ChargerStation', icon: <PeopleIcon /> },
+      { id: 'Chargers', icon: <PeopleIcon /> }
+    ]
+  }
+];
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -72,6 +80,23 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     headerPosition: {
       width: '100px'
+    },
+    item: {
+      paddingTop: 1,
+      paddingBottom: 1,
+      color: 'rgba(255, 255, 255, 0.7)',
+      '&:hover,&:focus': {
+        backgroundColor: theme.flexiCharge.primary.lightGrey
+      }
+    },
+    itemIcon: {
+      minWidth: 'auto',
+      marginRight: theme.spacing(2),
+      color: theme.flexiCharge.primary.darkGrey
+    },
+    itemText: {
+      fontSize: 'inherit',
+      color: theme.flexiCharge.primary.black
     }
   })
 );
@@ -110,23 +135,37 @@ export default function MiniDrawer() {
             <Title />
           </SvgIcon>
         </List>
-        <List className={classes.listPosition}>
-          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-              <ListItemText primary={text} />
+        
+        {categories.map(({ id, children }) => 
+
+          <React.Fragment key={id}>
+            <ListItem className={classes.categoryHeader}>
+              <ListItemText classes={{
+                primary: classes.itemText
+              }}>
+                {id}
+              </ListItemText>
             </ListItem>
-          ))}
-        </List>
-        <Divider />
-        <List className={classes.listPosition}>
-          {['All mail', 'Trash', 'Spam'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
-        </List>
+            {children.map(({ id: childId, icon }) => (
+              <ListItem
+                key={childId}
+                button
+                className= {clsx(classes.item)}
+              >
+                <ListItemIcon className={classes.itemIcon}>{icon}</ListItemIcon>
+                <ListItemText classes={{ primary: classes.itemText }}>
+                  {childId}
+                </ListItemText>
+              </ListItem>
+            ))}
+          </React.Fragment>
+        
+        )
+
+          // <List className={classes.listPosition}>
+         
+          // </List>
+        }
 
         <Divider />
   
@@ -139,8 +178,10 @@ export default function MiniDrawer() {
         <Divider />
         
         <List className={classes.navBotSection}>
-          <ListItem>
-            <ListItemIcon><TransitEnterexitIcon /></ListItemIcon>
+          <ListItem button>
+            <ListItemIcon>
+              <Icon>logout</Icon>
+            </ListItemIcon>
             <ListItemText>SignOut</ListItemText>
           </ListItem>
           <Divider />
