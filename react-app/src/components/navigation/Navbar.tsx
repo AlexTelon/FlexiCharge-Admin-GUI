@@ -16,7 +16,6 @@ import EvStationIcon from '@material-ui/icons/EvStation';
 import BatteryChargingFullIcon from '@material-ui/icons/BatteryChargingFull';
 import DescriptionIcon from '@material-ui/icons/Description';
 import { useHistory } from 'react-router';
-// import { People } from '@material-ui/icons';
 
 const drawerWidth = 240;
 
@@ -27,7 +26,7 @@ const categories = [
       { id: 'Dashboard', icon: <PeopleIcon />, location: '/Dashboard', active: false },
       { id: 'Charger Station', icon: <EvStationIcon />, location: '/Dashboard/Chargers' },
       { id: 'Chargers', icon: <BatteryChargingFullIcon />, location: '/Dashboard' },
-      { id: 'Invoices', icon: <DescriptionIcon />, location: '/Dashbgitoard' }
+      { id: 'Invoices', icon: <DescriptionIcon />, location: '/Dashboard' }
     ]
   }
 ];
@@ -120,7 +119,6 @@ export default function MiniDrawer() {
   };
 
   const history = useHistory();
-  // const location = useLocation();
 
   return (
     <>
