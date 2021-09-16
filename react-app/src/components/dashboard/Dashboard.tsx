@@ -16,6 +16,12 @@ const useStyles = makeStyles((theme: Theme) =>
       paddingLeft: theme.spacing(2),
       paddingRight: theme.spacing(2),
       paddingTop: theme.spacing(2)
+    },
+    hoverEffect: {
+      color: 'rgba(255, 255, 255, 0.7)',
+      '&:hover,&:focus': {
+        backgroundColor: theme.flexiCharge.primary.lightGrey
+      }
     }
   })
 );
@@ -26,7 +32,6 @@ const DashboardHome = () => {
   return (
     <Grid 
       container
-      className={classes.BoxSpacing}
     > 
       <Grid
         onClick={() => {
@@ -39,7 +44,7 @@ const DashboardHome = () => {
         xl={3}
         xs={12}
       >
-        <ChargerStation />
+        <ChargerStation className={classes.hoverEffect} />
       </Grid>
       <Grid
         className={classes.BoxSpacing}
@@ -49,7 +54,7 @@ const DashboardHome = () => {
         xl={3}
         xs={12}
       >
-        <Chargers />
+        <Chargers className={classes.hoverEffect} />
       </Grid>
       <Grid
         className={classes.BoxSpacing}
@@ -62,6 +67,7 @@ const DashboardHome = () => {
       </Grid>
       <Grid
         className={classes.BoxSpacing}
+
         item
         lg={3}
         sm={6}
