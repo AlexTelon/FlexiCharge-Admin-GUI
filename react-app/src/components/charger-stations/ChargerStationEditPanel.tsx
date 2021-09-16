@@ -1,6 +1,6 @@
 import {
   Paper, AppBar, Toolbar, Typography,
-  IconButton, Divider, Box, Button, Theme, FormControl, InputLabel, Input, FormHelperText, Grid, useMediaQuery, Dialog, DialogTitle, DialogContent, DialogActions
+  IconButton, Divider, Box, Button, Theme, FormControl, InputLabel, Input, FormHelperText, Grid, useMediaQuery, Dialog, DialogTitle, DialogContent, DialogActions, LinearProgress
 } from '@material-ui/core';
 import { ChevronRight, Close } from '@material-ui/icons';
 import { createStyles, makeStyles, useTheme } from '@material-ui/styles';
@@ -41,13 +41,70 @@ const ChargerStationEditPanel: FC<ChargerStationEditPanelProps> = ({ stationId }
 
   const [deleteDialogOpen, setDeleteDialogOpen] = useState<boolean>(false);
   const [station, setStation] = useState<ChargerStation>();
+  const [name, setName] = useState<string>();
+  const [address, setAddress] = useState<string>();
+  const [latitude, setLatitude] = useState<number>();
+  const [longitude, setLongitude] = useState<number>();
+  const [errorState, setErrorState] = useState<any>({});
+  const [loading, setLoading] = useState(false);
 
-  if (stationId) {
+  // TODO: Refactor
+  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setName(e.target.value);
+  };
+  const handleAddressChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setAddress(e.target.value);
+  };
+  const handleLatitudeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setLatitude(Number(e.target.value));
+  };
+  const handleLongitudeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setLongitude(Number(e.target.value));
+  };
+
+  if (stationId && station === undefined) {
     chargerStationCollection.getChargerStationById(stationId).then((chargerStation) => {
       if (chargerStation === null) return;
+      setName(chargerStation.name);
+      setAddress(chargerStation.address);
+      setLatitude(chargerStation.latitude);
+      setLongitude(chargerStation.longitude);
       setStation(chargerStation);
     });
   }
+
+  const handleSaveClick = async () => {
+    if (name && address && longitude && latitude && stationId) {
+      setLoading(true);
+      const result = await chargerStationCollection.updateChargerStation(stationId, { name, address, latitude, longitude });
+      if (result[1] !== null) {
+        console.log(result);
+        setErrorState({
+          ...result[0]
+        });
+        setLoading(false);
+      } else if (result[0] !== null) {
+        setStation(result[0]);
+        setLoading(false);
+      }
+    } else {
+      setErrorState({
+        name: !name ? 'Required' : undefined,
+        address: !address ? 'Required' : undefined,
+        latitude: !latitude ? 'Required' : undefined,
+        longitude: !longitude ? 'Required' : undefined
+      });
+    }
+  };
+
+  const handleCancleClick = () => {
+    if (station) {
+      setName(station.name);
+      setAddress(station.address);
+      setLatitude(station.latitude);
+      setLongitude(station.longitude);
+    }
+  };
 
   const theme: Theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
@@ -61,6 +118,9 @@ const ChargerStationEditPanel: FC<ChargerStationEditPanelProps> = ({ stationId }
   };
   return (
     <Paper component="aside">
+      {loading &&
+        <LinearProgress />
+      }
       {station && (
         <>
           <AppBar position="static" elevation={0} className={classes.panelAppBar}>
@@ -80,30 +140,52 @@ const ChargerStationEditPanel: FC<ChargerStationEditPanelProps> = ({ stationId }
           <Divider />
           <form>
             <Box sx={{ px: 4 }}>
-              <FormControl fullWidth variant="filled">
+              <FormControl fullWidth variant="filled" error={errorState.name !== undefined}>
                 <InputLabel htmlFor="station-name-input">Name</InputLabel>
-                <Input id="station-name-input" aria-describedby="station-name-helper" value={station.name} />
+                <Input
+                  id="station-name-input"
+                  aria-describedby="station-name-helper"
+                  value={name}
+                  onChange={handleNameChange}
+                />
               </FormControl>
-              <FormControl fullWidth variant="filled">
+              <FormControl fullWidth variant="filled" error={errorState.address !== undefined}>
                 <InputLabel htmlFor="station-address-input">Address</InputLabel>
-                <Input id="station-address-input" aria-describedby="station-address-helper" value={station.address} />
+                <Input
+                  id="station-address-input"
+                  aria-describedby="station-address-helper"
+                  value={address}
+                  onChange={handleAddressChange}
+                />
                 <FormHelperText id="station-address-helper">Street Address</FormHelperText>
               </FormControl>
-              <FormControl fullWidth variant="filled">
+              <FormControl fullWidth variant="filled" error={errorState.longitude !== undefined}>
                 <InputLabel htmlFor="station-longitude-input">Longitude</InputLabel>
-                <Input id="station-longitude-input" aria-describedby="station-longitude-helper" type="number" value={station.longitude} />
+                <Input
+                  id="station-longitude-input"
+                  aria-describedby="station-longitude-helper"
+                  type="number"
+                  value={longitude}
+                  onChange={handleLongitudeChange}
+                />
                 <FormHelperText id="station-longitude-helper">Geographic Coordinate</FormHelperText>
               </FormControl>
-              <FormControl fullWidth variant="filled">
+              <FormControl fullWidth variant="filled" error={errorState.latitude !== undefined}>
                 <InputLabel htmlFor="station-latitude-input">Latitude</InputLabel>
-                <Input id="station-latitude-input" aria-describedby="station-latitude-helper" type="number" value={station.latitude} />
+                <Input
+                  id="station-latitude-input"
+                  aria-describedby="station-latitude-helper"
+                  type="number"
+                  value={latitude}
+                  onChange={handleLatitudeChange} 
+                />
                 <FormHelperText id="station-latitude-helper">Geographic Coordinate</FormHelperText>
               </FormControl>
               <Box display="flex" sx={{ flexDirection: 'row-reverse', py: 1 }}>
-                <Button variant="contained" color="primary" className={classes.saveButton}>
+                <Button variant="contained" color="primary" className={classes.saveButton} onClick={handleSaveClick} >
                   Save
                 </Button>
-                <Button color="primary">
+                <Button color="primary" onClick={handleCancleClick}>
                   Cancel
                 </Button>
               </Box>
