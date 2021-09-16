@@ -142,7 +142,7 @@ const AddSingleStationDialog = ({ open, handleClose }: any) => {
                 <Input id="station-address-input" aria-describedby="station-address-helper" onChange={handleAddressChange} value={address} />
                 <FormHelperText id="station-address-helper">
                   {errorState.address
-                    ? `${errorState.longitude} | Street Address`
+                    ? `${errorState.address} | Street Address`
                     : 'Street Address'
                   }
                 </FormHelperText>
