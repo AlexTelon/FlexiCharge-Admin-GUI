@@ -109,11 +109,11 @@ const LoginFields: FC<LoginFieldProps> = ({ setLoading }) => {
     );
   }
 
-  document.addEventListener('keydown', (e) => {
+  /* document.addEventListener('keydown', (e) => {
     if (e.code === 'Enter') {
       handleSubmitClicked();
     }
-  });
+  }); */
   return (
     <>
       <form className="login-input-fields">
