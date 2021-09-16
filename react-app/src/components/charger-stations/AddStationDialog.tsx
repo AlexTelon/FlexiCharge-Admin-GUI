@@ -57,7 +57,7 @@ const AddSingleStationDialog = ({ open, handleClose }: any) => {
       if (result[1] !== null) {
         console.log(result);
         setErrorState({
-          alert: result[1].errorMessage
+          ...result[1]
         });
         setLoading(false);
       } else {
