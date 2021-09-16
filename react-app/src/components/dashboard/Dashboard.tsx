@@ -14,9 +14,6 @@ const Dashboard = (props: any) => {
         <title>Admin | Dashboard</title>
       </Helmet>
       <Box sx={{ display: 'flex' }}>
-        {/* <Box sx={{ position: 'relative', display: 'flex' }}>
-          <Link to="/dashboard/chargers">asdddddddddddddddddddddddddddddddddddddddddddddddddddddd</Link>
-        </Box> */}
         <Navbar />
         <Box component="main" sx={{ flexGrow: 1 }}>
           <Route path="/dashboard/charger-stations" render={() => (<ChargerStations />)} />
