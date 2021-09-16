@@ -145,7 +145,24 @@ const ChargerStationTableRow: FC<ChargerStationTableRowProps> = ({ station, clas
       >
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
           <Collapse in={open} timeout="auto" unmountOnExit>
-              sad
+            <Box margin={1} >
+              <Table size="small" aria-label="charger station details">
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Address</TableCell>
+                    <TableCell>Longitude</TableCell>
+                    <TableCell>Latitude</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  <TableRow>
+                    <TableCell>{station.address}</TableCell>
+                    <TableCell>{station.longitude}</TableCell>
+                    <TableCell>{station.latitude}</TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+            </Box>
           </Collapse>
         </TableCell>
       </TableRow>
