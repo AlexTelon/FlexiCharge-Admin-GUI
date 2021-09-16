@@ -11,7 +11,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import { ReactComponent as Title } from '../../assets/title.svg';
 import { Icon } from '@material-ui/core';
-import PeopleIcon from '@material-ui/icons/People';
+import DashboardIcon from '@material-ui/icons/Dashboard';
 import EvStationIcon from '@material-ui/icons/EvStation';
 import BatteryChargingFullIcon from '@material-ui/icons/BatteryChargingFull';
 import DescriptionIcon from '@material-ui/icons/Description';
@@ -23,7 +23,7 @@ const categories = [
   {
     id: '',
     children: [
-      { id: 'Dashboard', icon: <PeopleIcon />, location: '/Dashboard', active: false },
+      { id: 'Dashboard', icon: <DashboardIcon />, location: '/Dashboard', active: false },
       { id: 'Charger Station', icon: <EvStationIcon />, location: '/Dashboard/Chargers' },
       { id: 'Chargers', icon: <BatteryChargingFullIcon />, location: '/Dashboard' },
       { id: 'Invoices', icon: <DescriptionIcon />, location: '/Dashboard' }
