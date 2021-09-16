@@ -1,14 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Helmet } from 'react-helmet';
 import {
   AppBar, Box, createStyles, useMediaQuery, TableProps, 
   makeStyles, Theme, Toolbar, Typography, Container, Grid, IconButton, Checkbox, 
   Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, 
-  useTheme, Paper 
+  useTheme, Paper, List, ListItem, ListItemIcon, ListItemText, Dialog, DialogTitle
 } from '@material-ui/core';
-import { FilterList, Error, MoreHoriz } from '@material-ui/icons';
-
-// import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
+import { FilterList, Error, MoreHoriz, FiberManualRecord, Delete } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme: Theme) => 
   createStyles({
@@ -82,6 +80,15 @@ const useStyles = makeStyles((theme: Theme) =>
 const ChargerRow = (props: any) => {
   const theme: Theme = useTheme();
 
+  const [openMore, setOpenMore] = useState(false);
+  const handleOpenMore = () => {
+    setOpenMore(true);
+  };
+  
+  const handleCloseMore = () => {
+    setOpenMore(false);
+  };
+  
   return (
     <>
       <TableRow
@@ -110,9 +117,33 @@ const ChargerRow = (props: any) => {
         </TableCell>
         <TableCell><Error color='error' />Offline</TableCell>
         <TableCell align='right'>
-          <IconButton>
+          <IconButton onClick={handleOpenMore}>
             <MoreHoriz />
           </IconButton>
+
+          <Dialog open={openMore} onClose={handleCloseMore}>
+            <DialogTitle>Edit charger {props.name}</DialogTitle>
+            <List aria-label="charger options">
+              <ListItem button>
+                <ListItemIcon>
+                  <Error />
+                </ListItemIcon>
+                <ListItemText primary="Set to offline" />
+              </ListItem>
+              <ListItem button>
+                <ListItemIcon>
+                  <FiberManualRecord />
+                </ListItemIcon>
+                <ListItemText primary="Set to online" />
+              </ListItem>
+              <ListItem button>
+                <ListItemIcon>
+                  <Delete />
+                </ListItemIcon>
+                <ListItemText primary="Delete" />
+              </ListItem>
+            </List>
+          </Dialog>
         </TableCell>
       </TableRow>
     </>
@@ -127,15 +158,14 @@ const ChargerTable = ({ classes }: any) => {
   const chargerRows = [];
 
   for (let i = 0; i < 5; i++) {
-    chargerRows.push(<ChargerRow classes={classes} name='bobo' />);
-    chargerRows.push(<ChargerRow classes={classes} name='asdas' />);
+    chargerRows.push(<ChargerRow classes={classes} name={`000${i}`} />);
   }
   
   const isSmallScreen = useMediaQuery((theme: Theme) => theme.breakpoints.down('xs'));
   const tableProps: TableProps = {
     size: isSmallScreen ? 'small' : 'medium'
   };
-  
+
   return (
     <>
       <TableContainer className={classes.tableContainer}>
@@ -184,9 +214,7 @@ const ChargersPage = () => {
               <Grid item xs={12} md={8} lg={9}>
                 <AppBar position='static' className={classes.contentAppBar} elevation={1}>
                   <Toolbar variant='dense'>
-                    <Typography className={classes.contentTitle} variant='h6'>
-                      Chargers
-                    </Typography>
+                    <Typography className={classes.contentTitle} variant='h6'>Chargers</Typography>
                     <IconButton edge='end'
                       aria-label='charger stations filters'
                       aria-haspopup='true'
