@@ -103,13 +103,17 @@ const LoginFields: FC<LoginFieldProps> = ({ setLoading }) => {
     }
   };
 
-  console.log(authenticationProvider);
   if (authenticationProvider.isAuthenticated) {
     return (
       <Redirect to="/dashboard" />
     );
   }
 
+  document.addEventListener('keydown', (e) => {
+    if (e.code === 'Enter') {
+      handleSubmitClicked();
+    }
+  });
   return (
     <>
       <form className="login-input-fields">

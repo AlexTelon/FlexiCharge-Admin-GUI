@@ -4,14 +4,16 @@ import {
   TableHead, TableRow, Theme, Toolbar, Typography,
   Accordion, AccordionDetails, AccordionSummary, AccordionActions,
   Button, Divider, TableBody, TablePagination, TableContainer, Paper,
-  Hidden, useMediaQuery, TableProps, Collapse
+  Hidden, useMediaQuery, TableProps, Collapse, LinearProgress
 } from '@material-ui/core';
 import { Helmet } from 'react-helmet';
 import { Edit, ExpandMore, FilterList } from '@material-ui/icons';
-import React, { useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import ChargerStationEditPanel from './ChargerStationEditPanel';
 import AddSingleStationDialog from './AddStationDialog';
 import { useTheme } from '@material-ui/styles';
+import { chargerStationCollection } from '../../remote-access';
+import { ChargerStation } from '../../remote-access/interfaces';
 
 const useStyles = makeStyles((theme: Theme) => 
   createStyles({
@@ -81,14 +83,20 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const ChargerTableCell = (props: any) => {
+interface ChargerStationTableRowProps {
+  station: ChargerStation
+  classes: any
+  editClicked: (stationId: string) => void
+}
+
+const ChargerStationTableRow: FC<ChargerStationTableRowProps> = ({ station, classes, editClicked }) => {
   const [open, setOpen] = useState(false);
   const theme: Theme = useTheme();
   return (
     <>
       <TableRow
         hover
-        key="meep"
+        key={station.id}
         onClick={() => setOpen(!open)}
         style={{ backgroundColor: open ? 'rgba(240,240,240,1)' : theme.flexiCharge.primary.white }}
       >
@@ -105,32 +113,55 @@ const ChargerTableCell = (props: any) => {
             <Typography
               color="textPrimary"
               variant="body1"
-              className={props.classes.stationNameCell}
+              className={classes.stationNameCell}
               noWrap
             >
-              123456555555555555
+              {station.name}
             </Typography>
           </Box>
         </TableCell>
         <TableCell>
-          Busy
+          {station.address}
         </TableCell>
         <TableCell align="right">
           <Hidden xsDown>
-            <Button className={props.classes.buttonDark} color="primary">
+            <Button className={classes.buttonDark} color="primary">
               Manage Chargers
             </Button>
           </Hidden>
-          <Button startIcon={<Edit />} className={props.classes.buttonLight} variant="contained" color="primary">
+          <Button
+            startIcon={<Edit />}
+            className={classes.buttonLight}
+            variant="contained"
+            color="primary"
+            onClick={() => editClicked(station.id)}
+          >
             Edit
           </Button>
         </TableCell>
       </TableRow>
-      <TableRow>
+      <TableRow
+        key={station.id + '-details'}
+      >
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
           <Collapse in={open} timeout="auto" unmountOnExit>
-            <Box component="td" margin={1}>
-              sad
+            <Box margin={1} >
+              <Table size="small" aria-label="charger station details">
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Address</TableCell>
+                    <TableCell>Longitude</TableCell>
+                    <TableCell>Latitude</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  <TableRow>
+                    <TableCell>{station.address}</TableCell>
+                    <TableCell>{station.longitude}</TableCell>
+                    <TableCell>{station.latitude}</TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
             </Box>
           </Collapse>
         </TableCell>
@@ -139,26 +170,61 @@ const ChargerTableCell = (props: any) => {
   );
 };
 
-const ChargersTable = ({ classes }: any) => {
-  const handleChangePage = (event: unknown, newPage: number) => {
-    // 
-  };
+interface StationTableState {
+  loaded?: boolean
+  stations?: ChargerStation[]
+  error?: boolean
+  errorMessage?: string
+}
 
-  const chargerCells = [];
-  for (let i = 0; i < 12; i++) {
-    chargerCells.push(<ChargerTableCell classes={classes} />);
+const ChargerStationsTable = ({ classes, ...rest }: any) => {
+  const [state, setState] = useState<StationTableState>({
+    loaded: false
+  });
+
+  useEffect(() => {
+    chargerStationCollection.getAllChargerStations().then((stations) => {
+      setState({
+        loaded: true,
+        stations
+      });
+    }).catch((_) => {
+      setState({
+        loaded: true,
+        error: true,
+        errorMessage: 'Failed to load'
+      });
+    });
+  }, []);
+
+  let stationRows = null;
+  if (state.stations) {
+    stationRows = [];
+    const length = state.stations.length > 5 ? 5 : state.stations.length;
+    for (let i = 0; i < length; i++) {
+      const station = state.stations[i];
+      stationRows.push(<ChargerStationTableRow key={station.id} {...rest} station={station} classes={classes} />);
+    }
   }
 
   const isSmallScreen = useMediaQuery((theme: Theme) => theme.breakpoints.down('xs'));
   const tableProps: TableProps = {
     size: isSmallScreen ? 'small' : 'medium'
   };
+
+  const handleChangePage = (event: unknown, newPage: number) => {
+    // 
+  };
+
   return (
     <>
       <TableContainer className={classes.tableContainer}>
+        {!state.loaded &&
+                <LinearProgress />
+        }
         <Table {...tableProps} stickyHeader aria-label="sticky table">
           <TableHead>
-            <TableRow>
+            <TableRow key="header">
               <TableCell padding="checkbox">
                 <Checkbox className={classes.checkBox} />
               </TableCell>
@@ -166,7 +232,7 @@ const ChargersTable = ({ classes }: any) => {
                 Station Name
               </TableCell>
               <TableCell>
-                Status
+                Address
               </TableCell>
               <TableCell align="right">
                 Actions
@@ -174,18 +240,20 @@ const ChargersTable = ({ classes }: any) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {chargerCells}
+            {stationRows}
           </TableBody>
         </Table>
       </TableContainer>
-      <TablePagination
-        rowsPerPageOptions={[5, 10, 15]}
-        component="div"
-        count={chargerCells.length}
-        rowsPerPage={5}
-        page={1}
-        onPageChange={handleChangePage}
-      />
+      {state.stations &&
+        <TablePagination
+          rowsPerPageOptions={[5, 10, 15]}
+          component="div"
+          count={state.stations ? state.stations.length : 0}
+          rowsPerPage={5}
+          page={0}
+          onPageChange={handleChangePage}
+        />
+      }
     </>
   );
 };
@@ -233,7 +301,11 @@ const ChargerStationsSettingsAccordian = ({ classes }: any) => {
 
 const ChargerStations = () => {
   const classes = useStyles();
+  const [activeStationId, setActiveStationId] = useState<string>();
 
+  const handleStationEditClicked = (stationId: string) => {
+    setActiveStationId(stationId);
+  };
   return (
     <>
       <Helmet>
@@ -268,11 +340,11 @@ const ChargerStations = () => {
                 </AppBar>
                 <ChargerStationsSettingsAccordian classes={classes} />
                 <Paper elevation={2}>
-                  <ChargersTable classes={classes} />
+                  <ChargerStationsTable editClicked={handleStationEditClicked} classes={classes} />
                 </Paper>
               </Grid>
               <Grid item xs={12} md={4} lg={3}>
-                <ChargerStationEditPanel />
+                <ChargerStationEditPanel stationId={activeStationId} />
               </Grid>
             </Grid>
           </Container>
