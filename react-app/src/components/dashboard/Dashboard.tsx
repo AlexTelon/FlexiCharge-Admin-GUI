@@ -14,8 +14,7 @@ import ChargersPage from '../chargers/Chargers';
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     BoxSpacing: {
-      paddingLeft: theme.spacing(2),
-      paddingRight: theme.spacing(2),
+      paddingLeft: theme.spacing(3),
       paddingTop: theme.spacing(2)
     },
     hoverEffect: {

@@ -9,14 +9,14 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import { ReactComponent as Title } from '../../assets/title.svg';
-import { Icon, IconButton } from '@material-ui/core';
+// import { ReactComponent as Title } from '../../assets/title.svg';
+import { Icon } from '@material-ui/core';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import EvStationIcon from '@material-ui/icons/EvStation';
 import BatteryChargingFullIcon from '@material-ui/icons/BatteryChargingFull';
 import DescriptionIcon from '@material-ui/icons/Description';
 import { useHistory } from 'react-router';
-import MenuIcon from '@material-ui/icons/Menu';
+// import MenuIcon from '@material-ui/icons/Menu';
 
 const drawerWidth = 240;
 
@@ -69,7 +69,7 @@ const useStyles = makeStyles((theme: Theme) =>
     openDrawButton: {
       float: 'right',
       display: 'flex',
-      justifyContent: 'flex-end'
+      justifyContent: 'space-between'
     },
     navBotSection: {
       bottom: 0,
@@ -152,10 +152,10 @@ export default function MiniDrawer() {
           })
         }}
       >
-        <Divider />
+        {/* <Divider />
         <List className={classes.categoryHeader}>
           <Title />
-        </List>
+        </List> */}
         
         {categories.map(({ id, children }) => 
 
@@ -186,7 +186,7 @@ export default function MiniDrawer() {
           </React.Fragment>
         
         )}
-
+        {/* 
         <Divider />
   
         <List>
@@ -199,16 +199,16 @@ export default function MiniDrawer() {
           >
             <MenuIcon />
           </IconButton>
-        </List>
+        </List> */}
               
         <Divider />
         
         <List className={classes.navBotSection}>
           <ListItem button>
             <ListItemIcon>
-              <Icon>logout</Icon>
+              <Icon className={classes.itemIcon}>logout</Icon>
             </ListItemIcon>
-            <ListItemText>SignOut</ListItemText>
+            <ListItemText>Sign out</ListItemText>
           </ListItem>
           <Divider />
           <ListItem
