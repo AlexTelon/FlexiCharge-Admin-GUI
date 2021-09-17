@@ -1,4 +1,5 @@
 import { IAuthenticationProvider } from '../interfaces';
+import { loginInfo } from '../../__mock-data__';
 
 export default class AuthenticationProvider implements IAuthenticationProvider {
   public isAuthenticated: boolean = false;
@@ -9,9 +10,8 @@ export default class AuthenticationProvider implements IAuthenticationProvider {
 
   async login(username: string, password: string): Promise<[boolean, any | null]> {
     return new Promise((resolve, reject) => {
-      console.log(username, password);
       setTimeout(() => {
-        if (username === 'admin' && password === 'admin') {
+        if (username === loginInfo.username && password === loginInfo.password) {
           this.isAuthenticated = true;
           resolve([true, {}]);
         } else {

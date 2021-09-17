@@ -16,6 +16,7 @@ import EvStationIcon from '@material-ui/icons/EvStation';
 import BatteryChargingFullIcon from '@material-ui/icons/BatteryChargingFull';
 import DescriptionIcon from '@material-ui/icons/Description';
 import { useHistory } from 'react-router';
+import MenuIcon from '@material-ui/icons/Menu';
 
 const drawerWidth = 240;
 
@@ -37,9 +38,12 @@ const useStyles = makeStyles((theme: Theme) =>
       display: 'none'
     },
     drawer: {
-      width: drawerWidth,
-      flexShrink: 0,
-      whiteSpace: 'nowrap'
+      [theme.breakpoints.up('sm')]: {
+        width: drawerWidth,
+        flexShrink: 0,
+        whiteSpace: 'nowrap',
+        color: theme.flexiCharge.primary.white
+      }
     },
     drawerOpen: {
       width: drawerWidth,
@@ -101,7 +105,13 @@ const useStyles = makeStyles((theme: Theme) =>
     itemText: {
       fontSize: 'inherit',
       paddingLeft: theme.spacing(2),
-      color: theme.flexiCharge.primary.black
+      color: theme.flexiCharge.primary.darkGrey
+    },
+    MenuButton: {
+      marginRight: theme.spacing(2),
+      [theme.breakpoints.up('sm')]: {
+        display: 'none'
+      }
     }
   })
 );
@@ -109,6 +119,7 @@ const useStyles = makeStyles((theme: Theme) =>
 export default function MiniDrawer() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
+  const [mobileOpen, setMobileOpen] = React.useState(false);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -118,12 +129,18 @@ export default function MiniDrawer() {
     setOpen(false);
   };
 
+  const handleDrawerToogle = () => {
+    setMobileOpen(!mobileOpen);
+  };
+
   const history = useHistory();
 
   return (
     <>
       <Drawer
         variant="permanent"
+        open={mobileOpen}
+        onClose={handleDrawerToogle}
         className={clsx(classes.drawer, {
           [classes.drawerOpen]: open,
           [classes.drawerClose]: !open
@@ -136,7 +153,6 @@ export default function MiniDrawer() {
         }}
       >
         <Divider />
-
         <List className={classes.categoryHeader}>
           <Title />
         </List>
@@ -155,12 +171,13 @@ export default function MiniDrawer() {
               <ListItem
                 key={childId}
                 button
+                color="primary"
                 className= {clsx(classes.item)}
                 onClick={() => {
                   history.push(pathLocation);
                 }}
               >
-                <ListItemIcon className={classes.itemIcon}>{icon}</ListItemIcon>
+                <ListItemIcon color='primary' className={classes.itemIcon}>{icon}</ListItemIcon>
                 <ListItemText classes={{ primary: classes.itemText }}>
                   {childId}
                 </ListItemText>
@@ -173,11 +190,17 @@ export default function MiniDrawer() {
         <Divider />
   
         <List>
-          <ListItem>
-            {/* <Link to="/dashboard/chargers">Charger Stations</Link> */}
-          </ListItem>
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            edge="start"
+            onClick={handleDrawerToogle}
+            className={classes.MenuButton}
+          >
+            <MenuIcon />
+          </IconButton>
         </List>
-
+              
         <Divider />
         
         <List className={classes.navBotSection}>
@@ -190,12 +213,13 @@ export default function MiniDrawer() {
           <Divider />
           <ListItem
             button
+
             onClick={() => {
               !open ? handleDrawerOpen() : handleDrawerClose();
             }}
             className={classes.openDrawButton}
           >
-            {!open ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+            {!open ? <ChevronRightIcon color="inherit" /> : <ChevronLeftIcon />}
           </ListItem>
         </List>
       </Drawer>
