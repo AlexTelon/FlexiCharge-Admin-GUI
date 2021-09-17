@@ -16,7 +16,7 @@ const Dashboard = (props: any) => {
       <Box sx={{ display: 'flex' }}>
         <Navbar />
         <Box component="main" sx={{ flexGrow: 1 }}>
-          <Route path="/dashboard/charger-stations" render={() => (<ChargerStations />)} />
+          <Route path="/dashboard/stations" render={() => (<ChargerStations />)} />
           <Route path="/dashboard/chargers" render={() => (<Chargers />)} />
         </Box>
       </Box>

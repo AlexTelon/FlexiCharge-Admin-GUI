@@ -25,8 +25,8 @@ const categories = [
     id: '',
     children: [
       { id: 'Dashboard', icon: <PeopleIcon />, location: '/Dashboard', active: false },
-      { id: 'Charger Station', icon: <EvStationIcon />, location: '/Dashboard/Chargers' },
-      { id: 'Chargers', icon: <BatteryChargingFullIcon />, location: '/Dashboard' },
+      { id: 'Charger Station', icon: <EvStationIcon />, location: '/Dashboard/stations' },
+      { id: 'Chargers', icon: <BatteryChargingFullIcon />, location: '/Dashboard/chargers' },
       { id: 'Invoices', icon: <DescriptionIcon />, location: '/Dashboard' }
     ]
   }
