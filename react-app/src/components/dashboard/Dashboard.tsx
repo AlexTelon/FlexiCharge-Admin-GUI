@@ -4,6 +4,7 @@ import { Box } from '@material-ui/core';
 import { Route, Redirect } from 'react-router-dom';
 import { authenticationProvider } from '../../remote-access';
 import ChargerStations from '../charger-stations/ChargerStations';
+import Chargers from '../chargers/Chargers';
 import Navbar from '../navigation/Navbar';
 
 const Dashboard = (props: any) => {
@@ -15,7 +16,8 @@ const Dashboard = (props: any) => {
       <Box sx={{ display: 'flex' }}>
         <Navbar />
         <Box component="main" sx={{ flexGrow: 1 }}>
-          <Route path="/dashboard/chargers" render={() => (<ChargerStations />)} />
+          <Route path="/dashboard/charger-stations" render={() => (<ChargerStations />)} />
+          <Route path="/dashboard/chargers" render={() => (<Chargers />)} />
         </Box>
       </Box>
     </>
