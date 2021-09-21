@@ -10,6 +10,7 @@ import ChargerStation from '../dashboard/dashboardComponents/ChargerStation';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import Chargers from '../dashboard/dashboardComponents/Chargers';
 import ChargersPage from '../chargers/Chargers';
+import ManageUsers from '../../components/manage-users/ManageUsers';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -70,7 +71,6 @@ const DashboardHome = () => {
       </Grid>
       <Grid
         className={classes.BoxSpacing}
-
         item
         lg={3}
         sm={6}
@@ -94,6 +94,7 @@ const Dashboard = (props: any) => {
           <Route path="/dashboard" exact render={() => (<DashboardHome />)} />
           <Route path="/dashboard/stations" exact render={() => (<ChargerStations />)} />
           <Route path="/dashboard/chargers" exact render={() => (<ChargersPage />)} />
+          <Route path="/dashboard/users" exact render={() => (<ManageUsers />) } />
         </Box>
         <Box component="main" sx={{ flexGrow: 1 }}>
         </Box>

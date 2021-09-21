@@ -6,6 +6,12 @@ export interface ChargerStation {
   latitude: number
 }
 
+export interface ManageUser {
+  name: string
+  payment: string
+  role: string
+}
+
 export interface IAuthenticationProvider {
   login: (username: string, password: string) => Promise<[boolean, any | null]>
   getToken: () => string | null
