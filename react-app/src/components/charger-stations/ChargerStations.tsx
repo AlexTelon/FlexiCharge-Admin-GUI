@@ -6,7 +6,6 @@ import {
   Button, Divider, TableBody, TablePagination, TableContainer, Paper,
   Hidden, useMediaQuery, TableProps, Collapse, LinearProgress
 } from '@material-ui/core';
-import { Helmet } from 'react-helmet';
 import { Edit, ExpandMore, FilterList } from '@material-ui/icons';
 import React, { FC, useEffect, useState } from 'react';
 import ChargerStationEditPanel from './ChargerStationEditPanel';
@@ -14,6 +13,7 @@ import AddSingleStationDialog from './AddStationDialog';
 import { useTheme } from '@material-ui/styles';
 import { chargerStationCollection } from '../../remote-access';
 import { ChargerStation } from '../../remote-access/interfaces';
+import { Helmet } from 'react-helmet';
 
 const useStyles = makeStyles((theme: Theme) => 
   createStyles({

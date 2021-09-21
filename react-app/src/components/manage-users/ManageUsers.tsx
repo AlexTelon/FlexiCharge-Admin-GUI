@@ -1,10 +1,10 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import React from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { useTheme } from '@material-ui/styles';
-import { createStyles, makeStyles, Theme, Box, AppBar, Toolbar, Typography, Container, Grid, IconButton, TableContainer, TableHead, Table, TableProps, TableRow, Checkbox, TableCell, useMediaQuery, TableBody, Paper } from '@material-ui/core';
+import { createStyles, makeStyles, Theme, Box, AppBar, Toolbar, Typography, Container, Grid, IconButton, TableContainer, TableHead, Table, TableProps, TableRow, Checkbox, TableCell, useMediaQuery, TableBody, Paper, LinearProgress, TablePagination } from '@material-ui/core';
 import { Helmet } from 'react-helmet';
 import { FilterList } from '@material-ui/icons';
 import { ManageUser } from '../../remote-access/interfaces';
+import { manageUserCollection } from '../../remote-access/index';
 
 const useStyles = makeStyles((theme: Theme) => 
   createStyles({
@@ -68,17 +68,21 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-// interface userRowProps {
-//   user: ManageUser
-//   classes: any
-// }
+interface userRowProps {
+  user: ManageUser
+  classes: any
+  editClicked: (userId: string) => void
+}
 
-const UserRow = (props: any) => {
+const UserRow: FC<userRowProps> = ({ user, classes }: any) => {
+  // const [open, setOpen] = useState(false);
   const theme: Theme = useTheme();
 
   return (
     <>
-      <TableRow hover
+      <TableRow 
+        hover
+        key={user.id}
         style={{ backgroundColor: theme.flexiCharge.primary.white }} >
         <TableCell padding='checkbox'>
           <Checkbox />
@@ -88,37 +92,74 @@ const UserRow = (props: any) => {
             <Typography
               color='textPrimary'
               variant='body1'
-              className={props.classes.usernameCell}
+              className={classes.usernameCell}
               noWrap
             >
-              {props.name}   
+              {user.name}
             </Typography>
           </Box>
         </TableCell>
-        <TableCell></TableCell>
+        <TableCell>
+          {user.name}
+        </TableCell>
         
       </TableRow>
     </>
   );
 };
 
-const UserTable = ({ classes }: any) => {
-  const handleChangePage = (event: unknown, newPage: number) => {
-    //
-  };
+interface UserTableState {
+  loaded?: boolean
+  users?: ManageUser[]
+  error?: boolean
+  errorMessage?: string
+}
+
+const UserTable = ({ classes, ...rest }: any) => {
+  const [state, setState] = useState<UserTableState>({
+    loaded: false
+  });
+
+  useEffect(() => {
+    manageUserCollection.getAllUsers().then((users: any) => {
+      setState({
+        loaded: true,
+        users
+      });
+    }).catch((_: any) => {
+      setState({
+        loaded: true,
+        error: true,
+        errorMessage: 'Failed to load'
+      });
+    });
+  }, []);
+  
+  let userRows = null;
+  if (state.users) {
+    userRows = [];
+    const length = state.users.length > 5 ? 5 : state.users.length;
+    for (let i = 0; i < length; i++) {
+      const user = state.users[i];
+      userRows.push(<UserRow key={user.id} {...rest} user={user} classes={classes} />);
+    }
+  }
 
   const isSmallScreen = useMediaQuery((theme: Theme) => theme.breakpoints.down('xs'));
   const tableProps: TableProps = {
     size: isSmallScreen ? 'small' : 'medium'
   };
-  const userRows = [];
 
-  for (let i = 0; i < 10; i++) {
-    userRows.push(<UserRow classes={classes} />);
-  }
+  const handleChangePage = (event: unknown, newPage: number) => {
+    //
+  };
+
   return (
     <>
       <TableContainer className={classes.tableContainer}>
+        {!state.loaded &&
+                <LinearProgress />
+        }
         <Table {...tableProps} stickyHeader aria-label='sticky table'>
           <TableHead>
             <TableRow>
@@ -134,12 +175,27 @@ const UserTable = ({ classes }: any) => {
           </TableHead>
         </Table>
       </TableContainer>
+      {state.users &&
+      <TablePagination
+        rowsPerPageOptions={[5, 10, 15]}
+        component="div"
+        count={state.users ? state.users.length : 0}
+        rowsPerPage={5}
+        page={0}
+        onPageChange={handleChangePage}
+      />
+      }
     </>
   );
 };
 
 const ManageUsers = () => {
   const classes = useStyles();
+
+  const handleUserEditClicked = (userId: string) => {
+    //
+  };
+
   return (
     <>
       <Helmet>
@@ -173,7 +229,7 @@ const ManageUsers = () => {
                   </Toolbar>
                 </AppBar>
                 <Paper elevation={2}>
-                  <UserTable classes={classes} />
+                  <UserTable editClicked={handleUserEditClicked} classes= { classes } />
                 </Paper>
               </Grid>
             </Grid>
