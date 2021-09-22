@@ -17,11 +17,6 @@ import { ChargerStation } from '../../remote-access/interfaces';
 
 const useStyles = makeStyles((theme: Theme) => 
   createStyles({
-    appBar: {
-      backgroundColor: theme.flexiCharge.accent.primary,
-      color: theme.flexiCharge.primary.white,
-      fontFamily: theme.flexiCharge.font._main
-    },
     contentBox: {
       paddingTop: theme.spacing(2),
       width: '100%',
@@ -312,13 +307,6 @@ const ChargerStations = () => {
         <title>Admin | Chargers</title>
       </Helmet>
       <Box sx={{ minHeight: '100%' }}>
-        <AppBar position="sticky" className={classes.appBar} >
-          <Toolbar variant="dense">
-            <Typography variant="h6">
-              Flexi Charge
-            </Typography>
-          </Toolbar>
-        </AppBar>
         <Box className={classes.contentBox}>
           <Container component="section" className={classes.contentSection} maxWidth={false}>
             <Grid container spacing={1} className={`${classes.contentContainer}`}>

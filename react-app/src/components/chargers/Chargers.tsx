@@ -10,11 +10,6 @@ import { FilterList, Error, MoreHoriz, FiberManualRecord, Delete } from '@materi
 
 const useStyles = makeStyles((theme: Theme) => 
   createStyles({
-    appBar: {
-      backgroundColor: theme.flexiCharge.accent.primary,
-      color: theme.flexiCharge.primary.white,
-      fontFamily: theme.flexiCharge.font._main
-    },
     contentBox: {
       padding: theme.spacing(2),
       paddingTop: theme.spacing(2),
@@ -203,11 +198,6 @@ const ChargersPage = () => {
         <title>Admin | Chargers</title>
       </Helmet>
       <Box sx={{ minHeight: '100%' }}>
-        <AppBar position='sticky' className={classes.appBar} >
-          <Toolbar variant='dense'>
-            <Typography variant='h6'>Flexi Charge</Typography>
-          </Toolbar>
-        </AppBar>
         <Box className={classes.contentBox}>
           <Container component='section' className={classes.contentSection} maxWidth={false}>
             <Grid container spacing={1} className={`${classes.contentContainer}`}>
