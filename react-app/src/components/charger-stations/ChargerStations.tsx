@@ -47,12 +47,6 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     contentTitle: {
       flexGrow: 1
-    },
-    buttonDark: {
-      color: theme.flexiCharge.accent.primary
-    },
-    buttonLight: {
-      color: theme.flexiCharge.primary.white
     }
   })
 );
