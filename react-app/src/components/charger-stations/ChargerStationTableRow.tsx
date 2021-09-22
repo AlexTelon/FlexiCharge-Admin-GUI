@@ -5,8 +5,8 @@ import { ChargerStation } from '../../remote-access/interfaces';
 
 interface ChargerStationTableRowProps {
   station: ChargerStation
-  classes: any
   editClicked: (stationId: string) => void
+  selected: boolean
 }
 
 const ChargerStationTableRow: FC<ChargerStationTableRowProps> = ({ station, editClicked }) => {

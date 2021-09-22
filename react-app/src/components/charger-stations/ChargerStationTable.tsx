@@ -1,8 +1,70 @@
+/* eslint-disable @typescript-eslint/prefer-optional-chain */
 import { Theme, useTheme, useMediaQuery, TableProps, TableContainer, LinearProgress, Table, TableHead, TableRow, TableCell, Checkbox, TableBody, TablePagination } from '@material-ui/core';
 import React, { useState, useEffect } from 'react';
 import { chargerStationCollection } from '../../remote-access';
 import { ChargerStation } from '../../remote-access/interfaces';
 import ChargerStationTableRow from './ChargerStationTableRow';
+
+interface HeadCell {
+  id: string
+  label: string
+  alignRight: boolean
+}
+
+const headCells: HeadCell[] = [
+  {
+    id: 'name',
+    label: 'Station Name',
+    alignRight: false
+  },
+  {
+    id: 'address',
+    label: 'Address',
+    alignRight: false
+  },
+  {
+    id: 'actions',
+    label: 'Actions',
+    alignRight: true
+  }
+];
+
+interface ChargerStationTableHeadProps {
+  numSelected: number
+  rowCount: number
+  handleSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void
+}
+
+const ChargerStationTableHead = (props: ChargerStationTableHeadProps) => {
+  const { rowCount, numSelected, handleSelectAllClick } = props;
+  return (
+    <>
+      <TableHead>
+        <TableRow key="header">
+          <TableCell padding="checkbox">
+            <Checkbox
+              color="primary"
+              indeterminate={numSelected > 0 && numSelected < rowCount}
+              checked={rowCount > 0 && numSelected === rowCount}
+              onChange={handleSelectAllClick}
+              inputProps={{
+                'aria-label': 'select all stations'
+              }}
+            />
+          </TableCell>
+          {headCells.map((headCell) => (
+            <TableCell
+              key={headCell.id}
+              align={headCell.alignRight ? 'right' : 'left' }
+            >
+              {headCell.label}
+            </TableCell>
+          ))}
+        </TableRow>
+      </TableHead>
+    </>
+  );
+};
 
 interface StationTableState {
   loaded?: boolean
@@ -11,11 +73,14 @@ interface StationTableState {
   errorMessage?: string
 }
 
-const ChargerStationsTable = ({ ...rest }: any) => {
+const ChargerStationsTable = (props: any) => {
   const theme: Theme = useTheme();
   const [state, setState] = useState<StationTableState>({
     loaded: false
   });
+  const [selected, setSelected] = useState<readonly string[]>([]);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
 
   useEffect(() => {
     chargerStationCollection.getAllChargerStations().then((stations) => {
@@ -38,7 +103,7 @@ const ChargerStationsTable = ({ ...rest }: any) => {
     const length = state.stations.length > 5 ? 5 : state.stations.length;
     for (let i = 0; i < length; i++) {
       const station = state.stations[i];
-      stationRows.push(<ChargerStationTableRow key={station.id} {...rest} station={station} />);
+      stationRows.push(<ChargerStationTableRow key={station.id} {...props} station={station} />);
     }
   }
 
@@ -47,9 +112,26 @@ const ChargerStationsTable = ({ ...rest }: any) => {
     size: isSmallScreen ? 'small' : 'medium'
   };
 
-  const handleChangePage = (event: unknown, newPage: number) => {
-    // 
+  const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.checked) {
+      const newSelecteds = state.stations?.map((station) => station.id);
+      if (newSelecteds === undefined) return;
+      setSelected(newSelecteds);
+      return;
+    }
+    setSelected([]);
   };
+
+  const handleChangePage = (event: unknown, newPage: number) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
+  const isSelected = (stationId: string) => selected.includes(stationId);
 
   return (
     <>
@@ -63,35 +145,40 @@ const ChargerStationsTable = ({ ...rest }: any) => {
           <LinearProgress />
         }
         <Table {...tableProps} stickyHeader aria-label="sticky table">
-          <TableHead>
-            <TableRow key="header">
-              <TableCell padding="checkbox">
-                <Checkbox />
-              </TableCell>
-              <TableCell>
-                Station Name
-              </TableCell>
-              <TableCell>
-                Address
-              </TableCell>
-              <TableCell align="right">
-                Actions
-              </TableCell>
-            </TableRow>
-          </TableHead>
+          <ChargerStationTableHead
+            numSelected={0}
+            rowCount={state.stations ? state.stations.length : 6}
+            handleSelectAllClick={handleSelectAllClick}
+          />
           <TableBody>
-            {stationRows}
+            {state.stations !== undefined
+              && state.stations
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((station, index) => {
+                  const isItemSelected = isSelected(station.id);
+                  return (
+                    <ChargerStationTableRow
+                      key={station.id}
+                      station={station}
+                      selected={isItemSelected}
+                      {...props}
+                    >
+                    </ChargerStationTableRow>
+                  );
+                })
+            }
           </TableBody>
         </Table>
       </TableContainer>
       {state.stations &&
         <TablePagination
-          rowsPerPageOptions={[5, 10, 15]}
+          rowsPerPageOptions={[5, 10, 25]}
           component="div"
           count={state.stations ? state.stations.length : 0}
-          rowsPerPage={5}
-          page={0}
+          rowsPerPage={rowsPerPage}
+          page={page}
           onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
         />
       }
     </>
