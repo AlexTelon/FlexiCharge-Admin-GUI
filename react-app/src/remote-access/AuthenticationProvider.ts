@@ -25,7 +25,6 @@ export default class AuthenticationProvider implements IAuthenticationProvider {
       this.isAuthenticated = true;
       return [true, {}];
     } catch (error: any) {
-      console.log('error', error.request);
       switch (error.response.status) {
         case 400:
           this.isAuthenticated = false;
