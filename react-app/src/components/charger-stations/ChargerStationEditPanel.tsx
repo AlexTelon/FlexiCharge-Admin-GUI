@@ -193,7 +193,7 @@ const ChargerStationEditPanel: FC<ChargerStationEditPanelProps> = ({ stationId }
           </form>
           <Divider />
           <Box sx={{ py: 2, px: 4 }}>
-            <Button fullWidth color="primary" endIcon={<ChevronRight />}>
+            <Button fullWidth color="primary" endIcon={<ChevronRight />} disabled>
                 Manage Chargers
             </Button>
           </Box>

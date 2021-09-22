@@ -71,9 +71,6 @@ const useStyles = makeStyles((theme: Theme) =>
     tableContainer: {
       maxHeight: '600px',
       marginTop: theme.spacing(1)
-    },
-    stationNameCell: {
-      maxWidth: '15vw'
     }
   })
 );
@@ -84,7 +81,7 @@ interface ChargerStationTableRowProps {
   editClicked: (stationId: string) => void
 }
 
-const ChargerStationTableRow: FC<ChargerStationTableRowProps> = ({ station, classes, editClicked }) => {
+const ChargerStationTableRow: FC<ChargerStationTableRowProps> = ({ station, editClicked }) => {
   const [open, setOpen] = useState(false);
   const theme: Theme = useTheme();
   return (
@@ -108,7 +105,7 @@ const ChargerStationTableRow: FC<ChargerStationTableRowProps> = ({ station, clas
             <Typography
               color="textPrimary"
               variant="body1"
-              className={classes.stationNameCell}
+              style={{ maxWidth: '15vw' }}
               noWrap
             >
               {station.name}
@@ -120,13 +117,13 @@ const ChargerStationTableRow: FC<ChargerStationTableRowProps> = ({ station, clas
         </TableCell>
         <TableCell align="right">
           <Hidden xsDown>
-            <Button className={classes.buttonDark} color="primary">
+            <Button color="primary" disabled>
               Manage Chargers
             </Button>
           </Hidden>
           <Button
             startIcon={<Edit />}
-            className={classes.buttonLight}
+            style={{ color: theme.flexiCharge.primary.white }}
             variant="contained"
             color="primary"
             onClick={() => editClicked(station.id)}
