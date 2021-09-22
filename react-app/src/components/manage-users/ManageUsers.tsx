@@ -1,8 +1,8 @@
 import React, { FC, useEffect, useState } from 'react';
 import { useTheme } from '@material-ui/styles';
-import { createStyles, makeStyles, Theme, Box, AppBar, Toolbar, Typography, Container, Grid, IconButton, TableContainer, TableHead, Table, TableProps, TableRow, Checkbox, TableCell, useMediaQuery, TableBody, Paper, LinearProgress, TablePagination } from '@material-ui/core';
+import { createStyles, makeStyles, Theme, Box, AppBar, Toolbar, Typography, Container, Grid, IconButton, TableContainer, TableHead, Table, TableProps, TableRow, Checkbox, TableCell, useMediaQuery, TableBody, Paper, LinearProgress, TablePagination, Button, Hidden } from '@material-ui/core';
 import { Helmet } from 'react-helmet';
-import { FilterList } from '@material-ui/icons';
+import { Edit, FilterList } from '@material-ui/icons';
 import { ManageUser } from '../../remote-access/interfaces';
 import { manageUserCollection } from '../../remote-access/index';
 
@@ -58,6 +58,12 @@ const useStyles = makeStyles((theme: Theme) =>
         color: theme.flexiCharge.accent.neutral
       }
     },
+    buttonDark: {
+      color: theme.flexiCharge.accent.primary
+    },
+    buttonLight: {
+      color: theme.flexiCharge.primary.white
+    },
     usernameCell: {
       maxWidth: '15vw'
     },
@@ -74,7 +80,7 @@ interface userRowProps {
   editClicked: (userId: string) => void
 }
 
-const UserRow: FC<userRowProps> = ({ user, classes }: any) => {
+const UserRow: FC<userRowProps> = ({ user, classes, editClicked }: any) => {
   // const [open, setOpen] = useState(false);
   const theme: Theme = useTheme();
 
@@ -100,9 +106,27 @@ const UserRow: FC<userRowProps> = ({ user, classes }: any) => {
           </Box>
         </TableCell>
         <TableCell>
-          {user.name}
+          {user.payment}
         </TableCell>
-        
+        <TableCell>
+          {user.role}
+        </TableCell>
+        <TableCell align="right">
+          <Hidden xsDown>
+            <Button className={classes.buttonDark} color="primary">
+              Manage Users
+            </Button>
+          </Hidden>
+          <Button
+            startIcon={<Edit />}
+            className={classes.buttonLight}
+            variant="contained"
+            color="primary"
+            onClick={() => editClicked(user.id)}
+          >
+            Edit
+          </Button>
+        </TableCell>
       </TableRow>
     </>
   );
@@ -171,8 +195,8 @@ const UserTable = ({ classes, ...rest }: any) => {
               <TableCell>Roles</TableCell>
               <TableCell align='right'>Actions</TableCell>
             </TableRow>
-            <TableBody>{userRows}</TableBody>
           </TableHead>
+          <TableBody>{userRows}</TableBody>
         </Table>
       </TableContainer>
       {state.users &&
