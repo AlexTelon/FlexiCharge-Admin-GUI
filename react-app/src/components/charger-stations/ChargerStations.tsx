@@ -1,15 +1,14 @@
 import {
   AppBar, Box, Container, createStyles,
   Grid, IconButton, makeStyles, Theme, Toolbar, Typography,
-  Accordion, AccordionDetails, AccordionSummary, AccordionActions,
-  Button, Divider, Paper
+  Paper
 } from '@material-ui/core';
 import { Helmet } from 'react-helmet';
-import { ExpandMore, FilterList } from '@material-ui/icons';
+import { FilterList } from '@material-ui/icons';
 import React, { useState } from 'react';
 import ChargerStationEditPanel from './ChargerStationEditPanel';
-import AddSingleStationDialog from './AddStationDialog';
 import ChargerStationsTable from './ChargerStationTable';
+import ChargerStationsSettingsAccordian from './ChargerStationsSettingsAccordian';
 
 const useStyles = makeStyles((theme: Theme) => 
   createStyles({
@@ -58,47 +57,6 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const ChargerStationsSettingsAccordian = ({ classes }: any) => {
-  const [openAddStationDialog, setOpenAddStationDialog] = useState<boolean>(false);
-  const handleOpenAddStationDialog = () => {
-    setOpenAddStationDialog(true);
-  };
-  const handleCloseAddStationDialog = () => {
-    setOpenAddStationDialog(false);
-  };
-
-  return (
-    <Accordion defaultExpanded>
-      <AccordionSummary
-        expandIcon={<ExpandMore />}
-        aria-controls="charger-stations-actions-panel"
-        id="charger-stations-actions-panel-header"
-      >
-        <Grid container id="charger-stations-actions-panel">
-          <Grid item xs={9} md={10}>
-            <Typography>
-              0 Selected
-            </Typography>
-          </Grid>
-          <Grid item xs={3} md={2}>
-            More Actions
-          </Grid>
-        </Grid>
-      </AccordionSummary>
-      <AccordionDetails>
-      </AccordionDetails>
-      <Divider />
-      <AccordionActions>
-        <Button variant="contained" className={classes.buttonLight} color='primary' onClick={handleOpenAddStationDialog}>
-              Add Station
-        </Button>
-      </AccordionActions>
-
-      <AddSingleStationDialog open={openAddStationDialog} handleClose={handleCloseAddStationDialog} />
-    </Accordion>
-  );
-};
-
 const ChargerStations = () => {
   const classes = useStyles();
   const [activeStationId, setActiveStationId] = useState<string>();
@@ -131,7 +89,7 @@ const ChargerStations = () => {
                     </IconButton>
                   </Toolbar>
                 </AppBar>
-                <ChargerStationsSettingsAccordian classes={classes} />
+                <ChargerStationsSettingsAccordian />
                 <Paper elevation={2}>
                   <ChargerStationsTable editClicked={handleStationEditClicked} classes={classes} />
                 </Paper>
