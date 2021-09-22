@@ -170,7 +170,7 @@ const ChargerStationsTable = (props: any) => {
         }
         <Table {...tableProps} stickyHeader aria-label="sticky table">
           <ChargerStationTableHead
-            numSelected={0}
+            numSelected={selected.length}
             rowCount={state.stations ? state.stations.length : 6}
             handleSelectAllClick={handleSelectAllClick}
           />
