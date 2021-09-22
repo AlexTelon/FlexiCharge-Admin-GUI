@@ -6,7 +6,7 @@ import {
 } from '@material-ui/core';
 import { ChevronRight, Close } from '@material-ui/icons';
 import { createStyles, makeStyles, useTheme } from '@material-ui/styles';
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { chargerStationCollection } from '../../remote-access';
 import { ChargerStation } from '../../remote-access/interfaces';
 
@@ -64,16 +64,18 @@ const ChargerStationEditPanel: FC<ChargerStationEditPanelProps> = ({ stationId }
     setLongitude(Number(e.target.value));
   };
 
-  if (stationId) {
-    chargerStationCollection.getChargerStationById(stationId).then((chargerStation) => {
-      if (chargerStation === null) return;
-      setName(chargerStation.name);
-      setAddress(chargerStation.address);
-      setLatitude(chargerStation.latitude);
-      setLongitude(chargerStation.longitude);
-      setStation(chargerStation);
-    });
-  }
+  useEffect(() => {
+    if (stationId) {
+      chargerStationCollection.getChargerStationById(stationId).then((chargerStation) => {
+        if (chargerStation === null) return;
+        setName(chargerStation.name);
+        setAddress(chargerStation.address);
+        setLatitude(chargerStation.latitude);
+        setLongitude(chargerStation.longitude);
+        setStation(chargerStation);
+      });
+    }
+  }, [stationId]);
 
   const handleSaveClick = async () => {
     if (name && address && longitude && latitude && stationId) {

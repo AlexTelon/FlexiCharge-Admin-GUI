@@ -82,7 +82,7 @@ const ChargerStationsTable = (props: any) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
-  useEffect(() => {
+  const loadStations = () => {
     chargerStationCollection.getAllChargerStations().then((stations) => {
       setState({
         loaded: true,
@@ -95,21 +95,15 @@ const ChargerStationsTable = (props: any) => {
         errorMessage: 'Failed to load'
       });
     });
+  };
+
+  useEffect(() => {
+    loadStations();
   }, []);
 
   useEffect(() => {
     props.setSelectedStations(selected);
   }, [selected]);
-
-  let stationRows = null;
-  if (state.stations) {
-    stationRows = [];
-    const length = state.stations.length > 5 ? 5 : state.stations.length;
-    for (let i = 0; i < length; i++) {
-      const station = state.stations[i];
-      stationRows.push(<ChargerStationTableRow key={station.id} {...props} station={station} />);
-    }
-  }
 
   const isSmallScreen = useMediaQuery((theme: Theme) => theme.breakpoints.down('xs'));
   const tableProps: TableProps = {

@@ -4,8 +4,8 @@ import {
   Paper
 } from '@material-ui/core';
 import { Helmet } from 'react-helmet';
-import { FilterList } from '@material-ui/icons';
-import React, { useState } from 'react';
+import { Replay } from '@material-ui/icons';
+import React, { useRef, useState } from 'react';
 import ChargerStationEditPanel from './ChargerStationEditPanel';
 import ChargerStationsTable from './ChargerStationTable';
 import ChargerStationsSettingsAccordian from './ChargerStationsSettingsAccordian';
@@ -55,7 +55,7 @@ const ChargerStations = () => {
   const classes = useStyles();
   const [activeStationId, setActiveStationId] = useState<string>();
   const [selectedStations, setSelectedStations] = useState<readonly string[]>([]);
-
+  const stationsTable = useRef(null);
   const handleStationEditClicked = (stationId: string) => {
     setActiveStationId(stationId);
   };
@@ -79,14 +79,15 @@ const ChargerStations = () => {
                       aria-haspopup="true"
                       aria-controls="charger-stations-filters"
                       color="inherit"
+                      onClick={ () => setActiveStationId('')}
                     >
-                      <FilterList />
+                      <Replay />
                     </IconButton>
                   </Toolbar>
                 </AppBar>
                 <ChargerStationsSettingsAccordian selectedStations={selectedStations} />
                 <Paper elevation={2}>
-                  <ChargerStationsTable setSelectedStations={setSelectedStations} editClicked={handleStationEditClicked} classes={classes} />
+                  <ChargerStationsTable ref={stationsTable} setSelectedStations={setSelectedStations} editClicked={handleStationEditClicked} classes={classes} />
                 </Paper>
               </Grid>
               <Grid item xs={12} md={4} lg={3}>
