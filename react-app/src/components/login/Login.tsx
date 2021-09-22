@@ -89,10 +89,27 @@ const LoginFields: FC<LoginFieldProps> = ({ setLoading }) => {
       const [wasSuccess, errors] = await authenticationProvider.login(username, password);
       if (wasSuccess) {
         setErrorState({});
-      } else if (errors.invalidCredentials) {
-        setErrorState({
-          alertError: 'Invalid credentials'
-        });
+      } else { 
+        switch (true) {
+          case errors.invalidCredentials: 
+            setErrorState({
+              alertError: 'Invalid credentials'
+            });
+            break;
+          case errors.unauthorized:
+            setErrorState({
+              alertError: 'User has unathorized access'
+            });
+            break;
+          case errors.unknownError:
+            setErrorState({
+              alertError: 'An error occured, please try again later'
+            });
+            break;
+          default:
+            console.log(errors);
+            break;
+        }
       }
       setLoading(false);
     } else {
