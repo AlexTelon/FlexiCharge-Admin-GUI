@@ -60,7 +60,7 @@ const ChargerStationsTable = ({ ...rest }: any) => {
         }}
       >
         {!state.loaded &&
-                <LinearProgress />
+          <LinearProgress />
         }
         <Table {...tableProps} stickyHeader aria-label="sticky table">
           <TableHead>
