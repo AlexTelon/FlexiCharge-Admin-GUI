@@ -54,6 +54,7 @@ const useStyles = makeStyles((theme: Theme) =>
 const ChargerStations = () => {
   const classes = useStyles();
   const [activeStationId, setActiveStationId] = useState<string>();
+  const [selectedStations, setSelectedStations] = useState<readonly string[]>([]);
 
   const handleStationEditClicked = (stationId: string) => {
     setActiveStationId(stationId);
@@ -83,9 +84,9 @@ const ChargerStations = () => {
                     </IconButton>
                   </Toolbar>
                 </AppBar>
-                <ChargerStationsSettingsAccordian />
+                <ChargerStationsSettingsAccordian selectedStations={selectedStations} />
                 <Paper elevation={2}>
-                  <ChargerStationsTable editClicked={handleStationEditClicked} classes={classes} />
+                  <ChargerStationsTable setSelectedStations={setSelectedStations} editClicked={handleStationEditClicked} classes={classes} />
                 </Paper>
               </Grid>
               <Grid item xs={12} md={4} lg={3}>

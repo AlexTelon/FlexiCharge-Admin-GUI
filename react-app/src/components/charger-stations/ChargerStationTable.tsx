@@ -97,6 +97,10 @@ const ChargerStationsTable = (props: any) => {
     });
   }, []);
 
+  useEffect(() => {
+    props.setSelectedStations(selected);
+  }, [selected]);
+
   let stationRows = null;
   if (state.stations) {
     stationRows = [];
@@ -131,6 +135,26 @@ const ChargerStationsTable = (props: any) => {
     setPage(0);
   };
 
+  const handleSelect = (stationId: string) => {
+    const selectedIndex = selected.indexOf(stationId);
+    let newSelected: readonly string[] = [];
+
+    if (selectedIndex === -1) {
+      newSelected = newSelected.concat(selected, stationId);
+    } else if (selectedIndex === 0) {
+      newSelected = newSelected.concat(selected.slice(1));
+    } else if (selectedIndex === selected.length - 1) {
+      newSelected = newSelected.concat(selected.slice(0, -1));
+    } else if (selectedIndex > 0) {
+      newSelected = newSelected.concat(
+        selected.slice(0, selectedIndex),
+        selected.slice(selectedIndex + 1)
+      );
+    }
+
+    setSelected(newSelected);
+  };
+
   const isSelected = (stationId: string) => selected.includes(stationId);
 
   return (
@@ -160,6 +184,7 @@ const ChargerStationsTable = (props: any) => {
                     <ChargerStationTableRow
                       key={station.id}
                       station={station}
+                      handleSelect={handleSelect}
                       selected={isItemSelected}
                       {...props}
                     >

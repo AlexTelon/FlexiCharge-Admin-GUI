@@ -1,10 +1,17 @@
-import { Theme, Accordion, AccordionSummary, Grid, Typography, AccordionDetails, Divider, AccordionActions, Button } from '@material-ui/core';
+import {
+  Theme, Accordion, AccordionSummary, Grid, Typography,
+  AccordionDetails, Divider, AccordionActions, Button
+} from '@material-ui/core';
 import { ExpandMore } from '@material-ui/icons';
 import { useTheme } from '@material-ui/styles';
-import React, { useState } from 'react';
+import React, { FC, useState } from 'react';
 import AddSingleStationDialog from './AddStationDialog';
 
-const ChargerStationsSettingsAccordian = () => {
+interface ChargerStationSettingsAccordianProps {
+  selectedStations: readonly string[]
+};
+
+const ChargerStationsSettingsAccordian: FC<ChargerStationSettingsAccordianProps> = ({ selectedStations }) => {
   const theme: Theme = useTheme();
   const [openAddStationDialog, setOpenAddStationDialog] = useState<boolean>(false);
   const handleOpenAddStationDialog = () => {
@@ -24,7 +31,7 @@ const ChargerStationsSettingsAccordian = () => {
         <Grid container id="charger-stations-actions-panel">
           <Grid item xs={9} md={10}>
             <Typography>
-              0 Selected
+              {selectedStations.length} Selected
             </Typography>
           </Grid>
           <Grid item xs={3} md={2}>

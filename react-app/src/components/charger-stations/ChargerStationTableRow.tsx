@@ -7,9 +7,10 @@ interface ChargerStationTableRowProps {
   station: ChargerStation
   editClicked: (stationId: string) => void
   selected: boolean
+  handleSelect: (stationId: string) => void
 }
 
-const ChargerStationTableRow: FC<ChargerStationTableRowProps> = ({ station, editClicked }) => {
+const ChargerStationTableRow: FC<ChargerStationTableRowProps> = ({ station, editClicked, selected, handleSelect }) => {
   const [open, setOpen] = useState(false);
   const theme: Theme = useTheme();
   return (
@@ -21,7 +22,7 @@ const ChargerStationTableRow: FC<ChargerStationTableRowProps> = ({ station, edit
         style={{ backgroundColor: open ? 'rgba(240,240,240,1)' : theme.flexiCharge.primary.white }}
       >
         <TableCell padding="checkbox">
-          <Checkbox />
+          <Checkbox color="primary" checked={selected} onChange={() => { handleSelect(station.id); } } />
         </TableCell>
         <TableCell>
           <Box

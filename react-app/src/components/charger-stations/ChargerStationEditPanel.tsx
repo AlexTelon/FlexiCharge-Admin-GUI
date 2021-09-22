@@ -1,6 +1,8 @@
 import {
   Paper, AppBar, Toolbar, Typography,
-  IconButton, Divider, Box, Button, Theme, FormControl, InputLabel, Input, FormHelperText, Grid, useMediaQuery, Dialog, DialogTitle, DialogContent, DialogActions, LinearProgress
+  IconButton, Divider, Box, Button, Theme, FormControl, InputLabel,
+  Input, FormHelperText, Grid, useMediaQuery, Dialog, DialogTitle,
+  DialogContent, DialogActions, LinearProgress
 } from '@material-ui/core';
 import { ChevronRight, Close } from '@material-ui/icons';
 import { createStyles, makeStyles, useTheme } from '@material-ui/styles';
@@ -47,8 +49,6 @@ const ChargerStationEditPanel: FC<ChargerStationEditPanelProps> = ({ stationId }
   const [longitude, setLongitude] = useState<number>();
   const [errorState, setErrorState] = useState<any>({});
   const [loading, setLoading] = useState(false);
-
-  console.log('test', stationId);
 
   // TODO: Refactor
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
