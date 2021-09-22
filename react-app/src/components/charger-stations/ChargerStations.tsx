@@ -1,19 +1,17 @@
 import {
-  AppBar, Box, Checkbox, Container, createStyles,
-  Grid, IconButton, makeStyles, Table, TableCell,
-  TableHead, TableRow, Theme, Toolbar, Typography,
-  Accordion, AccordionDetails, AccordionSummary, AccordionActions,
-  Button, Divider, TableBody, TablePagination, TableContainer, Paper,
-  Hidden, useMediaQuery, TableProps, Collapse, LinearProgress
+  AppBar, Box, Container, createStyles,
+  Grid, IconButton, makeStyles, Theme, Toolbar, Typography,
+  Paper,
+  styled,
+  alpha,
+  InputBase
 } from '@material-ui/core';
 import { Helmet } from 'react-helmet';
-import { Edit, ExpandMore, FilterList } from '@material-ui/icons';
-import React, { FC, useEffect, useState } from 'react';
+import { Replay } from '@material-ui/icons';
+import React, { useRef, useState } from 'react';
 import ChargerStationEditPanel from './ChargerStationEditPanel';
-import AddSingleStationDialog from './AddStationDialog';
-import { useTheme } from '@material-ui/styles';
-import { chargerStationCollection } from '../../remote-access';
-import { ChargerStation } from '../../remote-access/interfaces';
+import ChargerStationsTable from './ChargerStationTable';
+import ChargerStationsSettingsAccordian from './ChargerStationsSettingsAccordian';
 
 const useStyles = makeStyles((theme: Theme) => 
   createStyles({
@@ -52,252 +50,60 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     contentTitle: {
       flexGrow: 1
-    },
-    checkBox: {
-      color: theme.flexiCharge.accent.primary,
-      '&:checked': {
-        color: theme.flexiCharge.accent.neutral
-      },
-      checked: {
-        color: theme.flexiCharge.accent.neutral
-      }
-    },
-    buttonDark: {
-      color: theme.flexiCharge.accent.primary
-    },
-    buttonLight: {
-      color: theme.flexiCharge.primary.white
-    },
-    tableContainer: {
-      maxHeight: '600px',
-      marginTop: theme.spacing(1)
-    },
-    stationNameCell: {
-      maxWidth: '15vw'
     }
   })
 );
 
-interface ChargerStationTableRowProps {
-  station: ChargerStation
-  classes: any
-  editClicked: (stationId: string) => void
-}
+const Search = styled('div')(({ theme }) => ({
+  position: 'relative',
+  color: 'black',
+  borderRadius: theme.shape.borderRadius,
+  backgroundColor: alpha(theme.flexiCharge.primary.lightGrey, 0.15),
+  '&:hover': {
+    backgroundColor: alpha(theme.palette.common.white, 0.25)
+  },
+  marginLeft: 0,
+  marginRight: theme.spacing(2),
+  width: '100%',
+  [theme.breakpoints.up('sm')]: {
+    marginLeft: theme.spacing(1),
+    width: 'auto'
+  }
+}));
 
-const ChargerStationTableRow: FC<ChargerStationTableRowProps> = ({ station, classes, editClicked }) => {
-  const [open, setOpen] = useState(false);
-  const theme: Theme = useTheme();
-  return (
-    <>
-      <TableRow
-        hover
-        key={station.id}
-        onClick={() => setOpen(!open)}
-        style={{ backgroundColor: open ? 'rgba(240,240,240,1)' : theme.flexiCharge.primary.white }}
-      >
-        <TableCell padding="checkbox">
-          <Checkbox />
-        </TableCell>
-        <TableCell>
-          <Box
-            sx={{
-              alignItems: 'center',
-              display: 'flex'
-            }}
-          >
-            <Typography
-              color="textPrimary"
-              variant="body1"
-              className={classes.stationNameCell}
-              noWrap
-            >
-              {station.name}
-            </Typography>
-          </Box>
-        </TableCell>
-        <TableCell>
-          {station.address}
-        </TableCell>
-        <TableCell align="right">
-          <Hidden xsDown>
-            <Button className={classes.buttonDark} color="primary">
-              Manage Chargers
-            </Button>
-          </Hidden>
-          <Button
-            startIcon={<Edit />}
-            className={classes.buttonLight}
-            variant="contained"
-            color="primary"
-            onClick={() => editClicked(station.id)}
-          >
-            Edit
-          </Button>
-        </TableCell>
-      </TableRow>
-      <TableRow
-        key={station.id + '-details'}
-      >
-        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
-          <Collapse in={open} timeout="auto" unmountOnExit>
-            <Box margin={1} >
-              <Table size="small" aria-label="charger station details">
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Address</TableCell>
-                    <TableCell>Longitude</TableCell>
-                    <TableCell>Latitude</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  <TableRow>
-                    <TableCell>{station.address}</TableCell>
-                    <TableCell>{station.longitude}</TableCell>
-                    <TableCell>{station.latitude}</TableCell>
-                  </TableRow>
-                </TableBody>
-              </Table>
-            </Box>
-          </Collapse>
-        </TableCell>
-      </TableRow>
-    </>
-  );
-};
+const SearchIconWrapper = styled('div')(({ theme }) => ({
+  padding: theme.spacing(0, 2),
+  height: '100%',
+  position: 'absolute',
+  pointerEvents: 'none',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center'
+}));
 
-interface StationTableState {
-  loaded?: boolean
-  stations?: ChargerStation[]
-  error?: boolean
-  errorMessage?: string
-}
-
-const ChargerStationsTable = ({ classes, ...rest }: any) => {
-  const [state, setState] = useState<StationTableState>({
-    loaded: false
-  });
-
-  useEffect(() => {
-    chargerStationCollection.getAllChargerStations().then((stations) => {
-      setState({
-        loaded: true,
-        stations
-      });
-    }).catch((_) => {
-      setState({
-        loaded: true,
-        error: true,
-        errorMessage: 'Failed to load'
-      });
-    });
-  }, []);
-
-  let stationRows = null;
-  if (state.stations) {
-    stationRows = [];
-    const length = state.stations.length > 5 ? 5 : state.stations.length;
-    for (let i = 0; i < length; i++) {
-      const station = state.stations[i];
-      stationRows.push(<ChargerStationTableRow key={station.id} {...rest} station={station} classes={classes} />);
+const StyledInputBase = styled(InputBase)(({ theme }) => ({
+  color: 'inherit',
+  backgroundColor: 'transparent',
+  '& .MuiInputBase-input': {
+    padding: theme.spacing(1, 1, 1, 0),
+    // vertical padding + font size from searchIcon
+    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+    transition: theme.transitions.create('width'),
+    width: '100%',
+    [theme.breakpoints.up('sm')]: {
+      width: '12ch',
+      '&:focus': {
+        width: '20ch'
+      }
     }
   }
-
-  const isSmallScreen = useMediaQuery((theme: Theme) => theme.breakpoints.down('xs'));
-  const tableProps: TableProps = {
-    size: isSmallScreen ? 'small' : 'medium'
-  };
-
-  const handleChangePage = (event: unknown, newPage: number) => {
-    // 
-  };
-
-  return (
-    <>
-      <TableContainer className={classes.tableContainer}>
-        {!state.loaded &&
-                <LinearProgress />
-        }
-        <Table {...tableProps} stickyHeader aria-label="sticky table">
-          <TableHead>
-            <TableRow key="header">
-              <TableCell padding="checkbox">
-                <Checkbox className={classes.checkBox} />
-              </TableCell>
-              <TableCell>
-                Station Name
-              </TableCell>
-              <TableCell>
-                Address
-              </TableCell>
-              <TableCell align="right">
-                Actions
-              </TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {stationRows}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      {state.stations &&
-        <TablePagination
-          rowsPerPageOptions={[5, 10, 15]}
-          component="div"
-          count={state.stations ? state.stations.length : 0}
-          rowsPerPage={5}
-          page={0}
-          onPageChange={handleChangePage}
-        />
-      }
-    </>
-  );
-};
-
-const ChargerStationsSettingsAccordian = ({ classes }: any) => {
-  const [openAddStationDialog, setOpenAddStationDialog] = useState<boolean>(false);
-  const handleOpenAddStationDialog = () => {
-    setOpenAddStationDialog(true);
-  };
-  const handleCloseAddStationDialog = () => {
-    setOpenAddStationDialog(false);
-  };
-
-  return (
-    <Accordion defaultExpanded>
-      <AccordionSummary
-        expandIcon={<ExpandMore />}
-        aria-controls="charger-stations-actions-panel"
-        id="charger-stations-actions-panel-header"
-      >
-        <Grid container id="charger-stations-actions-panel">
-          <Grid item xs={9} md={10}>
-            <Typography>
-              0 Selected
-            </Typography>
-          </Grid>
-          <Grid item xs={3} md={2}>
-            More Actions
-          </Grid>
-        </Grid>
-      </AccordionSummary>
-      <AccordionDetails>
-      </AccordionDetails>
-      <Divider />
-      <AccordionActions>
-        <Button variant="contained" className={classes.buttonLight} color='primary' onClick={handleOpenAddStationDialog}>
-              Add Station
-        </Button>
-      </AccordionActions>
-
-      <AddSingleStationDialog open={openAddStationDialog} handleClose={handleCloseAddStationDialog} />
-    </Accordion>
-  );
-};
+}));
 
 const ChargerStations = () => {
   const classes = useStyles();
   const [activeStationId, setActiveStationId] = useState<string>();
-
+  const [selectedStations, setSelectedStations] = useState<readonly string[]>([]);
+  const stationsTable = useRef(null);
   const handleStationEditClicked = (stationId: string) => {
     setActiveStationId(stationId);
   };
@@ -316,19 +122,29 @@ const ChargerStations = () => {
                     <Typography className={classes.contentTitle} variant="h6">
                       Charger Stations
                     </Typography>
+                    <Search color="primary">
+                      <SearchIconWrapper>
+                        <Search />
+                      </SearchIconWrapper>
+                      <StyledInputBase
+                        placeholder="Search..."
+                        inputProps={{ 'aria-label': 'search' }}
+                      />
+                    </Search>
                     <IconButton edge="end"
                       aria-label="charger stations filters"
                       aria-haspopup="true"
                       aria-controls="charger-stations-filters"
                       color="inherit"
+                      onClick={ () => setActiveStationId('')}
                     >
-                      <FilterList />
+                      <Replay />
                     </IconButton>
                   </Toolbar>
                 </AppBar>
-                <ChargerStationsSettingsAccordian classes={classes} />
+                <ChargerStationsSettingsAccordian selectedStations={selectedStations} />
                 <Paper elevation={2}>
-                  <ChargerStationsTable editClicked={handleStationEditClicked} classes={classes} />
+                  <ChargerStationsTable ref={stationsTable} setSelectedStations={setSelectedStations} editClicked={handleStationEditClicked} classes={classes} />
                 </Paper>
               </Grid>
               <Grid item xs={12} md={4} lg={3}>
