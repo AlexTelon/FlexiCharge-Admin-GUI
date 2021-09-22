@@ -1,19 +1,15 @@
 import {
-  AppBar, Box, Checkbox, Container, createStyles,
-  Grid, IconButton, makeStyles, Table, TableCell,
-  TableHead, TableRow, Theme, Toolbar, Typography,
+  AppBar, Box, Container, createStyles,
+  Grid, IconButton, makeStyles, Theme, Toolbar, Typography,
   Accordion, AccordionDetails, AccordionSummary, AccordionActions,
-  Button, Divider, TableBody, TablePagination, TableContainer, Paper,
-  useMediaQuery, TableProps, LinearProgress
+  Button, Divider, Paper
 } from '@material-ui/core';
 import { Helmet } from 'react-helmet';
 import { ExpandMore, FilterList } from '@material-ui/icons';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import ChargerStationEditPanel from './ChargerStationEditPanel';
 import AddSingleStationDialog from './AddStationDialog';
-import { chargerStationCollection } from '../../remote-access';
-import { ChargerStation } from '../../remote-access/interfaces';
-import ChargerStationTableRow from './ChargerStationTableRow';
+import ChargerStationsTable from './ChargerStationTable';
 
 const useStyles = makeStyles((theme: Theme) => 
   createStyles({
@@ -58,101 +54,9 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     buttonLight: {
       color: theme.flexiCharge.primary.white
-    },
-    tableContainer: {
-      maxHeight: '600px',
-      marginTop: theme.spacing(1)
     }
   })
 );
-
-interface StationTableState {
-  loaded?: boolean
-  stations?: ChargerStation[]
-  error?: boolean
-  errorMessage?: string
-}
-
-const ChargerStationsTable = ({ classes, ...rest }: any) => {
-  const [state, setState] = useState<StationTableState>({
-    loaded: false
-  });
-
-  useEffect(() => {
-    chargerStationCollection.getAllChargerStations().then((stations) => {
-      setState({
-        loaded: true,
-        stations
-      });
-    }).catch((_) => {
-      setState({
-        loaded: true,
-        error: true,
-        errorMessage: 'Failed to load'
-      });
-    });
-  }, []);
-
-  let stationRows = null;
-  if (state.stations) {
-    stationRows = [];
-    const length = state.stations.length > 5 ? 5 : state.stations.length;
-    for (let i = 0; i < length; i++) {
-      const station = state.stations[i];
-      stationRows.push(<ChargerStationTableRow key={station.id} {...rest} station={station} classes={classes} />);
-    }
-  }
-
-  const isSmallScreen = useMediaQuery((theme: Theme) => theme.breakpoints.down('xs'));
-  const tableProps: TableProps = {
-    size: isSmallScreen ? 'small' : 'medium'
-  };
-
-  const handleChangePage = (event: unknown, newPage: number) => {
-    // 
-  };
-
-  return (
-    <>
-      <TableContainer className={classes.tableContainer}>
-        {!state.loaded &&
-                <LinearProgress />
-        }
-        <Table {...tableProps} stickyHeader aria-label="sticky table">
-          <TableHead>
-            <TableRow key="header">
-              <TableCell padding="checkbox">
-                <Checkbox />
-              </TableCell>
-              <TableCell>
-                Station Name
-              </TableCell>
-              <TableCell>
-                Address
-              </TableCell>
-              <TableCell align="right">
-                Actions
-              </TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {stationRows}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      {state.stations &&
-        <TablePagination
-          rowsPerPageOptions={[5, 10, 15]}
-          component="div"
-          count={state.stations ? state.stations.length : 0}
-          rowsPerPage={5}
-          page={0}
-          onPageChange={handleChangePage}
-        />
-      }
-    </>
-  );
-};
 
 const ChargerStationsSettingsAccordian = ({ classes }: any) => {
   const [openAddStationDialog, setOpenAddStationDialog] = useState<boolean>(false);
