@@ -11,7 +11,9 @@ export default class AuthenticationProvider implements IAuthenticationProvider {
 
   async login(username: string, password: string): Promise<[boolean, any | null]> {
     try {
-      const result = await axios.post('http://54.220.194.65:8080/admin/sign-in', {
+      const response = await axios({
+        url: 'http://54.220.194.65:8080/auth/admin/sign-in',
+        method: 'post',
         timeout: 3000,
         data: {
           username,
@@ -19,11 +21,12 @@ export default class AuthenticationProvider implements IAuthenticationProvider {
         }
       });
       
-      switch (result.status) {
-        case 200:
-          this.token = result.data.accessToken;
-          this.isAuthenticated = true;
-          return [true, {}];
+      this.token = response.data.accessToken;
+      this.isAuthenticated = true;
+      return [true, {}];
+    } catch (error: any) {
+      console.log('error', error.request);
+      switch (error.response.status) {
         case 400:
           this.isAuthenticated = false;
           return [this.isAuthenticated, { invalidCredentials: true }];
@@ -32,10 +35,8 @@ export default class AuthenticationProvider implements IAuthenticationProvider {
           return [this.isAuthenticated, { unauthorized: true }];
         default:
           this.isAuthenticated = false;
-          return [this.isAuthenticated, { unknownError: true }];
-      }
-    } catch (e) {
-      return [false, { unknownError: true }];
+          return [false, { unknownError: true }];
+      } 
     }
   }
 }
