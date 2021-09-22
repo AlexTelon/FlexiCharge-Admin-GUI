@@ -48,6 +48,8 @@ const ChargerStationEditPanel: FC<ChargerStationEditPanelProps> = ({ stationId }
   const [errorState, setErrorState] = useState<any>({});
   const [loading, setLoading] = useState(false);
 
+  console.log('test', stationId);
+
   // TODO: Refactor
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
@@ -62,7 +64,7 @@ const ChargerStationEditPanel: FC<ChargerStationEditPanelProps> = ({ stationId }
     setLongitude(Number(e.target.value));
   };
 
-  if (stationId && station === undefined) {
+  if (stationId) {
     chargerStationCollection.getChargerStationById(stationId).then((chargerStation) => {
       if (chargerStation === null) return;
       setName(chargerStation.name);
