@@ -4,16 +4,16 @@ import {
   TableHead, TableRow, Theme, Toolbar, Typography,
   Accordion, AccordionDetails, AccordionSummary, AccordionActions,
   Button, Divider, TableBody, TablePagination, TableContainer, Paper,
-  Hidden, useMediaQuery, TableProps, Collapse, LinearProgress
+  useMediaQuery, TableProps, LinearProgress
 } from '@material-ui/core';
 import { Helmet } from 'react-helmet';
-import { Edit, ExpandMore, FilterList } from '@material-ui/icons';
-import React, { FC, useEffect, useState } from 'react';
+import { ExpandMore, FilterList } from '@material-ui/icons';
+import React, { useEffect, useState } from 'react';
 import ChargerStationEditPanel from './ChargerStationEditPanel';
 import AddSingleStationDialog from './AddStationDialog';
-import { useTheme } from '@material-ui/styles';
 import { chargerStationCollection } from '../../remote-access';
 import { ChargerStation } from '../../remote-access/interfaces';
+import ChargerStationTableRow from './ChargerStationTableRow';
 
 const useStyles = makeStyles((theme: Theme) => 
   createStyles({
@@ -53,15 +53,6 @@ const useStyles = makeStyles((theme: Theme) =>
     contentTitle: {
       flexGrow: 1
     },
-    checkBox: {
-      color: theme.flexiCharge.accent.primary,
-      '&:checked': {
-        color: theme.flexiCharge.accent.neutral
-      },
-      checked: {
-        color: theme.flexiCharge.accent.neutral
-      }
-    },
     buttonDark: {
       color: theme.flexiCharge.accent.primary
     },
@@ -74,93 +65,6 @@ const useStyles = makeStyles((theme: Theme) =>
     }
   })
 );
-
-interface ChargerStationTableRowProps {
-  station: ChargerStation
-  classes: any
-  editClicked: (stationId: string) => void
-}
-
-const ChargerStationTableRow: FC<ChargerStationTableRowProps> = ({ station, editClicked }) => {
-  const [open, setOpen] = useState(false);
-  const theme: Theme = useTheme();
-  return (
-    <>
-      <TableRow
-        hover
-        key={station.id}
-        onClick={() => setOpen(!open)}
-        style={{ backgroundColor: open ? 'rgba(240,240,240,1)' : theme.flexiCharge.primary.white }}
-      >
-        <TableCell padding="checkbox">
-          <Checkbox />
-        </TableCell>
-        <TableCell>
-          <Box
-            sx={{
-              alignItems: 'center',
-              display: 'flex'
-            }}
-          >
-            <Typography
-              color="textPrimary"
-              variant="body1"
-              style={{ maxWidth: '15vw' }}
-              noWrap
-            >
-              {station.name}
-            </Typography>
-          </Box>
-        </TableCell>
-        <TableCell>
-          {station.address}
-        </TableCell>
-        <TableCell align="right">
-          <Hidden xsDown>
-            <Button color="primary" disabled>
-              Manage Chargers
-            </Button>
-          </Hidden>
-          <Button
-            startIcon={<Edit />}
-            style={{ color: theme.flexiCharge.primary.white }}
-            variant="contained"
-            color="primary"
-            onClick={() => editClicked(station.id)}
-          >
-            Edit
-          </Button>
-        </TableCell>
-      </TableRow>
-      <TableRow
-        key={station.id + '-details'}
-      >
-        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
-          <Collapse in={open} timeout="auto" unmountOnExit>
-            <Box margin={1} >
-              <Table size="small" aria-label="charger station details">
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Address</TableCell>
-                    <TableCell>Longitude</TableCell>
-                    <TableCell>Latitude</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  <TableRow>
-                    <TableCell>{station.address}</TableCell>
-                    <TableCell>{station.longitude}</TableCell>
-                    <TableCell>{station.latitude}</TableCell>
-                  </TableRow>
-                </TableBody>
-              </Table>
-            </Box>
-          </Collapse>
-        </TableCell>
-      </TableRow>
-    </>
-  );
-};
 
 interface StationTableState {
   loaded?: boolean
@@ -218,7 +122,7 @@ const ChargerStationsTable = ({ classes, ...rest }: any) => {
           <TableHead>
             <TableRow key="header">
               <TableCell padding="checkbox">
-                <Checkbox className={classes.checkBox} />
+                <Checkbox />
               </TableCell>
               <TableCell>
                 Station Name
