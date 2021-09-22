@@ -1,4 +1,6 @@
-import { IAuthenticationProvider } from './interfaces';
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
+import { IAuthenticationProvider } from '../interfaces';
+import appConfig from '@/appConfig';
 import axios from 'axios';
 
 export default class AuthenticationProvider implements IAuthenticationProvider {
@@ -12,7 +14,7 @@ export default class AuthenticationProvider implements IAuthenticationProvider {
   async login(username: string, password: string): Promise<[boolean, any | null]> {
     try {
       const response = await axios({
-        url: 'http://54.220.194.65:8080/auth/admin/sign-in',
+        url: `${appConfig.FLEXICHARGE_API_URL}/auth/admin/sign-in`,
         method: 'post',
         timeout: 3000,
         data: {

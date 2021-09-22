@@ -1,13 +1,8 @@
-import { ChargerStation } from '../remote-access/interfaces';
+import { Charger } from '../remote-access/interfaces';
 
-export const chargerStations: ChargerStation[] = [
-  { id: '1', name: 'Station One', address: 'Airport', longitude: 1, latitude: 1 },
-  { id: '2', name: 'Station Two', address: 'University', longitude: 2, latitude: 2 },
-  { id: '3', name: 'Station Three', address: 'Skynet HQ', longitude: 3, latitude: 3 },
-  { id: '4', name: 'Station One', address: 'Airport', longitude: 1, latitude: 1 },
-  { id: '5', name: 'Station Two', address: 'University', longitude: 2, latitude: 2 },
-  { id: '6', name: 'Station Three', address: 'Skynet HQ', longitude: 3, latitude: 3 },
-  { id: '7', name: 'Station One', address: 'Airport', longitude: 1, latitude: 1 },
-  { id: '8', name: 'Station Two', address: 'University', longitude: 2, latitude: 2 },
-  { id: '9', name: 'Station Three', address: 'Skynet HQ', longitude: 3, latitude: 3 }
+export const chargers: Charger[] = [ 
+  { chargerID: 0, chargePointID: 0, location: 'Torpa', cooidinates: '57.720497118 12.03499986', status: 1 },
+  { chargerID: 1, chargePointID: 1, location: 'Tranås', cooidinates: '33.543234554 66.77665542', status: 0 },
+  { chargerID: 2, chargePointID: 1, location: 'Råslätt', cooidinates: '87.656536565 44.23454266', status: 1 },
+  { chargerID: 3, chargePointID: 2, location: 'Öxnehaga', cooidinates: '45.653465654 23.76547654', status: 0 }
 ];

@@ -5,11 +5,11 @@ import {
 } from '@material-ui/core';
 import { Redirect } from 'react-router';
 import { Alert } from '@material-ui/lab';
-import './Login.css';
 import { Lock, Person } from '@material-ui/icons';
-import backgroundLogo from '../../assets/logo.svg';
-import backgroundTitle from '../../assets/title.svg';
-import { authenticationProvider } from '../../remote-access';
+import { authenticationProvider } from '@/remote-access';
+import backgroundLogo from '@/assets/logo.svg';
+import backgroundTitle from '@/assets/title.svg';
+import './Login.css';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

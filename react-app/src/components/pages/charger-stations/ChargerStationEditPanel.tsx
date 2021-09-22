@@ -7,8 +7,8 @@ import {
 import { ChevronRight, Close } from '@material-ui/icons';
 import { createStyles, makeStyles, useTheme } from '@material-ui/styles';
 import React, { FC, useEffect, useState } from 'react';
-import { chargerStationCollection } from '../../remote-access';
-import { ChargerStation } from '../../remote-access/interfaces';
+import { chargerStationCollection } from '@/remote-access';
+import { ChargerStation } from '@/remote-access/interfaces';
 
 const useStyle = makeStyles((theme: Theme) => 
   createStyles({
