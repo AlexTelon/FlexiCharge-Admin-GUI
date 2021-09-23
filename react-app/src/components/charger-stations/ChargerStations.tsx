@@ -6,18 +6,12 @@ import {
   alpha,
   InputBase
 } from '@material-ui/core';
-import { Edit, ExpandMore, FilterList } from '@material-ui/icons';
-import React, { FC, useEffect, useState, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import ChargerStationEditPanel from './ChargerStationEditPanel';
-import AddSingleStationDialog from './AddStationDialog';
-import { useTheme } from '@material-ui/styles';
-import { chargerStationCollection } from '../../remote-access';
-import { ChargerStation } from '../../remote-access/interfaces';
 import { Helmet } from 'react-helmet';
 import { Replay } from '@material-ui/icons';
 import ChargerStationsTable from './ChargerStationTable';
 import ChargerStationsSettingsAccordian from './ChargerStationsSettingsAccordian';
-
 
 const useStyles = makeStyles((theme: Theme) => 
   createStyles({

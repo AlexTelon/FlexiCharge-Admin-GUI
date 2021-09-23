@@ -273,13 +273,6 @@ const ManageUsers = () => {
         <title>Admin | Users</title>
       </Helmet>
       <Box sx={{ minHeight: '100%' }}>
-        <AppBar position="sticky" className={classes.appBar}> 
-          <Toolbar variant="dense">
-            <Typography variant="h6">
-                Flexi Charge
-            </Typography>
-          </Toolbar>
-        </AppBar>
         <Box className={classes.contentBox}>
           <Container component="section" className={classes.contentSection} maxWidth={false}>
             <Grid container spacing={1} className={`${classes.contentContainer}`}>
