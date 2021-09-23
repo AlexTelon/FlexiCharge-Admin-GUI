@@ -5,7 +5,7 @@ import { Helmet } from 'react-helmet';
 import { Edit, FilterList } from '@material-ui/icons';
 import { ManageUser } from '../../remote-access/interfaces';
 import { manageUserCollection } from '../../remote-access/index';
-
+import ManageUsersEditPanel from './ManageUsersEditPanel';
 const useStyles = makeStyles((theme: Theme) => 
   createStyles({
     appBar: {
@@ -80,7 +80,7 @@ interface userRowProps {
   editClicked: (userId: string) => void
 }
 
-const UserRow: FC<userRowProps> = ({ user, classes, editClicked }: any) => {
+const UserRow: FC<userRowProps> = ({ user, classes, editClicked }) => {
   // const [open, setOpen] = useState(false);
   const theme: Theme = useTheme();
 
@@ -145,12 +145,12 @@ const UserTable = ({ classes, ...rest }: any) => {
   });
 
   useEffect(() => {
-    manageUserCollection.getAllUsers().then((users: any) => {
+    manageUserCollection.getAllUsers().then((users) => {
       setState({
         loaded: true,
         users
       });
-    }).catch((_: any) => {
+    }).catch((_) => {
       setState({
         loaded: true,
         error: true,
@@ -184,16 +184,16 @@ const UserTable = ({ classes, ...rest }: any) => {
         {!state.loaded &&
                 <LinearProgress />
         }
-        <Table {...tableProps} stickyHeader aria-label='sticky table'>
+        <Table {...tableProps} stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow>
-              <TableCell padding='checkbox'>
+              <TableCell padding="checkbox">
                 <Checkbox className={classes.checkBox} />
               </TableCell>
               <TableCell>Username</TableCell>
               <TableCell>Payment</TableCell>
               <TableCell>Roles</TableCell>
-              <TableCell align='right'>Actions</TableCell>
+              <TableCell align="right">Actions</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>{userRows}</TableBody>
@@ -215,9 +215,10 @@ const UserTable = ({ classes, ...rest }: any) => {
 
 const ManageUsers = () => {
   const classes = useStyles();
+  const [activeUserId, setActiveUserId] = useState<string>();
 
   const handleUserEditClicked = (userId: string) => {
-    //
+    setActiveUserId(userId);
   };
 
   return (
@@ -255,6 +256,9 @@ const ManageUsers = () => {
                 <Paper elevation={2}>
                   <UserTable editClicked={handleUserEditClicked} classes= { classes } />
                 </Paper>
+              </Grid>
+              <Grid item xs={12} md={4} lg={3}>
+                <ManageUsersEditPanel userId={activeUserId} />
               </Grid>
             </Grid>
           </Container>
