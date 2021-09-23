@@ -206,9 +206,9 @@ const ChargerStationEditPanel: FC<ChargerStationEditPanelProps> = ({ stationId }
             <Grid container>
               <Grid item lg={8}>
                 <Typography variant="caption">
-                  Delete this user
+                  Delete this Station
                   <br />
-                  A deleted user is marked as obsolete
+                  A deleted station is marked as Inactive
                 </Typography>
               </Grid>
               <Grid item xs={12} lg={4}>

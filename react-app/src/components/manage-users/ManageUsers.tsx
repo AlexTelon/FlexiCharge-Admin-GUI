@@ -1,11 +1,21 @@
 import React, { FC, useEffect, useState } from 'react';
 import { useTheme } from '@material-ui/styles';
-import { createStyles, makeStyles, Theme, Box, AppBar, Toolbar, Typography, Container, Grid, IconButton, TableContainer, TableHead, Table, TableProps, TableRow, Checkbox, TableCell, useMediaQuery, TableBody, Paper, LinearProgress, TablePagination, Button, Hidden } from '@material-ui/core';
+import {
+  createStyles, makeStyles, Theme, Box, 
+  AppBar, Toolbar, Typography, Container, Grid, 
+  IconButton, TableContainer, TableHead, Table, 
+  TableProps, TableRow, Checkbox, TableCell, 
+  useMediaQuery, TableBody, Paper, LinearProgress, 
+  TablePagination, Button, Accordion, AccordionSummary, AccordionDetails, AccordionActions, Divider 
+} from '@material-ui/core';
 import { Helmet } from 'react-helmet';
-import { Edit, FilterList } from '@material-ui/icons';
+import { Edit, ExpandMore, FilterList } from '@material-ui/icons';
 import { ManageUser } from '../../remote-access/interfaces';
 import { manageUserCollection } from '../../remote-access/index';
+import AddSingleUserDialog from './AddUserDialog';
+import AddIcon from '@material-ui/icons/Add';
 import ManageUsersEditPanel from './ManageUsersEditPanel';
+
 const useStyles = makeStyles((theme: Theme) => 
   createStyles({
     appBar: {
@@ -112,11 +122,6 @@ const UserRow: FC<userRowProps> = ({ user, classes, editClicked }) => {
           {user.role}
         </TableCell>
         <TableCell align="right">
-          <Hidden xsDown>
-            <Button className={classes.buttonDark} color="primary">
-              Manage Users
-            </Button>
-          </Hidden>
           <Button
             startIcon={<Edit />}
             className={classes.buttonLight}
@@ -213,6 +218,47 @@ const UserTable = ({ classes, ...rest }: any) => {
   );
 };
 
+const UserSettingsAccordian = ({ classes }: any) => {
+  const [openAddUserDialog, setOpenAddUserDialog] = useState<boolean>(false);
+  const handleOpenAddUserDialog = () => {
+    setOpenAddUserDialog(true);
+  };
+  const handleCloseAddUserDialog = () => {
+    setOpenAddUserDialog(false);
+  };
+
+  return (
+    <Accordion defaultExpanded>
+      <AccordionSummary
+        expandIcon={<ExpandMore />}
+        aria-controls="manage-user-action-panel"
+        id="manage-user-actions-panel-header"
+      >
+        <Grid container id="manage-user-actions-panel">
+          <Grid item xs={9} md={10}>
+            <Typography>
+              0 selected
+            </Typography>
+          </Grid>
+          <Grid item xs={3} md={2}>
+            More Actions
+          </Grid>
+        </Grid>
+      </AccordionSummary>
+      <AccordionDetails>
+      </AccordionDetails>
+      <Divider />
+      <AccordionActions>
+        <Button startIcon={<AddIcon />} variant="contained" className={classes.buttonLight} color='primary' onClick={handleOpenAddUserDialog}>
+         Add User
+        </Button>
+      </AccordionActions>
+
+      <AddSingleUserDialog open={openAddUserDialog} handleClose={handleCloseAddUserDialog} />
+    </Accordion>
+  );
+};
+
 const ManageUsers = () => {
   const classes = useStyles();
   const [activeUserId, setActiveUserId] = useState<string>();
@@ -253,6 +299,7 @@ const ManageUsers = () => {
                     </IconButton>
                   </Toolbar>
                 </AppBar>
+                <UserSettingsAccordian classes={classes} />
                 <Paper elevation={2}>
                   <UserTable editClicked={handleUserEditClicked} classes= { classes } />
                 </Paper>
