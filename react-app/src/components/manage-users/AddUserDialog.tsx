@@ -153,7 +153,7 @@ const AddSingleUserDialog = ({ open, handleClose }: any) => {
                 </FormHelperText>
               </FormControl>
               <FormControl style={{ marginTop: 12 }} fullWidth variant="outlined" error={errorState.admin !== undefined}>
-                <TextField select id="user-admin-input" label="select" aria-describedby="user-admin-helper" onChange={HandleAdminChange} value={roles} >
+                <TextField select id="user-admin-input" label="select" aria-describedby="user-admin-helper" onChange={HandleAdminChange} value={admin} >
                   {roles.map((option) => (
                     <MenuItem key={option.value} value={option.value}>
                       {option.value}
