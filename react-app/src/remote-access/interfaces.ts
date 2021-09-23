@@ -10,7 +10,7 @@ export interface ManageUser {
   id: string
   name: string
   payment: string
-  role: string
+  admin: string
 }
 
 export interface IAuthenticationProvider {
