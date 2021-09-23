@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-no-undef */
 import React from 'react';
 import { Helmet } from 'react-helmet';
-import { Box, Grid } from '@material-ui/core';
+import { AppBar, Box, Grid, Toolbar, Typography } from '@material-ui/core';
 import { Route, Redirect, useHistory } from 'react-router-dom';
 import { authenticationProvider } from '../../remote-access';
 import ChargerStations from '../charger-stations/ChargerStations';
@@ -23,6 +23,11 @@ const useStyles = makeStyles((theme: Theme) =>
       '&:hover,&:focus': {
         backgroundColor: theme.flexiCharge.primary.lightGrey
       }
+    },
+    appBar: {
+      backgroundColor: theme.flexiCharge.accent.primary,
+      color: theme.flexiCharge.primary.white,
+      fontFamily: theme.flexiCharge.font._main
     }
   })
 );
@@ -83,6 +88,7 @@ const DashboardHome = () => {
 };
 
 const Dashboard = (props: any) => {
+  const classes = useStyles();
   return (
     <>
       <Helmet>
@@ -91,6 +97,13 @@ const Dashboard = (props: any) => {
       <Box sx={{ display: 'flex', width: '100%' }}>
         <Navbar />
         <Box component="main" style={{ width: '100%' }}>
+          <AppBar position="sticky" className={classes.appBar} >
+            <Toolbar variant="dense">
+              <Typography variant="h6">
+                Flexi Charge
+              </Typography>
+            </Toolbar>
+          </AppBar>
           <Route path="/dashboard" exact render={() => (<DashboardHome />)} />
           <Route path="/dashboard/stations" exact render={() => (<ChargerStations />)} />
           <Route path="/dashboard/chargers" exact render={() => (<ChargersPage />)} />

@@ -1,6 +1,6 @@
 import { createContainer, asClass, Lifetime, InjectionMode } from 'awilix';
 //
-import AuthenticationProvider from './remote-access/mock/AuthenticationProvider';
+import AuthenticationProvider from './remote-access/AuthenticationProvider';
 import ChargerStationCollection from './remote-access/mock/ChargerStationCollection';
 import ManageUserCollection from './remote-access/mock/ManageUserCollection';
 //
