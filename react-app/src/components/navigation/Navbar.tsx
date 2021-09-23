@@ -16,6 +16,7 @@ import EvStationIcon from '@material-ui/icons/EvStation';
 import BatteryChargingFullIcon from '@material-ui/icons/BatteryChargingFull';
 import DescriptionIcon from '@material-ui/icons/Description';
 import { useHistory } from 'react-router';
+
 // import MenuIcon from '@material-ui/icons/Menu';
 
 const drawerWidth = 240;
@@ -27,7 +28,7 @@ const categories = [
       { id: 'Dashboard', icon: <DashboardIcon />, location: '/Dashboard', active: false },
       { id: 'Charger Station', icon: <EvStationIcon />, location: '/Dashboard/stations' },
       { id: 'Chargers', icon: <BatteryChargingFullIcon />, location: '/Dashboard/chargers' },
-      { id: 'Invoices', icon: <DescriptionIcon />, location: '/Dashboard' }
+      { id: 'Invoices', icon: <DescriptionIcon />, location: '/Dashboard/users' }
     ]
   }
 ];
@@ -69,7 +70,7 @@ const useStyles = makeStyles((theme: Theme) =>
     openDrawButton: {
       float: 'right',
       display: 'flex',
-      justifyContent: 'space-between'
+      justifyContent: 'flex-end'
     },
     navBotSection: {
       bottom: 0,
