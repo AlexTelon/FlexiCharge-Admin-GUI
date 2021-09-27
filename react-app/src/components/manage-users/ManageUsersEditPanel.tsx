@@ -39,8 +39,8 @@ const ManageUsersEditPanel: FC<ManageUsersEditPanelProps> = ({ userId }) => {
   const classes = useStyle();
   const [user, setUser] = useState<ManageUser>();
   const [name, setName] = useState<string>();
-  const [payment, setPayment] = useState<string>();
-  const [role, setRole] = useState<string>();
+  const [email, setEmail] = useState<string>();
+  const [phoneNumber, setPhoneNumber] = useState<string>();
   const [errorState, setErrorState] = useState<any>({});
   const [loading, setLoading] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState<boolean>(false);
@@ -49,28 +49,28 @@ const ManageUsersEditPanel: FC<ManageUsersEditPanelProps> = ({ userId }) => {
     setName(e.target.value);
   };
 
-  const handlePaymentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPayment(e.target.value);
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(e.target.value);
   };
 
-  const handleRoleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setRole(e.target.value);
+  const handlePhoneNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPhoneNumber(e.target.value);
   };
 
   if (userId && user === undefined) {
     manageUserCollection.getUserById(userId).then((manageUsers) => {
       if (manageUsers === null) return;
       setName(manageUsers.name);
-      setPayment(manageUsers.payment);
-      setRole(manageUsers.role);
+      setEmail(manageUsers.email);
+      setPhoneNumber(manageUsers.phoneNumber);
       setUser(manageUsers);
     });
   }
 
   const handleSaveClick = async () => {
-    if (name && payment && role && userId) {
+    if (name && email && phoneNumber && userId) {
       setLoading(true);
-      const result = await manageUserCollection.updateUser(userId, { name, payment, role });
+      const result = await manageUserCollection.updateUser(userId, { name, email, phoneNumber });
       if (result[1] !== null) {
         console.log(result);
         setErrorState({
@@ -84,8 +84,8 @@ const ManageUsersEditPanel: FC<ManageUsersEditPanelProps> = ({ userId }) => {
     } else {
       setErrorState({
         name: !name ? 'Required' : undefined,
-        payment: !payment ? 'Required' : undefined,
-        role: !role ? 'Required' : undefined
+        email: !email ? 'Required' : undefined,
+        phoneNumber: !phoneNumber ? 'Required' : undefined
       });
     }
   };
@@ -93,8 +93,8 @@ const ManageUsersEditPanel: FC<ManageUsersEditPanelProps> = ({ userId }) => {
   const handleCancleClick = () => {
     if (user) {
       setName(user.name);
-      setPayment(user.payment);
-      setRole(user.role);
+      setEmail(user.email);
+      setPhoneNumber(user.phoneNumber);
     }
   };
 
@@ -144,21 +144,21 @@ const ManageUsersEditPanel: FC<ManageUsersEditPanelProps> = ({ userId }) => {
                 />
               </FormControl>
               <FormControl fullWidth variant="filled">
-                <InputLabel htmlFor="payment-input">Payment</InputLabel>
+                <InputLabel htmlFor="email-input">Payment</InputLabel>
                 <Input 
-                  id="payment-input"
-                  aria-describedby="payment-helper"
-                  value={payment}
-                  onChange={handlePaymentChange}
+                  id="email-input"
+                  aria-describedby="email-helper"
+                  value={email}
+                  onChange={handleEmailChange}
                 />
               </FormControl>
               <FormControl fullWidth variant="filled">
-                <InputLabel htmlFor="role-input">Role</InputLabel>
+                <InputLabel htmlFor="phone-number-input">Role</InputLabel>
                 <Input 
-                  id="role-input"
-                  aria-describedby="role-helper"
-                  value={role}
-                  onChange={handleRoleChange}
+                  id="phone-number-input"
+                  aria-describedby="phone-number-helper"
+                  value={phoneNumber}
+                  onChange={handlePhoneNumberChange}
                 />
               </FormControl>
               <Box display="flex" sx={{ flexDirection: 'row-reverse', py: 1 }}>

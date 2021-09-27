@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import {
   Theme, useTheme, useMediaQuery, Dialog,
   DialogTitle, IconButton, DialogContent, Box,
-  FormControl, InputLabel, Input, FormHelperText, DialogActions, Button, makeStyles, createStyles, LinearProgress, Fade, TextField, MenuItem
+  FormControl, InputLabel, Input, FormHelperText, DialogActions, Button, makeStyles, createStyles, LinearProgress, Fade
 } from '@material-ui/core';
 import { CheckCircle, Close } from '@material-ui/icons';
 import { manageUserCollection } from '../../remote-access';
@@ -25,38 +25,27 @@ const AddSingleUserDialog = ({ open, handleClose }: any) => {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [name, setName] = useState<string>();
-  const [payment, setPayment] = useState<string>();
-  const [role, setRole] = useState<string>();
+  const [email, setEmail] = useState<string>();
+  const [phoneNumber, setPhoneNumber] = useState<string>();
   const [errorState, setErrorState] = useState<any>({});
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
   };
-  const handlePaymentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPayment(e.target.value);
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(e.target.value);
   };
-  const handleRoleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setRole(e.target.value);
+  const handlePhoneNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPhoneNumber(e.target.value);
   };
-
-  const roles = [
-    {
-      value: 'Admin',
-      label: 'Admin'
-    },
-    {
-      value: 'User',
-      label: 'User'
-    }
-  ];
 
   const handleSubmitClicked = async () => {
-    if (name && payment && role) {
+    if (name && email && phoneNumber) {
       setLoading(true);
       const result = await manageUserCollection.addUser({
         name,
-        payment,
-        role
+        email,
+        phoneNumber
       });
 
       if (result[1] !== null) {
@@ -76,8 +65,8 @@ const AddSingleUserDialog = ({ open, handleClose }: any) => {
     } else {
       setErrorState({
         name: !name ? 'Required' : undefined,
-        payment: !payment ? 'Required' : undefined,
-        role: !role ? 'Required' : undefined
+        email: !email ? 'Required' : undefined,
+        phoneNumber: !phoneNumber ? 'Required' : undefined
       });
     }
   };
@@ -142,28 +131,23 @@ const AddSingleUserDialog = ({ open, handleClose }: any) => {
                   </FormHelperText>
                 }
               </FormControl>
-              <FormControl style={{ marginTop: 12 }} fullWidth variant="outlined" error={errorState.payment !== undefined}>
-                <InputLabel htmlFor="user-apyment-input">Payment</InputLabel>
-                <Input id="user-payment-input" aria-describedby="station-payment-helper" onChange={handlePaymentChange} value={payment} />
-                <FormHelperText id="user-payment-helper">
-                  {errorState.address
-                    ? `${errorState.payment} | Payment type`
-                    : 'Payment type'
+              <FormControl style={{ marginTop: 12 }} fullWidth variant="outlined" error={errorState.email !== undefined}>
+                <InputLabel htmlFor="user-email-input">Email</InputLabel>
+                <Input id="user-email-input" aria-describedby="station-email-helper" onChange={handleEmailChange} value={email} />
+                <FormHelperText id="user-email-helper">
+                  {errorState.email
+                    ? `${errorState.email} | Email adress`
+                    : 'Email adress'
                   }
                 </FormHelperText>
               </FormControl>
               <FormControl style={{ marginTop: 12 }} fullWidth variant="outlined" error={errorState.role !== undefined}>
-                <TextField select id="user-role-input" label="select" aria-describedby="user-role-helper" onChange={handleRoleChange} value={role} >
-                  {roles.map((option) => (
-                    <MenuItem key={option.value} value={option.value}>
-                      {option.value}
-                    </MenuItem>
-                  ))}
-                </TextField>
-                <FormHelperText id="user-role-helper">
-                  {errorState.role
-                    ? `${errorState.role} | role`
-                    : 'role'
+                <InputLabel htmlFor="user-phone-number-input">Phone number</InputLabel>
+                <Input id="user-phone-number-input" aria-describedby="station-phone-number-helper" onChange={handlePhoneNumberChange} value={phoneNumber} />
+                <FormHelperText id="user-phone-number-helper">
+                  {errorState.phoneNumber
+                    ? `${errorState.phoneNumber} | Phone number`
+                    : 'Phone number'
                   }
                 </FormHelperText>
               </FormControl>

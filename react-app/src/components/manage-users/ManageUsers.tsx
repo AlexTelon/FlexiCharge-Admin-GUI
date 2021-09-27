@@ -116,10 +116,10 @@ const UserRow: FC<userRowProps> = ({ user, classes, editClicked }) => {
           </Box>
         </TableCell>
         <TableCell>
-          {user.payment}
+          {user.email}
         </TableCell>
         <TableCell>
-          {user.role}
+          {user.phoneNumber}
         </TableCell>
         <TableCell align="right">
           <Button
@@ -196,8 +196,8 @@ const UserTable = ({ classes, ...rest }: any) => {
                 <Checkbox className={classes.checkBox} />
               </TableCell>
               <TableCell>Username</TableCell>
-              <TableCell>Payment</TableCell>
-              <TableCell>Roles</TableCell>
+              <TableCell>email</TableCell>
+              <TableCell>phoneNumber</TableCell>
               <TableCell align="right">Actions</TableCell>
             </TableRow>
           </TableHead>

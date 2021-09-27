@@ -1,3 +1,5 @@
+/* eslint-disable no-useless-escape */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { manageUsers } from '../../__mock-data__/users';
 import { ManageUser, IManageUserCollection } from '../interfaces';
 
