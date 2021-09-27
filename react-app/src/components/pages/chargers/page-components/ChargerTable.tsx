@@ -18,13 +18,13 @@ export default async function ChargerTable({ classes }: any) {
       setState({
         loaded: true,
         chargers
-      });
+      });  
     } else if (error) {
       setState({
         loaded: true,
         error: true,
         errorMessage: 'Failed to fetch chargers'
-      });
+      });  
     } 
   };
 

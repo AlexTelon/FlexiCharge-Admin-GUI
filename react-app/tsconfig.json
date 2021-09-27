@@ -7,6 +7,7 @@
       "dom.iterable",
       "esnext"
     ],
+    "sourceRoot": "./src",
     "outDir": "./dist/",
     "noImplicitAny": true,
     "allowJs": false,
