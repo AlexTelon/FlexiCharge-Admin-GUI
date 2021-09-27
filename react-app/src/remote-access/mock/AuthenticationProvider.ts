@@ -1,4 +1,4 @@
-import { IAuthenticationProvider } from '../interfaces';
+import { IAuthenticationProvider } from '../types';
 import { loginInfo } from '../../__mock-data__';
 
 export default class AuthenticationProvider implements IAuthenticationProvider {

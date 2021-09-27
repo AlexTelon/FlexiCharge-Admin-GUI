@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
-import { IAuthenticationProvider } from '../interfaces';
+import { IAuthenticationProvider } from '../types/authentication-provider';
 import appConfig from '@/appConfig';
 import axios from 'axios';
 

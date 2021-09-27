@@ -1,4 +1,4 @@
-import { Charger } from '../remote-access/interfaces';
+import { Charger } from '../remote-access/types';
 
 export const chargers: Charger[] = [ 
   { chargerID: 0, chargePointID: 0, location: 'Torpa', cooidinates: '57.720497118 12.03499986', status: 1 },

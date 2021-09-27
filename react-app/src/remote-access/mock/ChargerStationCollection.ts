@@ -1,5 +1,5 @@
 import { chargerStations } from '@/__mock-data__';
-import { ChargerStation, IChargerStationCollection } from '../interfaces';
+import { ChargerStation, IChargerStationCollection } from '../types';
 
 export default class ChargerStationCollection implements IChargerStationCollection {
   stations = chargerStations;

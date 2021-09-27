@@ -1,4 +1,4 @@
-import { ChargerStation } from '../remote-access/interfaces';
+import { ChargerStation } from '../remote-access/types';
 
 export const chargerStations: ChargerStation[] = [
   { id: '1', name: 'Station One', address: 'Airport', longitude: 1, latitude: 1 },
