@@ -145,6 +145,8 @@ interface UserTableState {
 }
 
 const UserTable = ({ classes, ...rest }: any) => {
+  const [page, setPage] = useState<number>(0);
+  const [rowsPerPage, setRowsPerPage] = useState<number>(10);
   const [state, setState] = useState<UserTableState>({
     loaded: false
   });
@@ -163,12 +165,16 @@ const UserTable = ({ classes, ...rest }: any) => {
       });
     });
   }, []);
-  
-  let userRows = null;
+
+  let userRows = [];
+
   if (state.users) {
     userRows = [];
-    const length = state.users.length > 5 ? 5 : state.users.length;
-    for (let i = 0; i < length; i++) {
+    const startOfIndex = page * rowsPerPage;
+    const remainingRows = state.users.length - startOfIndex; 
+    const numberOfRows = remainingRows > rowsPerPage ? rowsPerPage : remainingRows;
+
+    for (let i = startOfIndex; i < startOfIndex + numberOfRows; i++) {
       const user = state.users[i];
       userRows.push(<UserRow key={user.id} {...rest} user={user} classes={classes} />);
     }
@@ -179,8 +185,13 @@ const UserTable = ({ classes, ...rest }: any) => {
     size: isSmallScreen ? 'small' : 'medium'
   };
 
-  const handleChangePage = (event: unknown, newPage: number) => {
-    //
+  const handleChangePage = (_event: unknown, newPage: number) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setRowsPerPage(+event.target.value);
+    setPage(0);
   };
 
   return (
@@ -201,7 +212,10 @@ const UserTable = ({ classes, ...rest }: any) => {
               <TableCell align="right">Actions</TableCell>
             </TableRow>
           </TableHead>
-          <TableBody>{userRows}</TableBody>
+          <TableBody>
+            {userRows}
+            {console.log(userRows)}
+          </TableBody>
         </Table>
       </TableContainer>
       {state.users &&
@@ -209,9 +223,10 @@ const UserTable = ({ classes, ...rest }: any) => {
         rowsPerPageOptions={[5, 10, 15]}
         component="div"
         count={state.users ? state.users.length : 0}
-        rowsPerPage={5}
-        page={0}
+        rowsPerPage={rowsPerPage}
+        page={page}
         onPageChange={handleChangePage}
+        onRowsPerPageChange={handleChangeRowsPerPage}
       />
       }
     </>
