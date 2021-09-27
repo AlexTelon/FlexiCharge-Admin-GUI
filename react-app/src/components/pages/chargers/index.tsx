@@ -7,6 +7,7 @@ import {
   useTheme, Paper, List, ListItem, ListItemIcon, ListItemText, Dialog, DialogTitle
 } from '@material-ui/core';
 import { FilterList, Error, MoreHoriz, FiberManualRecord, Delete } from '@material-ui/icons';
+import { chargerCollection } from '@/remote-access';
 
 const useStyles = makeStyles((theme: Theme) => 
   createStyles({
@@ -72,122 +73,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const ChargerRow = (props: any) => {
-  const theme: Theme = useTheme();
 
-  const [openMore, setOpenMore] = useState(false);
-  const handleOpenMore = () => {
-    setOpenMore(true);
-  };
-  
-  const handleCloseMore = () => {
-    setOpenMore(false);
-  };
-  
-  return (
-    <>
-      <TableRow
-        hover
-        style={{ backgroundColor: theme.flexiCharge.primary.white }}
-      >
-        <TableCell padding='checkbox'>
-          <Checkbox />
-        </TableCell>
-        <TableCell>
-          <Box
-            sx={{
-              alignItems: 'center',
-              display: 'flex'
-            }}
-          >
-            <Typography
-              color='textPrimary'
-              variant='body1'
-              className={props.classes.stationNameCell}
-              noWrap
-            >
-              {props.name}
-            </Typography>
-          </Box>
-        </TableCell>
-        <TableCell><Error color='error' />Offline</TableCell>
-        <TableCell align='right'>
-          <IconButton onClick={handleOpenMore}>
-            <MoreHoriz />
-          </IconButton>
-
-          <Dialog open={openMore} onClose={handleCloseMore}>
-            <DialogTitle>Edit charger {props.name}</DialogTitle>
-            <List aria-label="charger options">
-              <ListItem button>
-                <ListItemIcon>
-                  <Error />
-                </ListItemIcon>
-                <ListItemText primary="Set to offline" />
-              </ListItem>
-              <ListItem button>
-                <ListItemIcon>
-                  <FiberManualRecord />
-                </ListItemIcon>
-                <ListItemText primary="Set to online" />
-              </ListItem>
-              <ListItem button>
-                <ListItemIcon>
-                  <Delete />
-                </ListItemIcon>
-                <ListItemText primary="Delete" />
-              </ListItem>
-            </List>
-          </Dialog>
-        </TableCell>
-      </TableRow>
-    </>
-  );
-}; 
-
-const ChargerTable = ({ classes }: any) => {
-  const handleChangePage = (event: unknown, newPage: number) => {
-    // 
-  };
-
-  const chargerRows = [];
-
-  for (let i = 0; i < 5; i++) {
-    chargerRows.push(<ChargerRow classes={classes} name={`000${i}`} />);
-  }
-  
-  const isSmallScreen = useMediaQuery((theme: Theme) => theme.breakpoints.down('xs'));
-  const tableProps: TableProps = {
-    size: isSmallScreen ? 'small' : 'medium'
-  };
-
-  return (
-    <>
-      <TableContainer className={classes.tableContainer}>
-        <Table {...tableProps} stickyHeader aria-label='sticky table'>
-          <TableHead>
-            <TableRow>
-              <TableCell padding='checkbox'>
-                <Checkbox className={classes.checkBox} />
-              </TableCell>
-              <TableCell>Charger ID</TableCell>
-              <TableCell>Status</TableCell>
-              <TableCell align='right'>Actions</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>{chargerRows}</TableBody>
-        </Table>
-      </TableContainer>
-      <TablePagination
-        rowsPerPageOptions={[5, 10, 15]}
-        component='div'
-        count={chargerRows.length}
-        rowsPerPage={10}
-        page={1}
-        onPageChange={handleChangePage} />
-    </>
-  );
-};
 
 const ChargersPage = () => {
   const classes = useStyles();
@@ -215,7 +101,7 @@ const ChargersPage = () => {
                   </Toolbar>
                 </AppBar>
                 <Paper elevation={2}>
-                  <ChargerTable classes={classes} />
+                  
                 </Paper>
               </Grid>
             </Grid>
