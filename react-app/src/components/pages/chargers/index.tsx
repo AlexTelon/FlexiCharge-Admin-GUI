@@ -1,13 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Helmet } from 'react-helmet';
-import {
-  AppBar, Box, createStyles, useMediaQuery, TableProps, 
-  makeStyles, Theme, Toolbar, Typography, Container, Grid, IconButton, Checkbox, 
-  Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, 
-  useTheme, Paper, List, ListItem, ListItemIcon, ListItemText, Dialog, DialogTitle
-} from '@material-ui/core';
-import { FilterList, Error, MoreHoriz, FiberManualRecord, Delete } from '@material-ui/icons';
-import { chargerCollection } from '@/remote-access';
+import { AppBar, Box, createStyles, makeStyles, Theme, Toolbar, Typography, Container, Grid, IconButton, Paper } from '@material-ui/core';
+import { FilterList } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme: Theme) => 
   createStyles({
@@ -72,8 +66,6 @@ const useStyles = makeStyles((theme: Theme) =>
     }
   })
 );
-
-
 
 const ChargersPage = () => {
   const classes = useStyles();

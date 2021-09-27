@@ -1,6 +1,6 @@
-import { Theme, useTheme, TableRow, TableCell, Checkbox, Box, Typography, IconButton, Dialog, DialogTitle, List, ListItem, ListItemIcon, ListItemText } from "@material-ui/core";
-import { MoreHoriz, FiberManualRecord, Delete, Error } from "@material-ui/icons";
-import React, { useState } from "react";
+import { Theme, useTheme, TableRow, TableCell, Checkbox, Box, Typography, IconButton, Dialog, DialogTitle, List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
+import { MoreHoriz, FiberManualRecord, Delete, Error } from '@material-ui/icons';
+import React, { useState } from 'react';
 
 export default function ChargerRow (props: any) {
   const theme: Theme = useTheme();

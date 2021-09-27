@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { chargerCollection } from "@/remote-access";
-import { useMediaQuery, Theme, TableProps, TableContainer, Table, TableHead, TableRow, TableCell, Checkbox, TableBody, TablePagination } from "@material-ui/core";
+import { chargerCollection } from '@/remote-access';
+import { useMediaQuery, Theme, TableProps, TableContainer, Table, TableHead, TableRow, TableCell, Checkbox, TableBody, TablePagination } from '@material-ui/core';
 import ChargerRow from './ChargerRow';
 
 export default async function ChargerTable({ classes }: any) {
@@ -14,19 +14,19 @@ export default async function ChargerTable({ classes }: any) {
 
   const loadChargers = async () => {
     const [chargers, error] = await chargerCollection.getAllChargers();
-    if (chargers){
+    if (chargers) {
       setState({
         loaded: true,
         chargers
-      })  
-    } else if (error){
+      });  
+    } else if (error) {
       setState({
         loaded: true,
         error: true,
         errorMessage: 'Failed to fetch chargers'
-      })  
+      });  
     } 
-  }
+  };
 
   useEffect(() => {
     loadChargers();

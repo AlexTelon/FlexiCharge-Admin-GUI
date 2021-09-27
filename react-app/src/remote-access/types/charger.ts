@@ -5,8 +5,8 @@ export enum ChargerStatus {
 }
 
 export interface Charger {
-  chargerID: number,
-  location: string,
+  chargerID: number
+  location: string
   cooidinates: string
   chargePointID: number
   status: ChargerStatus
