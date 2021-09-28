@@ -1,19 +1,29 @@
-import { Theme, useTheme, TableRow, TableCell, Checkbox, Box, Typography, IconButton, Dialog, DialogTitle, List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
-import { MoreHoriz, FiberManualRecord, Delete, Error } from '@material-ui/icons';
-import React, { useState } from 'react';
+import { Charger } from '@/remote-access/types';
+import {
+  Theme, useTheme, TableRow, TableCell, Checkbox, Box, Typography,
+  Dialog, DialogTitle, List, ListItem, ListItemIcon, ListItemText, Button
+} from '@material-ui/core';
+import { FiberManualRecord, Delete, Error, Edit } from '@material-ui/icons';
+import React, { FC, useState } from 'react';
 
-export default function ChargerRow (props: any) {
+interface ChargerRowProps {
+  editClicked: (chargerID: number) => void
+  charger: Charger
+  classes: any
+}
+
+const ChargerRow: FC<ChargerRowProps> = ({ charger, classes, editClicked }) => {
   const theme: Theme = useTheme();
 
   const [openMore, setOpenMore] = useState(false);
-  const handleOpenMore = () => {
+  /* const handleOpenMore = () => {
     setOpenMore(true);
-  };
+  }; */
   
   const handleCloseMore = () => {
     setOpenMore(false);
   };
-  
+
   return (
     <>
       <TableRow
@@ -33,21 +43,30 @@ export default function ChargerRow (props: any) {
             <Typography
               color='textPrimary'
               variant='body1'
-              className={props.classes.stationNameCell}
+              className={classes.stationNameCell}
               noWrap
             >
-              {props.name}
+              {charger.chargerID}
             </Typography>
           </Box>
         </TableCell>
         <TableCell><Error color='error' />Offline</TableCell>
         <TableCell align='right'>
-          <IconButton onClick={handleOpenMore}>
-            <MoreHoriz />
-          </IconButton>
+          <Button
+            startIcon={<Edit />}
+            style={{ color: theme.flexiCharge.primary.white }}
+            variant="contained"
+            color="primary"
+            onClick={() => editClicked(charger.chargerID)}
+          >
+            Edit
+          </Button>
+          {/* <IconButton onClick={handleOpenMore}>
+            <MoreVert />
+          </IconButton> */}
 
           <Dialog open={openMore} onClose={handleCloseMore}>
-            <DialogTitle>Edit charger {props.name}</DialogTitle>
+            <DialogTitle>Edit charger {charger.chargerID}</DialogTitle>
             <List aria-label="charger options">
               <ListItem button>
                 <ListItemIcon>
@@ -74,3 +93,5 @@ export default function ChargerRow (props: any) {
     </>
   );
 }; 
+
+export default ChargerRow;

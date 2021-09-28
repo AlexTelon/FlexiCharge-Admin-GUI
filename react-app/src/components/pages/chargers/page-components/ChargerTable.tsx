@@ -4,7 +4,7 @@ import { useMediaQuery, Theme, TableProps, TableContainer, Table, TableHead, Tab
 import ChargerRow from './ChargerRow';
 import { Charger } from '@/remote-access/types';
 
-export default function ChargerTable({ classes }: any) {
+export default function ChargerTable({ classes, ...rest }: any) {
   const handleChangePage = (event: unknown, newPage: number) => {
     // 
   };
@@ -59,7 +59,8 @@ export default function ChargerTable({ classes }: any) {
               return (
                 <ChargerRow
                   key={charger.chargerID}
-                  name={charger.chargerID}
+                  charger={charger}
+                  {...rest}
                   classes={classes}
                 />
               );

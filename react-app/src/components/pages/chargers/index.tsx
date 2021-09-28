@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { AppBar, Box, createStyles, makeStyles, Theme, Toolbar, Typography, Container, Grid, IconButton, Paper } from '@material-ui/core';
 import { FilterList } from '@material-ui/icons';
 import ChargerTable from './page-components/ChargerTable';
+import ChargerEditPanel from './page-components/ChargerEditPanel';
 
 const useStyles = makeStyles((theme: Theme) => 
   createStyles({
@@ -70,7 +71,10 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const ChargersPage = () => {
   const classes = useStyles();
-
+  const [activeChargerID, setActiveChargerID] = useState<number>();
+  const editClicked = (chargerID: number) => {
+    setActiveChargerID(chargerID);
+  };
   return (
     <>
       <Helmet>
@@ -94,8 +98,13 @@ const ChargersPage = () => {
                   </Toolbar>
                 </AppBar>
                 <Paper elevation={2}>
-                  <ChargerTable classes={classes} />
+                  <ChargerTable classes={classes} editClicked={editClicked} />
                 </Paper>
+              </Grid>
+              <Grid item xs={12} md={4} lg={3}>
+                {activeChargerID &&
+                  <ChargerEditPanel chargerID={activeChargerID} />
+                }
               </Grid>
             </Grid>
           </Container>
