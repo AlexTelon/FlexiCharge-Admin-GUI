@@ -57,7 +57,7 @@ const ManageUsersEditPanel: FC<ManageUsersEditPanelProps> = ({ userId }) => {
     setPhoneNumber(e.target.value);
   };
 
-  if (userId && user === undefined) {
+  if (userId) {
     manageUserCollection.getUserById(userId).then((manageUsers) => {
       if (manageUsers === null) return;
       setName(manageUsers.name);
