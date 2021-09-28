@@ -71,7 +71,7 @@ export default function ChargerTable({ classes }: any) {
       <TablePagination
         rowsPerPageOptions={[5, 10, 15]}
         component='div'
-        count={state.chargers.length ?? 0}
+        count={state.chargers ? state.chargers.length : 0}
         rowsPerPage={10}
         page={1}
         onPageChange={handleChangePage} />
