@@ -31,12 +31,12 @@ export default class ManageUserCollection implements IManageUserCollection {
         const errorObj = this.validateFields(fields);
         if (Object.keys(errorObj).length > 0) resolve([null, errorObj]);
         
-        const chargerStation: ManageUser = {
+        const manageUser: ManageUser = {
           ...fields,
           id: `${this.users.length + 1}`
         };
-        this.users.push(chargerStation);
-        resolve([chargerStation.id, null]);
+        this.users.push(manageUser);
+        resolve([manageUser.id, null]);
       }, 1000);
     });
   }
@@ -45,7 +45,7 @@ export default class ManageUserCollection implements IManageUserCollection {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         const userIndex = this.users.findIndex((users) => users.id === userId);
-        if (userIndex === -1) return [null, { errorMessage: 'Could not find the requested Charger Station' }];
+        if (userIndex === -1) return [null, { errorMessage: 'Could not find the requested Manage User' }];
 
         const errorObj = this.validateFields(fields);
         if (Object.keys(errorObj).length > 0) resolve([null, errorObj]);

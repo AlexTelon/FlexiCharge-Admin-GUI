@@ -13,6 +13,11 @@ export interface ManageUser {
   phoneNumber: string
 }
 
+export interface ManageAdmin {
+  id: string
+  name: string
+}
+
 export interface IAuthenticationProvider {
   login: (username: string, password: string) => Promise<[boolean, any | null]>
   getToken: () => string | null
@@ -31,4 +36,11 @@ export interface IManageUserCollection {
   getUserById: (userId: string) => Promise<ManageUser | null>
   addUser: (fields: Omit<ManageUser, 'id'>) => Promise<[string | null, any | null]>
   updateUser: (stationId: string, fields: Omit<ManageUser, 'id'>) => Promise<[ManageUser | null, any | null]>
+}
+
+export interface IManageAdminCollection {
+  getAllAdmins: () => Promise<ManageAdmin[]>
+  getAdminById: (adminId: string) => Promise<ManageAdmin | null>
+  addAdmin: (fields: Omit<ManageAdmin, 'id'>) => Promise<[string | null, any | null]>
+  updateAdmin: (adminId: string, fields: Omit<ManageAdmin, 'id'>) => Promise<[ManageAdmin | null, any | null]>
 }
