@@ -1,20 +1,14 @@
-import React, { FC, useEffect, useState } from 'react';
-import { useTheme } from '@material-ui/styles';
+import React, { useRef, useState } from 'react';
 import {
   createStyles, makeStyles, Theme, Box, 
   AppBar, Toolbar, Typography, Container, Grid, 
-  IconButton, TableContainer, TableHead, Table, 
-  TableProps, TableRow, Checkbox, TableCell, 
-  useMediaQuery, TableBody, Paper, LinearProgress, 
-  TablePagination, Button, Accordion, AccordionSummary, AccordionDetails, AccordionActions, Divider 
+  IconButton, Paper 
 } from '@material-ui/core';
 import { Helmet } from 'react-helmet';
-import { Edit, ExpandMore, FilterList } from '@material-ui/icons';
-import { ManageUser } from '../../remote-access/interfaces';
-import { manageUserCollection } from '../../remote-access/index';
-import AddSingleUserDialog from './AddUserDialog';
-import AddIcon from '@material-ui/icons/Add';
+import { FilterList } from '@material-ui/icons';
 import ManageUsersEditPanel from './ManageUsersEditPanel';
+import UserSettingsAccordian from './ManageUsersSettingsAccordian';
+import UserTable from './ManageUsersTable';
 
 const useStyles = makeStyles((theme: Theme) => 
   createStyles({
@@ -84,185 +78,11 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-interface userRowProps {
-  user: ManageUser
-  classes: any
-  editClicked: (userId: string) => void
-}
-
-const UserRow: FC<userRowProps> = ({ user, classes, editClicked }) => {
-  // const [open, setOpen] = useState(false);
-  const theme: Theme = useTheme();
-
-  return (
-    <>
-      <TableRow 
-        hover
-        key={user.id}
-        style={{ backgroundColor: theme.flexiCharge.primary.white }} >
-        <TableCell padding='checkbox'>
-          <Checkbox />
-        </TableCell>
-        <TableCell>
-          <Box sx={{ alignItems: 'center', display: 'flex' }}>
-            <Typography
-              color='textPrimary'
-              variant='body1'
-              className={classes.usernameCell}
-              noWrap
-            >
-              {user.name}
-            </Typography>
-          </Box>
-        </TableCell>
-        <TableCell>
-          {user.email}
-        </TableCell>
-        <TableCell>
-          {user.phoneNumber}
-        </TableCell>
-        <TableCell align="right">
-          <Button
-            startIcon={<Edit />}
-            className={classes.buttonLight}
-            variant="contained"
-            color="primary"
-            onClick={() => editClicked(user.id)}
-          >
-            Edit
-          </Button>
-        </TableCell>
-      </TableRow>
-    </>
-  );
-};
-
-interface UserTableState {
-  loaded?: boolean
-  users?: ManageUser[]
-  error?: boolean
-  errorMessage?: string
-}
-
-const UserTable = ({ classes, ...rest }: any) => {
-  const [state, setState] = useState<UserTableState>({
-    loaded: false
-  });
-
-  useEffect(() => {
-    manageUserCollection.getAllUsers().then((users) => {
-      setState({
-        loaded: true,
-        users
-      });
-    }).catch((_) => {
-      setState({
-        loaded: true,
-        error: true,
-        errorMessage: 'Failed to load'
-      });
-    });
-  }, []);
-  
-  let userRows = null;
-  if (state.users) {
-    userRows = [];
-    const length = state.users.length > 5 ? 5 : state.users.length;
-    for (let i = 0; i < length; i++) {
-      const user = state.users[i];
-      userRows.push(<UserRow key={user.id} {...rest} user={user} classes={classes} />);
-    }
-  }
-
-  const isSmallScreen = useMediaQuery((theme: Theme) => theme.breakpoints.down('xs'));
-  const tableProps: TableProps = {
-    size: isSmallScreen ? 'small' : 'medium'
-  };
-
-  const handleChangePage = (event: unknown, newPage: number) => {
-    //
-  };
-
-  return (
-    <>
-      <TableContainer className={classes.tableContainer}>
-        {!state.loaded &&
-                <LinearProgress />
-        }
-        <Table {...tableProps} stickyHeader aria-label="sticky table">
-          <TableHead>
-            <TableRow>
-              <TableCell padding="checkbox">
-                <Checkbox className={classes.checkBox} />
-              </TableCell>
-              <TableCell>Username</TableCell>
-              <TableCell>email</TableCell>
-              <TableCell>phoneNumber</TableCell>
-              <TableCell align="right">Actions</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>{userRows}</TableBody>
-        </Table>
-      </TableContainer>
-      {state.users &&
-      <TablePagination
-        rowsPerPageOptions={[5, 10, 15]}
-        component="div"
-        count={state.users ? state.users.length : 0}
-        rowsPerPage={5}
-        page={0}
-        onPageChange={handleChangePage}
-      />
-      }
-    </>
-  );
-};
-
-const UserSettingsAccordian = ({ classes }: any) => {
-  const [openAddUserDialog, setOpenAddUserDialog] = useState<boolean>(false);
-  const handleOpenAddUserDialog = () => {
-    setOpenAddUserDialog(true);
-  };
-  const handleCloseAddUserDialog = () => {
-    setOpenAddUserDialog(false);
-  };
-
-  return (
-    <Accordion defaultExpanded>
-      <AccordionSummary
-        expandIcon={<ExpandMore />}
-        aria-controls="manage-user-action-panel"
-        id="manage-user-actions-panel-header"
-      >
-        <Grid container id="manage-user-actions-panel">
-          <Grid item xs={9} md={10}>
-            <Typography>
-              0 selected
-            </Typography>
-          </Grid>
-          <Grid item xs={3} md={2}>
-            More Actions
-          </Grid>
-        </Grid>
-      </AccordionSummary>
-      <AccordionDetails>
-      </AccordionDetails>
-      <Divider />
-      <AccordionActions>
-        <Button startIcon={<AddIcon />} variant="contained" className={classes.buttonLight} color='primary' onClick={handleOpenAddUserDialog}>
-         Add User
-        </Button>
-      </AccordionActions>
-
-      <AddSingleUserDialog open={openAddUserDialog} handleClose={handleCloseAddUserDialog} />
-    </Accordion>
-  );
-};
-
 const ManageUsers = () => {
   const classes = useStyles();
   const [activeUserId, setActiveUserId] = useState<string>();
-
+  const [selectedUsers, setSelectedUsers] = useState<readonly string[]>([]);
+  const usersTable = useRef(null);
   const handleUserEditClicked = (userId: string) => {
     setActiveUserId(userId);
   };
@@ -287,14 +107,15 @@ const ManageUsers = () => {
                       aria-haspopup="true"
                       aria-controls="user-filters"
                       color="inherit"
+                      onClick={ () => setActiveUserId('')}
                     >
                       <FilterList />
                     </IconButton>
                   </Toolbar>
                 </AppBar>
-                <UserSettingsAccordian classes={classes} />
+                <UserSettingsAccordian selectedUsers={selectedUsers} />
                 <Paper elevation={2}>
-                  <UserTable editClicked={handleUserEditClicked} classes= { classes } />
+                  <UserTable ref={usersTable} editClicked={handleUserEditClicked} setSelectedUsers={setSelectedUsers} classes= { classes } />
                 </Paper>
               </Grid>
               <Grid item xs={12} md={4} lg={3}>
