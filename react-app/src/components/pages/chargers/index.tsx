@@ -2,6 +2,7 @@ import React from 'react';
 import { Helmet } from 'react-helmet';
 import { AppBar, Box, createStyles, makeStyles, Theme, Toolbar, Typography, Container, Grid, IconButton, Paper } from '@material-ui/core';
 import { FilterList } from '@material-ui/icons';
+import ChargerTable from './page-components/ChargerTable';
 
 const useStyles = makeStyles((theme: Theme) => 
   createStyles({
@@ -93,7 +94,7 @@ const ChargersPage = () => {
                   </Toolbar>
                 </AppBar>
                 <Paper elevation={2}>
-                  
+                  <ChargerTable classes={classes} />
                 </Paper>
               </Grid>
             </Grid>

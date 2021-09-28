@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { chargerCollection } from '@/remote-access';
 import { useMediaQuery, Theme, TableProps, TableContainer, Table, TableHead, TableRow, TableCell, Checkbox, TableBody, TablePagination } from '@material-ui/core';
 import ChargerRow from './ChargerRow';
+import { Charger } from '@/remote-access/types';
 
-export default async function ChargerTable({ classes }: any) {
+export default function ChargerTable({ classes }: any) {
   const handleChangePage = (event: unknown, newPage: number) => {
     // 
   };
@@ -15,6 +16,8 @@ export default async function ChargerTable({ classes }: any) {
   const loadChargers = async () => {
     const [chargers, error] = await chargerCollection.getAllChargers();
     if (chargers) {
+      console.log(chargers);
+      
       setState({
         loaded: true,
         chargers
@@ -31,12 +34,6 @@ export default async function ChargerTable({ classes }: any) {
   useEffect(() => {
     loadChargers();
   }, []);
-
-  const chargerRows = [];
-
-  for (const charger of state.chargers) {
-    chargerRows.push(<ChargerRow classes={classes} name={charger.chargerID} />);
-  }
 
   const isSmallScreen = useMediaQuery((theme: Theme) => theme.breakpoints.down('xs'));
   const tableProps: TableProps = {
@@ -57,13 +54,24 @@ export default async function ChargerTable({ classes }: any) {
               <TableCell align='right'>Actions</TableCell>
             </TableRow>
           </TableHead>
-          <TableBody>{chargerRows}</TableBody>
+          <TableBody>
+            {state.chargers?.map((charger: Charger) => {
+              return (
+                <ChargerRow
+                  key={charger.chargerID}
+                  name={charger.chargerID}
+                  classes={classes}
+                />
+              );
+            })
+            }
+          </TableBody>
         </Table>
       </TableContainer>
       <TablePagination
         rowsPerPageOptions={[5, 10, 15]}
         component='div'
-        count={chargerRows.length}
+        count={state.chargers.length ?? 0}
         rowsPerPage={10}
         page={1}
         onPageChange={handleChangePage} />

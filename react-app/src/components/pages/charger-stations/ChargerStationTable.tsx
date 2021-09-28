@@ -169,22 +169,20 @@ const ChargerStationsTable = (props: any) => {
             handleSelectAllClick={handleSelectAllClick}
           />
           <TableBody>
-            {state.stations !== undefined
-              && state.stations
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((station, index) => {
-                  const isItemSelected = isSelected(station.id);
-                  return (
-                    <ChargerStationTableRow
-                      key={station.id}
-                      station={station}
-                      handleSelect={handleSelect}
-                      selected={isItemSelected}
-                      {...props}
-                    >
-                    </ChargerStationTableRow>
-                  );
-                })
+            {state.stations?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              .map((station, index) => {
+                const isItemSelected = isSelected(station.id);
+                return (
+                  <ChargerStationTableRow
+                    key={station.id}
+                    station={station}
+                    handleSelect={handleSelect}
+                    selected={isItemSelected}
+                    {...props}
+                  >
+                  </ChargerStationTableRow>
+                );
+              })
             }
           </TableBody>
         </Table>
