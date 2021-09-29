@@ -68,9 +68,21 @@ export default class ManageUserCollection implements IManageUserCollection {
     return false;
   }
 
+  private validPhoneNumber(phoneNumber: string) {
+    let regex = /^(([+]46)\s*(7)|07)[02369]\s*(\d{4})\s*(\d{3})$/;
+    // eslint-disable-next-line prefer-regex-literals
+    regex = new RegExp('^(([+]46)\s*(7)|07)[02369]\s*(\d{4})\s*(\d{3})$');
+
+    for (const user of this.users) {
+      if (phoneNumber.match(regex)) return true;
+    }
+    return false;
+  }
+
   private validateFields(fields: Omit<ManageUser, 'id'>): any | null {
     const errorObj: any = {};
     if (fields.name && this.isNametaken(fields.name)) errorObj.name = 'Name is taken';
+    if (fields.phoneNumber && this.validPhoneNumber(fields.phoneNumber)) errorObj.phoneNumber = 'Not a Valid Phone number';
     return errorObj;
   }
 }

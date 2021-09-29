@@ -6,9 +6,9 @@ import {
 } from '@material-ui/core';
 import { Helmet } from 'react-helmet';
 import { FilterList } from '@material-ui/icons';
-import ManageUsersEditPanel from './ManageUsersEditPanel';
-import UserSettingsAccordian from './ManageUsersSettingsAccordian';
-import UserTable from './ManageUsersTable';
+import ManageUsersEditPanel from './Users/ManageUsersEditPanel';
+import UserSettingsAccordian from './Users/ManageUsersSettingsAccordian';
+import UserTable from './Users/ManageUsersTable';
 
 const useStyles = makeStyles((theme: Theme) => 
   createStyles({

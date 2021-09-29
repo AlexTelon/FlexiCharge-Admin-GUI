@@ -1,10 +1,15 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { AppBar, Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Divider, FormControl, Grid, IconButton, Input, InputLabel, LinearProgress, Paper, Theme, Toolbar, Typography, useMediaQuery } from '@material-ui/core';
+import { 
+  AppBar, Box, Button, Dialog, DialogActions, DialogContent, 
+  DialogTitle, Divider, FormControl, Grid, IconButton, Input, 
+  InputLabel, LinearProgress, Paper, Theme, Toolbar, Typography, 
+  useMediaQuery 
+} from '@material-ui/core';
 import { Close } from '@material-ui/icons';
 import { createStyles, makeStyles, useTheme } from '@material-ui/styles';
-import React, { FC, useState } from 'react';
-import { manageUserCollection } from '../../remote-access';
-import { ManageUser } from '../../remote-access/interfaces';
+import React, { FC, useEffect, useState } from 'react';
+import { manageAdminCollection } from '../../../remote-access';
+import { ManageAdmin } from '../../../remote-access/interfaces';
 
 const useStyle = makeStyles((theme: Theme) => 
 
@@ -31,16 +36,15 @@ const useStyle = makeStyles((theme: Theme) =>
   })
 );
 
-interface ManageUsersEditPanelProps {
-  userId?: string
+interface ManageAdminsEditPanelProps {
+  adminId?: string
 }
 
-const ManageUsersEditPanel: FC<ManageUsersEditPanelProps> = ({ userId }) => {
+const ManageAdminsEditPanel: FC<ManageAdminsEditPanelProps> = ({ adminId }) => {
   const classes = useStyle();
-  const [user, setUser] = useState<ManageUser>();
+  const [admin, setAdmin] = useState<ManageAdmin>();
   const [name, setName] = useState<string>();
   const [email, setEmail] = useState<string>();
-  const [phoneNumber, setPhoneNumber] = useState<string>();
   const [errorState, setErrorState] = useState<any>({});
   const [loading, setLoading] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState<boolean>(false);
@@ -53,24 +57,21 @@ const ManageUsersEditPanel: FC<ManageUsersEditPanelProps> = ({ userId }) => {
     setEmail(e.target.value);
   };
 
-  const handlePhoneNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPhoneNumber(e.target.value);
-  };
-
-  if (userId) {
-    manageUserCollection.getUserById(userId).then((manageUsers) => {
-      if (manageUsers === null) return;
-      setName(manageUsers.name);
-      setEmail(manageUsers.email);
-      setPhoneNumber(manageUsers.phoneNumber);
-      setUser(manageUsers);
-    });
-  }
-
+  useEffect(() => {
+    if (adminId) {
+      manageAdminCollection.getAdminById(adminId).then((manageAdmins) => {
+        if (manageAdmins === null) return;
+        setName(manageAdmins.name);
+        setEmail(manageAdmins.email);
+        setAdmin(manageAdmins);
+      });
+    }
+  }, [adminId]);
+  
   const handleSaveClick = async () => {
-    if (name && email && phoneNumber && userId) {
+    if (name && email && adminId) {
       setLoading(true);
-      const result = await manageUserCollection.updateUser(userId, { name, email, phoneNumber });
+      const result = await manageAdminCollection.updateAdmin(adminId, { name, email });
       if (result[1] !== null) {
         console.log(result);
         setErrorState({
@@ -78,23 +79,21 @@ const ManageUsersEditPanel: FC<ManageUsersEditPanelProps> = ({ userId }) => {
         });
         setLoading(false);
       } else if (result[0] !== null) {
-        setUser(result[0]);
+        setAdmin(result[0]);
         setLoading(false);
       }
     } else {
       setErrorState({
         name: !name ? 'Required' : undefined,
-        email: !email ? 'Required' : undefined,
-        phoneNumber: !phoneNumber ? 'Required' : undefined
+        email: !email ? 'Required' : undefined
       });
     }
   };
 
   const handleCancleClick = () => {
-    if (user) {
-      setName(user.name);
-      setEmail(user.email);
-      setPhoneNumber(user.phoneNumber);
+    if (admin) {
+      setName(admin.name);
+      setEmail(admin.email);
     }
   };
 
@@ -114,13 +113,13 @@ const ManageUsersEditPanel: FC<ManageUsersEditPanelProps> = ({ userId }) => {
       {loading && 
             <LinearProgress />
       }
-      {user && (
+      {admin && (
 
         <>
           <AppBar position="static" elevation={0} className={classes.panelAppBar}>
             <Toolbar variant="dense">
               <Typography className={classes.panelTitle} variant="h5">
-                  User Info
+                  Admin Info
               </Typography>
               <IconButton
                 aria-label="deselect user"
@@ -144,7 +143,7 @@ const ManageUsersEditPanel: FC<ManageUsersEditPanelProps> = ({ userId }) => {
                 />
               </FormControl>
               <FormControl fullWidth variant="filled">
-                <InputLabel htmlFor="email-input">Payment</InputLabel>
+                <InputLabel htmlFor="email-input">Email</InputLabel>
                 <Input 
                   id="email-input"
                   aria-describedby="email-helper"
@@ -152,21 +151,12 @@ const ManageUsersEditPanel: FC<ManageUsersEditPanelProps> = ({ userId }) => {
                   onChange={handleEmailChange}
                 />
               </FormControl>
-              <FormControl fullWidth variant="filled">
-                <InputLabel htmlFor="phone-number-input">Role</InputLabel>
-                <Input 
-                  id="phone-number-input"
-                  aria-describedby="phone-number-helper"
-                  value={phoneNumber}
-                  onChange={handlePhoneNumberChange}
-                />
-              </FormControl>
               <Box display="flex" sx={{ flexDirection: 'row-reverse', py: 1 }}>
                 <Button variant ="contained" color="primary" className={classes.saveButton} onClick={handleSaveClick}
                 >Save
                 </Button>
                 <Button color="primary" onClick={handleCancleClick}>
-                Cancle
+                Cancel
                 </Button>
               </Box>
             </Box>
@@ -179,9 +169,9 @@ const ManageUsersEditPanel: FC<ManageUsersEditPanelProps> = ({ userId }) => {
             <Grid container>
               <Grid item lg={8}>
                 <Typography variant="caption">
-                  Delete this User
+                  Delete this Admin
                   <br />
-                  A deleted User is marked as obsolete
+                  A deleted Admin is marked as obsolete
                 </Typography>
               </Grid>
               <Grid item xs={12} lg={4}>
@@ -197,9 +187,9 @@ const ManageUsersEditPanel: FC<ManageUsersEditPanelProps> = ({ userId }) => {
                   <Box>
                     <DialogTitle id="delelte-user-dialog">Are you sure?</DialogTitle>
                     <DialogContent>
-                      Are you sure you want to delete this user?
+                      Are you sure you want to delete this admin?
                       <br />
-                      Deleting a user makes it as <em>obsolete</em> in the database.
+                      Deleting an admin makes it as <em>obsolete</em> in the database.
                     </DialogContent>
                     <DialogActions>
                       <Button autoFocus onClick={handleDeleteDialogClose} color="primary">
@@ -221,4 +211,4 @@ const ManageUsersEditPanel: FC<ManageUsersEditPanelProps> = ({ userId }) => {
   );
 };
 
-export default ManageUsersEditPanel;
+export default ManageAdminsEditPanel;

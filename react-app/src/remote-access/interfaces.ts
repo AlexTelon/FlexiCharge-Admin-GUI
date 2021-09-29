@@ -16,6 +16,7 @@ export interface ManageUser {
 export interface ManageAdmin {
   id: string
   name: string
+  email: string
 }
 
 export interface IAuthenticationProvider {

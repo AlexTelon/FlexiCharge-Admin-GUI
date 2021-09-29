@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/prefer-optional-chain */
 import { Theme, useMediaQuery, TableProps, TableContainer, LinearProgress, Table, TableHead, TableRow, TableCell, Checkbox, TableBody, TablePagination, useTheme } from '@material-ui/core';
 import React, { useState, useEffect } from 'react';
-import { manageUserCollection } from '../../remote-access';
-import { ManageUser } from '../../remote-access/interfaces';
-import UserRow from './ManageUserTableRow';
+import { manageAdminCollection } from '../../../remote-access';
+import { ManageAdmin } from '../../../remote-access/interfaces';
+import AdminRow from './ManageAdminTableRow';
 
 interface HeadCell {
   id: string
@@ -18,13 +18,8 @@ const headCells: HeadCell[] = [
     alignRight: false
   },
   {
-    id: 'Email',
-    label: 'Email adress',
-    alignRight: false
-  },
-  {
-    id: 'phoneNumber',
-    label: 'Phone Number',
+    id: 'email',
+    label: 'email',
     alignRight: false
   },
   {
@@ -34,13 +29,13 @@ const headCells: HeadCell[] = [
   }
 ];
 
-interface ManageUsersTableHeadProps {
+interface ManageAdminsTableHeadProps {
   numSelected: number
   rowCount: number
   handleSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void
 }
 
-const ManageUserTableHead = (props: ManageUsersTableHeadProps) => {
+const ManageAdminTableHead = (props: ManageAdminsTableHeadProps) => {
   const { rowCount, numSelected, handleSelectAllClick } = props;
   return (
     <>
@@ -53,7 +48,7 @@ const ManageUserTableHead = (props: ManageUsersTableHeadProps) => {
               checked={rowCount > 0 && numSelected === rowCount}
               onChange={handleSelectAllClick}
               inputProps={{
-                'aria-label': 'select all users'
+                'aria-label': 'select all Admins'
               }}
             />
           </TableCell>
@@ -71,27 +66,27 @@ const ManageUserTableHead = (props: ManageUsersTableHeadProps) => {
   );
 };
 
-interface UserTableState {
+interface AdminTableState {
   loaded?: boolean
-  users?: ManageUser[]
+  admins?: ManageAdmin[]
   error?: boolean
   errorMessage?: string
 }
 
-const UserTable = (props: any) => {
+const AdminTable = (props: any) => {
   const theme: Theme = useTheme();
-  const [state, setState] = useState<UserTableState>({
+  const [state, setState] = useState<AdminTableState>({
     loaded: false
   });
   const [selected, setSelected] = useState<readonly string[]>([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
-  const loadUsers = () => {
-    manageUserCollection.getAllUsers().then((users) => {
+  const loadAdmins = () => {
+    manageAdminCollection.getAllAdmins().then((admins) => {
       setState({
         loaded: true,
-        users 
+        admins 
       });
     }).catch((_) => {
       setState({
@@ -103,11 +98,11 @@ const UserTable = (props: any) => {
   };
 
   useEffect(() => {
-    loadUsers();
+    loadAdmins();
   }, []);
 
   useEffect(() => {
-    props.setSelectedUsers(selected);
+    props.setSelectedAdmins(selected);
   }, [selected]);
 
   const isSmallScreen = useMediaQuery((theme: Theme) => theme.breakpoints.down('xs'));
@@ -117,7 +112,7 @@ const UserTable = (props: any) => {
 
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
-      const newSelected = state.users?.map((users) => users.id);
+      const newSelected = state.admins?.map((admins) => admins.id);
       if (newSelected === undefined) return;
       setSelected(newSelected);
       return;
@@ -134,12 +129,12 @@ const UserTable = (props: any) => {
     setPage(0);
   };
 
-  const handleSelect = (userId: string) => {
-    const selectedIndex = selected.indexOf(userId);
+  const handleSelect = (adminId: string) => {
+    const selectedIndex = selected.indexOf(adminId);
     let newSelected: readonly string[] = [];
 
     if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, userId);
+      newSelected = newSelected.concat(selected, adminId);
     } else if (selectedIndex === 0) {
       newSelected = newSelected.concat(selected.slice(1));
     } else if (selectedIndex === selected.length - 1) {
@@ -153,20 +148,20 @@ const UserTable = (props: any) => {
     setSelected(newSelected);
   };
 
-  const isSelected = (userId: string) => selected.includes(userId);
+  const isSelected = (adminId: string) => selected.includes(adminId);
 
-  let userRows = [];
+  let adminRows = [];
 
-  if (state.users) {
-    userRows = [];
+  if (state.admins) {
+    adminRows = [];
     const startOfIndex = page * rowsPerPage;
-    const remainingRows = state.users.length - startOfIndex;
+    const remainingRows = state.admins.length - startOfIndex;
     const numberOfRows = remainingRows > rowsPerPage ? rowsPerPage : remainingRows;
 
     for (let i = startOfIndex; i < startOfIndex + numberOfRows; i++) {
-      const user = state.users[i];
-      const isItemSelected = isSelected(user.id);
-      userRows.push(<UserRow key={user.id} user={user} handleSelect={handleSelect} selected={isItemSelected} {...props} />);
+      const admin = state.admins[i];
+      const isItemSelected = isSelected(admin.id);
+      adminRows.push(<AdminRow key={admin.id} admin={admin} handleSelect={handleSelect} selected={isItemSelected} {...props} />);
     }
   }
 
@@ -182,13 +177,13 @@ const UserTable = (props: any) => {
           <LinearProgress />
         }
         <Table {...tableProps} stickyHeader aria-label="sticky table">
-          <ManageUserTableHead
+          <ManageAdminTableHead
             numSelected={selected.length}
-            rowCount={state.users ? state.users.length : 6}
+            rowCount={state.admins ? state.admins.length : 6}
             handleSelectAllClick={handleSelectAllClick}
           />
           <TableBody>
-            {userRows}
+            {adminRows}
             {/* {console.log(userRows)}
             {state.users !== undefined
               && state.users
@@ -210,11 +205,11 @@ const UserTable = (props: any) => {
           </TableBody>
         </Table>
       </TableContainer>
-      {state.users &&
+      {state.admins &&
       <TablePagination
         rowsPerPageOptions={[5, 10, 15]}
         component="div"
-        count={state.users ? state.users.length : 0}
+        count={state.admins ? state.admins.length : 0}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}
@@ -225,4 +220,4 @@ const UserTable = (props: any) => {
   );
 };
 
-export default UserTable;
+export default AdminTable;

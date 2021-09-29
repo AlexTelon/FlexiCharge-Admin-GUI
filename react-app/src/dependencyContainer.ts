@@ -3,6 +3,7 @@ import { createContainer, asClass, Lifetime, InjectionMode } from 'awilix';
 import AuthenticationProvider from './remote-access/AuthenticationProvider';
 import ChargerStationCollection from './remote-access/mock/ChargerStationCollection';
 import ManageUserCollection from './remote-access/mock/ManageUserCollection';
+import ManageAdminCollection from './remote-access/mock/ManageAdminCollection';
 //
 
 const container = createContainer({
@@ -12,7 +13,8 @@ const container = createContainer({
 container.register({
   authenticationProvider: asClass(AuthenticationProvider, { lifetime: Lifetime.SINGLETON }),
   chargerStationCollection: asClass(ChargerStationCollection, { lifetime: Lifetime.SINGLETON }),
-  manageUserCollection: asClass(ManageUserCollection, { lifetime: Lifetime.SINGLETON })
+  manageUserCollection: asClass(ManageUserCollection, { lifetime: Lifetime.SINGLETON }),
+  manageAdminCollection: asClass(ManageAdminCollection, { lifetime: Lifetime.SINGLETON })
 });
 
 export default container;
