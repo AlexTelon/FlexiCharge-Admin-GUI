@@ -44,6 +44,7 @@ const ManageUsersEditPanel: FC<ManageUsersEditPanelProps> = ({ userId }) => {
   const [errorState, setErrorState] = useState<any>({});
   const [loading, setLoading] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState<boolean>(false);
+  // const [editDialog, setEditDialog] = useState<boolean>(false);
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
