@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/prefer-optional-chain */
 import { Theme, useMediaQuery, TableProps, TableContainer, LinearProgress, Table, TableHead, TableRow, TableCell, Checkbox, TableBody, TablePagination, useTheme } from '@material-ui/core';
 import React, { useState, useEffect } from 'react';
-import { manageUserCollection } from '../../remote-access';
-import { ManageUser } from '../../remote-access/interfaces';
+import { manageUserCollection } from '../../../remote-access';
+import { ManageUser } from '../../../remote-access/interfaces';
 import UserRow from './ManageUserTableRow';
 
 interface HeadCell {

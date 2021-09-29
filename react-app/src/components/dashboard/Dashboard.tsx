@@ -10,7 +10,7 @@ import ChargerStation from '../dashboard/dashboardComponents/ChargerStation';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import Chargers from '../dashboard/dashboardComponents/Chargers';
 import ChargersPage from '../chargers/Chargers';
-import ManageUsers from '../../components/manage-users/ManageUsers';
+import ManageUsers from '../manage-users/ManageUsers';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

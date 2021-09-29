@@ -4,14 +4,13 @@ import React, { useRef, useState } from 'react';
 import {
   createStyles, makeStyles, Theme, Box, 
   AppBar, Toolbar, Typography, Container, Grid, 
-  IconButton, Paper, Tabs, Tab, Divider 
+  IconButton, Paper 
 } from '@material-ui/core';
 import { Helmet } from 'react-helmet';
 import { FilterList } from '@material-ui/icons';
-import ManageUsersEditPanel from './ManageUsersEditPanel';
-import UserSettingsAccordian from './ManageUsersSettingsAccordian';
-import UserTable from './ManageUsersTable';
-import ManageUserTabs from './ManageUsersTab';
+import ManageUsersEditPanel from './Users/ManageUsersEditPanel';
+import UserSettingsAccordian from './Users/ManageUsersSettingsAccordian';
+import UserTable from './Users/ManageUsersTable';
 
 const useStyles = makeStyles((theme: Theme) => 
   createStyles({
@@ -103,7 +102,7 @@ const ManageUsers = () => {
                 <AppBar position="static" className={classes.contentAppBar} elevation={1}>
                   <Toolbar variant="dense">
                     <Typography className={classes.contentTitle} variant="h6">
-                      <ManageUserTabs />
+                      {/* TAB COMPONENT */}
                     </Typography>
                     <IconButton edge="end"
                       aria-label="users filter"

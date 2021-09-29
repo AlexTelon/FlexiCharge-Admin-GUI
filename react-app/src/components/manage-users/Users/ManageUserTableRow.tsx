@@ -2,8 +2,7 @@
 import React, { FC } from 'react';
 import { Theme, useTheme, TableRow, TableCell, Checkbox, Box, Typography, Button } from '@material-ui/core';
 import { Edit } from '@material-ui/icons';
-import { ManageUser } from '../../remote-access/interfaces';
-import * as UserTable from './ManageUsersTable';
+import { ManageUser } from '../../../remote-access/interfaces';
 
 interface userRowProps {
   user: ManageUser

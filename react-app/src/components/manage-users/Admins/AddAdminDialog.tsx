@@ -6,7 +6,7 @@ import {
   FormControl, InputLabel, Input, FormHelperText, DialogActions, Button, makeStyles, createStyles, LinearProgress, Fade
 } from '@material-ui/core';
 import { CheckCircle, Close } from '@material-ui/icons';
-import { manageUserCollection } from '../../remote-access';
+import { manageAdminCollection } from '../../../remote-access';
 import { Alert } from '@material-ui/lab';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const AddSingleUserDialog = ({ open, handleClose }: any) => {
+const AddSingleAdminDialog = ({ open, handleClose }: any) => {
   const classes = useStyles();
   const theme: Theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
@@ -26,7 +26,6 @@ const AddSingleUserDialog = ({ open, handleClose }: any) => {
   const [success, setSuccess] = useState(false);
   const [name, setName] = useState<string>();
   const [email, setEmail] = useState<string>();
-  const [phoneNumber, setPhoneNumber] = useState<string>();
   const [errorState, setErrorState] = useState<any>({});
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -35,17 +34,13 @@ const AddSingleUserDialog = ({ open, handleClose }: any) => {
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
   };
-  const handlePhoneNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPhoneNumber(e.target.value);
-  };
 
   const handleSubmitClicked = async () => {
-    if (name && email && phoneNumber) {
+    if (name && email) {
       setLoading(true);
-      const result = await manageUserCollection.addUser({
+      const result = await manageAdminCollection.addAdmin({
         name,
-        email,
-        phoneNumber
+        email
       });
 
       if (result[1] !== null) {
@@ -65,8 +60,7 @@ const AddSingleUserDialog = ({ open, handleClose }: any) => {
     } else {
       setErrorState({
         name: !name ? 'Required' : undefined,
-        email: !email ? 'Required' : undefined,
-        phoneNumber: !phoneNumber ? 'Required' : undefined
+        email: !email ? 'Required' : undefined
       });
     }
   };
@@ -76,8 +70,8 @@ const AddSingleUserDialog = ({ open, handleClose }: any) => {
         fullScreen={fullScreen}
         open={open}
         onClose={handleClose}
-        aria-labelledby="add-user-dialog-title"
-        id="add-user-dialog"
+        aria-labelledby="add-admin-dialog-title"
+        id="add-admin-dialog"
       >
         {loading &&
           <LinearProgress />
@@ -103,14 +97,14 @@ const AddSingleUserDialog = ({ open, handleClose }: any) => {
           </Fade>
         }
 
-        <DialogTitle id="add-user-dialog-title">
-          Add a User
+        <DialogTitle id="add-admin-dialog-title">
+          Add an Admin
           <IconButton
             onClick={handleClose}
             className={classes.dialogClose}
             edge="end"
-            aria-label="add user dialog close"
-            aria-controls="add-user-dialog"
+            aria-label="add admin dialog close"
+            aria-controls="add-admin-dialog"
             color="inherit"
           >
             <Close />
@@ -123,31 +117,21 @@ const AddSingleUserDialog = ({ open, handleClose }: any) => {
           <form>
             <Box>
               <FormControl style={{ marginTop: 12 }} fullWidth variant="outlined" error={errorState.name !== undefined}>
-                <InputLabel htmlFor="user-name-input">Name</InputLabel>
-                <Input id="user-name-input" aria-describedby="user-name-helper" onChange={handleNameChange} value={name} />
+                <InputLabel htmlFor="admin-name-input">Name</InputLabel>
+                <Input id="admin-name-input" aria-describedby="admin-name-helper" onChange={handleNameChange} value={name} />
                 {errorState.name &&
-                  <FormHelperText id="user-address-helper">
+                  <FormHelperText id="admin-address-helper">
                     {errorState.name}
                   </FormHelperText>
                 }
               </FormControl>
               <FormControl style={{ marginTop: 12 }} fullWidth variant="outlined" error={errorState.email !== undefined}>
-                <InputLabel htmlFor="user-email-input">Email</InputLabel>
-                <Input id="user-email-input" aria-describedby="station-email-helper" onChange={handleEmailChange} value={email} />
-                <FormHelperText id="user-email-helper">
+                <InputLabel htmlFor="admin-email-input">Email</InputLabel>
+                <Input id="admin-email-input" aria-describedby="admin-email-helper" onChange={handleEmailChange} value={email} />
+                <FormHelperText id="admin-email-helper">
                   {errorState.email
                     ? `${errorState.email} | Email adress`
                     : 'Email adress'
-                  }
-                </FormHelperText>
-              </FormControl>
-              <FormControl style={{ marginTop: 12 }} fullWidth variant="outlined" error={errorState.role !== undefined}>
-                <InputLabel htmlFor="user-phone-number-input">Phone number</InputLabel>
-                <Input id="user-phone-number-input" aria-describedby="station-phone-number-helper" onChange={handlePhoneNumberChange} value={phoneNumber} />
-                <FormHelperText id="user-phone-number-helper">
-                  {errorState.phoneNumber
-                    ? `${errorState.phoneNumber} | Phone number`
-                    : 'Phone number'
                   }
                 </FormHelperText>
               </FormControl>
@@ -173,4 +157,4 @@ const AddSingleUserDialog = ({ open, handleClose }: any) => {
   );
 };
 
-export default AddSingleUserDialog;
+export default AddSingleAdminDialog;

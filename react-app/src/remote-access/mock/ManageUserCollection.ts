@@ -31,12 +31,12 @@ export default class ManageUserCollection implements IManageUserCollection {
         const errorObj = this.validateFields(fields);
         if (Object.keys(errorObj).length > 0) resolve([null, errorObj]);
         
-        const chargerStation: ManageUser = {
+        const manageUser: ManageUser = {
           ...fields,
           id: `${this.users.length + 1}`
         };
-        this.users.push(chargerStation);
-        resolve([chargerStation.id, null]);
+        this.users.push(manageUser);
+        resolve([manageUser.id, null]);
       }, 1000);
     });
   }
@@ -45,7 +45,7 @@ export default class ManageUserCollection implements IManageUserCollection {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         const userIndex = this.users.findIndex((users) => users.id === userId);
-        if (userIndex === -1) return [null, { errorMessage: 'Could not find the requested Charger Station' }];
+        if (userIndex === -1) return [null, { errorMessage: 'Could not find the requested Manage User' }];
 
         const errorObj = this.validateFields(fields);
         if (Object.keys(errorObj).length > 0) resolve([null, errorObj]);
@@ -68,9 +68,21 @@ export default class ManageUserCollection implements IManageUserCollection {
     return false;
   }
 
+  private validPhoneNumber(phoneNumber: string) {
+    let regex = /^(([+]46)\s*(7)|07)[02369]\s*(\d{4})\s*(\d{3})$/;
+    // eslint-disable-next-line prefer-regex-literals
+    regex = new RegExp('^(([+]46)\s*(7)|07)[02369]\s*(\d{4})\s*(\d{3})$');
+
+    for (const user of this.users) {
+      if (phoneNumber.match(regex)) return true;
+    }
+    return false;
+  }
+
   private validateFields(fields: Omit<ManageUser, 'id'>): any | null {
     const errorObj: any = {};
     if (fields.name && this.isNametaken(fields.name)) errorObj.name = 'Name is taken';
+    if (fields.phoneNumber && this.validPhoneNumber(fields.phoneNumber)) errorObj.phoneNumber = 'Not a Valid Phone number';
     return errorObj;
   }
 }
