@@ -95,6 +95,7 @@ const ManageAdminsEditPanel: FC<ManageAdminsEditPanelProps> = ({ adminId }) => {
       setName(admin.name);
       setEmail(admin.email);
     }
+    setAdmin(undefined);
   };
 
   const theme: Theme = useTheme();
@@ -126,7 +127,7 @@ const ManageAdminsEditPanel: FC<ManageAdminsEditPanelProps> = ({ adminId }) => {
                 aria-controls="user-info"
                 color="inherit"
               >
-                <Close />
+                <Close onClick={handleCancelClick} />
               </IconButton>
             </Toolbar>
           </AppBar>
