@@ -39,6 +39,9 @@ const AdminRow: FC<adminRowProps> = ({ admin, editClicked, selected, handleSelec
             </Typography>
           </Box>
         </TableCell>
+        <TableCell>
+          {admin.email}
+        </TableCell>
         <TableCell align="right">
           <Button
             startIcon={<Edit />}

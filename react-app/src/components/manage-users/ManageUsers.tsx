@@ -4,13 +4,18 @@ import React, { useRef, useState } from 'react';
 import {
   createStyles, makeStyles, Theme, Box, 
   AppBar, Toolbar, Typography, Container, Grid, 
-  IconButton, Paper 
+  IconButton, Paper, Tab 
 } from '@material-ui/core';
 import { Helmet } from 'react-helmet';
 import { FilterList } from '@material-ui/icons';
 import ManageUsersEditPanel from './Users/ManageUsersEditPanel';
 import UserSettingsAccordian from './Users/ManageUsersSettingsAccordian';
 import UserTable from './Users/ManageUsersTable';
+import { TabContext, TabList, TabPanel } from '@material-ui/lab';
+import AdminTable from './Admins/ManageAdminsTable';
+import ManageAdminsEditPanel from './Admins/ManageAdminEditPanel';
+import AdminSettingsAccordian from './Admins/ManageAdminsSettingsAccordian';
+// import ManageAdminsEditPanel from './Admins/ManageAdminEditPanel';
 
 const useStyles = makeStyles((theme: Theme) => 
   createStyles({
@@ -82,11 +87,20 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const ManageUsers = () => {
   const classes = useStyles();
-  const [activeUserId, setActiveUserId] = useState<string>();
+  const [activeId, setActiveId] = useState<string | undefined>();
+  const [selectedAdmins, setSelectedAdmins] = useState<readonly string[]>([]);
   const [selectedUsers, setSelectedUsers] = useState<readonly string[]>([]);
+  const [selectedTab, setSelectedTab] = React.useState('users');
   const usersTable = useRef(null);
-  const handleUserEditClicked = (userId: string) => {
-    setActiveUserId(userId);
+  const adminsTable = useRef(null);
+
+  const handleEditClicked = (id: string) => {
+    setActiveId(id);
+  };
+
+  const handleTabChange = (event: any, newTab: string) => {
+    setSelectedTab(newTab);
+    setActiveId(undefined);
   };
 
   return (
@@ -102,26 +116,57 @@ const ManageUsers = () => {
                 <AppBar position="static" className={classes.contentAppBar} elevation={1}>
                   <Toolbar variant="dense">
                     <Typography className={classes.contentTitle} variant="h6">
-                      {/* TAB COMPONENT */}
+                      <TabContext value={selectedTab}>
+                        <TabList onChange={handleTabChange}>
+                          <Tab label="Users" value="users" />
+                          <Tab label="Admins" value="admins" />
+                        </TabList>
+                      </TabContext>
                     </Typography>
                     <IconButton edge="end"
                       aria-label="users filter"
                       aria-haspopup="true"
                       aria-controls="user-filters"
                       color="inherit"
-                      onClick={ () => setActiveUserId('')}
+                      onClick={ () => setActiveId('')}
                     >
                       <FilterList />
                     </IconButton>
                   </Toolbar>
                 </AppBar>
-                <UserSettingsAccordian selectedUsers={selectedUsers} />
+                {selectedTab === 'users' &&
+                    <>
+                      <UserSettingsAccordian selectedUsers={selectedUsers} />
+                    </>
+                }
+                {selectedTab === 'admins' &&
+                    <>
+                      <AdminSettingsAccordian selectedAdmins={selectedAdmins} />
+                    </>
+                }
+
                 <Paper elevation={2}>
-                  <UserTable ref={usersTable} editClicked={handleUserEditClicked} setSelectedUsers={setSelectedUsers} classes= { classes } />
+                  <TabContext value={selectedTab}>
+                    <TabPanel value="users">
+                      <UserTable ref={usersTable} editClicked={handleEditClicked} setSelectedUsers={setSelectedUsers} classes={classes} />
+                    </TabPanel>
+                    <TabPanel value="admins">
+                      <AdminTable ref={adminsTable} editClicked={handleEditClicked} setSelectedAdmins={setSelectedAdmins} classes={classes} />
+                    </TabPanel>
+                  </TabContext>
                 </Paper>
               </Grid>
               <Grid item xs={12} md={4} lg={3}>
-                <ManageUsersEditPanel userId={activeUserId} />
+                {selectedTab === 'users' &&
+                  <>
+                    <ManageUsersEditPanel userId={activeId} />
+                  </>
+                }
+                {selectedTab === 'admins' &&
+                  <>
+                    <ManageAdminsEditPanel adminId={activeId} />
+                  </>
+                }
               </Grid>
             </Grid>
           </Container>
