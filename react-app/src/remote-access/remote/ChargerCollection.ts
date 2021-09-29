@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/restrict-template-expressions */
 import { Charger, IChargerCollection } from '../types';
 import appConfig from '@/appConfig';
 import axios from 'axios';
