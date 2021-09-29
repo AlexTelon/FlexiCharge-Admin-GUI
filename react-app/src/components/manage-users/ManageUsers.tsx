@@ -11,6 +11,7 @@ import { FilterList } from '@material-ui/icons';
 import ManageUsersEditPanel from './Users/ManageUsersEditPanel';
 import UserSettingsAccordian from './Users/ManageUsersSettingsAccordian';
 import UserTable from './Users/ManageUsersTable';
+import ManageUserTabs from './ManageUsersTab';
 
 const useStyles = makeStyles((theme: Theme) => 
   createStyles({
@@ -102,7 +103,7 @@ const ManageUsers = () => {
                 <AppBar position="static" className={classes.contentAppBar} elevation={1}>
                   <Toolbar variant="dense">
                     <Typography className={classes.contentTitle} variant="h6">
-                      {/* TAB COMPONENT */}
+                      <ManageUserTabs />
                     </Typography>
                     <IconButton edge="end"
                       aria-label="users filter"

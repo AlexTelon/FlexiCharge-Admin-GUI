@@ -28,7 +28,7 @@ const categories = [
       { id: 'Dashboard', icon: <DashboardIcon />, location: '/Dashboard', active: false },
       { id: 'Charger Station', icon: <EvStationIcon />, location: '/Dashboard/stations' },
       { id: 'Chargers', icon: <BatteryChargingFullIcon />, location: '/Dashboard/chargers' },
-      { id: 'Invoices', icon: <PeopleIcon />, location: '/Dashboard/users' }
+      { id: 'Users', icon: <PeopleIcon />, location: '/Dashboard/users' }
     ]
   }
 ];

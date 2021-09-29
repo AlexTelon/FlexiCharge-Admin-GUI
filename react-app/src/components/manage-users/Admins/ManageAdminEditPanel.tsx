@@ -90,7 +90,7 @@ const ManageAdminsEditPanel: FC<ManageAdminsEditPanelProps> = ({ adminId }) => {
     }
   };
 
-  const handleCancleClick = () => {
+  const handleCancelClick = () => {
     if (admin) {
       setName(admin.name);
       setEmail(admin.email);
@@ -155,7 +155,7 @@ const ManageAdminsEditPanel: FC<ManageAdminsEditPanelProps> = ({ adminId }) => {
                 <Button variant ="contained" color="primary" className={classes.saveButton} onClick={handleSaveClick}
                 >Save
                 </Button>
-                <Button color="primary" onClick={handleCancleClick}>
+                <Button color="primary" onClick={handleCancelClick}>
                 Cancel
                 </Button>
               </Box>

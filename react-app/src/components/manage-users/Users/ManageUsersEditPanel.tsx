@@ -93,12 +93,13 @@ const ManageUsersEditPanel: FC<ManageUsersEditPanelProps> = ({ userId }) => {
     }
   };
 
-  const handleCancleClick = () => {
+  const handleCancelClick = () => {
     if (user) {
       setName(user.name);
       setEmail(user.email);
       setPhoneNumber(user.phoneNumber);
     }
+    setUser(undefined);
   };
 
   const theme: Theme = useTheme();
@@ -130,7 +131,7 @@ const ManageUsersEditPanel: FC<ManageUsersEditPanelProps> = ({ userId }) => {
                 aria-controls="user-info"
                 color="inherit"
               >
-                <Close />
+                <Close onClick={handleCancelClick} />
               </IconButton>
             </Toolbar>
           </AppBar>
@@ -163,14 +164,14 @@ const ManageUsersEditPanel: FC<ManageUsersEditPanelProps> = ({ userId }) => {
                   value={phoneNumber}
                   onChange={handlePhoneNumberChange}
                 />
-                Max 10 digits (07x-xxx xx xx)
+                Max 10 digits
               </FormControl>
               <Box display="flex" sx={{ flexDirection: 'row-reverse', py: 1 }}>
                 <Button variant ="contained" color="primary" className={classes.saveButton} onClick={handleSaveClick}
                 >Save
                 </Button>
-                <Button color="primary" onClick={handleCancleClick}>
-                Cancle
+                <Button color="primary" onClick={handleCancelClick}>
+                Cancel
                 </Button>
               </Box>
             </Box>

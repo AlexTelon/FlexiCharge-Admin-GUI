@@ -137,7 +137,7 @@ const AddSingleUserDialog = ({ open, handleClose }: any) => {
                 <FormHelperText id="user-email-helper">
                   {errorState.email
                     ? `${errorState.email} | Email adress`
-                    : 'Email adress'
+                    : 'example@mail.com'
                   }
                 </FormHelperText>
               </FormControl>
@@ -147,7 +147,7 @@ const AddSingleUserDialog = ({ open, handleClose }: any) => {
                 <FormHelperText id="user-phone-number-helper">
                   {errorState.phoneNumber
                     ? `${errorState.phoneNumber} | Phone number`
-                    : 'Phone number'
+                    : 'Max 10 digits'
                   }
                 </FormHelperText>
               </FormControl>

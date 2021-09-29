@@ -101,7 +101,7 @@ const ChargerStationEditPanel: FC<ChargerStationEditPanelProps> = ({ stationId }
     }
   };
 
-  const handleCancleClick = () => {
+  const handleCancelClick = () => {
     if (station) {
       setName(station.name);
       setAddress(station.address);
@@ -189,7 +189,7 @@ const ChargerStationEditPanel: FC<ChargerStationEditPanelProps> = ({ stationId }
                 <Button variant="contained" color="primary" className={classes.saveButton} onClick={handleSaveClick} >
                   Save
                 </Button>
-                <Button color="primary" onClick={handleCancleClick}>
+                <Button color="primary" onClick={handleCancelClick}>
                   Cancel
                 </Button>
               </Box>
