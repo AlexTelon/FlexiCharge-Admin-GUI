@@ -3,8 +3,8 @@ import { AppBar, Box, Button, Dialog, DialogActions, DialogContent, DialogTitle,
 import { Close } from '@material-ui/icons';
 import { createStyles, makeStyles, useTheme } from '@material-ui/styles';
 import React, { FC, useState } from 'react';
-import { manageUserCollection } from '../../remote-access';
-import { ManageUser } from '../../remote-access/interfaces';
+import { manageUserCollection } from '@/remote-access';
+import { ManageUser } from '@/remote-access/interfaces';
 
 const useStyle = makeStyles((theme: Theme) => 
 

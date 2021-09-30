@@ -10,8 +10,8 @@ import {
 } from '@material-ui/core';
 import { Helmet } from 'react-helmet';
 import { Edit, ExpandMore, FilterList } from '@material-ui/icons';
-import { ManageUser } from '../../remote-access/types';
-import { manageUserCollection } from '../../remote-access/index';
+import { ManageUser } from '@/remote-access/types';
+import { manageUserCollection } from '@/remote-access/index';
 import AddSingleUserDialog from './AddUserDialog';
 import AddIcon from '@material-ui/icons/Add';
 import ManageUsersEditPanel from './ManageUsersEditPanel';
