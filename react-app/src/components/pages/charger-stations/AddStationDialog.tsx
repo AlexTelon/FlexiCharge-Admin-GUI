@@ -6,7 +6,7 @@ import {
   FormControl, InputLabel, Input, FormHelperText, DialogActions, Button, makeStyles, createStyles, LinearProgress, Fade
 } from '@material-ui/core';
 import { CheckCircle, Close } from '@material-ui/icons';
-import { chargerStationCollection } from '../../remote-access';
+import { chargerStationCollection } from '@/remote-access';
 import { Alert } from '@material-ui/lab';
 
 const useStyles = makeStyles((theme: Theme) =>

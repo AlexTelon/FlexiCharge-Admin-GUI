@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/prefer-optional-chain */
 import { Theme, useTheme, useMediaQuery, TableProps, TableContainer, LinearProgress, Table, TableHead, TableRow, TableCell, Checkbox, TableBody, TablePagination } from '@material-ui/core';
 import React, { useState, useEffect } from 'react';
-import { chargerStationCollection } from '../../remote-access';
-import { ChargerStation } from '../../remote-access/interfaces';
+import { chargerStationCollection } from '@/remote-access';
+import { ChargerStation } from '@/remote-access/types';
 import ChargerStationTableRow from './ChargerStationTableRow';
 
 interface HeadCell {
@@ -169,22 +169,20 @@ const ChargerStationsTable = (props: any) => {
             handleSelectAllClick={handleSelectAllClick}
           />
           <TableBody>
-            {state.stations !== undefined
-              && state.stations
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((station, index) => {
-                  const isItemSelected = isSelected(station.id);
-                  return (
-                    <ChargerStationTableRow
-                      key={station.id}
-                      station={station}
-                      handleSelect={handleSelect}
-                      selected={isItemSelected}
-                      {...props}
-                    >
-                    </ChargerStationTableRow>
-                  );
-                })
+            {state.stations?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              .map((station, index) => {
+                const isItemSelected = isSelected(station.id);
+                return (
+                  <ChargerStationTableRow
+                    key={station.id}
+                    station={station}
+                    handleSelect={handleSelect}
+                    selected={isItemSelected}
+                    {...props}
+                  >
+                  </ChargerStationTableRow>
+                );
+              })
             }
           </TableBody>
         </Table>

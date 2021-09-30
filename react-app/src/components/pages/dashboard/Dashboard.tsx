@@ -3,14 +3,14 @@ import React from 'react';
 import { Helmet } from 'react-helmet';
 import { AppBar, Box, Grid, Toolbar, Typography } from '@material-ui/core';
 import { Route, Redirect, useHistory } from 'react-router-dom';
-import { authenticationProvider } from '../../remote-access';
+import { authenticationProvider } from '@/remote-access';
 import ChargerStations from '../charger-stations/ChargerStations';
-import Navbar from '../navigation/Navbar';
-import ChargerStation from '../dashboard/dashboardComponents/ChargerStation';
+import Navbar from './dashboardComponents/Navbar';
+import ChargerStation from './dashboardComponents/ChargerStation';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import Chargers from '../dashboard/dashboardComponents/Chargers';
-import ChargersPage from '../chargers/Chargers';
-import ManageUsers from '../../components/manage-users/ManageUsers';
+import ChargersPage from '../chargers';
+import ManageUsers from '../../manage-users/ManageUsers';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

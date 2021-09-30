@@ -11,8 +11,7 @@ services:
       - ./react-app/src:/react-app/src
     environment:
       - HOST=0.0.0.0
-      - PORT=${DEV_PORT}
       - CHOKIDAR_USEPOLLING=true
     ports:
-      - ${DEV_PORT}:${DEV_PORT}
-      - ${TEST_PORT}:9000
+      - ${REACT_APP_DEV_PORT}:${REACT_APP_DEV_PORT}
+      - 9000:9000
