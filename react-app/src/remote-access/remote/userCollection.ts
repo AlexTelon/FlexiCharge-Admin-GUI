@@ -1,14 +1,22 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
-import { ManageUser, IManageUserCollection } from './interfaces';
-import appConfig from './appConfig';
+import { ManageUser, IManageUserCollection } from '../interfaces';
+import { authenticationProvider } from '..';
+import appConfig from '../appConfig';
 import axios from 'axios';
 
 export default class UserCollection implements IManageUserCollection {
   public async getAllUsers(): Promise<[ManageUser[] | null, any | null]> {
+    console.log('here');
     try {
-      const res = await axios.get(`${appConfig.FLEXICHARGE_API_URL}/users`);
+      const res = await axios.get(`${appConfig.FLEXICHARGE_API_URL}/auth/admin/users`, {
+        headers: {
+          Authorization: `Bearer ${authenticationProvider.getToken()}`
+        }
+      });
+      console.log('off');
       return [res.data as ManageUser[], null];
     } catch (error: any) {
+      console.log(error);
       return [null, error];
     }
   }

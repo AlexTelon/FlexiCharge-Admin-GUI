@@ -4,7 +4,7 @@ import { Theme, useMediaQuery, TableProps, TableContainer, LinearProgress, Table
 import React, { useState, useEffect } from 'react';
 // import { manageUserCollection } from '../../../remote-access';
 import { ManageUser } from '../../../remote-access/interfaces';
-import { userCollection } from '@/remote-access';
+import { manageUserCollection } from '@/remote-access';
 import UserRow from './ManageUserTableRow';
 
 interface HeadCell {
@@ -90,7 +90,7 @@ const UserTable = (props: any) => {
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
   const loadUsers = async () => {
-    const [users, error] = await userCollection.getAllUsers();
+    const [users, error] = await manageUserCollection.getAllUsers();
     if (users) {
       console.log(users);
       setState({

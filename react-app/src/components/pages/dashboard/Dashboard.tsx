@@ -8,13 +8,8 @@ import ChargerStations from '../charger-stations/ChargerStations';
 import Navbar from './dashboardComponents/Navbar';
 import ChargerStation from './dashboardComponents/ChargerStation';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-<<<<<<< HEAD:react-app/src/components/dashboard/Dashboard.tsx
-import Chargers from '../dashboard/dashboardComponents/Chargers';
-import ChargersPage from '../chargers/Chargers';
-=======
 import Chargers from './dashboardComponents/Chargers';
 import ChargersPage from '../chargers';
->>>>>>> origin/development:react-app/src/components/pages/dashboard/Dashboard.tsx
 import ManageUsers from '../manage-users/ManageUsers';
 
 const useStyles = makeStyles((theme: Theme) =>

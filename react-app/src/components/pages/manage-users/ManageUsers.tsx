@@ -7,24 +7,18 @@ import {
   IconButton, Paper, Tab 
 } from '@material-ui/core';
 import { Helmet } from 'react-helmet';
-<<<<<<< HEAD:react-app/src/components/manage-users/ManageUsers.tsx
-import { FilterList } from '@material-ui/icons';
-import ManageUsersEditPanel from './Users/ManageUsersEditPanel';
-import UserSettingsAccordian from './Users/ManageUsersSettingsAccordian';
-import UserTable from './Users/ManageUsersTable';
-import { TabContext, TabList, TabPanel } from '@material-ui/lab';
-import AdminTable from './Admins/ManageAdminsTable';
-import ManageAdminsEditPanel from './Admins/ManageAdminEditPanel';
-import AdminSettingsAccordian from './Admins/ManageAdminsSettingsAccordian';
-// import ManageAdminsEditPanel from './Admins/ManageAdminEditPanel';
-=======
 import { Edit, ExpandMore, FilterList } from '@material-ui/icons';
 import { ManageUser } from '@/remote-access/types';
-import { manageUserCollection } from '@/remote-access/index';
+import { manageUserCollection } from '@/remote-access';
 import AddSingleUserDialog from './AddUserDialog';
 import AddIcon from '@material-ui/icons/Add';
 import ManageUsersEditPanel from './ManageUsersEditPanel';
->>>>>>> origin/development:react-app/src/components/pages/manage-users/ManageUsers.tsx
+import ManageAdminsEditPanel from '@/components/manage-users/Admins/ManageAdminEditPanel';
+import AdminSettingsAccordian from '@/components/manage-users/Admins/ManageAdminsSettingsAccordian';
+import AdminTable from '@/components/manage-users/Admins/ManageAdminsTable';
+import UserSettingsAccordian from '@/components/manage-users/Users/ManageUsersSettingsAccordian';
+import UserTable from '@/components/manage-users/Users/ManageUsersTable';
+import { TabContext, TabList, TabPanel } from '@material-ui/lab';
 
 const useStyles = makeStyles((theme: Theme) => 
   createStyles({
@@ -126,7 +120,7 @@ const ManageUsers = () => {
                   <Toolbar variant="dense">
                     <Typography className={classes.contentTitle} variant="h6">
                       <TabContext value={selectedTab}>
-                        <TabList onChange={handleTabChange}>
+                        <TabList onChange={handleTabChange} indicatorColor="primary">
                           <Tab label="Users" value="users" />
                           <Tab label="Admins" value="admins" />
                         </TabList>

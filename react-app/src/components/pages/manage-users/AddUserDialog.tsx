@@ -6,11 +6,7 @@ import {
   FormControl, InputLabel, Input, FormHelperText, DialogActions, Button, makeStyles, createStyles, LinearProgress, Fade
 } from '@material-ui/core';
 import { CheckCircle, Close } from '@material-ui/icons';
-<<<<<<< HEAD:react-app/src/components/manage-users/Users/AddUserDialog.tsx
-import { manageUserCollection } from '../../../remote-access';
-=======
 import { manageUserCollection } from '@/remote-access';
->>>>>>> origin/development:react-app/src/components/pages/manage-users/AddUserDialog.tsx
 import { Alert } from '@material-ui/lab';
 
 const useStyles = makeStyles((theme: Theme) =>

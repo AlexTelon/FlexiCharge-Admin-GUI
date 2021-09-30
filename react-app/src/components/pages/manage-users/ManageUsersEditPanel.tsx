@@ -2,15 +2,9 @@
 import { AppBar, Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Divider, FormControl, Grid, IconButton, Input, InputLabel, LinearProgress, Paper, Theme, Toolbar, Typography, useMediaQuery } from '@material-ui/core';
 import { Close } from '@material-ui/icons';
 import { createStyles, makeStyles, useTheme } from '@material-ui/styles';
-<<<<<<< HEAD:react-app/src/components/manage-users/Users/ManageUsersEditPanel.tsx
 import React, { FC, useEffect, useState } from 'react';
 import { manageUserCollection } from '../../../remote-access';
-import { ManageUser } from '../../../remote-access/interfaces';
-=======
-import React, { FC, useState } from 'react';
-import { manageUserCollection } from '@/remote-access';
 import { ManageUser } from '@/remote-access/interfaces';
->>>>>>> origin/development:react-app/src/components/pages/manage-users/ManageUsersEditPanel.tsx
 
 const useStyle = makeStyles((theme: Theme) => 
 
