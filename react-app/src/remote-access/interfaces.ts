@@ -33,10 +33,11 @@ export interface IChargerStationCollection {
 }
 
 export interface IManageUserCollection {
+
   getAllUsers: () => Promise<ManageUser[]>
-  getUserById: (userId: string) => Promise<ManageUser | null>
+  getUserById: (userId: string) => Promise<ManageUser | null | any | null>
   addUser: (fields: Omit<ManageUser, 'id'>) => Promise<[string | null, any | null]>
-  updateUser: (stationId: string, fields: Omit<ManageUser, 'id'>) => Promise<[ManageUser | null, any | null]>
+  updateUser: (userId: string, fields: Omit<ManageUser, 'id'>) => Promise<[ManageUser | null, any | null]>
 }
 
 export interface IManageAdminCollection {

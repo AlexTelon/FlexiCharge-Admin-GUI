@@ -2701,7 +2701,7 @@ autoprefixer@^9.6.1:
 
 awilix@^5.0.1:
   version "5.0.1"
-  resolved "https://registry.npmjs.org/awilix/-/awilix-5.0.1.tgz"
+  resolved "https://registry.yarnpkg.com/awilix/-/awilix-5.0.1.tgz#faaa629d457a353f4187628d52c10d4e642dd42d"
   integrity sha512-Sm4F0kUuKMW+tzB5+2PGU/geBrCXmtdhy3a+l+KZdyzUMY8B9cueMaeR5zESZOH0VwsIA40FFT4Mr1JY8pknYw==
   dependencies:
     camel-case "^4.1.2"

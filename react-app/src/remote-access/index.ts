@@ -5,3 +5,4 @@ export const authenticationProvider = container.resolve<IAuthenticationProvider>
 export const chargerStationCollection = container.resolve<IChargerStationCollection>('chargerStationCollection');
 export const manageUserCollection = container.resolve<IManageUserCollection>('manageUserCollection');
 export const manageAdminCollection = container.resolve<IManageAdminCollection>('manageAdminCollection');
+export const userCollection = container.resolve<IManageUserCollection>('userCollection');

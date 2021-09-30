@@ -1,8 +1,10 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/prefer-optional-chain */
 import { Theme, useMediaQuery, TableProps, TableContainer, LinearProgress, Table, TableHead, TableRow, TableCell, Checkbox, TableBody, TablePagination, useTheme } from '@material-ui/core';
 import React, { useState, useEffect } from 'react';
-import { manageUserCollection } from '../../../remote-access';
+// import { manageUserCollection } from '../../../remote-access';
 import { ManageUser } from '../../../remote-access/interfaces';
+import UserCollection from '../../../dependencyContainer';
 import UserRow from './ManageUserTableRow';
 
 interface HeadCell {
@@ -87,19 +89,21 @@ const UserTable = (props: any) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
-  const loadUsers = () => {
-    manageUserCollection.getAllUsers().then((users) => {
+  const loadUsers = async () => {
+    const [users, error] = await UserCollection.getAllUsers();
+    if (users) {
+      console.log(users);
       setState({
         loaded: true,
-        users 
+        users
       });
-    }).catch((_) => {
+    } else if (error) {
       setState({
         loaded: true,
         error: true,
-        errorMessage: 'Failed to load'
+        errorMessage: 'Failed to fetch users'
       });
-    });
+    }
   };
 
   useEffect(() => {

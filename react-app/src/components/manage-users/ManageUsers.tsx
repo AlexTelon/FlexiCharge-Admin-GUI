@@ -144,7 +144,6 @@ const ManageUsers = () => {
                       <AdminSettingsAccordian selectedAdmins={selectedAdmins} />
                     </>
                 }
-
                 <Paper elevation={2}>
                   <TabContext value={selectedTab}>
                     <TabPanel value="users">
