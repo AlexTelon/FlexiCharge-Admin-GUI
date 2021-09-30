@@ -6,11 +6,7 @@ import {
   FormControl, InputLabel, Input, FormHelperText, DialogActions, Button, makeStyles, createStyles, LinearProgress, Fade
 } from '@material-ui/core';
 import { CheckCircle, Close } from '@material-ui/icons';
-<<<<<<< HEAD:react-app/src/components/manage-users/Users/AddUserDialog.tsx
-import { manageUserCollection } from '../../../remote-access';
-=======
-import { manageUserCollection } from '@/remote-access';
->>>>>>> origin/development:react-app/src/components/pages/manage-users/AddUserDialog.tsx
+import { chargerStationCollection } from '@/remote-access';
 import { Alert } from '@material-ui/lab';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -21,7 +17,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const AddSingleUserDialog = ({ open, handleClose }: any) => {
+const AddSingleStationDialog = ({ open, handleClose }: any) => {
   const classes = useStyles();
   const theme: Theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
@@ -29,29 +25,35 @@ const AddSingleUserDialog = ({ open, handleClose }: any) => {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [name, setName] = useState<string>();
-  const [email, setEmail] = useState<string>();
-  const [phoneNumber, setPhoneNumber] = useState<string>();
+  const [address, setAddress] = useState<string>();
+  const [latitude, setLatitude] = useState<number>();
+  const [longitude, setLongitude] = useState<number>();
   const [errorState, setErrorState] = useState<any>({});
 
+  // TODO: Refactor
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
   };
-  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(e.target.value);
+  const handleAddressChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setAddress(e.target.value);
   };
-  const handlePhoneNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPhoneNumber(e.target.value);
+  const handleLatitudeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setLatitude(Number(e.target.value));
+  };
+  const handleLongitudeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setLongitude(Number(e.target.value));
   };
 
   const handleSubmitClicked = async () => {
-    if (name && email && phoneNumber) {
+    if (name && address && longitude && latitude) {
       setLoading(true);
-      const result = await manageUserCollection.addUser({
+      const result = await chargerStationCollection.addChargerStation({
         name,
-        email,
-        phoneNumber
+        address,
+        latitude,
+        longitude
       });
-
+      
       if (result[1] !== null) {
         console.log(result);
         setErrorState({
@@ -65,12 +67,13 @@ const AddSingleUserDialog = ({ open, handleClose }: any) => {
           setSuccess(false);
           handleClose();
         }, 450);
-      } 
+      }
     } else {
       setErrorState({
         name: !name ? 'Required' : undefined,
-        email: !email ? 'Required' : undefined,
-        phoneNumber: !phoneNumber ? 'Required' : undefined
+        address: !address ? 'Required' : undefined,
+        latitude: !latitude ? 'Required' : undefined,
+        longitude: !longitude ? 'Required' : undefined
       });
     }
   };
@@ -80,8 +83,8 @@ const AddSingleUserDialog = ({ open, handleClose }: any) => {
         fullScreen={fullScreen}
         open={open}
         onClose={handleClose}
-        aria-labelledby="add-user-dialog-title"
-        id="add-user-dialog"
+        aria-labelledby="add-station-dialog-title"
+        id="add-station-dialog"
       >
         {loading &&
           <LinearProgress />
@@ -102,19 +105,18 @@ const AddSingleUserDialog = ({ open, handleClose }: any) => {
               }}
             >
               <CheckCircle style={{ color: theme.flexiCharge.primary.white, fontSize: 72 }} />
-
             </Box>
           </Fade>
         }
 
-        <DialogTitle id="add-user-dialog-title">
-          Add a User
+        <DialogTitle id="add-station-dialog-title">
+          Add a Charger Station
           <IconButton
             onClick={handleClose}
             className={classes.dialogClose}
             edge="end"
-            aria-label="add user dialog close"
-            aria-controls="add-user-dialog"
+            aria-label="add station dialog close"
+            aria-controls="add-station-dialog"
             color="inherit"
           >
             <Close />
@@ -125,33 +127,43 @@ const AddSingleUserDialog = ({ open, handleClose }: any) => {
             <Alert style={{ width: '100%' }} severity="warning">{errorState.alert}</Alert>
           }
           <form>
-            <Box>
+            <Box sx={{ px: 2 }}>
               <FormControl style={{ marginTop: 12 }} fullWidth variant="outlined" error={errorState.name !== undefined}>
-                <InputLabel htmlFor="user-name-input">Name</InputLabel>
-                <Input id="user-name-input" aria-describedby="user-name-helper" onChange={handleNameChange} value={name} />
+                <InputLabel htmlFor="station-name-input">Name</InputLabel>
+                <Input id="station-name-input" aria-describedby="station-name-helper" onChange={handleNameChange} value={name} />
                 {errorState.name &&
-                  <FormHelperText id="user-address-helper">
+                  <FormHelperText id="station-address-helper">
                     {errorState.name}
                   </FormHelperText>
                 }
               </FormControl>
-              <FormControl style={{ marginTop: 12 }} fullWidth variant="outlined" error={errorState.email !== undefined}>
-                <InputLabel htmlFor="user-email-input">Email</InputLabel>
-                <Input id="user-email-input" aria-describedby="station-email-helper" onChange={handleEmailChange} value={email} />
-                <FormHelperText id="user-email-helper">
-                  {errorState.email
-                    ? `${errorState.email} | Email adress`
-                    : 'example@mail.com'
+              <FormControl style={{ marginTop: 12 }} fullWidth variant="outlined" error={errorState.address !== undefined}>
+                <InputLabel htmlFor="station-address-input">Address</InputLabel>
+                <Input id="station-address-input" aria-describedby="station-address-helper" onChange={handleAddressChange} value={address} />
+                <FormHelperText id="station-address-helper">
+                  {errorState.address
+                    ? `${errorState.address} | Street Address`
+                    : 'Street Address'
                   }
                 </FormHelperText>
               </FormControl>
-              <FormControl style={{ marginTop: 12 }} fullWidth variant="outlined" error={errorState.role !== undefined}>
-                <InputLabel htmlFor="user-phone-number-input">Phone number</InputLabel>
-                <Input id="user-phone-number-input" aria-describedby="station-phone-number-helper" onChange={handlePhoneNumberChange} value={phoneNumber} />
-                <FormHelperText id="user-phone-number-helper">
-                  {errorState.phoneNumber
-                    ? `${errorState.phoneNumber} | Phone number`
-                    : 'Max 10 digits'
+              <FormControl style={{ marginTop: 12 }} fullWidth variant="outlined" error={errorState.longitude !== undefined}>
+                <InputLabel htmlFor="station-longitude-input">Longitude</InputLabel>
+                <Input id="station-longitude-input" aria-describedby="station-longitude-helper" type="number" onChange={handleLongitudeChange} value={longitude} />
+                <FormHelperText id="station-longitude-helper">
+                  {errorState.longitude
+                    ? `${errorState.longitude} | Geographic Coordinate`
+                    : 'Geographic Coordinate'
+                  }
+                </FormHelperText>
+              </FormControl>
+              <FormControl style={{ marginTop: 12 }} fullWidth variant="outlined" error={errorState.latitude !== undefined}>
+                <InputLabel htmlFor="station-latitude-input">Latitude</InputLabel>
+                <Input id="station-latitude-input" aria-describedby="station-latitude-helper" type="number" onChange={handleLatitudeChange} value={latitude} />
+                <FormHelperText id="station-latitude-helper">
+                  {errorState.latitude
+                    ? `${errorState.latitude} | Geographic Coordinate`
+                    : 'Geographic Coordinate'
                   }
                 </FormHelperText>
               </FormControl>
@@ -177,4 +189,4 @@ const AddSingleUserDialog = ({ open, handleClose }: any) => {
   );
 };
 
-export default AddSingleUserDialog;
+export default AddSingleStationDialog;

@@ -1,8 +1,8 @@
 import React, { /* useState */ } from 'react';
 import { Switch, useLocation, Route, Redirect } from 'react-router-dom';
 import './App.css';
-import { DashboardRoute } from './components/dashboard/Dashboard';
-import Login from './components/login/Login';
+import { DashboardRoute } from './pages/dashboard/Dashboard';
+import Login from './pages/login/Login';
 
 function App(): JSX.Element {
   const location = useLocation();

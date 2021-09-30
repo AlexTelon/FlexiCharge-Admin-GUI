@@ -1,7 +1,8 @@
-import { ChargerStation } from '../remote-access/interfaces';
+import { Charger } from '../remote-access/types';
 
-export const chargerStations: ChargerStation[] = [
-  { id: '1', name: 'University Station', address: 'Gjuterigatan 3', longitude: 57.7788187, latitude: 14.1621992 },
-  { id: '2', name: 'McDonalds Station', address: 'Hagaleden 3', longitude: 57.7624059, latitude: 14.1499653 },
-  { id: '3', name: 'Asect Station', address: 'Kompanigatan 1', longitude: 57.7718868, latitude: 14.2020042 }
+export const chargers: Charger[] = [ 
+  { chargerID: 0, chargePointID: 0, location: 'Torpa', cooidinates: '57.720497118 12.03499986', status: 1 },
+  { chargerID: 1, chargePointID: 1, location: 'Tranås', cooidinates: '33.543234554 66.77665542', status: 0 },
+  { chargerID: 2, chargePointID: 1, location: 'Råslätt', cooidinates: '87.656536565 44.23454266', status: 1 },
+  { chargerID: 3, chargePointID: 2, location: 'Öxnehaga', cooidinates: '45.653465654 23.76547654', status: 0 }
 ];

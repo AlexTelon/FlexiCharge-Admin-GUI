@@ -6,10 +6,10 @@ import { ManageUser, IManageUserCollection } from '../interfaces';
 export default class ManageUserCollection implements IManageUserCollection {
   users = manageUsers;
 
-  async getAllUsers(): Promise<ManageUser[]> {
+  async getAllUsers(): Promise<[ManageUser[], any | null]> {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
-        resolve(this.users);
+        resolve([this.users, null]);
       }, 1000);
     });
   }

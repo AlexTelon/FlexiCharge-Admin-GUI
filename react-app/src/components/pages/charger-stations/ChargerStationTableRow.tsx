@@ -1,7 +1,7 @@
 import React, { FC, useState } from 'react';
 import { Theme, useTheme, TableRow, TableCell, Checkbox, Box, Typography, Hidden, Button, Collapse, Table, TableHead, TableBody } from '@material-ui/core';
 import { Edit } from '@material-ui/icons';
-import { ChargerStation } from '../../remote-access/interfaces';
+import { ChargerStation } from '@/remote-access/types';
 
 interface ChargerStationTableRowProps {
   station: ChargerStation

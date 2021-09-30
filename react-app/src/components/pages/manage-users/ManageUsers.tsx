@@ -7,6 +7,7 @@ import {
   IconButton, Paper, Tab 
 } from '@material-ui/core';
 import { Helmet } from 'react-helmet';
+<<<<<<< HEAD:react-app/src/components/manage-users/ManageUsers.tsx
 import { FilterList } from '@material-ui/icons';
 import ManageUsersEditPanel from './Users/ManageUsersEditPanel';
 import UserSettingsAccordian from './Users/ManageUsersSettingsAccordian';
@@ -16,6 +17,14 @@ import AdminTable from './Admins/ManageAdminsTable';
 import ManageAdminsEditPanel from './Admins/ManageAdminEditPanel';
 import AdminSettingsAccordian from './Admins/ManageAdminsSettingsAccordian';
 // import ManageAdminsEditPanel from './Admins/ManageAdminEditPanel';
+=======
+import { Edit, ExpandMore, FilterList } from '@material-ui/icons';
+import { ManageUser } from '@/remote-access/types';
+import { manageUserCollection } from '@/remote-access/index';
+import AddSingleUserDialog from './AddUserDialog';
+import AddIcon from '@material-ui/icons/Add';
+import ManageUsersEditPanel from './ManageUsersEditPanel';
+>>>>>>> origin/development:react-app/src/components/pages/manage-users/ManageUsers.tsx
 
 const useStyles = makeStyles((theme: Theme) => 
   createStyles({
