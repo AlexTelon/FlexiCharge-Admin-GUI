@@ -19,6 +19,19 @@ export interface ManageAdmin {
   email: string
 }
 
+export interface IUser {
+  username: string
+  sub: string
+  emailVerified: boolean
+  name: string
+  familyName: string
+  email: string
+  created: Date
+  lastModified: Date
+  enabled: boolean
+  userStatus: 'UNCONFIRMED' | 'CONFIRMED'
+}
+
 export interface IAuthenticationProvider {
   login: (username: string, password: string) => Promise<[boolean, any | null]>
   getToken: () => string | null
