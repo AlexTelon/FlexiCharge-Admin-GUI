@@ -20,7 +20,7 @@ export default class UserCollection implements IManageUserCollection {
       return [null, error];
     }
   }
-    
+  
   public async addUser(fields: Omit<ManageUser, 'id'>): Promise<[string | null, any | null]> {
     try {
       const res = await axios.post(`${appConfig.FLEXICHARGE_API_URL}/users/`, fields);

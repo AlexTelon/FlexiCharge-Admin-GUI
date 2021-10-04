@@ -4,7 +4,7 @@ import { Close } from '@material-ui/icons';
 import { createStyles, makeStyles, useTheme } from '@material-ui/styles';
 import React, { FC, useEffect, useState } from 'react';
 import { ManageUser } from '../../../remote-access/interfaces';
-import { manageUserCollection } from '@/remote-access';
+import { userCollection } from '@/remote-access';
 
 const useStyle = makeStyles((theme: Theme) => 
 
@@ -60,7 +60,7 @@ const ManageUsersEditPanel: FC<ManageUsersEditPanelProps> = ({ userId }) => {
 
   useEffect(() => {
     if (userId) {
-      manageUserCollection.getUserById(userId).then((manageUsers) => {
+      userCollection.getUserById(userId).then((manageUsers) => {
         if (manageUsers === null) return;
         setName(manageUsers.name);
         setEmail(manageUsers.email);
@@ -73,7 +73,7 @@ const ManageUsersEditPanel: FC<ManageUsersEditPanelProps> = ({ userId }) => {
   const handleSaveClick = async () => {
     if (name && email && phoneNumber && userId) {
       setLoading(true);
-      const result = await manageUserCollection.updateUser(userId, { name, email, phoneNumber });
+      const result = await userCollection.updateUser(userId, { name, email, phoneNumber });
       if (result[1] !== null) {
         console.log(result);
         setErrorState({
