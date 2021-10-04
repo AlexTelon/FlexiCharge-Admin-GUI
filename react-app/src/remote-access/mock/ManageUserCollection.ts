@@ -1,7 +1,7 @@
 /* eslint-disable no-useless-escape */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { manageUsers } from '../../__mock-data__/users';
-import { ManageUser, IManageUserCollection } from '../interfaces';
+import { ManageUser, IManageUserCollection } from '../types';
 
 export default class ManageUserCollection implements IManageUserCollection {
   users = manageUsers;
@@ -20,7 +20,7 @@ export default class ManageUserCollection implements IManageUserCollection {
       // If not found then try remote
 
       setTimeout(() => {
-        resolve(this.users.filter((users) => users.id === userId)[0] || null);
+        resolve(this.users.filter((users) => users.username === userId)[0] || null);
       }, 100);
     });
   }
@@ -33,10 +33,10 @@ export default class ManageUserCollection implements IManageUserCollection {
         
         const manageUser: ManageUser = {
           ...fields,
-          id: `${this.users.length + 1}`
+          username: `${this.users.length + 1}`
         };
         this.users.push(manageUser);
-        resolve([manageUser.id, null]);
+        resolve([manageUser.username, null]);
       }, 1000);
     });
   }
@@ -44,7 +44,7 @@ export default class ManageUserCollection implements IManageUserCollection {
   async updateUser(userId: string, fields: Omit<ManageUser, 'id'>): Promise<[ManageUser | null, any | null]> {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
-        const userIndex = this.users.findIndex((users) => users.id === userId);
+        const userIndex = this.users.findIndex((users) => users.username === userId);
         if (userIndex === -1) return [null, { errorMessage: 'Could not find the requested Manage User' }];
 
         const errorObj = this.validateFields(fields);
@@ -52,7 +52,7 @@ export default class ManageUserCollection implements IManageUserCollection {
 
         const ManageUsers = {
           ...fields,
-          id: this.users[userIndex].id
+          id: this.users[userIndex].username
         };
 
         this.users[userIndex] = ManageUsers;
@@ -68,21 +68,9 @@ export default class ManageUserCollection implements IManageUserCollection {
     return false;
   }
 
-  private validPhoneNumber(phoneNumber: string) {
-    let regex = /^(([+]46)\s*(7)|07)[02369]\s*(\d{4})\s*(\d{3})$/;
-    // eslint-disable-next-line prefer-regex-literals
-    regex = new RegExp('^(([+]46)\s*(7)|07)[02369]\s*(\d{4})\s*(\d{3})$');
-
-    for (const user of this.users) {
-      if (phoneNumber.match(regex)) return true;
-    }
-    return false;
-  }
-
   private validateFields(fields: Omit<ManageUser, 'id'>): any | null {
     const errorObj: any = {};
     if (fields.name && this.isNametaken(fields.name)) errorObj.name = 'Name is taken';
-    if (fields.phoneNumber && this.validPhoneNumber(fields.phoneNumber)) errorObj.phoneNumber = 'Not a Valid Phone number';
     return errorObj;
   }
 }

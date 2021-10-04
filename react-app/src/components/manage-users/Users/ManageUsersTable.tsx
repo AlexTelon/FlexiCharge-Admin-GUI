@@ -3,7 +3,7 @@
 import { Theme, useMediaQuery, TableProps, TableContainer, LinearProgress, Table, TableHead, TableRow, TableCell, Checkbox, TableBody, TablePagination, useTheme } from '@material-ui/core';
 import React, { useState, useEffect } from 'react';
 // import { manageUserCollection } from '../../../remote-access';
-import { ManageUser } from '../../../remote-access/interfaces';
+import { ManageUser } from '@/remote-access/types';
 import { userCollection } from '@/remote-access';
 import UserRow from './ManageUserTableRow';
 import { keys } from '@material-ui/core/styles/createBreakpoints';
@@ -103,7 +103,6 @@ const UserTable = (props: any) => {
   const loadUsers = async () => {
     const [users, error] = await userCollection.getAllUsers();
     if (users) {
-      console.log(users);
       setState({
         loaded: true,
         users
@@ -132,7 +131,7 @@ const UserTable = (props: any) => {
 
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
-      const newSelected = state.users?.map((users) => users.id);
+      const newSelected = state.users?.map((users) => users.username);
       if (newSelected === undefined) return;
       setSelected(newSelected);
       return;
@@ -180,8 +179,8 @@ const UserTable = (props: any) => {
 
     for (let i = startOfIndex; i < startOfIndex + numberOfRows; i++) {
       const user = state.users[i];
-      const isItemSelected = isSelected(user.id);
-      userRows.push(<UserRow key={user.id} user={user} handleSelect={handleSelect} selected={isItemSelected} {...props} />);
+      const isItemSelected = isSelected(user.username);
+      userRows.push(<UserRow key={user.username} user={user} handleSelect={handleSelect} selected={isItemSelected} {...props} />);
     }
   }
 

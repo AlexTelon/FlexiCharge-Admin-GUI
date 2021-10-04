@@ -6,32 +6,10 @@ export interface ChargerStation {
   latitude: number
 }
 
-export interface ManageUser {
-  id: string
-  username: string
-  name: string
-  familyName: string
-  email: string
-  password: string
-}
-
 export interface ManageAdmin {
   id: string
   name: string
   email: string
-}
-
-export interface IUser {
-  username: string
-  sub: string
-  emailVerified: boolean
-  name: string
-  familyName: string
-  email: string
-  created: Date
-  lastModified: Date
-  enabled: boolean
-  userStatus: 'UNCONFIRMED' | 'CONFIRMED'
 }
 
 export interface IAuthenticationProvider {
@@ -45,14 +23,6 @@ export interface IChargerStationCollection {
   getChargerStationById: (stationId: string) => Promise<ChargerStation | null>
   addChargerStation: (fields: Omit<ChargerStation, 'id'>) => Promise<[string | null, any | null]>
   updateChargerStation: (stationId: string, fields: Omit<ChargerStation, 'id'>) => Promise<[ChargerStation | null, any | null]>
-}
-
-export interface IManageUserCollection {
-
-  getAllUsers: () => Promise<ManageUser[]>
-  getUserById: (userId: string) => Promise<ManageUser | null | any | null>
-  addUser: (fields: Omit<ManageUser, 'id'>) => Promise<[string | null, any | null]>
-  updateUser: (userId: string, fields: Omit<ManageUser, 'id'>) => Promise<[ManageUser | null, any | null]>
 }
 
 export interface IManageAdminCollection {
