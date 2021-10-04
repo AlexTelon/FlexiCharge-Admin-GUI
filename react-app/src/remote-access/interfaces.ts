@@ -8,9 +8,11 @@ export interface ChargerStation {
 
 export interface ManageUser {
   id: string
+  username: string
   name: string
+  familyName: string
   email: string
-  phoneNumber: string
+  password: string
 }
 
 export interface ManageAdmin {

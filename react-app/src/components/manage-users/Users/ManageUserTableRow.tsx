@@ -36,7 +36,7 @@ const UserRow: FC<userRowProps> = ({ user, editClicked, selected, handleSelect }
               style={{ maxWidth: '15vw' }}
               noWrap
             >
-              {user.name}
+              {user.username && user.familyName}
             </Typography>
           </Box>
         </TableCell>
@@ -44,7 +44,7 @@ const UserRow: FC<userRowProps> = ({ user, editClicked, selected, handleSelect }
           {user.email}
         </TableCell>
         <TableCell>
-          {user.phoneNumber}
+          {user}
         </TableCell>
         <TableCell align="right">
           <Button

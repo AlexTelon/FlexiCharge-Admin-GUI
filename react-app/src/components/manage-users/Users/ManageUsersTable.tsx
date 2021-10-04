@@ -4,8 +4,9 @@ import { Theme, useMediaQuery, TableProps, TableContainer, LinearProgress, Table
 import React, { useState, useEffect } from 'react';
 // import { manageUserCollection } from '../../../remote-access';
 import { ManageUser } from '../../../remote-access/interfaces';
-import { manageUserCollection } from '@/remote-access';
+import { userCollection } from '@/remote-access';
 import UserRow from './ManageUserTableRow';
+import { keys } from '@material-ui/core/styles/createBreakpoints';
 
 interface HeadCell {
   id: string
@@ -16,7 +17,12 @@ interface HeadCell {
 const headCells: HeadCell[] = [
   {
     id: 'name',
-    label: 'name',
+    label: 'Name',
+    alignRight: false
+  },
+  {
+    id: 'familyName',
+    label: 'Family name',
     alignRight: false
   },
   {
@@ -25,8 +31,13 @@ const headCells: HeadCell[] = [
     alignRight: false
   },
   {
-    id: 'phoneNumber',
-    label: 'Phone Number',
+    id: 'username',
+    label: 'username',
+    alignRight: false
+  },
+  {
+    id: 'password',
+    label: 'Password',
     alignRight: false
   },
   {
@@ -90,7 +101,7 @@ const UserTable = (props: any) => {
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
   const loadUsers = async () => {
-    const [users, error] = await manageUserCollection.getAllUsers();
+    const [users, error] = await userCollection.getAllUsers();
     if (users) {
       console.log(users);
       setState({
