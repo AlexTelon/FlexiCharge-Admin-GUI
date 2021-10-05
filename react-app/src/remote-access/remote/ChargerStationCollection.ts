@@ -1,15 +1,21 @@
+import appConfig from '@/appConfig';
 import { chargerStations } from '@/__mock-data__';
+import axios from 'axios';
+import { authenticationProvider } from '..';
 import { ChargerStation, IChargerStationCollection } from '../types';
 
 export default class ChargerStationCollection implements IChargerStationCollection {
   stations = chargerStations;
 
   async getAllChargerStations(): Promise<ChargerStation[]> {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        resolve(this.stations);
-      }, 1000);
+    const response = await axios.get(`${appConfig.FLEXICHARGE_API_URL}/chargePoints`, {
+      headers: {
+        Authorization: `Bearer ${authenticationProvider.getToken()}`
+      }
     });
+
+    const chargerStations = response.data;
+    return chargerStations;
   }
 
   async getChargerStationById(stationId: number): Promise<ChargerStation | null> {

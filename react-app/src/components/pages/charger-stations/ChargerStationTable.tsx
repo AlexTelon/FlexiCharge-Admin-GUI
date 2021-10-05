@@ -112,7 +112,7 @@ const ChargerStationsTable = (props: any) => {
 
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
-      const newSelecteds = state.stations?.map((station) => station.chargePointId);
+      const newSelecteds = state.stations?.map((station) => station.chargePointID);
       if (newSelecteds === undefined) return;
       setSelected(newSelecteds);
       return;
@@ -171,10 +171,10 @@ const ChargerStationsTable = (props: any) => {
           <TableBody>
             {state.stations?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((station, index) => {
-                const isItemSelected = isSelected(station.chargePointId);
+                const isItemSelected = isSelected(station.chargePointID);
                 return (
                   <ChargerStationTableRow
-                    key={station.chargePointId}
+                    key={station.chargePointID}
                     station={station}
                     handleSelect={handleSelect}
                     selected={isItemSelected}

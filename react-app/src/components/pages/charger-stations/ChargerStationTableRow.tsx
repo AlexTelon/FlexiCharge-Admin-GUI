@@ -17,12 +17,12 @@ const ChargerStationTableRow: FC<ChargerStationTableRowProps> = ({ station, edit
     <>
       <TableRow
         hover
-        key={station.chargePointId}
+        key={station.chargePointID}
         onClick={() => setOpen(!open)}
         style={{ backgroundColor: open ? 'rgba(240,240,240,1)' : theme.flexiCharge.primary.white }}
       >
         <TableCell padding="checkbox">
-          <Checkbox color="primary" checked={selected} onChange={() => { handleSelect(station.chargePointId); } } />
+          <Checkbox color="primary" checked={selected} onChange={() => { handleSelect(station.chargePointID); } } />
         </TableCell>
         <TableCell>
           <Box
@@ -55,14 +55,14 @@ const ChargerStationTableRow: FC<ChargerStationTableRowProps> = ({ station, edit
             style={{ color: theme.flexiCharge.primary.white }}
             variant="contained"
             color="primary"
-            onClick={() => editClicked(station.chargePointId)}
+            onClick={() => editClicked(station.chargePointID)}
           >
             Edit
           </Button>
         </TableCell>
       </TableRow>
       <TableRow
-        key={station.chargePointId}
+        key={station.chargePointID}
       >
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
           <Collapse in={open} timeout="auto" unmountOnExit>

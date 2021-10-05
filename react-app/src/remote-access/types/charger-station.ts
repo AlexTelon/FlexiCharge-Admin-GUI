@@ -1,5 +1,5 @@
 export interface ChargerStation {
-  chargePointId: number
+  chargePointID: number
   name: string
   location: [number, number]
   price: number
@@ -9,6 +9,6 @@ export interface ChargerStation {
 export interface IChargerStationCollection {
   getAllChargerStations: () => Promise<ChargerStation[]>
   getChargerStationById: (stationId: number) => Promise<ChargerStation | null>
-  addChargerStation: (fields: Omit<ChargerStation, 'chargePointId'>) => Promise<[number | null, any | null]>
-  updateChargerStation: (stationId: number, fields: Omit<ChargerStation, 'chargePointId'>) => Promise<[ChargerStation | null, any | null]>
+  addChargerStation: (fields: Omit<ChargerStation, 'chargePointID'>) => Promise<[number | null, any | null]>
+  updateChargerStation: (stationId: number, fields: Omit<ChargerStation, 'chargePointID'>) => Promise<[ChargerStation | null, any | null]>
 }
