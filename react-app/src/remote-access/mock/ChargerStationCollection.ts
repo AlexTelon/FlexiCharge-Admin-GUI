@@ -23,6 +23,12 @@ export default class ChargerStationCollection implements IChargerStationCollecti
     });
   }
 
+  async deleteChargerStation(stationId: number): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      resolve(false);
+    });
+  }
+
   async addChargerStation(fields: Omit<ChargerStation, 'chargePointID'>): Promise<[number | null, any | null]> {
     return new Promise((resolve, reject) => {
       setTimeout(() => {

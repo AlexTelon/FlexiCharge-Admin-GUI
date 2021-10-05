@@ -71,6 +71,25 @@ export default class ChargerStationCollection implements IChargerStationCollecti
     }
   }
 
+  async deleteChargerStation(stationId: number): Promise<boolean> {
+    try {
+      const response = await axios.delete(`${appConfig.FLEXICHARGE_API_URL}/chargePoints/${stationId}`, {
+        headers: {
+          Authorization: `Bearer ${authenticationProvider.getToken()}`
+        }
+      });
+      if (response.status === 204) {
+        return true;
+      }
+      return false;
+    } catch (error: any) {
+      if (error.response) {
+        return false;
+      }
+      return false;
+    }
+  }
+
   async updateChargerStation(stationId: number, fields: Omit<ChargerStation, 'chargePointID'>): Promise<[ChargerStation | null, any | null]> {
     return new Promise((resolve, reject) => {
       setTimeout(() => {

@@ -9,6 +9,7 @@ import { createStyles, makeStyles, useTheme } from '@material-ui/styles';
 import React, { FC, useEffect, useState } from 'react';
 import { chargerStationCollection } from '@/remote-access';
 import { ChargerStation } from '@/remote-access/types';
+import { Alert } from '@material-ui/lab';
 
 const useStyle = makeStyles((theme: Theme) => 
   createStyles({
@@ -118,6 +119,22 @@ const ChargerStationEditPanel: FC<ChargerStationEditPanelProps> = ({ stationId }
   const handleDeleteDialogClose = () => {
     setDeleteDialogOpen(false);
   };
+
+  const handleDelete = async () => {
+    if (stationId) {
+      setLoading(true);
+      const wasSuccess = await chargerStationCollection.deleteChargerStation(stationId);
+      setLoading(false);
+      if (!wasSuccess) {
+        setErrorState({
+          alert: 'Could not delete Charger Station'
+        });
+      }
+      setDeleteDialogOpen(false);
+      stationId = 0;
+    }
+  };
+
   return (
     <Paper component="aside">
       {loading &&
@@ -141,6 +158,9 @@ const ChargerStationEditPanel: FC<ChargerStationEditPanelProps> = ({ stationId }
           </AppBar>
           <Divider />
           <form>
+            {errorState.alert &&
+              <Alert severity="warning">{errorState.alert}</Alert>
+            }
             <Box sx={{ px: 4 }}>
               <FormControl fullWidth variant="filled" error={errorState.name !== undefined}>
                 <InputLabel htmlFor="station-name-input">Name</InputLabel>
@@ -234,7 +254,7 @@ const ChargerStationEditPanel: FC<ChargerStationEditPanelProps> = ({ stationId }
                       <Button autoFocus onClick={handleDeleteDialogClose} color="primary">
                         Cancel
                       </Button>
-                      <Button onClick={handleDeleteDialogClose} className={classes.dialogDelete}>
+                      <Button onClick={handleDelete} className={classes.dialogDelete}>
                         Delete
                       </Button>
                     </DialogActions>
