@@ -27,29 +27,10 @@ const AddSingleStationDialog = ({ open, handleClose }: any) => {
   const [success, setSuccess] = useState(false);
   const [errorState, setErrorState] = useState<any>({});
 
-  // TODO: Refactor
-  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (property: string, value: any) => {
     setFields({
       ...fields,
-      name: e.target.value
-    });
-  };
-  const handleAddressChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFields({
-      ...fields,
-      price: Number(e.target.value)
-    });
-  };
-  const handleLatitudeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFields({
-      ...fields,
-      latitude: e.target.value
-    });
-  };
-  const handleLongitudeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFields({
-      ...fields,
-      longitude: e.target.value
+      [property]: value
     });
   };
 
@@ -146,7 +127,12 @@ const AddSingleStationDialog = ({ open, handleClose }: any) => {
             <Box sx={{ px: 2 }}>
               <FormControl style={{ marginTop: 12 }} fullWidth variant="outlined" error={errorState.name !== undefined}>
                 <InputLabel htmlFor="station-name-input">Name</InputLabel>
-                <Input id="station-name-input" aria-describedby="station-name-helper" onChange={handleNameChange} value={fields.name} />
+                <Input
+                  id="station-name-input"
+                  aria-describedby="station-name-helper"
+                  onChange={(e) => { handleInputChange('name', e.target.value); }}
+                  value={fields.name}
+                />
                 {errorState.name &&
                   <FormHelperText id="station-price-helper">
                     {errorState.name}
@@ -155,7 +141,13 @@ const AddSingleStationDialog = ({ open, handleClose }: any) => {
               </FormControl>
               <FormControl style={{ marginTop: 12 }} fullWidth variant="outlined" error={errorState.price !== undefined}>
                 <InputLabel htmlFor="station-price-input">Price</InputLabel>
-                <Input id="station-price-input" aria-describedby="station-price-helper" type="number" onChange={handleAddressChange} value={fields.price} />
+                <Input
+                  id="station-price-input"
+                  aria-describedby="station-price-helper"
+                  type="number"
+                  onChange={(e) => { handleInputChange('price', e.target.value); }}
+                  value={fields.price}
+                />
                 <FormHelperText id="station-price-helper">
                   {errorState.price
                     ? `${errorState.price} | Station Price`
@@ -165,7 +157,13 @@ const AddSingleStationDialog = ({ open, handleClose }: any) => {
               </FormControl>
               <FormControl style={{ marginTop: 12 }} fullWidth variant="outlined" error={errorState.longitude !== undefined}>
                 <InputLabel htmlFor="station-longitude-input">Longitude</InputLabel>
-                <Input id="station-longitude-input" aria-describedby="station-longitude-helper" type="number" onChange={handleLongitudeChange} value={fields.longitude} />
+                <Input
+                  id="station-longitude-input"
+                  aria-describedby="station-longitude-helper"
+                  type="number"
+                  onChange={(e) => { handleInputChange('longitude', e.target.value); }}
+                  value={fields.longitude}
+                />
                 <FormHelperText id="station-longitude-helper">
                   {errorState.longitude
                     ? `${errorState.longitude} | Geographic Coordinate`
@@ -175,7 +173,13 @@ const AddSingleStationDialog = ({ open, handleClose }: any) => {
               </FormControl>
               <FormControl style={{ marginTop: 12 }} fullWidth variant="outlined" error={errorState.latitude !== undefined}>
                 <InputLabel htmlFor="station-latitude-input">Latitude</InputLabel>
-                <Input id="station-latitude-input" aria-describedby="station-latitude-helper" type="number" onChange={handleLatitudeChange} value={fields.latitude} />
+                <Input
+                  id="station-latitude-input"
+                  aria-describedby="station-latitude-helper"
+                  type="number"
+                  onChange={(e) => { handleInputChange('latitude', e.target.value); }}
+                  value={fields.latitude}
+                />
                 <FormHelperText id="station-latitude-helper">
                   {errorState.latitude
                     ? `${errorState.latitude} | Geographic Coordinate`
