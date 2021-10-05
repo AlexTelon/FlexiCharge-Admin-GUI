@@ -145,7 +145,7 @@ const AddSingleStationDialog = ({ open, handleClose }: any) => {
                   id="station-price-input"
                   aria-describedby="station-price-helper"
                   type="number"
-                  onChange={(e) => { handleInputChange('price', e.target.value); }}
+                  onChange={(e) => { handleInputChange('price', Number(e.target.value)); }}
                   value={fields.price}
                 />
                 <FormHelperText id="station-price-helper">
@@ -161,7 +161,7 @@ const AddSingleStationDialog = ({ open, handleClose }: any) => {
                   id="station-longitude-input"
                   aria-describedby="station-longitude-helper"
                   type="number"
-                  onChange={(e) => { handleInputChange('longitude', e.target.value); }}
+                  onChange={(e) => { handleInputChange('longitude', Number(e.target.value)); }}
                   value={fields.longitude}
                 />
                 <FormHelperText id="station-longitude-helper">
@@ -177,7 +177,7 @@ const AddSingleStationDialog = ({ open, handleClose }: any) => {
                   id="station-latitude-input"
                   aria-describedby="station-latitude-helper"
                   type="number"
-                  onChange={(e) => { handleInputChange('latitude', e.target.value); }}
+                  onChange={(e) => { handleInputChange('latitude', Number(e.target.value)); }}
                   value={fields.latitude}
                 />
                 <FormHelperText id="station-latitude-helper">

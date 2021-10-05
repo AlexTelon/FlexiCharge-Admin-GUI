@@ -30,19 +30,38 @@ export default class ChargerStationCollection implements IChargerStationCollecti
   }
 
   async addChargerStation(fields: Omit<ChargerStation, 'chargePointID'>): Promise<[number | null, any | null]> {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        const errorObj = this.validateFields(fields);
-        if (Object.keys(errorObj).length > 0) resolve([null, errorObj]);
-        
-        const chargerStation: ChargerStation = {
-          ...fields,
-          chargePointID: this.stations.length + 1
-        };
-        this.stations.push(chargerStation);
-        resolve([chargerStation.chargePointID, null]);
-      }, 1000);
-    });
+    try {
+      const errorObj = this.validateFields(fields);
+      if (Object.keys(errorObj).length > 0) return [null, errorObj];
+
+      const response = await axios.post(`${appConfig.FLEXICHARGE_API_URL}/chargePoints`, {
+        ...fields
+      }, {
+        headers: {
+          Authorization: `Bearer ${authenticationProvider.getToken()}`
+        }
+      });
+
+      if (response.status === 201) {
+        return [response.data, null];
+      }
+
+      return [null, { error: 'An error occured' }];
+    } catch (error: any) {
+      if (error.response) {
+        const errorObj: any = {};
+        if (error.response.data.includes('dbUniqueConstraintError')) {
+          errorObj.name = 'Name is taken';
+        } else {
+          errorObj.error = 'An error occured';
+        }
+        return [null, errorObj];
+      } else if (error.request) {
+        return [null, { error: 'Could not connect to server' }];
+      } else {
+        return [null, {}];
+      }
+    }
   }
 
   async updateChargerStation(stationId: number, fields: Omit<ChargerStation, 'chargePointID'>): Promise<[ChargerStation | null, any | null]> {
@@ -64,19 +83,23 @@ export default class ChargerStationCollection implements IChargerStationCollecti
       }, 1000);
     });
   }
+  
+  private isValidLatitude(latitude: number) {
+    return latitude >= -90 && latitude <= 90;
+  }
 
-  private isNametaken(name: string) {
-    for (const station of this.stations) {
-      if (station.name === name) return true;
-    }
-    return false;
+  private isValidLongitude(longitude: number) {
+    return longitude >= -180 && longitude <= 80;
   }
 
   private validateFields(fields: Omit<ChargerStation, 'chargePointID'>): any | null {
     const errorObj: any = {};
-    if (fields.location[0] && isNaN(fields.location[0])) errorObj.latitude = 'Latitude must be a number';
-    if (fields.location[1] && isNaN(fields.location[1])) errorObj.longitude = 'Longitude must be a number';
-    if (fields.name && this.isNametaken(fields.name)) errorObj.name = 'Name is taken';
+    if (fields.location[0] && ((isNaN(fields.location[0]) || !this.isValidLatitude(fields.location[1])))) {
+      errorObj.latitude = 'Latitude must be a number and within range -90 to 90';
+    }
+    if (fields.location[1] && (isNaN(fields.location[1]) || !this.isValidLongitude(fields.location[0]))) {
+      errorObj.longitude = 'Longitude must be a number and within range -180 to 80';
+    }
     return errorObj;
   }
 }

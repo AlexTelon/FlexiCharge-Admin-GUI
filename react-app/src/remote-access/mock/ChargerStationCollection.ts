@@ -66,10 +66,22 @@ export default class ChargerStationCollection implements IChargerStationCollecti
     return false;
   }
 
+  private isValidLatitude(latitude: number) {
+    return latitude >= -90 && latitude <= 90;
+  }
+
+  private isValidLongitude(longitude: number) {
+    return longitude >= -180 && longitude <= 80;
+  }
+
   private validateFields(fields: Omit<ChargerStation, 'chargePointID'>): any | null {
     const errorObj: any = {};
-    if (fields.location[0] && isNaN(fields.location[0])) errorObj.latitude = 'Latitude must be a number';
-    if (fields.location[1] && isNaN(fields.location[1])) errorObj.longitude = 'Longitude must be a number';
+    if (fields.location[0] && ((isNaN(fields.location[0]) || !this.isValidLatitude(fields.location[1])))) {
+      errorObj.latitude = 'Latitude must be a number within range -90 to 90';
+    }
+    if (fields.location[1] && (isNaN(fields.location[1]) || !this.isValidLongitude(fields.location[0]))) {
+      errorObj.longitude = 'Longitude must be a number within range -180 to 80';
+    }
     if (fields.name && this.isNametaken(fields.name)) errorObj.name = 'Name is taken';
     return errorObj;
   }
