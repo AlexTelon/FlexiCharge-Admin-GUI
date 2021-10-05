@@ -33,7 +33,7 @@ export default class UserCollection implements IManageUserCollection {
             case 'name': 
               user.name = attribute.Value;
               break;
-            case 'family_name': 
+            case 'familyName': 
               user.familyName = attribute.Value;
               break;
             case 'email': 
@@ -42,11 +42,13 @@ export default class UserCollection implements IManageUserCollection {
             case 'email_verified': 
               user.emailVerified = (attribute.Value === 'true');
               break;
+            case 'password':
+              user.password = attribute.value;
+              break;
           }
         } 
 
         users.push(user);
-        console.log(users);
       }
 
       console.log(users);
@@ -58,13 +60,19 @@ export default class UserCollection implements IManageUserCollection {
     }
   }
   
-  public async addUser(fields: Omit<ManageUser, 'id'>): Promise<[string | null, any | null]> {
+  public async addUser(fields: Omit<ManageUser, 'username'>): Promise<[ManageUser | null, any | null]> {
     try {
-      const res = await axios.post(`${appConfig.FLEXICHARGE_API_URL}/users/`, fields);
+      const res = await axios.post(`${appConfig.FLEXICHARGE_API_URL}/auth/admin/users/`, {
+        headers: {
+          Authorization: `Bearer ${authenticationProvider.getToken()}`
+        },
+        body: JSON.stringify(fields)
+      });
       return [res.data, null];
     } catch (error: any) {
+      console.log(error);
       return [null, error];
-    }
+    };
   }
 
   public async getUserById(id: string): Promise<[ManageUser | null, any | null]> {

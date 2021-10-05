@@ -21,11 +21,6 @@ const headCells: HeadCell[] = [
     alignRight: false
   },
   {
-    id: 'familyName',
-    label: 'Family name',
-    alignRight: false
-  },
-  {
     id: 'Email',
     label: 'Email adress',
     alignRight: false
@@ -36,8 +31,8 @@ const headCells: HeadCell[] = [
     alignRight: false
   },
   {
-    id: 'password',
-    label: 'Password',
+    id: 'created',
+    label: 'User created',
     alignRight: false
   },
   {

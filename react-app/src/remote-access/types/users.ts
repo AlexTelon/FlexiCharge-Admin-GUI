@@ -8,13 +8,14 @@ export interface ManageUser {
   created?: string
   lastModified?: string
   enabled?: boolean
+  password?: string
   userStatus?: 'UNCONFIRMED' | 'CONFIRMED' | 'FORCE_CHANGE_PASSWORD'
 }
 
 export interface IManageUserCollection {
   getAllUsers: () => Promise<[ManageUser[] | null, any | null]>
   getUserById: (userId: string) => Promise<ManageUser | null | any | null>
-  addUser: (fields: Omit<ManageUser, 'id'>) => Promise<[string | null, any | null]>
+  addUser: (fields: Omit<ManageUser, 'username'>) => Promise<[ManageUser | null, any | null]>
   updateUser: (userId: string, fields: Omit<ManageUser, 'id'>) => Promise<[ManageUser | null, any | null]>
 }
 

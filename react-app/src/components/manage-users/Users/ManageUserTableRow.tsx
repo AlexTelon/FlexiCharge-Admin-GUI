@@ -36,12 +36,18 @@ const UserRow: FC<userRowProps> = ({ user, editClicked, selected, handleSelect }
               style={{ maxWidth: '15vw' }}
               noWrap
             >
-              {user.username && user.familyName}
+              {user.name}
             </Typography>
           </Box>
         </TableCell>
         <TableCell>
           {user.email}
+        </TableCell>
+        <TableCell>
+          {user.username}
+        </TableCell>
+        <TableCell>
+          {user.created}
         </TableCell>
         <TableCell align="right">
           <Button

@@ -48,10 +48,9 @@ const AddSingleUserDialog = ({ open, handleClose }: any) => {
   };
 
   const handleSubmitClicked = async () => {
-    if (name && email && familyName && password && username) {
+    if (name && email && familyName && username && password) {
       setLoading(true);
       const result = await userCollection.addUser({
-        username,
         name,
         familyName,
         email,
@@ -75,8 +74,9 @@ const AddSingleUserDialog = ({ open, handleClose }: any) => {
     } else {
       setErrorState({
         name: !name ? 'Required' : undefined,
-        email: !email ? 'Required' : undefined
-        
+        email: !email ? 'Required' : undefined,
+        familyName: !familyName ? 'Required' : undefined,
+        password: !password ? 'Required' : undefined
       });
     }
   };
