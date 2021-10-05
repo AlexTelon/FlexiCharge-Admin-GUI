@@ -71,6 +71,7 @@ const ChargerStationTableRow: FC<ChargerStationTableRowProps> = ({ station, edit
                 <TableHead>
                   <TableRow>
                     <TableCell>Price</TableCell>
+                    <TableCell>Klarna Reservation Price</TableCell>
                     <TableCell>Longitude</TableCell>
                     <TableCell>Latitude</TableCell>
                   </TableRow>
@@ -78,6 +79,7 @@ const ChargerStationTableRow: FC<ChargerStationTableRowProps> = ({ station, edit
                 <TableBody>
                   <TableRow>
                     <TableCell>{station.price}</TableCell>
+                    <TableCell>{station.klarnaReservationAmount}</TableCell>
                     <TableCell>{station.location[0]}</TableCell>
                     <TableCell>{station.location[1]}</TableCell>
                   </TableRow>
