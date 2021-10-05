@@ -43,46 +43,38 @@ const ChargerStationEditPanel: FC<ChargerStationEditPanelProps> = ({ stationId }
 
   const [deleteDialogOpen, setDeleteDialogOpen] = useState<boolean>(false);
   const [station, setStation] = useState<ChargerStation>();
-  const [name, setName] = useState<string>();
-  const [address, setAddress] = useState<string>();
-  const [latitude, setLatitude] = useState<number>();
-  const [longitude, setLongitude] = useState<number>();
+  const [fields, setFields] = useState<any>();
   const [errorState, setErrorState] = useState<any>({});
   const [loading, setLoading] = useState(false);
 
-  // TODO: Refactor
-  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setName(e.target.value);
-  };
-  const handleAddressChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setAddress(e.target.value);
-  };
-  const handleLatitudeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setLatitude(Number(e.target.value));
-  };
-  const handleLongitudeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setLongitude(Number(e.target.value));
+  const handleInputChange = (property: string, value: any) => {
+    setFields({
+      ...fields,
+      [property]: value
+    });
   };
 
   useEffect(() => {
     if (stationId) {
       chargerStationCollection.getChargerStationById(stationId).then((chargerStation) => {
         if (chargerStation === null) return;
-        setName(chargerStation.name);
-        setAddress(chargerStation.name);
-        setLongitude(chargerStation.location[0]);
-        setLatitude(chargerStation.location[1]);
+        setFields({
+          name: chargerStation.name,
+          longitude: chargerStation.location[0],
+          latitude: chargerStation.location[1],
+          price: chargerStation.price
+        });
         setStation(chargerStation);
       });
     }
   }, [stationId]);
 
   const handleSaveClick = async () => {
-    if (name && address && longitude && latitude && stationId) {
+    if (fields.name && fields.price && fields.longitude && fields.latitude && stationId) {
       setLoading(true);
       const result = await chargerStationCollection.updateChargerStation(stationId, {
-        name,
-        location: [longitude, latitude],
+        name: fields.name,
+        location: [fields.longitude, fields.latitude],
         price: 20,
         klarnaReservationAmount: 500
       });
@@ -98,19 +90,21 @@ const ChargerStationEditPanel: FC<ChargerStationEditPanelProps> = ({ stationId }
       }
     } else {
       setErrorState({
-        name: !name ? 'Required' : undefined,
-        address: !address ? 'Required' : undefined,
-        latitude: !latitude ? 'Required' : undefined,
-        longitude: !longitude ? 'Required' : undefined
+        name: !fields.name ? 'Required' : undefined,
+        price: !fields.price ? 'Required' : undefined,
+        latitude: !fields.latitude ? 'Required' : undefined,
+        longitude: !fields.longitude ? 'Required' : undefined
       });
     }
   };
 
   const handleCancleClick = () => {
     if (station) {
-      setName(station.name);
-      setLongitude(station.location[0]);
-      setLatitude(station.location[1]);
+      setFields({
+        name: station.name,
+        longitude: station.location[0],
+        latitude: station.location[1]
+      });
     }
   };
 
@@ -153,19 +147,19 @@ const ChargerStationEditPanel: FC<ChargerStationEditPanelProps> = ({ stationId }
                 <Input
                   id="station-name-input"
                   aria-describedby="station-name-helper"
-                  value={name}
-                  onChange={handleNameChange}
+                  value={fields.name}
+                  onChange={(e) => { handleInputChange('name', e.target.value); }}
                 />
               </FormControl>
-              <FormControl fullWidth variant="filled" error={errorState.address !== undefined}>
-                <InputLabel htmlFor="station-address-input">Address</InputLabel>
+              <FormControl fullWidth variant="filled" error={errorState.price !== undefined}>
+                <InputLabel htmlFor="station-price-input">Price</InputLabel>
                 <Input
-                  id="station-address-input"
-                  aria-describedby="station-address-helper"
-                  value={address}
-                  onChange={handleAddressChange}
+                  id="station-price-input"
+                  aria-describedby="station-price-helper"
+                  value={fields.price}
+                  onChange={(e) => { handleInputChange('price', e.target.value); }}
                 />
-                <FormHelperText id="station-address-helper">Street Address</FormHelperText>
+                <FormHelperText id="station-price-helper">Station Price</FormHelperText>
               </FormControl>
               <FormControl fullWidth variant="filled" error={errorState.longitude !== undefined}>
                 <InputLabel htmlFor="station-longitude-input">Longitude</InputLabel>
@@ -173,8 +167,8 @@ const ChargerStationEditPanel: FC<ChargerStationEditPanelProps> = ({ stationId }
                   id="station-longitude-input"
                   aria-describedby="station-longitude-helper"
                   type="number"
-                  value={longitude}
-                  onChange={handleLongitudeChange}
+                  value={fields.longitude}
+                  onChange={(e) => { handleInputChange('longitude', e.target.value); }}
                 />
                 <FormHelperText id="station-longitude-helper">Geographic Coordinate</FormHelperText>
               </FormControl>
@@ -184,8 +178,8 @@ const ChargerStationEditPanel: FC<ChargerStationEditPanelProps> = ({ stationId }
                   id="station-latitude-input"
                   aria-describedby="station-latitude-helper"
                   type="number"
-                  value={latitude}
-                  onChange={handleLatitudeChange} 
+                  value={fields.latitude}
+                  onChange={(e) => { handleInputChange('latitude', e.target.value); }} 
                 />
                 <FormHelperText id="station-latitude-helper">Geographic Coordinate</FormHelperText>
               </FormControl>
