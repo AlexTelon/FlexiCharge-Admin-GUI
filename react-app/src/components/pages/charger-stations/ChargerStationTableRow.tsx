@@ -5,9 +5,9 @@ import { ChargerStation } from '@/remote-access/types';
 
 interface ChargerStationTableRowProps {
   station: ChargerStation
-  editClicked: (stationId: string) => void
+  editClicked: (stationId: number) => void
   selected: boolean
-  handleSelect: (stationId: string) => void
+  handleSelect: (stationId: number) => void
 }
 
 const ChargerStationTableRow: FC<ChargerStationTableRowProps> = ({ station, editClicked, selected, handleSelect }) => {
@@ -17,12 +17,12 @@ const ChargerStationTableRow: FC<ChargerStationTableRowProps> = ({ station, edit
     <>
       <TableRow
         hover
-        key={station.id}
+        key={station.chargePointId}
         onClick={() => setOpen(!open)}
         style={{ backgroundColor: open ? 'rgba(240,240,240,1)' : theme.flexiCharge.primary.white }}
       >
         <TableCell padding="checkbox">
-          <Checkbox color="primary" checked={selected} onChange={() => { handleSelect(station.id); } } />
+          <Checkbox color="primary" checked={selected} onChange={() => { handleSelect(station.chargePointId); } } />
         </TableCell>
         <TableCell>
           <Box
@@ -42,7 +42,7 @@ const ChargerStationTableRow: FC<ChargerStationTableRowProps> = ({ station, edit
           </Box>
         </TableCell>
         <TableCell>
-          {station.address}
+          {station.price}
         </TableCell>
         <TableCell align="right">
           <Hidden xsDown>
@@ -55,14 +55,14 @@ const ChargerStationTableRow: FC<ChargerStationTableRowProps> = ({ station, edit
             style={{ color: theme.flexiCharge.primary.white }}
             variant="contained"
             color="primary"
-            onClick={() => editClicked(station.id)}
+            onClick={() => editClicked(station.chargePointId)}
           >
             Edit
           </Button>
         </TableCell>
       </TableRow>
       <TableRow
-        key={station.id + '-details'}
+        key={station.chargePointId}
       >
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
           <Collapse in={open} timeout="auto" unmountOnExit>
@@ -70,16 +70,16 @@ const ChargerStationTableRow: FC<ChargerStationTableRowProps> = ({ station, edit
               <Table size="small" aria-label="charger station details">
                 <TableHead>
                   <TableRow>
-                    <TableCell>Address</TableCell>
+                    <TableCell>Price</TableCell>
                     <TableCell>Longitude</TableCell>
                     <TableCell>Latitude</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   <TableRow>
-                    <TableCell>{station.address}</TableCell>
-                    <TableCell>{station.longitude}</TableCell>
-                    <TableCell>{station.latitude}</TableCell>
+                    <TableCell>{station.price}</TableCell>
+                    <TableCell>{station.location[0]}</TableCell>
+                    <TableCell>{station.location[1]}</TableCell>
                   </TableRow>
                 </TableBody>
               </Table>

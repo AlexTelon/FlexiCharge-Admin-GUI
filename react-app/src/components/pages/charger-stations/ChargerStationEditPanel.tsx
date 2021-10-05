@@ -35,7 +35,7 @@ const useStyle = makeStyles((theme: Theme) =>
 );
 
 interface ChargerStationEditPanelProps {
-  stationId?: string
+  stationId?: number
 }
 
 const ChargerStationEditPanel: FC<ChargerStationEditPanelProps> = ({ stationId }) => {
@@ -69,9 +69,9 @@ const ChargerStationEditPanel: FC<ChargerStationEditPanelProps> = ({ stationId }
       chargerStationCollection.getChargerStationById(stationId).then((chargerStation) => {
         if (chargerStation === null) return;
         setName(chargerStation.name);
-        setAddress(chargerStation.address);
-        setLatitude(chargerStation.latitude);
-        setLongitude(chargerStation.longitude);
+        setAddress(chargerStation.name);
+        setLongitude(chargerStation.location[0]);
+        setLatitude(chargerStation.location[1]);
         setStation(chargerStation);
       });
     }
@@ -80,7 +80,12 @@ const ChargerStationEditPanel: FC<ChargerStationEditPanelProps> = ({ stationId }
   const handleSaveClick = async () => {
     if (name && address && longitude && latitude && stationId) {
       setLoading(true);
-      const result = await chargerStationCollection.updateChargerStation(stationId, { name, address, latitude, longitude });
+      const result = await chargerStationCollection.updateChargerStation(stationId, {
+        name,
+        location: [longitude, latitude],
+        price: 20,
+        klarnaReservationAmount: 500
+      });
       if (result[1] !== null) {
         console.log(result);
         setErrorState({
@@ -104,9 +109,8 @@ const ChargerStationEditPanel: FC<ChargerStationEditPanelProps> = ({ stationId }
   const handleCancleClick = () => {
     if (station) {
       setName(station.name);
-      setAddress(station.address);
-      setLatitude(station.latitude);
-      setLongitude(station.longitude);
+      setLongitude(station.location[0]);
+      setLatitude(station.location[1]);
     }
   };
 

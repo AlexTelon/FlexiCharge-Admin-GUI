@@ -49,9 +49,9 @@ const AddSingleStationDialog = ({ open, handleClose }: any) => {
       setLoading(true);
       const result = await chargerStationCollection.addChargerStation({
         name,
-        address,
-        latitude,
-        longitude
+        location: [longitude, latitude],
+        price: 20,
+        klarnaReservationAmount: 500
       });
       
       if (result[1] !== null) {

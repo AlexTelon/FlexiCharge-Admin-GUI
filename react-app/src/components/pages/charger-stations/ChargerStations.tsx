@@ -101,10 +101,10 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 const ChargerStations = () => {
   const classes = useStyles();
-  const [activeStationId, setActiveStationId] = useState<string>();
+  const [activeStationId, setActiveStationId] = useState<number>();
   const [selectedStations, setSelectedStations] = useState<readonly string[]>([]);
   const stationsTable = useRef(null);
-  const handleStationEditClicked = (stationId: string) => {
+  const handleStationEditClicked = (stationId: number) => {
     setActiveStationId(stationId);
   };
   return (
@@ -136,7 +136,7 @@ const ChargerStations = () => {
                       aria-haspopup="true"
                       aria-controls="charger-stations-filters"
                       color="inherit"
-                      onClick={ () => setActiveStationId('')}
+                      onClick={ () => setActiveStationId(0)}
                     >
                       <Replay />
                     </IconButton>

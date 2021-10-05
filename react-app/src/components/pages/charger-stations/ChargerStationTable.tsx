@@ -18,8 +18,8 @@ const headCells: HeadCell[] = [
     alignRight: false
   },
   {
-    id: 'address',
-    label: 'Address',
+    id: 'price',
+    label: 'Price',
     alignRight: false
   },
   {
@@ -78,7 +78,7 @@ const ChargerStationsTable = (props: any) => {
   const [state, setState] = useState<StationTableState>({
     loaded: false
   });
-  const [selected, setSelected] = useState<readonly string[]>([]);
+  const [selected, setSelected] = useState<readonly number[]>([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
@@ -112,7 +112,7 @@ const ChargerStationsTable = (props: any) => {
 
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
-      const newSelecteds = state.stations?.map((station) => station.id);
+      const newSelecteds = state.stations?.map((station) => station.chargePointId);
       if (newSelecteds === undefined) return;
       setSelected(newSelecteds);
       return;
@@ -129,9 +129,9 @@ const ChargerStationsTable = (props: any) => {
     setPage(0);
   };
 
-  const handleSelect = (stationId: string) => {
+  const handleSelect = (stationId: number) => {
     const selectedIndex = selected.indexOf(stationId);
-    let newSelected: readonly string[] = [];
+    let newSelected: readonly number[] = [];
 
     if (selectedIndex === -1) {
       newSelected = newSelected.concat(selected, stationId);
@@ -149,7 +149,7 @@ const ChargerStationsTable = (props: any) => {
     setSelected(newSelected);
   };
 
-  const isSelected = (stationId: string) => selected.includes(stationId);
+  const isSelected = (stationId: number) => selected.includes(stationId);
 
   return (
     <>
@@ -171,10 +171,10 @@ const ChargerStationsTable = (props: any) => {
           <TableBody>
             {state.stations?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((station, index) => {
-                const isItemSelected = isSelected(station.id);
+                const isItemSelected = isSelected(station.chargePointId);
                 return (
                   <ChargerStationTableRow
-                    key={station.id}
+                    key={station.chargePointId}
                     station={station}
                     handleSelect={handleSelect}
                     selected={isItemSelected}

@@ -12,18 +12,18 @@ export default class ChargerStationCollection implements IChargerStationCollecti
     });
   }
 
-  async getChargerStationById(stationId: string): Promise<ChargerStation | null> {
+  async getChargerStationById(stationId: number): Promise<ChargerStation | null> {
     return new Promise((resolve, reject) => {
       // Look up in local
       // If not found then try remote
 
       setTimeout(() => {
-        resolve(this.stations.filter((station) => station.id === stationId)[0] || null);
+        resolve(this.stations.filter((station) => station.chargePointId === stationId)[0] || null);
       }, 100);
     });
   }
 
-  async addChargerStation(fields: Omit<ChargerStation, 'id'>): Promise<[string | null, any | null]> {
+  async addChargerStation(fields: Omit<ChargerStation, 'chargePointId'>): Promise<[number | null, any | null]> {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         const errorObj = this.validateFields(fields);
@@ -31,18 +31,18 @@ export default class ChargerStationCollection implements IChargerStationCollecti
         
         const chargerStation: ChargerStation = {
           ...fields,
-          id: `${this.stations.length + 1}`
+          chargePointId: this.stations.length + 1
         };
         this.stations.push(chargerStation);
-        resolve([chargerStation.id, null]);
+        resolve([chargerStation.chargePointId, null]);
       }, 1000);
     });
   }
 
-  async updateChargerStation(stationId: string, fields: Omit<ChargerStation, 'id'>): Promise<[ChargerStation | null, any | null]> {
+  async updateChargerStation(stationId: number, fields: Omit<ChargerStation, 'chargePointId'>): Promise<[ChargerStation | null, any | null]> {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
-        const stationIndex = this.stations.findIndex((station) => station.id === stationId);
+        const stationIndex = this.stations.findIndex((station) => station.chargePointId === stationId);
         if (stationIndex === -1) return [null, { errorMessage: 'Could not find the requested Charger Station' }];
 
         const errorObj = this.validateFields(fields);
@@ -50,7 +50,7 @@ export default class ChargerStationCollection implements IChargerStationCollecti
 
         const chargerStation = {
           ...fields,
-          id: this.stations[stationIndex].id
+          chargePointId: this.stations[stationIndex].chargePointId
         };
 
         this.stations[stationIndex] = chargerStation;
@@ -66,10 +66,10 @@ export default class ChargerStationCollection implements IChargerStationCollecti
     return false;
   }
 
-  private validateFields(fields: Omit<ChargerStation, 'id'>): any | null {
+  private validateFields(fields: Omit<ChargerStation, 'chargePointId'>): any | null {
     const errorObj: any = {};
-    if (fields.latitude && isNaN(fields.latitude)) errorObj.latitude = 'Latitude must be a number';
-    if (fields.longitude && isNaN(fields.longitude)) errorObj.longitude = 'Longitude must be a number';
+    if (fields.location[0] && isNaN(fields.location[0])) errorObj.latitude = 'Latitude must be a number';
+    if (fields.location[1] && isNaN(fields.location[1])) errorObj.longitude = 'Longitude must be a number';
     if (fields.name && this.isNametaken(fields.name)) errorObj.name = 'Name is taken';
     return errorObj;
   }
