@@ -19,14 +19,21 @@ export default class ChargerStationCollection implements IChargerStationCollecti
   }
 
   async getChargerStationById(stationId: number): Promise<ChargerStation | null> {
-    return new Promise((resolve, reject) => {
-      // Look up in local
-      // If not found then try remote
+    try {
+      const reponse = await axios.get(`${appConfig.FLEXICHARGE_API_URL}/chargePoints/${stationId}`, {
+        headers: {
+          Authorization: `Bearer ${authenticationProvider.getToken()}`
+        }
+      });
 
-      setTimeout(() => {
-        resolve(this.stations.filter((station) => station.chargePointID === stationId)[0] || null);
-      }, 100);
-    });
+      const chargerStation = reponse.data;
+      return chargerStation;
+    } catch (error: any) {
+      if (error.response) {
+        return null;
+      }
+      return null;
+    }
   }
 
   async addChargerStation(fields: Omit<ChargerStation, 'chargePointID'>): Promise<[number | null, any | null]> {

@@ -132,9 +132,9 @@ const ChargerStations = () => {
                       />
                     </Search>
                     <IconButton edge="end"
-                      aria-label="charger stations filters"
+                      aria-label="charger stations reload"
                       aria-haspopup="true"
-                      aria-controls="charger-stations-filters"
+                      aria-controls="charger-stations-reload"
                       color="inherit"
                       onClick={ () => setActiveStationId(0)}
                     >
