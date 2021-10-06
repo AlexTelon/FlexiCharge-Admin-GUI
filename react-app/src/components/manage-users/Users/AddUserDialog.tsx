@@ -51,6 +51,7 @@ const AddSingleUserDialog = ({ open, handleClose }: any) => {
     if (name && email && familyName && username && password) {
       setLoading(true);
       const result = await userCollection.addUser({
+        username,
         name,
         familyName,
         email,
