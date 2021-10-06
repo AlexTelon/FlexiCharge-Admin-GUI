@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/prefer-optional-chain */
 import { Theme, useTheme, useMediaQuery, TableProps, TableContainer, LinearProgress, Table, TableHead, TableRow, TableCell, Checkbox, TableBody, TablePagination } from '@material-ui/core';
 import React, { useState, useEffect } from 'react';
-import { chargerStationCollection } from '@/remote-access';
 import { ChargerStation } from '@/remote-access/types';
 import ChargerStationTableRow from './ChargerStationTableRow';
 
@@ -75,14 +74,19 @@ interface StationTableState {
 
 const ChargerStationsTable = (props: any) => {
   const theme: Theme = useTheme();
-  const [state, setState] = useState<StationTableState>({
-    loaded: false
-  });
+  /* const [state, setState] = useState<StationTableState>({
+    loaded: props.loaded,
+    stations: props.stations
+  }); */
+  const state: StationTableState = {
+    loaded: props.loaded,
+    stations: props.stations
+  };
   const [selected, setSelected] = useState<readonly number[]>([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
-  const loadStations = () => {
+  /* const loadStations = () => {
     chargerStationCollection.getAllChargerStations().then((stations) => {
       setState({
         loaded: true,
@@ -99,7 +103,7 @@ const ChargerStationsTable = (props: any) => {
 
   useEffect(() => {
     loadStations();
-  }, []);
+  }, []); */
 
   useEffect(() => {
     props.setSelectedStations(selected);

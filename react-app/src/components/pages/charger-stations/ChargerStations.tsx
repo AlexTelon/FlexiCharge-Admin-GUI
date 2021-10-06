@@ -6,12 +6,13 @@ import {
   alpha,
   InputBase
 } from '@material-ui/core';
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import ChargerStationEditPanel from './ChargerStationEditPanel';
 import { Helmet } from 'react-helmet';
 import { Replay } from '@material-ui/icons';
 import ChargerStationsTable from './ChargerStationTable';
 import ChargerStationsSettingsAccordian from './ChargerStationsSettingsAccordian';
+import { chargerStationCollection } from '@/remote-access';
 
 const useStyles = makeStyles((theme: Theme) => 
   createStyles({
@@ -101,12 +102,42 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 const ChargerStations = () => {
   const classes = useStyles();
+  const [state, setState] = useState<any>({
+    loaded: false
+  });
+  const [reloaded, setReload] = useState<boolean>(false);
   const [activeStationId, setActiveStationId] = useState<number>();
   const [selectedStations, setSelectedStations] = useState<readonly string[]>([]);
   const stationsTable = useRef(null);
   const handleStationEditClicked = (stationId: number) => {
     setActiveStationId(stationId);
   };
+
+  const loadStations = () => {
+    setState({
+      ...state,
+      loaded: false
+    });
+    chargerStationCollection.getAllChargerStations().then((stations) => {
+      setState({
+        loaded: true,
+        stations
+      });
+      setReload(false);
+    }).catch((_) => {
+      setState({
+        loaded: true,
+        error: true,
+        errorMessage: 'Failed to load'
+      });
+      setReload(false);
+    });
+  };
+
+  useEffect(() => {
+    loadStations();
+  }, [reloaded]);
+
   return (
     <>
       <Helmet>
@@ -136,7 +167,7 @@ const ChargerStations = () => {
                       aria-haspopup="true"
                       aria-controls="charger-stations-reload"
                       color="inherit"
-                      onClick={ () => setActiveStationId(0)}
+                      onClick={ () => { setActiveStationId(0); setReload(true); }}
                     >
                       <Replay />
                     </IconButton>
@@ -144,7 +175,7 @@ const ChargerStations = () => {
                 </AppBar>
                 <ChargerStationsSettingsAccordian selectedStations={selectedStations} />
                 <Paper elevation={2}>
-                  <ChargerStationsTable ref={stationsTable} setSelectedStations={setSelectedStations} editClicked={handleStationEditClicked} classes={classes} />
+                  <ChargerStationsTable loaded={state.loaded} stations={state.stations} ref={stationsTable} setSelectedStations={setSelectedStations} editClicked={handleStationEditClicked} classes={classes} />
                 </Paper>
               </Grid>
               <Grid item xs={12} md={4} lg={3}>
