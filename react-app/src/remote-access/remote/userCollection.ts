@@ -77,18 +77,62 @@ export default class UserCollection implements IManageUserCollection {
     };
   }
 
-  public async getUserById(id: string): Promise<[ManageUser | null, any | null]> {
+  public async getUserById(username: string): Promise<[ManageUser | null, any | null]> {
     try {
-      const res = await axios.get(`${appConfig.FLEXICHARGE_API_URL}/users/${id}`);
-      return [res.data as ManageUser, null];
-    } catch (error: any) {
+      const res = await axios.get(`${appConfig.FLEXICHARGE_API_URL}/auth/admin/users/${username}`, {
+        headers: {
+          Authorization: `Bearer ${authenticationProvider.getToken()}`
+        }
+      });
+      
+      const userData = res.data;
+      const user: ManageUser = { 
+        username: userData.Username,
+        userStatus: userData.UserStatus,
+        enabled: userData.Enabled,
+        created: userData.UserCreateDate,
+        lastModified: userData.lastModified
+      };
+      
+      for (const attribute of userData.UserAttributes) {   
+        switch (attribute.Name) {
+          case 'sub': 
+            user.sub = attribute.Value;
+            break;
+          case 'name': 
+            user.name = attribute.Value;
+            break;
+          case 'family_name': 
+            user.familyName = attribute.Value;
+            break;
+          case 'email': 
+            user.email = attribute.Value;
+            break;
+          case 'email_verified': 
+            user.emailVerified = (attribute.Value === 'true');
+            break;
+          case 'password':
+            user.password = attribute.value;
+            break;
+        }
+      }
+      
+      return [user, null];
+    } catch (error: any) {      
       return [null, error];
     }
   }
 
-  public async updateUser(id: string, fields: Omit<ManageUser, 'id'>): Promise<[ManageUser | null, any | null]> {
+  public async updateUser(username: string, fields: Omit<ManageUser, 'username'>): Promise<[ManageUser | null, any | null]> {
     try {
-      const res = await axios.put(`${appConfig.FLEXICHARGE_API_URL}/users/${id}`, fields);
+      const res = await axios.put(`${appConfig.FLEXICHARGE_API_URL}/auth/admin/users/${username}`, {
+        ...fields,
+        family_name: fields.familyName
+      }, {
+        headers: {
+          Authorization: `Bearer ${authenticationProvider.getToken()}`
+        }
+      });
       return [res.data, null];
     } catch (error: any) {
       return [null, error];

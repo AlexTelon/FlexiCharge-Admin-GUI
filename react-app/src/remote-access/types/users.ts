@@ -14,9 +14,9 @@ export interface ManageUser {
 
 export interface IManageUserCollection {
   getAllUsers: () => Promise<[ManageUser[] | null, any | null]>
-  getUserById: (userId: string) => Promise<ManageUser | null | any | null>
+  getUserById: (username: string) => Promise<ManageUser | null | any | null>
   addUser: (fields: Omit<ManageUser, 'id'>) => Promise<[ManageUser | null, any | null]>
-  updateUser: (userId: string, fields: Omit<ManageUser, 'id'>) => Promise<[ManageUser | null, any | null]>
+  updateUser: (username: string, fields: Omit<ManageUser, 'username'>) => Promise<[ManageUser | null, any | null]>
 }
 
 export interface ManageAdmin {

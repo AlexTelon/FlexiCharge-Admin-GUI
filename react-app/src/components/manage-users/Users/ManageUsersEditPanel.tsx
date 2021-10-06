@@ -3,8 +3,8 @@ import { AppBar, Box, Button, Dialog, DialogActions, DialogContent, DialogTitle,
 import { Close } from '@material-ui/icons';
 import { createStyles, makeStyles, useTheme } from '@material-ui/styles';
 import React, { FC, useEffect, useState } from 'react';
-import { ManageUser } from '../../../remote-access/interfaces';
 import { userCollection } from '@/remote-access';
+import { ManageUser } from '@/remote-access/types';
 
 const useStyle = makeStyles((theme: Theme) => 
 
@@ -32,15 +32,16 @@ const useStyle = makeStyles((theme: Theme) =>
 );
 
 interface ManageUsersEditPanelProps {
-  userId?: string
+  username?: string
 }
 
-const ManageUsersEditPanel: FC<ManageUsersEditPanelProps> = ({ userId }) => {
+const ManageUsersEditPanel: FC<ManageUsersEditPanelProps> = ({ username }) => {
   const classes = useStyle();
   const [user, setUser] = useState<ManageUser>();
   const [name, setName] = useState<string>();
   const [email, setEmail] = useState<string>();
-  const [phoneNumber, setPhoneNumber] = useState<string>();
+  // const [phoneNumber, setPhoneNumber] = useState<string>();
+  const [familyName, setFamilyName] = useState<string>();
   const [errorState, setErrorState] = useState<any>({});
   const [loading, setLoading] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState<boolean>(false);
@@ -50,32 +51,28 @@ const ManageUsersEditPanel: FC<ManageUsersEditPanelProps> = ({ userId }) => {
     setName(e.target.value);
   };
 
-  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(e.target.value);
-  };
-
-  const handlePhoneNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPhoneNumber(e.target.value);
+  const handleFamilyNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFamilyName(e.target.value);
   };
 
   useEffect(() => {
-    if (userId) {
-      userCollection.getUserById(userId).then((manageUsers) => {
-        if (manageUsers === null) return;
-        setName(manageUsers.name);
-        setEmail(manageUsers.email);
-        setPhoneNumber(manageUsers.phoneNumber);
-        setUser(manageUsers);
+    if (username) {
+      userCollection.getUserById(username).then((manageUsers) => {
+        const user = manageUsers[0];
+        
+        setName(user.name);
+        setFamilyName(user.familyName);
+        setUser(user);
       });
     }
-  }, [userId]);
+  }, [username]);
 
   const handleSaveClick = async () => {
-    if (name && email && phoneNumber && userId) {
+    if (name && familyName && username) {
       setLoading(true);
-      const result = await userCollection.updateUser(userId, { name, email, phoneNumber });
+      const result = await userCollection.updateUser(username, { name, familyName });
       if (result[1] !== null) {
-        console.log(result);
+        console.log('I am here', result);
         setErrorState({
           ...result[0]
         });
@@ -87,17 +84,17 @@ const ManageUsersEditPanel: FC<ManageUsersEditPanelProps> = ({ userId }) => {
     } else {
       setErrorState({
         name: !name ? 'Required' : undefined,
-        email: !email ? 'Required' : undefined,
-        phoneNumber: !phoneNumber ? 'Required' : undefined
+        familyName: !familyName ? 'Required' : undefined
       });
     }
   };
 
+  console.log('"meep', user);
+  
   const handleCancelClick = () => {
     if (user) {
       setName(user.name);
-      setEmail(user.email);
-      setPhoneNumber(user.phoneNumber);
+      setFamilyName(user.familyName);
     }
     setUser(undefined);
   };
@@ -143,17 +140,8 @@ const ManageUsersEditPanel: FC<ManageUsersEditPanelProps> = ({ userId }) => {
                 <Input 
                   id="username-input"
                   aria-describedby="username-helper"
-                  value={name}
+                  value={user.name}
                   onChange={handleNameChange}
-                />
-              </FormControl>
-              <FormControl fullWidth variant="filled">
-                <InputLabel htmlFor="email-input">Payment</InputLabel>
-                <Input 
-                  id="email-input"
-                  aria-describedby="email-helper"
-                  value={email}
-                  onChange={handleEmailChange}
                 />
               </FormControl>
               <FormControl fullWidth variant="filled">
@@ -161,8 +149,8 @@ const ManageUsersEditPanel: FC<ManageUsersEditPanelProps> = ({ userId }) => {
                 <Input 
                   id="phone-number-input"
                   aria-describedby="phone-number-helper"
-                  value={phoneNumber}
-                  onChange={handlePhoneNumberChange}
+                  value={user.familyName}
+                  onChange={handleFamilyNameChange}
                 />
                 Max 10 digits
               </FormControl>

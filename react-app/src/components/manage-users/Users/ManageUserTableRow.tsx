@@ -6,9 +6,9 @@ import { ManageUser } from '@/remote-access/types';
 
 interface userRowProps {
   user: ManageUser
-  editClicked: (userId: string) => void
+  editClicked: (username: string) => void
   selected: boolean
-  handleSelect: (userId: string) => void
+  handleSelect: (username: string) => void
 }
 
 const UserRow: FC<userRowProps> = ({ user, editClicked, selected, handleSelect }) => {
@@ -57,6 +57,7 @@ const UserRow: FC<userRowProps> = ({ user, editClicked, selected, handleSelect }
             color="primary"
             onClick={() => editClicked(user.username)}
           >
+            {console.log(editClicked)}
             Edit
           </Button>
         </TableCell>

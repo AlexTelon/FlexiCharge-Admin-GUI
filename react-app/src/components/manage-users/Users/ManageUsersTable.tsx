@@ -143,12 +143,12 @@ const UserTable = (props: any) => {
     setPage(0);
   };
 
-  const handleSelect = (userId: string) => {
-    const selectedIndex = selected.indexOf(userId);
+  const handleSelect = (username: string) => {
+    const selectedIndex = selected.indexOf(username);
     let newSelected: readonly string[] = [];
 
     if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, userId);
+      newSelected = newSelected.concat(selected, username);
     } else if (selectedIndex === 0) {
       newSelected = newSelected.concat(selected.slice(1));
     } else if (selectedIndex === selected.length - 1) {
@@ -162,7 +162,7 @@ const UserTable = (props: any) => {
     setSelected(newSelected);
   };
 
-  const isSelected = (userId: string) => selected.includes(userId);
+  const isSelected = (username: string) => selected.includes(username);
 
   let userRows = [];
 

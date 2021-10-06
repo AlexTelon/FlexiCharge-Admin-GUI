@@ -9,10 +9,10 @@ import {
 import { Helmet } from 'react-helmet';
 import { Edit, ExpandMore, FilterList } from '@material-ui/icons';
 import { ManageUser } from '@/remote-access/types';
-import { manageUserCollection } from '@/remote-access';
+import { userCollection } from '@/remote-access';
 import AddSingleUserDialog from './AddUserDialog';
 import AddIcon from '@material-ui/icons/Add';
-import ManageUsersEditPanel from './ManageUsersEditPanel';
+import ManageUsersEditPanel from '@/components/manage-users/Users/ManageUsersEditPanel';
 import ManageAdminsEditPanel from '@/components/manage-users/Admins/ManageAdminEditPanel';
 import AdminSettingsAccordian from '@/components/manage-users/Admins/ManageAdminsSettingsAccordian';
 import AdminTable from '@/components/manage-users/Admins/ManageAdminsTable';
@@ -90,20 +90,20 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const ManageUsers = () => {
   const classes = useStyles();
-  const [activeId, setActiveId] = useState<string | undefined>();
+  const [activeUser, setActiveUser] = useState<string | undefined>();
   const [selectedAdmins, setSelectedAdmins] = useState<readonly string[]>([]);
   const [selectedUsers, setSelectedUsers] = useState<readonly string[]>([]);
   const [selectedTab, setSelectedTab] = React.useState('users');
   const usersTable = useRef(null);
   const adminsTable = useRef(null);
 
-  const handleEditClicked = (id: string) => {
-    setActiveId(id);
+  const handleEditClicked = (username: string) => {
+    setActiveUser(username);
   };
 
   const handleTabChange = (event: any, newTab: string) => {
     setSelectedTab(newTab);
-    setActiveId(undefined);
+    setActiveUser(undefined);
   };
 
   return (
@@ -131,7 +131,7 @@ const ManageUsers = () => {
                       aria-haspopup="true"
                       aria-controls="user-filters"
                       color="inherit"
-                      onClick={ () => setActiveId('')}
+                      onClick={ () => setActiveUser('')}
                     >
                       <FilterList />
                     </IconButton>
@@ -161,12 +161,12 @@ const ManageUsers = () => {
               <Grid item xs={12} md={4} lg={3}>
                 {selectedTab === 'users' &&
                   <>
-                    <ManageUsersEditPanel userId={activeId} />
+                    <ManageUsersEditPanel username={activeUser} />
                   </>
                 }
                 {selectedTab === 'admins' &&
                   <>
-                    <ManageAdminsEditPanel adminId={activeId} />
+                    <ManageAdminsEditPanel adminId={activeUser} />
                   </>
                 }
               </Grid>
