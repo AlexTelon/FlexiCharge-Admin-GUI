@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/prefer-optional-chain */
 import { Theme, useTheme, useMediaQuery, TableProps, TableContainer, LinearProgress, Table, TableHead, TableRow, TableCell, Checkbox, TableBody, TablePagination } from '@material-ui/core';
 import React, { useState, useEffect } from 'react';
-import { chargerStationCollection } from '@/remote-access';
 import { ChargerStation } from '@/remote-access/types';
 import ChargerStationTableRow from './ChargerStationTableRow';
 
@@ -18,8 +17,8 @@ const headCells: HeadCell[] = [
     alignRight: false
   },
   {
-    id: 'address',
-    label: 'Address',
+    id: 'price',
+    label: 'Price',
     alignRight: false
   },
   {
@@ -75,14 +74,19 @@ interface StationTableState {
 
 const ChargerStationsTable = (props: any) => {
   const theme: Theme = useTheme();
-  const [state, setState] = useState<StationTableState>({
-    loaded: false
-  });
-  const [selected, setSelected] = useState<readonly string[]>([]);
+  /* const [state, setState] = useState<StationTableState>({
+    loaded: props.loaded,
+    stations: props.stations
+  }); */
+  const state: StationTableState = {
+    loaded: props.loaded,
+    stations: props.stations
+  };
+  const [selected, setSelected] = useState<readonly number[]>([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
-  const loadStations = () => {
+  /* const loadStations = () => {
     chargerStationCollection.getAllChargerStations().then((stations) => {
       setState({
         loaded: true,
@@ -99,7 +103,7 @@ const ChargerStationsTable = (props: any) => {
 
   useEffect(() => {
     loadStations();
-  }, []);
+  }, []); */
 
   useEffect(() => {
     props.setSelectedStations(selected);
@@ -112,7 +116,7 @@ const ChargerStationsTable = (props: any) => {
 
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
-      const newSelecteds = state.stations?.map((station) => station.id);
+      const newSelecteds = state.stations?.map((station) => station.chargePointID);
       if (newSelecteds === undefined) return;
       setSelected(newSelecteds);
       return;
@@ -129,9 +133,9 @@ const ChargerStationsTable = (props: any) => {
     setPage(0);
   };
 
-  const handleSelect = (stationId: string) => {
+  const handleSelect = (stationId: number) => {
     const selectedIndex = selected.indexOf(stationId);
-    let newSelected: readonly string[] = [];
+    let newSelected: readonly number[] = [];
 
     if (selectedIndex === -1) {
       newSelected = newSelected.concat(selected, stationId);
@@ -149,7 +153,7 @@ const ChargerStationsTable = (props: any) => {
     setSelected(newSelected);
   };
 
-  const isSelected = (stationId: string) => selected.includes(stationId);
+  const isSelected = (stationId: number) => selected.includes(stationId);
 
   return (
     <>
@@ -171,10 +175,10 @@ const ChargerStationsTable = (props: any) => {
           <TableBody>
             {state.stations?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((station, index) => {
-                const isItemSelected = isSelected(station.id);
+                const isItemSelected = isSelected(station.chargePointID);
                 return (
                   <ChargerStationTableRow
-                    key={station.id}
+                    key={station.chargePointID}
                     station={station}
                     handleSelect={handleSelect}
                     selected={isItemSelected}

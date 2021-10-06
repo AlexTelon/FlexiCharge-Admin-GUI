@@ -1,14 +1,15 @@
 export interface ChargerStation {
-  id: string
+  chargePointID: number
   name: string
-  address: string
-  longitude: number
-  latitude: number
+  location: [number, number]
+  price: number
+  klarnaReservationAmount: number | null
 }
 
 export interface IChargerStationCollection {
   getAllChargerStations: () => Promise<ChargerStation[]>
-  getChargerStationById: (stationId: string) => Promise<ChargerStation | null>
-  addChargerStation: (fields: Omit<ChargerStation, 'id'>) => Promise<[string | null, any | null]>
-  updateChargerStation: (stationId: string, fields: Omit<ChargerStation, 'id'>) => Promise<[ChargerStation | null, any | null]>
+  getChargerStationById: (stationId: number) => Promise<ChargerStation | null>
+  addChargerStation: (fields: Omit<ChargerStation, 'chargePointID'>) => Promise<[number | null, any | null]>
+  updateChargerStation: (stationId: number, fields: Omit<ChargerStation, 'chargePointID'>) => Promise<[ChargerStation | null, any | null]>
+  deleteChargerStation: (stationId: number) => Promise<boolean>
 }
