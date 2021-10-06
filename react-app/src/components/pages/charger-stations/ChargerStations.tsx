@@ -13,6 +13,7 @@ import { Replay } from '@material-ui/icons';
 import ChargerStationsTable from './ChargerStationTable';
 import ChargerStationsSettingsAccordian from './ChargerStationsSettingsAccordian';
 import { chargerStationCollection } from '@/remote-access';
+import { ChargerStation } from '@/remote-access/types';
 
 const useStyles = makeStyles((theme: Theme) => 
   createStyles({
@@ -105,12 +106,28 @@ const ChargerStations = () => {
   const [state, setState] = useState<any>({
     loaded: false
   });
+  const [search, setSearch] = useState<string>();
   const [reloaded, setReload] = useState<boolean>(false);
   const [activeStationId, setActiveStationId] = useState<number>();
   const [selectedStations, setSelectedStations] = useState<readonly string[]>([]);
   const stationsTable = useRef(null);
   const handleStationEditClicked = (stationId: number) => {
     setActiveStationId(stationId);
+  };
+
+  const handleSearch = (searchText: string) => {
+    setSearch(searchText);
+    if (searchText !== '') {
+      const stations = state.stations.filter((station: ChargerStation) => {
+        return station.chargePointID === Number(searchText);
+      });
+      setState({
+        ...state,
+        stations
+      });
+    } else {
+      setReload(true);
+    }
   };
 
   const loadStations = () => {
@@ -160,6 +177,8 @@ const ChargerStations = () => {
                       <StyledInputBase
                         placeholder="Search..."
                         inputProps={{ 'aria-label': 'search' }}
+                        onChange={(e) => { handleSearch(e.target.value); }}
+                        value={search}
                       />
                     </Search>
                     <IconButton edge="end"
@@ -167,7 +186,7 @@ const ChargerStations = () => {
                       aria-haspopup="true"
                       aria-controls="charger-stations-reload"
                       color="inherit"
-                      onClick={ () => { setActiveStationId(0); setReload(true); }}
+                      onClick={ () => { setActiveStationId(0); setReload(true); setSearch(undefined); }}
                     >
                       <Replay />
                     </IconButton>
