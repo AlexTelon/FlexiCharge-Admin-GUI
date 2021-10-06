@@ -30,7 +30,8 @@ const useStyle = makeStyles((theme: Theme) =>
       marginTop: theme.spacing(2)
     },
     dialogDelete: {
-      color: theme.flexiCharge.accent.error
+      color: theme.flexiCharge.primary.white,
+      backgroundColor: theme.flexiCharge.accent.error
     }
   })
 );
@@ -254,7 +255,7 @@ const ChargerStationEditPanel: FC<ChargerStationEditPanelProps> = ({ stationId }
                       <Button autoFocus onClick={handleDeleteDialogClose} color="primary">
                         Cancel
                       </Button>
-                      <Button onClick={handleDelete} className={classes.dialogDelete}>
+                      <Button onClick={handleDelete} variant="contained" className={classes.dialogDelete} >
                         Delete
                       </Button>
                     </DialogActions>
