@@ -91,23 +91,39 @@ export default class ChargerStationCollection implements IChargerStationCollecti
   }
 
   async updateChargerStation(stationId: number, fields: Omit<ChargerStation, 'chargePointID'>): Promise<[ChargerStation | null, any | null]> {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        const stationIndex = this.stations.findIndex((station) => station.chargePointID === stationId);
-        if (stationIndex === -1) return [null, { errorMessage: 'Could not find the requested Charger Station' }];
+    try {
+      const errorObj = this.validateFields(fields);
+      if (Object.keys(errorObj).length > 0) return [null, errorObj];
 
-        const errorObj = this.validateFields(fields);
-        if (Object.keys(errorObj).length > 0) resolve([null, errorObj]);
+      const response = await axios.put(`${appConfig.FLEXICHARGE_API_URL}/chargePoints/${stationId}`, {
+        ...fields
+      }, {
+        headers: {
+          Authorization: `Bearer ${authenticationProvider.getToken()}`
+        }
+      });
 
-        const chargerStation = {
-          ...fields,
-          chargePointID: this.stations[stationIndex].chargePointID
-        };
+      if (response.status === 200) {
+        return [response.data, null];
+      }
 
-        this.stations[stationIndex] = chargerStation;
-        resolve([chargerStation, null]);
-      }, 1000);
-    });
+      return [null, { error: 'An error occured' }];
+    } catch (error: any) {
+      if (error.response) {
+        const errorObj: any = {};
+        if (error.response.data.includes('dbUniqueConstraintError')) {
+          errorObj.name = 'Name is taken';
+          console.log(errorObj);
+        } else {
+          errorObj.error = 'An error occured';
+        }
+        return [null, errorObj];
+      } else if (error.request) {
+        return [null, { error: 'Could not connect to server' }];
+      } else {
+        return [null, {}];
+      }
+    }
   }
   
   private isValidLatitude(latitude: number) {

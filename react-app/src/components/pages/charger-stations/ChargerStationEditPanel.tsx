@@ -76,19 +76,20 @@ const ChargerStationEditPanel: FC<ChargerStationEditPanelProps> = ({ stationId }
       setLoading(true);
       const result = await chargerStationCollection.updateChargerStation(stationId, {
         name: fields.name,
-        location: [fields.longitude, fields.latitude],
+        location: [Number(fields.longitude), Number(fields.latitude)],
         price: 20,
         klarnaReservationAmount: 500
       });
       if (result[1] !== null) {
         console.log(result);
         setErrorState({
-          ...result[0]
+          ...result[1]
         });
         setLoading(false);
       } else if (result[0] !== null) {
         setStation(result[0]);
         setLoading(false);
+        setErrorState({});
       }
     } else {
       setErrorState({
@@ -178,6 +179,7 @@ const ChargerStationEditPanel: FC<ChargerStationEditPanelProps> = ({ stationId }
                   id="station-price-input"
                   aria-describedby="station-price-helper"
                   value={fields.price}
+                  type="number"
                   onChange={(e) => { handleInputChange('price', e.target.value); }}
                 />
                 <FormHelperText id="station-price-helper">Station Price</FormHelperText>
