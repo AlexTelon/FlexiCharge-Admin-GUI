@@ -89,7 +89,7 @@ const ManageUsersEditPanel: FC<ManageUsersEditPanelProps> = ({ username }) => {
     }
   };
 
-  console.log('"meep', user);
+  // console.log('"meep', user);
   
   const handleCancelClick = () => {
     if (user) {

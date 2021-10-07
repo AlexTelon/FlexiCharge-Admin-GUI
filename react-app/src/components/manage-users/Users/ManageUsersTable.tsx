@@ -88,32 +88,14 @@ interface UserTableState {
 
 const UserTable = (props: any) => {
   const theme: Theme = useTheme();
-  const [state, setState] = useState<UserTableState>({
-    loaded: false
-  });
+  
+  const state: UserTableState = {
+    users: props.users,
+    loaded: props.loaded
+  };
   const [selected, setSelected] = useState<readonly string[]>([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-
-  const loadUsers = async () => {
-    const [users, error] = await userCollection.getAllUsers();
-    if (users) {
-      setState({
-        loaded: true,
-        users
-      });
-    } else if (error) {
-      setState({
-        loaded: true,
-        error: true,
-        errorMessage: 'Failed to fetch users'
-      });
-    }
-  };
-
-  useEffect(() => {
-    loadUsers();
-  }, []);
 
   useEffect(() => {
     props.setSelectedUsers(selected);
@@ -177,6 +159,7 @@ const UserTable = (props: any) => {
       const isItemSelected = isSelected(user.username);
       userRows.push(<UserRow key={user.username} user={user} handleSelect={handleSelect} selected={isItemSelected} {...props} />);
     }
+    console.log('mino', userRows);
   }
 
   return (

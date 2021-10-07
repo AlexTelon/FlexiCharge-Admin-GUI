@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react/jsx-no-undef */
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   createStyles, makeStyles, Theme, Box, 
   AppBar, Toolbar, Typography, Container, Grid, 
-  IconButton, Paper, Tab 
+  IconButton, Paper, Tab, alpha, InputBase, styled 
 } from '@material-ui/core';
 import { Helmet } from 'react-helmet';
 import { Edit, ExpandMore, FilterList } from '@material-ui/icons';
@@ -88,8 +88,59 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
+const Search = styled('div')(({ theme }) => ({
+  position: 'relative',
+  color: 'black',
+  borderRadius: theme.shape.borderRadius,
+  backgroundColor: alpha(theme.flexiCharge.primary.lightGrey, 0.15),
+  '&:hover': {
+    backgroundColor: alpha(theme.palette.common.white, 0.25)
+  },
+  marginLeft: 0,
+  marginRight: theme.spacing(2),
+  width: '100%',
+  [theme.breakpoints.up('sm')]: {
+    marginLeft: theme.spacing(1),
+    width: 'auto'
+  }
+}));
+
+const SearchIconWrapper = styled('div')(({ theme }) => ({
+  padding: theme.spacing(0, 2),
+  height: '100%',
+  position: 'absolute',
+  pointerEvents: 'none',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center'
+}));
+
+const StyledInputBase = styled(InputBase)(({ theme }) => ({
+  color: 'inherit',
+  backgroundColor: 'transparent',
+  '& .MuiInputBase-input': {
+    padding: theme.spacing(1, 1, 1, 0),
+    // vertical padding + font size from searchIcon
+    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+    transition: theme.transitions.create('width'),
+    width: '100%',
+    [theme.breakpoints.up('sm')]: {
+      width: '12ch',
+      '&:focus': {
+        width: '20ch'
+      }
+    }
+  }
+}));
+
 const ManageUsers = () => {
   const classes = useStyles();
+  const [state, setState] = useState<any>({
+    loaded: false
+  });
+  const [reload, setReload] = useState<boolean>(false);
+  const [searchedUsers, setSearchUsers] = useState<ManageUser[]>([]);
+  const [search, setSearch] = useState<string>();
   const [activeUser, setActiveUser] = useState<string | undefined>();
   const [selectedAdmins, setSelectedAdmins] = useState<readonly string[]>([]);
   const [selectedUsers, setSelectedUsers] = useState<readonly string[]>([]);
@@ -106,6 +157,47 @@ const ManageUsers = () => {
     setActiveUser(undefined);
   };
 
+  const loadUsers = async() => {
+    setState({
+      ...state,
+      loaded: false
+    });
+
+    const [users, error] = await userCollection.getAllUsers();
+
+    if (users) {
+      setState({
+        loaded: true,
+        users
+      });
+      setReload(false);
+    } else if (error) {
+      setState({
+        loaded: true,
+        error: true,
+        errorMessage: 'Failed to load users'
+      });
+      setReload(false);
+    }
+  };
+
+  const handleSearch = (searchText: string) => {
+    if (searchText !== '') {
+      setSearch(searchText);
+      const users = state.users.filter((user: ManageUser) => {        
+        return user.name?.toLowerCase().includes(searchText.toLowerCase());
+      });
+      setSearchUsers(users);  
+    } else {
+      setSearch(undefined);
+      setReload(true);
+    }
+  };
+
+  useEffect(() => {
+    loadUsers();
+  }, [reload]);
+  
   return (
     <>
       <Helmet>
@@ -126,6 +218,17 @@ const ManageUsers = () => {
                         </TabList>
                       </TabContext>
                     </Typography>
+                    <Search color="primary">
+                      <SearchIconWrapper>
+                        <Search />
+                      </SearchIconWrapper>
+                      <StyledInputBase
+                        value={search}
+                        placeholder="Search..."
+                        inputProps={{ 'aria-label': 'search' }}
+                        onChange={(e) => { handleSearch(e.target.value); }}
+                      />
+                    </Search>
                     <IconButton edge="end"
                       aria-label="users filter"
                       aria-haspopup="true"
@@ -150,7 +253,7 @@ const ManageUsers = () => {
                 <Paper elevation={2}>
                   <TabContext value={selectedTab}>
                     <TabPanel value="users">
-                      <UserTable ref={usersTable} editClicked={handleEditClicked} setSelectedUsers={setSelectedUsers} classes={classes} />
+                      <UserTable ref={usersTable} loaded={state.loaded} users={search !== undefined ? searchedUsers : state.users} editClicked={handleEditClicked} setSelectedUsers={setSelectedUsers} classes={classes} />
                     </TabPanel>
                     <TabPanel value="admins">
                       <AdminTable ref={adminsTable} editClicked={handleEditClicked} setSelectedAdmins={setSelectedAdmins} classes={classes} />
