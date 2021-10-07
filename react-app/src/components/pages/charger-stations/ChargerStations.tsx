@@ -186,7 +186,7 @@ const ChargerStations = () => {
                       aria-haspopup="true"
                       aria-controls="charger-stations-reload"
                       color="inherit"
-                      onClick={ () => { setActiveStationId(0); setReload(true); setSearch(undefined); }}
+                      onClick={ () => { setReload(true); setSearch(undefined); }}
                     >
                       <Replay />
                     </IconButton>

@@ -77,7 +77,7 @@ const ChargerStationEditPanel: FC<ChargerStationEditPanelProps> = ({ stationId }
       const result = await chargerStationCollection.updateChargerStation(stationId, {
         name: fields.name,
         location: [Number(fields.longitude), Number(fields.latitude)],
-        price: fields.price,
+        price: Number(fields.price),
         klarnaReservationAmount: 500
       });
       if (result[1] !== null) {
