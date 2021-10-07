@@ -26,7 +26,8 @@ const AddSingleUserDialog = ({ open, handleClose }: any) => {
   const [success, setSuccess] = useState(false);
   const [name, setName] = useState<string>();
   const [email, setEmail] = useState<string>();
-  const [familyName, setFamilyName] = useState<string>();
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  const [family_name, setFamilyName] = useState<string>();
   const [password, setPassword] = useState<string>();
   const [username, setUsername] = useState<string>();
   const [errorState, setErrorState] = useState<any>({});
@@ -37,7 +38,7 @@ const AddSingleUserDialog = ({ open, handleClose }: any) => {
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
   };
-  const handleFamilyNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handlefamilyNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFamilyName(e.target.value);
   };
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -48,12 +49,12 @@ const AddSingleUserDialog = ({ open, handleClose }: any) => {
   };
 
   const handleSubmitClicked = async () => {
-    if (name && email && familyName && username && password) {
+    if (name && email && family_name && username && password) {
       setLoading(true);
       const result = await userCollection.addUser({
         username,
         name,
-        familyName,
+        family_name,
         email,
         password
       });
@@ -76,7 +77,7 @@ const AddSingleUserDialog = ({ open, handleClose }: any) => {
       setErrorState({
         name: !name ? 'Required' : undefined,
         email: !email ? 'Required' : undefined,
-        familyName: !familyName ? 'Required' : undefined,
+        family_name: !family_name ? 'Required' : undefined,
         password: !password ? 'Required' : undefined
       });
     }
@@ -142,12 +143,12 @@ const AddSingleUserDialog = ({ open, handleClose }: any) => {
                   </FormHelperText>
                 }
               </FormControl>
-              <FormControl style={{ marginTop: 12 }} fullWidth variant="outlined" error={errorState.familyName !== undefined}>
+              <FormControl style={{ marginTop: 12 }} fullWidth variant="outlined" error={errorState.family_name !== undefined}>
                 <InputLabel htmlFor="user-family-name-input">Family name</InputLabel>
-                <Input id="user-family-name-input" aria-describedby="user-family-name-helper" onChange={handleFamilyNameChange} value={familyName} />
+                <Input id="user-family-name-input" aria-describedby="user-family-name-helper" onChange={handlefamilyNameChange} value={family_name} />
                 <FormHelperText id="user-family-name-helper">
-                  {errorState.familyName
-                    ? `${errorState.familyName} | Family name`
+                  {errorState.family_name
+                    ? `${errorState.family_name} | Family name`
                     : ''
                   }
                 </FormHelperText>

@@ -33,8 +33,8 @@ export default class UserCollection implements IManageUserCollection {
             case 'name': 
               user.name = attribute.Value;
               break;
-            case 'familyName': 
-              user.familyName = attribute.Value;
+            case 'family_name': 
+              user.family_name = attribute.Value;
               break;
             case 'email': 
               user.email = attribute.Value;
@@ -63,8 +63,7 @@ export default class UserCollection implements IManageUserCollection {
   public async addUser(fields: Omit<ManageUser, 'id'>): Promise<[ManageUser | null, any | null]> {
     try {
       const res = await axios.post(`${appConfig.FLEXICHARGE_API_URL}/auth/admin/users`, {
-        ...fields,
-        family_name: fields.familyName
+        ...fields
       }, {
         headers: {
           Authorization: `Bearer ${authenticationProvider.getToken()}`
@@ -103,7 +102,7 @@ export default class UserCollection implements IManageUserCollection {
             user.name = attribute.Value;
             break;
           case 'family_name': 
-            user.familyName = attribute.Value;
+            user.family_name = attribute.Value;
             break;
           case 'email': 
             user.email = attribute.Value;
@@ -126,13 +125,14 @@ export default class UserCollection implements IManageUserCollection {
   public async updateUser(username: string, fields: Omit<ManageUser, 'username'>): Promise<[ManageUser | null, any | null]> {
     try {
       const res = await axios.put(`${appConfig.FLEXICHARGE_API_URL}/auth/admin/users/${username}`, {
-        ...fields,
-        family_name: fields.familyName
-      }, {
+        ...fields
+      },
+      {
         headers: {
           Authorization: `Bearer ${authenticationProvider.getToken()}`
         }
       });
+      
       return [res.data, null];
     } catch (error: any) {
       return [null, error];
