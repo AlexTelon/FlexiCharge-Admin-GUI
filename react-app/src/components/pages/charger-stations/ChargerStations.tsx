@@ -106,6 +106,7 @@ const ChargerStations = () => {
   const [state, setState] = useState<any>({
     loaded: false
   });
+  const [searchedStations, setSearchedStations] = useState<ChargerStation[]>([]);
   const [search, setSearch] = useState<string>();
   const [reloaded, setReload] = useState<boolean>(false);
   const [activeStationId, setActiveStationId] = useState<number>();
@@ -121,11 +122,9 @@ const ChargerStations = () => {
       const stations = state.stations.filter((station: ChargerStation) => {
         return station.chargePointID === Number(searchText);
       });
-      setState({
-        ...state,
-        stations
-      });
+      setSearchedStations(stations);
     } else {
+      setSearch(undefined);
       setReload(true);
     }
   };
@@ -186,7 +185,7 @@ const ChargerStations = () => {
                       aria-haspopup="true"
                       aria-controls="charger-stations-reload"
                       color="inherit"
-                      onClick={ () => { setActiveStationId(0); setReload(true); setSearch(undefined); }}
+                      onClick={ () => { setReload(true); setSearch(undefined); }}
                     >
                       <Replay />
                     </IconButton>
@@ -194,7 +193,7 @@ const ChargerStations = () => {
                 </AppBar>
                 <ChargerStationsSettingsAccordian selectedStations={selectedStations} />
                 <Paper elevation={2}>
-                  <ChargerStationsTable loaded={state.loaded} stations={state.stations} ref={stationsTable} setSelectedStations={setSelectedStations} editClicked={handleStationEditClicked} classes={classes} />
+                  <ChargerStationsTable loaded={state.loaded} stations={search !== undefined ? searchedStations : state.stations} ref={stationsTable} setSelectedStations={setSelectedStations} editClicked={handleStationEditClicked} classes={classes} />
                 </Paper>
               </Grid>
               <Grid item xs={12} md={4} lg={3}>
