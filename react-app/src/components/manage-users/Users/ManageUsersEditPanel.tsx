@@ -39,20 +39,20 @@ const ManageUsersEditPanel: FC<ManageUsersEditPanelProps> = ({ username }) => {
   const classes = useStyle();
   const [user, setUser] = useState<ManageUser>();
   const [name, setName] = useState<string>();
-  const [email, setEmail] = useState<string>();
+  const [fields, setFields] = useState<any>();
   // const [phoneNumber, setPhoneNumber] = useState<string>();
-  const [familyName, setFamilyName] = useState<string>();
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  const [family_name, setfamily_name] = useState<string>();
   const [errorState, setErrorState] = useState<any>({});
   const [loading, setLoading] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState<boolean>(false);
   // const [editDialog, setEditDialog] = useState<boolean>(false);
 
-  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setName(e.target.value);
-  };
-
-  const handleFamilyNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFamilyName(e.target.value);
+  const handleInputChange = (property: string, value: any) => {
+    setFields({
+      ...fields,
+      [property]: value
+    });
   };
 
   useEffect(() => {
@@ -60,17 +60,22 @@ const ManageUsersEditPanel: FC<ManageUsersEditPanelProps> = ({ username }) => {
       userCollection.getUserById(username).then((manageUsers) => {
         const user = manageUsers[0];
         
-        setName(user.name);
-        setFamilyName(user.familyName);
+        setFields({
+          name: user.name,
+          family_name: user.family_name
+        });
         setUser(user);
       });
     }
   }, [username]);
 
   const handleSaveClick = async () => {
-    if (name && familyName && username) {
+    if (username && fields.name && fields.family_name) {
       setLoading(true);
-      const result = await userCollection.updateUser(username, { name, familyName });
+      const result = await userCollection.updateUser(username, {
+        name: fields.name,
+        family_name: fields.family_name 
+      });
       if (result[1] !== null) {
         console.log('I am here', result);
         setErrorState({
@@ -78,23 +83,29 @@ const ManageUsersEditPanel: FC<ManageUsersEditPanelProps> = ({ username }) => {
         });
         setLoading(false);
       } else if (result[0] !== null) {
+        console.log('sadlyImHere', user);
+        
         setUser(result[0]);
         setLoading(false);
       }
     } else {
+      console.log('poop');
+      
       setErrorState({
         name: !name ? 'Required' : undefined,
-        familyName: !familyName ? 'Required' : undefined
+        family_name: !family_name ? 'Required' : undefined
       });
     }
   };
 
-  console.log('"meep', user);
+  console.log('meep', user);
   
   const handleCancelClick = () => {
     if (user) {
-      setName(user.name);
-      setFamilyName(user.familyName);
+      setFields({
+        name: user.name,
+        family_name: user.family_name
+      });
     }
     setUser(undefined);
   };
@@ -140,17 +151,17 @@ const ManageUsersEditPanel: FC<ManageUsersEditPanelProps> = ({ username }) => {
                 <Input 
                   id="username-input"
                   aria-describedby="username-helper"
-                  value={user.name}
-                  onChange={handleNameChange}
+                  value={fields.name}
+                  onChange={(e) => handleInputChange('name', e.target.value) }
                 />
               </FormControl>
               <FormControl fullWidth variant="filled">
-                <InputLabel htmlFor="phone-number-input">Role</InputLabel>
+                <InputLabel htmlFor="phone-number-input">Family name</InputLabel>
                 <Input 
                   id="phone-number-input"
                   aria-describedby="phone-number-helper"
-                  value={user.familyName}
-                  onChange={handleFamilyNameChange}
+                  value={fields.family_name}
+                  onChange={(e) => handleInputChange('family_name', e.target.value) }
                 />
                 Max 10 digits
               </FormControl>

@@ -3,7 +3,7 @@ export interface ManageUser {
   sub?: string
   emailVerified?: boolean
   name?: string
-  familyName?: string
+  family_name?: string
   email?: string
   created?: string
   lastModified?: string
