@@ -38,9 +38,10 @@ const useStyle = makeStyles((theme: Theme) =>
 
 interface ChargerStationEditPanelProps {
   stationId?: number
+  setActiveStationId: any
 }
 
-const ChargerStationEditPanel: FC<ChargerStationEditPanelProps> = ({ stationId }) => {
+const ChargerStationEditPanel: FC<ChargerStationEditPanelProps> = ({ stationId, setActiveStationId }) => {
   const classes = useStyle();
 
   const [deleteDialogOpen, setDeleteDialogOpen] = useState<boolean>(false);
@@ -131,6 +132,8 @@ const ChargerStationEditPanel: FC<ChargerStationEditPanelProps> = ({ stationId }
         setErrorState({
           alert: 'Could not delete Charger Station'
         });
+      } else {
+        setActiveStationId(undefined);
       }
       setDeleteDialogOpen(false);
       stationId = 0;
@@ -142,7 +145,7 @@ const ChargerStationEditPanel: FC<ChargerStationEditPanelProps> = ({ stationId }
       {loading &&
         <LinearProgress />
       }
-      {station && (
+      {station && stationId && (
         <>
           <AppBar position="static" elevation={0} className={classes.panelAppBar}>
             <Toolbar variant="dense">
@@ -153,6 +156,7 @@ const ChargerStationEditPanel: FC<ChargerStationEditPanelProps> = ({ stationId }
                 aria-label="deselect charger"
                 aria-controls="charger-info"
                 color="inherit"
+                onClick={() => setActiveStationId(undefined) }
               >
                 <Close />
               </IconButton>

@@ -198,7 +198,7 @@ const ChargerStations = () => {
                 </Paper>
               </Grid>
               <Grid item xs={12} md={4} lg={3}>
-                <ChargerStationEditPanel stationId={activeStationId} />
+                <ChargerStationEditPanel stationId={activeStationId} setActiveStationId={setActiveStationId} />
               </Grid>
             </Grid>
           </Container>
