@@ -9,6 +9,7 @@ import { createStyles, makeStyles, useTheme } from '@material-ui/styles';
 import React, { FC, useEffect, useState } from 'react';
 import { chargerStationCollection } from '@/remote-access';
 import { ChargerStation } from '@/remote-access/types';
+import { Alert } from '@material-ui/lab';
 
 const useStyle = makeStyles((theme: Theme) => 
   createStyles({
@@ -29,13 +30,14 @@ const useStyle = makeStyles((theme: Theme) =>
       marginTop: theme.spacing(2)
     },
     dialogDelete: {
-      color: theme.flexiCharge.accent.error
+      color: theme.flexiCharge.primary.white,
+      backgroundColor: theme.flexiCharge.accent.error
     }
   })
 );
 
 interface ChargerStationEditPanelProps {
-  stationId?: string
+  stationId?: number
 }
 
 const ChargerStationEditPanel: FC<ChargerStationEditPanelProps> = ({ stationId }) => {
@@ -43,70 +45,69 @@ const ChargerStationEditPanel: FC<ChargerStationEditPanelProps> = ({ stationId }
 
   const [deleteDialogOpen, setDeleteDialogOpen] = useState<boolean>(false);
   const [station, setStation] = useState<ChargerStation>();
-  const [name, setName] = useState<string>();
-  const [address, setAddress] = useState<string>();
-  const [latitude, setLatitude] = useState<number>();
-  const [longitude, setLongitude] = useState<number>();
+  const [fields, setFields] = useState<any>();
   const [errorState, setErrorState] = useState<any>({});
   const [loading, setLoading] = useState(false);
 
-  // TODO: Refactor
-  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setName(e.target.value);
-  };
-  const handleAddressChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setAddress(e.target.value);
-  };
-  const handleLatitudeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setLatitude(Number(e.target.value));
-  };
-  const handleLongitudeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setLongitude(Number(e.target.value));
+  const handleInputChange = (property: string, value: any) => {
+    setFields({
+      ...fields,
+      [property]: value
+    });
   };
 
   useEffect(() => {
     if (stationId) {
       chargerStationCollection.getChargerStationById(stationId).then((chargerStation) => {
         if (chargerStation === null) return;
-        setName(chargerStation.name);
-        setAddress(chargerStation.address);
-        setLatitude(chargerStation.latitude);
-        setLongitude(chargerStation.longitude);
+        setFields({
+          name: chargerStation.name,
+          longitude: chargerStation.location[0],
+          latitude: chargerStation.location[1],
+          price: chargerStation.price
+        });
         setStation(chargerStation);
       });
     }
   }, [stationId]);
 
   const handleSaveClick = async () => {
-    if (name && address && longitude && latitude && stationId) {
+    if (fields.name && fields.price && fields.longitude && fields.latitude && stationId) {
       setLoading(true);
-      const result = await chargerStationCollection.updateChargerStation(stationId, { name, address, latitude, longitude });
+      const result = await chargerStationCollection.updateChargerStation(stationId, {
+        name: fields.name,
+        location: [Number(fields.longitude), Number(fields.latitude)],
+        price: Number(fields.price),
+        klarnaReservationAmount: 500
+      });
       if (result[1] !== null) {
         console.log(result);
         setErrorState({
-          ...result[0]
+          ...result[1]
         });
         setLoading(false);
       } else if (result[0] !== null) {
         setStation(result[0]);
         setLoading(false);
+        setErrorState({});
       }
     } else {
       setErrorState({
-        name: !name ? 'Required' : undefined,
-        address: !address ? 'Required' : undefined,
-        latitude: !latitude ? 'Required' : undefined,
-        longitude: !longitude ? 'Required' : undefined
+        name: !fields.name ? 'Required' : undefined,
+        price: !fields.price ? 'Required' : undefined,
+        latitude: !fields.latitude ? 'Required' : undefined,
+        longitude: !fields.longitude ? 'Required' : undefined
       });
     }
   };
 
   const handleCancelClick = () => {
     if (station) {
-      setName(station.name);
-      setAddress(station.address);
-      setLatitude(station.latitude);
-      setLongitude(station.longitude);
+      setFields({
+        name: station.name,
+        longitude: station.location[0],
+        latitude: station.location[1]
+      });
     }
   };
 
@@ -120,6 +121,22 @@ const ChargerStationEditPanel: FC<ChargerStationEditPanelProps> = ({ stationId }
   const handleDeleteDialogClose = () => {
     setDeleteDialogOpen(false);
   };
+
+  const handleDelete = async () => {
+    if (stationId) {
+      setLoading(true);
+      const wasSuccess = await chargerStationCollection.deleteChargerStation(stationId);
+      setLoading(false);
+      if (!wasSuccess) {
+        setErrorState({
+          alert: 'Could not delete Charger Station'
+        });
+      }
+      setDeleteDialogOpen(false);
+      stationId = 0;
+    }
+  };
+
   return (
     <Paper component="aside">
       {loading &&
@@ -143,25 +160,29 @@ const ChargerStationEditPanel: FC<ChargerStationEditPanelProps> = ({ stationId }
           </AppBar>
           <Divider />
           <form>
+            {errorState.alert &&
+              <Alert severity="warning">{errorState.alert}</Alert>
+            }
             <Box sx={{ px: 4 }}>
               <FormControl fullWidth variant="filled" error={errorState.name !== undefined}>
                 <InputLabel htmlFor="station-name-input">Name</InputLabel>
                 <Input
                   id="station-name-input"
                   aria-describedby="station-name-helper"
-                  value={name}
-                  onChange={handleNameChange}
+                  value={fields.name}
+                  onChange={(e) => { handleInputChange('name', e.target.value); }}
                 />
               </FormControl>
-              <FormControl fullWidth variant="filled" error={errorState.address !== undefined}>
-                <InputLabel htmlFor="station-address-input">Address</InputLabel>
+              <FormControl fullWidth variant="filled" error={errorState.price !== undefined}>
+                <InputLabel htmlFor="station-price-input">Price</InputLabel>
                 <Input
-                  id="station-address-input"
-                  aria-describedby="station-address-helper"
-                  value={address}
-                  onChange={handleAddressChange}
+                  id="station-price-input"
+                  aria-describedby="station-price-helper"
+                  value={fields.price}
+                  type="number"
+                  onChange={(e) => { handleInputChange('price', e.target.value); }}
                 />
-                <FormHelperText id="station-address-helper">Street Address</FormHelperText>
+                <FormHelperText id="station-price-helper">Station Price</FormHelperText>
               </FormControl>
               <FormControl fullWidth variant="filled" error={errorState.longitude !== undefined}>
                 <InputLabel htmlFor="station-longitude-input">Longitude</InputLabel>
@@ -169,8 +190,8 @@ const ChargerStationEditPanel: FC<ChargerStationEditPanelProps> = ({ stationId }
                   id="station-longitude-input"
                   aria-describedby="station-longitude-helper"
                   type="number"
-                  value={longitude}
-                  onChange={handleLongitudeChange}
+                  value={fields.longitude}
+                  onChange={(e) => { handleInputChange('longitude', e.target.value); }}
                 />
                 <FormHelperText id="station-longitude-helper">Geographic Coordinate</FormHelperText>
               </FormControl>
@@ -180,8 +201,8 @@ const ChargerStationEditPanel: FC<ChargerStationEditPanelProps> = ({ stationId }
                   id="station-latitude-input"
                   aria-describedby="station-latitude-helper"
                   type="number"
-                  value={latitude}
-                  onChange={handleLatitudeChange} 
+                  value={fields.latitude}
+                  onChange={(e) => { handleInputChange('latitude', e.target.value); }} 
                 />
                 <FormHelperText id="station-latitude-helper">Geographic Coordinate</FormHelperText>
               </FormControl>
@@ -236,7 +257,7 @@ const ChargerStationEditPanel: FC<ChargerStationEditPanelProps> = ({ stationId }
                       <Button autoFocus onClick={handleDeleteDialogClose} color="primary">
                         Cancel
                       </Button>
-                      <Button onClick={handleDeleteDialogClose} className={classes.dialogDelete}>
+                      <Button onClick={handleDelete} variant="contained" className={classes.dialogDelete} >
                         Delete
                       </Button>
                     </DialogActions>

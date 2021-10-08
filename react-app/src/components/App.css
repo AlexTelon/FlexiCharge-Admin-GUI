@@ -2,7 +2,7 @@ body {
   height: 100vh;
 }
 
-body::after {
+/* body::after {
   content: "";
   top: 0;
   bottom: 0;
@@ -10,10 +10,9 @@ body::after {
   right: 0;
   position: fixed;
   background: #222222;
-  /* clip-path: polygon(0% 0%, 0% 70%, 100% 30%, 100% 0%); */
   clip-path: polygon(0% 70%, 0% 100%, 100% 100%, 100% 30%);
   z-index: 0;
-}
+} */
 
 body > * {
   z-index: 10;
