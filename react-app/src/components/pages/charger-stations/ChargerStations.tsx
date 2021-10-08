@@ -192,7 +192,7 @@ const ChargerStations = () => {
                     </IconButton>
                   </Toolbar>
                 </AppBar>
-                <ChargerStationsSettingsAccordian selectedStations={selectedStations} />
+                <ChargerStationsSettingsAccordian setReload={setReload} selectedStations={selectedStations} />
                 <Paper elevation={2}>
                   <ChargerStationsTable loaded={state.loaded} stations={search !== undefined ? searchedStations : state.stations} ref={stationsTable} setSelectedStations={setSelectedStations} editClicked={handleStationEditClicked} classes={classes} />
                 </Paper>

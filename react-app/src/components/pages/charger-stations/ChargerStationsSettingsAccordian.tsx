@@ -9,9 +9,10 @@ import AddSingleStationDialog from './AddStationDialog';
 
 interface ChargerStationSettingsAccordianProps {
   selectedStations: readonly string[]
+  setReload: any
 };
 
-const ChargerStationsSettingsAccordian: FC<ChargerStationSettingsAccordianProps> = ({ selectedStations }) => {
+const ChargerStationsSettingsAccordian: FC<ChargerStationSettingsAccordianProps> = ({ selectedStations, setReload }) => {
   const theme: Theme = useTheme();
   const [openAddStationDialog, setOpenAddStationDialog] = useState<boolean>(false);
   const handleOpenAddStationDialog = () => {
@@ -19,6 +20,7 @@ const ChargerStationsSettingsAccordian: FC<ChargerStationSettingsAccordianProps>
   };
   const handleCloseAddStationDialog = () => {
     setOpenAddStationDialog(false);
+    setReload(true);
   };
 
   return (
