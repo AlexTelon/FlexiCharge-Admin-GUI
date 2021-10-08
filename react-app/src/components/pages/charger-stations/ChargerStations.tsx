@@ -120,7 +120,8 @@ const ChargerStations = () => {
     setSearch(searchText);
     if (searchText !== '') {
       const stations = state.stations.filter((station: ChargerStation) => {
-        return station.chargePointID === Number(searchText);
+        return station.chargePointID === Number(searchText)
+          || station.name.toLowerCase().includes(searchText.toLowerCase());
       });
       setSearchedStations(stations);
     } else {
