@@ -3,8 +3,8 @@ import { AppBar, Box, Button, Dialog, DialogActions, DialogContent, DialogTitle,
 import { Close } from '@material-ui/icons';
 import { createStyles, makeStyles, useTheme } from '@material-ui/styles';
 import React, { FC, useEffect, useState } from 'react';
-import { manageUserCollection } from '../../../remote-access';
-import { ManageUser } from '@/remote-access/interfaces';
+import { userCollection } from '@/remote-access';
+import { ManageUser } from '@/remote-access/types';
 
 const useStyle = makeStyles((theme: Theme) => 
 
@@ -32,72 +32,80 @@ const useStyle = makeStyles((theme: Theme) =>
 );
 
 interface ManageUsersEditPanelProps {
-  userId?: string
+  username?: string
 }
 
-const ManageUsersEditPanel: FC<ManageUsersEditPanelProps> = ({ userId }) => {
+const ManageUsersEditPanel: FC<ManageUsersEditPanelProps> = ({ username }) => {
   const classes = useStyle();
   const [user, setUser] = useState<ManageUser>();
   const [name, setName] = useState<string>();
-  const [email, setEmail] = useState<string>();
-  const [phoneNumber, setPhoneNumber] = useState<string>();
+  const [fields, setFields] = useState<any>();
+  // const [phoneNumber, setPhoneNumber] = useState<string>();
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  const [family_name, setfamily_name] = useState<string>();
   const [errorState, setErrorState] = useState<any>({});
   const [loading, setLoading] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState<boolean>(false);
   // const [editDialog, setEditDialog] = useState<boolean>(false);
 
-  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setName(e.target.value);
-  };
-
-  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(e.target.value);
-  };
-
-  const handlePhoneNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPhoneNumber(e.target.value);
+  const handleInputChange = (property: string, value: any) => {
+    setFields({
+      ...fields,
+      [property]: value
+    });
   };
 
   useEffect(() => {
-    if (userId) {
-      manageUserCollection.getUserById(userId).then((manageUsers) => {
-        if (manageUsers === null) return;
-        setName(manageUsers.name);
-        setEmail(manageUsers.email);
-        setPhoneNumber(manageUsers.phoneNumber);
-        setUser(manageUsers);
+    if (username) {
+      userCollection.getUserById(username).then((manageUsers) => {
+        const user = manageUsers[0];
+        
+        setFields({
+          name: user.name,
+          family_name: user.family_name
+        });
+        setUser(user);
       });
     }
-  }, [userId]);
+  }, [username]);
 
   const handleSaveClick = async () => {
-    if (name && email && phoneNumber && userId) {
+    if (username && fields.name && fields.family_name) {
       setLoading(true);
-      const result = await manageUserCollection.updateUser(userId, { name, email, phoneNumber });
+      const result = await userCollection.updateUser(username, {
+        name: fields.name,
+        family_name: fields.family_name 
+      });
       if (result[1] !== null) {
-        console.log(result);
+        console.log('I am here', result);
         setErrorState({
           ...result[0]
         });
         setLoading(false);
       } else if (result[0] !== null) {
+        console.log('sadlyImHere', user);
+        
         setUser(result[0]);
         setLoading(false);
       }
     } else {
+      console.log('poop');
+      
       setErrorState({
         name: !name ? 'Required' : undefined,
-        email: !email ? 'Required' : undefined,
-        phoneNumber: !phoneNumber ? 'Required' : undefined
+        family_name: !family_name ? 'Required' : undefined
       });
     }
   };
 
+  // console.log('"meep', user);
+  
   const handleCancelClick = () => {
     if (user) {
-      setName(user.name);
-      setEmail(user.email);
-      setPhoneNumber(user.phoneNumber);
+      setFields({
+        name: user.name,
+        family_name: user.family_name
+      });
     }
     setUser(undefined);
   };
@@ -143,26 +151,17 @@ const ManageUsersEditPanel: FC<ManageUsersEditPanelProps> = ({ userId }) => {
                 <Input 
                   id="username-input"
                   aria-describedby="username-helper"
-                  value={name}
-                  onChange={handleNameChange}
+                  value={fields.name}
+                  onChange={(e) => handleInputChange('name', e.target.value) }
                 />
               </FormControl>
               <FormControl fullWidth variant="filled">
-                <InputLabel htmlFor="email-input">Payment</InputLabel>
-                <Input 
-                  id="email-input"
-                  aria-describedby="email-helper"
-                  value={email}
-                  onChange={handleEmailChange}
-                />
-              </FormControl>
-              <FormControl fullWidth variant="filled">
-                <InputLabel htmlFor="phone-number-input">Role</InputLabel>
+                <InputLabel htmlFor="phone-number-input">Family name</InputLabel>
                 <Input 
                   id="phone-number-input"
                   aria-describedby="phone-number-helper"
-                  value={phoneNumber}
-                  onChange={handlePhoneNumberChange}
+                  value={fields.family_name}
+                  onChange={(e) => handleInputChange('family_name', e.target.value) }
                 />
                 Max 10 digits
               </FormControl>

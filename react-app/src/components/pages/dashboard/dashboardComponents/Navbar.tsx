@@ -14,7 +14,7 @@ import { Icon } from '@material-ui/core';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import EvStationIcon from '@material-ui/icons/EvStation';
 import BatteryChargingFullIcon from '@material-ui/icons/BatteryChargingFull';
-import DescriptionIcon from '@material-ui/icons/Description';
+import PeopleIcon from '@material-ui/icons/People';
 import { useHistory } from 'react-router';
 
 // import MenuIcon from '@material-ui/icons/Menu';
@@ -28,7 +28,7 @@ const categories = [
       { id: 'Dashboard', icon: <DashboardIcon />, location: '/Dashboard', active: false },
       { id: 'Charger Station', icon: <EvStationIcon />, location: '/Dashboard/stations' },
       { id: 'Chargers', icon: <BatteryChargingFullIcon />, location: '/Dashboard/chargers' },
-      { id: 'Invoices', icon: <DescriptionIcon />, location: '/Dashboard/users' }
+      { id: 'Users', icon: <PeopleIcon />, location: '/Dashboard/users' }
     ]
   }
 ];
@@ -205,7 +205,7 @@ export default function MiniDrawer() {
         <Divider />
         
         <List className={classes.navBotSection}>
-          <ListItem button>
+          <ListItem button onClick={() => { window.location.reload(); }}>
             <ListItemIcon>
               <Icon className={classes.itemIcon}>logout</Icon>
             </ListItemIcon>
