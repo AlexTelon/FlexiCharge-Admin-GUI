@@ -6,7 +6,6 @@ import React, { useState, useEffect } from 'react';
 import { ManageUser } from '@/remote-access/types';
 import { userCollection } from '@/remote-access';
 import UserRow from './ManageUserTableRow';
-import { keys } from '@material-ui/core/styles/createBreakpoints';
 
 interface HeadCell {
   id: string

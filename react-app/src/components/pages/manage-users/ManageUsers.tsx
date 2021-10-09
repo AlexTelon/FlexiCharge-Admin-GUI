@@ -249,10 +249,10 @@ const ManageUsers = () => {
                 }
                 <Paper elevation={2}>
                   <TabContext value={selectedTab}>
-                    <TabPanel value="users">
+                    <TabPanel style={{ padding: 0 }} value="users">
                       <UserTable ref={usersTable} loaded={state.loaded} users={search !== undefined ? searchedUsers : state.users} editClicked={handleEditClicked} setSelectedUsers={setSelectedUsers} classes={classes} />
                     </TabPanel>
-                    <TabPanel value="admins">
+                    <TabPanel style={{ padding: 0 }} value="admins">
                       <AdminTable ref={adminsTable} editClicked={handleEditClicked} setSelectedAdmins={setSelectedAdmins} classes={classes} />
                     </TabPanel>
                   </TabContext>
