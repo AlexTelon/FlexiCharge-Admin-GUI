@@ -77,20 +77,15 @@ const ManageUsersEditPanel: FC<ManageUsersEditPanelProps> = ({ username }) => {
         family_name: fields.family_name 
       });
       if (result[1] !== null) {
-        console.log('I am here', result);
         setErrorState({
           ...result[0]
         });
         setLoading(false);
       } else if (result[0] !== null) {
-        console.log('sadlyImHere', user);
-        
         setUser(result[0]);
         setLoading(false);
       }
     } else {
-      console.log('poop');
-      
       setErrorState({
         name: !name ? 'Required' : undefined,
         family_name: !family_name ? 'Required' : undefined
@@ -98,7 +93,7 @@ const ManageUsersEditPanel: FC<ManageUsersEditPanelProps> = ({ username }) => {
     }
   };
 
-  // console.log('"meep', user);
+  // 
   
   const handleCancelClick = () => {
     if (user) {

@@ -6,14 +6,12 @@ import axios from 'axios';
 
 export default class UserCollection implements IManageUserCollection {
   public async getAllUsers(): Promise<[ManageUser[] | null, any | null]> {
-    console.log('here');
     try {
       const res = await axios.get(`${appConfig.FLEXICHARGE_API_URL}/auth/admin/users`, {
         headers: {
           Authorization: `Bearer ${authenticationProvider.getToken()}`
         }
       });
-      console.log('off');
       
       const users: ManageUser[] = [];
       for (const userData of res.data) {
@@ -50,12 +48,8 @@ export default class UserCollection implements IManageUserCollection {
 
         users.push(user);
       }
-
-      console.log(users);
-
       return [users, null];
     } catch (error: any) {
-      console.log(error);
       return [null, error];
     }
   }
@@ -71,7 +65,6 @@ export default class UserCollection implements IManageUserCollection {
       });
       return [res.data, null];
     } catch (error: any) {
-      console.log(error);
       return [null, error];
     };
   }
@@ -124,8 +117,15 @@ export default class UserCollection implements IManageUserCollection {
 
   public async updateUser(username: string, fields: Omit<ManageUser, 'username'>): Promise<[ManageUser | null, any | null]> {
     try {
+      const userAttributes = [];
+      for (const [key, value] of Object.entries(fields)) {
+        userAttributes.push({
+          Name: key,
+          Value: value
+        });
+      }
       const res = await axios.put(`${appConfig.FLEXICHARGE_API_URL}/auth/admin/users/${username}`, {
-        ...fields
+        userAttributes
       },
       {
         headers: {

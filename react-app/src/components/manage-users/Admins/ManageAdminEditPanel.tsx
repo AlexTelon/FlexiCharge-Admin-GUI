@@ -73,7 +73,6 @@ const ManageAdminsEditPanel: FC<ManageAdminsEditPanelProps> = ({ adminId }) => {
       setLoading(true);
       const result = await manageAdminCollection.updateAdmin(adminId, { name, email });
       if (result[1] !== null) {
-        console.log(result);
         setErrorState({
           ...result[0]
         });

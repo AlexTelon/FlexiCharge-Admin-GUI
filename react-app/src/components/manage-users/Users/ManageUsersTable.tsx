@@ -159,7 +159,6 @@ const UserTable = (props: any) => {
       const isItemSelected = isSelected(user.username);
       userRows.push(<UserRow key={user.username} user={user} handleSelect={handleSelect} selected={isItemSelected} {...props} />);
     }
-    console.log('mino', userRows);
   }
 
   return (
