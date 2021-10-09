@@ -40,13 +40,11 @@ const ManageUsersEditPanel: FC<ManageUsersEditPanelProps> = ({ username }) => {
   const [user, setUser] = useState<ManageUser>();
   const [name, setName] = useState<string>();
   const [fields, setFields] = useState<any>();
-  // const [phoneNumber, setPhoneNumber] = useState<string>();
   // eslint-disable-next-line @typescript-eslint/naming-convention
   const [family_name, setfamily_name] = useState<string>();
   const [errorState, setErrorState] = useState<any>({});
   const [loading, setLoading] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState<boolean>(false);
-  // const [editDialog, setEditDialog] = useState<boolean>(false);
 
   const handleInputChange = (property: string, value: any) => {
     setFields({
@@ -57,8 +55,13 @@ const ManageUsersEditPanel: FC<ManageUsersEditPanelProps> = ({ username }) => {
 
   useEffect(() => {
     if (username) {
-      userCollection.getUserById(username).then((manageUsers) => {
-        const user = manageUsers[0];
+      userCollection.getUserById(username).then((result) => {
+        if (result[0] === null) {
+          console.log(result[1]);
+          
+          return;
+        }
+        const user = result[0];
         
         setFields({
           name: user.name,
@@ -121,7 +124,7 @@ const ManageUsersEditPanel: FC<ManageUsersEditPanelProps> = ({ username }) => {
       {loading && 
             <LinearProgress />
       }
-      {user && (
+      {user && username && (
 
         <>
           <AppBar position="static" elevation={0} className={classes.panelAppBar}>
@@ -216,7 +219,6 @@ const ManageUsersEditPanel: FC<ManageUsersEditPanelProps> = ({ username }) => {
         </>
       )}
     </Paper>
-
   );
 };
 
