@@ -41,7 +41,6 @@ const ManageUsersEditPanel: FC<ManageUsersEditPanelProps> = ({ username, setActi
   const classes = useStyle();
   const [user, setUser] = useState<ManageUser>();
   const [fields, setFields] = useState<Partial<ManageUser>>({});
-  // eslint-disable-next-line @typescript-eslint/naming-convention
   const [errorState, setErrorState] = useState<any>({});
   const [loading, setLoading] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState<boolean>(false);
@@ -99,8 +98,6 @@ const ManageUsersEditPanel: FC<ManageUsersEditPanelProps> = ({ username, setActi
       });
     }
   };
-
-  // 
   
   const handleCancelClick = () => {
     if (user) {
@@ -110,6 +107,27 @@ const ManageUsersEditPanel: FC<ManageUsersEditPanelProps> = ({ username, setActi
       });
     }
     setUser(undefined);
+  };
+
+  const handleDeletClick = () => {
+    if (!user) return;
+    userCollection.deleteUser(user?.username).then((wasSuccess) => {
+      if (wasSuccess) {
+        setActiveUser(undefined);
+      } else {
+        setErrorState({
+          ...errorState,
+          alert: 'An error occured'
+        });
+      }
+      handleDeleteDialogClose();
+    }).catch((_: any) => {
+      setErrorState({
+        ...errorState,
+        alert: 'An error occured'
+      });
+      handleDeleteDialogClose();
+    });
   };
 
   const theme: Theme = useTheme();
@@ -214,7 +232,7 @@ const ManageUsersEditPanel: FC<ManageUsersEditPanelProps> = ({ username, setActi
                       <Button autoFocus onClick={handleDeleteDialogClose} color="primary">
                         Cancel
                       </Button>
-                      <Button onClick={handleDeleteDialogClose} className={classes.dialogDelete}>
+                      <Button onClick={handleDeletClick} className={classes.dialogDelete}>
                         Delete
                       </Button>
                     </DialogActions>

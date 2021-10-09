@@ -161,6 +161,23 @@ export default class UserCollection implements IManageUserCollection {
     return localUser;
   }
 
+  public async deleteUser (username: string): Promise<boolean> {
+    try {
+      await axios.delete(`${appConfig.FLEXICHARGE_API_URL}/auth/admin/users/${username}`, {
+        headers: {
+          Authorization: `Bearer ${authenticationProvider.getToken()}`
+        }
+      });
+
+      return true;
+    } catch (error: any) {
+      if (error.response) {
+        return false;
+      }
+      return false;
+    }
+  }
+
   private fromUserAttributes (userAttributes: any[]): Partial<ManageUser> {
     const user: any = {};
     for (const attribute of userAttributes) {
