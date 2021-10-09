@@ -261,12 +261,12 @@ const ManageUsers = () => {
               <Grid item xs={12} md={4} lg={3}>
                 {selectedTab === 'users' &&
                   <>
-                    <ManageUsersEditPanel username={activeUser} />
+                    <ManageUsersEditPanel username={activeUser} setActiveUser={setActiveUser} />
                   </>
                 }
                 {selectedTab === 'admins' &&
                   <>
-                    <ManageAdminsEditPanel adminId={activeUser} />
+                    <ManageAdminsEditPanel adminId={activeUser} setActiveUser={setActiveUser} />
                   </>
                 }
               </Grid>

@@ -34,9 +34,10 @@ const useStyle = makeStyles((theme: Theme) =>
 
 interface ManageUsersEditPanelProps {
   username?: string
+  setActiveUser: any
 }
 
-const ManageUsersEditPanel: FC<ManageUsersEditPanelProps> = ({ username }) => {
+const ManageUsersEditPanel: FC<ManageUsersEditPanelProps> = ({ username, setActiveUser }) => {
   const classes = useStyle();
   const [user, setUser] = useState<ManageUser>();
   const [fields, setFields] = useState<Partial<ManageUser>>({});
@@ -140,7 +141,7 @@ const ManageUsersEditPanel: FC<ManageUsersEditPanelProps> = ({ username }) => {
                 aria-controls="user-info"
                 color="inherit"
               >
-                <Close onClick={handleCancelClick} />
+                <Close onClick={() => { handleCancelClick(); setActiveUser(undefined); }} />
               </IconButton>
             </Toolbar>
           </AppBar>
