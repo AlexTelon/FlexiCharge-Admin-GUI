@@ -44,6 +44,8 @@ const AddSingleAdminDialog = ({ open, handleClose }: any) => {
       });
 
       if (result[1] !== null) {
+        console.log(result[1]);
+        
         setErrorState({
           ...result[1]
         });

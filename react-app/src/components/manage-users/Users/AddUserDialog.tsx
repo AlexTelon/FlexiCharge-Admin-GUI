@@ -61,12 +61,14 @@ const AddSingleUserDialog = ({ open, handleClose }: any) => {
 
       if (result[1] !== null) {
         setErrorState({
-          ...result[1]
+          ...result[1],
+          alert: result[1].error
         });
         setLoading(false);
       } else {
         setLoading(false);
         setSuccess(true);
+        setErrorState({});
         setTimeout(() => {
           setSuccess(false);
           handleClose();
