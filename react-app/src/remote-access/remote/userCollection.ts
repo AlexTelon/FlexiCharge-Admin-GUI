@@ -91,7 +91,29 @@ export default class UserCollection implements IManageUserCollection {
       
       return [res.data, null];
     } catch (error: any) {
-      return [null, error];
+      const errorObj: any = {};
+
+      if (error.response) {
+        switch (error.response.data.code) {
+          case 'UsernameExistsException':
+            errorObj.username = 'Username or Email taken';
+            errorObj.email = 'Username or Email taken';
+            break;
+          case 'InvalidPasswordException':
+            errorObj.password = (error.response.data.message as string).split(': ')[1];
+            break;
+          case 'InvalidParameterException':
+            errorObj.email = 'Must be correct format';
+            break;
+          default:
+            errorObj.error = 'An error occured';
+            break;
+        }
+      } else if (error.request) {
+        errorObj.error = 'Could not connect to server';
+      }
+
+      return [null, errorObj];
     }
   }
 

@@ -5,6 +5,7 @@ import { createStyles, makeStyles, useTheme } from '@material-ui/styles';
 import React, { FC, useEffect, useState } from 'react';
 import { userCollection } from '@/remote-access';
 import { ManageUser } from '@/remote-access/types';
+import { Alert } from '@material-ui/lab';
 
 const useStyle = makeStyles((theme: Theme) => 
 
@@ -38,10 +39,8 @@ interface ManageUsersEditPanelProps {
 const ManageUsersEditPanel: FC<ManageUsersEditPanelProps> = ({ username }) => {
   const classes = useStyle();
   const [user, setUser] = useState<ManageUser>();
-  const [name, setName] = useState<string>();
-  const [fields, setFields] = useState<any>();
+  const [fields, setFields] = useState<Partial<ManageUser>>({});
   // eslint-disable-next-line @typescript-eslint/naming-convention
-  const [family_name, setfamily_name] = useState<string>();
   const [errorState, setErrorState] = useState<any>({});
   const [loading, setLoading] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState<boolean>(false);
@@ -79,9 +78,11 @@ const ManageUsersEditPanel: FC<ManageUsersEditPanelProps> = ({ username }) => {
         name: fields.name,
         family_name: fields.family_name 
       });
+
       if (result[1] !== null) {
         setErrorState({
-          ...result[0]
+          ...result[0],
+          alert: result[1].error
         });
         setLoading(false);
       } else if (result[0] !== null) {
@@ -90,8 +91,8 @@ const ManageUsersEditPanel: FC<ManageUsersEditPanelProps> = ({ username }) => {
       }
     } else {
       setErrorState({
-        name: !name ? 'Required' : undefined,
-        family_name: !family_name ? 'Required' : undefined
+        name: !fields.name ? 'Required' : undefined,
+        family_name: !fields.family_name ? 'Required' : undefined
       });
     }
   };
@@ -143,8 +144,11 @@ const ManageUsersEditPanel: FC<ManageUsersEditPanelProps> = ({ username }) => {
           </AppBar>
           <Divider />
           <form>
+            {errorState.alert &&
+              <Alert severity="warning">{errorState.alert}</Alert>
+            }
             <Box sx={{ px: 4 }}>
-              <FormControl fullWidth variant="filled">
+              <FormControl fullWidth variant="filled" error={errorState.name !== undefined}>
                 <InputLabel htmlFor="username-input">Name</InputLabel>
                 <Input 
                   id="username-input"
@@ -153,7 +157,7 @@ const ManageUsersEditPanel: FC<ManageUsersEditPanelProps> = ({ username }) => {
                   onChange={(e) => handleInputChange('name', e.target.value) }
                 />
               </FormControl>
-              <FormControl fullWidth variant="filled">
+              <FormControl fullWidth variant="filled" error={errorState.family_name !== undefined}>
                 <InputLabel htmlFor="phone-number-input">Family name</InputLabel>
                 <Input 
                   id="phone-number-input"
@@ -164,11 +168,11 @@ const ManageUsersEditPanel: FC<ManageUsersEditPanelProps> = ({ username }) => {
                 Max 10 digits
               </FormControl>
               <Box display="flex" sx={{ flexDirection: 'row-reverse', py: 1 }}>
-                <Button variant ="contained" color="primary" className={classes.saveButton} onClick={handleSaveClick}
-                >Save
+                <Button variant ="contained" color="primary" className={classes.saveButton} onClick={handleSaveClick}>
+                  Save
                 </Button>
                 <Button color="primary" onClick={handleCancelClick}>
-                Cancel
+                  Cancel
                 </Button>
               </Box>
             </Box>
