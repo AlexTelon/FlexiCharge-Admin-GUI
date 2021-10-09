@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react/jsx-no-undef */
 import React, { useEffect, useRef, useState } from 'react';
 import {
@@ -7,11 +6,9 @@ import {
   IconButton, Paper, Tab, alpha, InputBase, styled 
 } from '@material-ui/core';
 import { Helmet } from 'react-helmet';
-import { Edit, ExpandMore, FilterList } from '@material-ui/icons';
+import { Replay } from '@material-ui/icons';
 import { ManageUser } from '@/remote-access/types';
 import { userCollection } from '@/remote-access';
-import AddSingleUserDialog from './AddUserDialog';
-import AddIcon from '@material-ui/icons/Add';
 import ManageUsersEditPanel from '@/components/manage-users/Users/ManageUsersEditPanel';
 import ManageAdminsEditPanel from '@/components/manage-users/Admins/ManageAdminEditPanel';
 import AdminSettingsAccordian from '@/components/manage-users/Admins/ManageAdminsSettingsAccordian';
@@ -230,13 +227,13 @@ const ManageUsers = () => {
                       />
                     </Search>
                     <IconButton edge="end"
-                      aria-label="users filter"
+                      aria-label="reload users"
                       aria-haspopup="true"
-                      aria-controls="user-filters"
+                      aria-controls="reload-users"
                       color="inherit"
-                      onClick={ () => setActiveUser('')}
+                      onClick={ () => { setReload(true); setSearch(undefined); }}
                     >
-                      <FilterList />
+                      <Replay />
                     </IconButton>
                   </Toolbar>
                 </AppBar>
