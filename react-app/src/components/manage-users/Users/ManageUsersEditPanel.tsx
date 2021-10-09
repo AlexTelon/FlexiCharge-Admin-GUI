@@ -86,6 +86,8 @@ const ManageUsersEditPanel: FC<ManageUsersEditPanelProps> = ({ username }) => {
         });
         setLoading(false);
       } else if (result[0] !== null) {
+        console.log('new user', result[0]);
+        
         setUser(result[0]);
         setLoading(false);
       }
