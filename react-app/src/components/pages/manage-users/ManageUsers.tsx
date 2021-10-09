@@ -239,12 +239,12 @@ const ManageUsers = () => {
                 </AppBar>
                 {selectedTab === 'users' &&
                     <>
-                      <UserSettingsAccordian selectedUsers={selectedUsers} />
+                      <UserSettingsAccordian selectedUsers={selectedUsers} setReload={setReload} />
                     </>
                 }
                 {selectedTab === 'admins' &&
                     <>
-                      <AdminSettingsAccordian selectedAdmins={selectedAdmins} />
+                      <AdminSettingsAccordian selectedAdmins={selectedAdmins} setReload={setReload} />
                     </>
                 }
                 <Paper elevation={2}>

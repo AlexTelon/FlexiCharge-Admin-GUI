@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const AddSingleUserDialog = ({ open, handleClose }: any) => {
+const AddSingleUserDialog = ({ open, handleClose, setReload }: any) => {
   const classes = useStyles();
   const theme: Theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
@@ -49,6 +49,7 @@ const AddSingleUserDialog = ({ open, handleClose }: any) => {
       } else {
         setLoading(false);
         setSuccess(true);
+        setReload(true);
         setErrorState({});
         setTimeout(() => {
           setSuccess(false);

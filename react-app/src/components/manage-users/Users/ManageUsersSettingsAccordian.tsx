@@ -9,9 +9,10 @@ import AddIcon from '@material-ui/icons/Add';
 
 interface ManageUserSettingsAccordianProps {
   selectedUsers: readonly string[]
+  [key: string]: any
 }
 
-const UserSettingsAccordian: FC<ManageUserSettingsAccordianProps> = ({ selectedUsers }) => {
+const UserSettingsAccordian: FC<ManageUserSettingsAccordianProps> = ({ selectedUsers, ...rest }) => {
   const theme: Theme = useTheme();
   const [openAddUserDialog, setOpenAddUserDialog] = useState<boolean>(false);
   const handleOpenAddUserDialog = () => {
@@ -53,7 +54,7 @@ const UserSettingsAccordian: FC<ManageUserSettingsAccordianProps> = ({ selectedU
           Add User
         </Button>
       </AccordionActions>
-      <AddSingleUserDialog open={openAddUserDialog} handleClose={handleCloseAddUserDialog} />
+      <AddSingleUserDialog open={openAddUserDialog} handleClose={handleCloseAddUserDialog} {...rest} />
     </Accordion>
   );
 };

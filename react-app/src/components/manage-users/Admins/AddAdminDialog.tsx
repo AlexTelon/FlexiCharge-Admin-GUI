@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const AddSingleAdminDialog = ({ open, handleClose }: any) => {
+const AddSingleAdminDialog = ({ open, handleClose, setReload }: any) => {
   const classes = useStyles();
   const theme: Theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
@@ -53,6 +53,7 @@ const AddSingleAdminDialog = ({ open, handleClose }: any) => {
       } else {
         setLoading(false);
         setSuccess(true);
+        setReload(true);
         setTimeout(() => {
           setSuccess(false);
           handleClose();
