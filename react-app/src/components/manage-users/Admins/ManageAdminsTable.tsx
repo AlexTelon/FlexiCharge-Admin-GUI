@@ -2,7 +2,7 @@
 import { Theme, useMediaQuery, TableProps, TableContainer, LinearProgress, Table, TableHead, TableRow, TableCell, Checkbox, TableBody, TablePagination, useTheme } from '@material-ui/core';
 import React, { useState, useEffect } from 'react';
 import { manageAdminCollection } from '../../../remote-access';
-import { ManageAdmin } from '../../../remote-access/interfaces';
+import { ManageAdmin } from '../../../remote-access/types';
 import AdminRow from './ManageAdminTableRow';
 
 interface HeadCell {
@@ -112,7 +112,7 @@ const AdminTable = (props: any) => {
 
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
-      const newSelected = state.admins?.map((admins) => admins.id);
+      const newSelected = state.admins?.map((admins) => admins.username);
       if (newSelected === undefined) return;
       setSelected(newSelected);
       return;
@@ -160,8 +160,8 @@ const AdminTable = (props: any) => {
 
     for (let i = startOfIndex; i < startOfIndex + numberOfRows; i++) {
       const admin = state.admins[i];
-      const isItemSelected = isSelected(admin.id);
-      adminRows.push(<AdminRow key={admin.id} admin={admin} handleSelect={handleSelect} selected={isItemSelected} {...props} />);
+      const isItemSelected = isSelected(admin.username);
+      adminRows.push(<AdminRow key={admin.username} admin={admin} handleSelect={handleSelect} selected={isItemSelected} {...props} />);
     }
   }
 

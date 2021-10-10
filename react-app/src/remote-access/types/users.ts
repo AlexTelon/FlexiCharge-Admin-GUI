@@ -21,9 +21,17 @@ export interface IManageUserCollection {
 }
 
 export interface ManageAdmin {
-  id: string
-  name: string
-  email: string
+  username: string
+  sub?: string
+  emailVerified?: boolean
+  name?: string
+  family_name?: string
+  email?: string
+  created?: string
+  lastModified?: string
+  enabled?: boolean
+  password?: string
+  userStatus?: 'UNCONFIRMED' | 'CONFIRMED' | 'FORCE_CHANGE_PASSWORD'
 }
 
 export interface IManageAdminCollection {
