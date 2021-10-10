@@ -35,8 +35,9 @@ export interface ManageAdmin {
 }
 
 export interface IManageAdminCollection {
-  getAllAdmins: () => Promise<ManageAdmin[]>
-  getAdminById: (adminId: string) => Promise<ManageAdmin | null>
+  getAllAdmins: () => Promise<[ManageAdmin[] | null, any | null]>
+  getAdminById: (username: string) => Promise<ManageAdmin | null>
   addAdmin: (fields: Omit<ManageAdmin, 'id'>) => Promise<[string | null, any | null]>
-  updateAdmin: (adminId: string, fields: Omit<ManageAdmin, 'id'>) => Promise<[ManageAdmin | null, any | null]>
+  updateAdmin: (username: string, fields: Omit<ManageAdmin, 'username'>) => Promise<[ManageAdmin | null, any | null]>
+  deleteAdmin: (username: string) => Promise<boolean>
 }

@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/prefer-optional-chain */
 import { Theme, useMediaQuery, TableProps, TableContainer, LinearProgress, Table, TableHead, TableRow, TableCell, Checkbox, TableBody, TablePagination, useTheme } from '@material-ui/core';
 import React, { useState, useEffect } from 'react';
-import { manageAdminCollection } from '../../../remote-access';
 import { ManageAdmin } from '../../../remote-access/types';
 import AdminRow from './ManageAdminTableRow';
 
@@ -75,31 +74,13 @@ interface AdminTableState {
 
 const AdminTable = (props: any) => {
   const theme: Theme = useTheme();
-  const [state, setState] = useState<AdminTableState>({
-    loaded: false
-  });
+  const state: AdminTableState = {
+    loaded: props.loaded,
+    admins: props.admins
+  };
   const [selected, setSelected] = useState<readonly string[]>([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-
-  const loadAdmins = () => {
-    manageAdminCollection.getAllAdmins().then((admins) => {
-      setState({
-        loaded: true,
-        admins 
-      });
-    }).catch((_) => {
-      setState({
-        loaded: true,
-        error: true,
-        errorMessage: 'Failed to load'
-      });
-    });
-  };
-
-  useEffect(() => {
-    loadAdmins();
-  }, []);
 
   useEffect(() => {
     props.setSelectedAdmins(selected);

@@ -8,7 +8,7 @@ import {
 import { Helmet } from 'react-helmet';
 import { Replay } from '@material-ui/icons';
 import { ManageUser } from '@/remote-access/types';
-import { userCollection } from '@/remote-access';
+import { adminCollection, userCollection } from '@/remote-access';
 import ManageUsersEditPanel from '@/components/manage-users/Users/ManageUsersEditPanel';
 import ManageAdminsEditPanel from '@/components/manage-users/Admins/ManageAdminEditPanel';
 import AdminSettingsAccordian from '@/components/manage-users/Admins/ManageAdminsSettingsAccordian';
@@ -178,6 +178,30 @@ const ManageUsers = () => {
     }
   };
 
+  const loadAdmins = async () => {
+    setState({
+      ...state,
+      loaded: false
+    });
+
+    const [admins, error] = await adminCollection.getAllAdmins();
+
+    if (admins) {
+      setState({
+        loaded: true,
+        admins
+      });
+      setReload(false);
+    } else if (error) {
+      setState({
+        loaded: true,
+        error: true,
+        errorMessage: 'Failed to load admins'
+      });
+      setReload(false);
+    }
+  };
+
   const handleSearch = (searchText: string) => {
     if (searchText !== '') {
       setSearch(searchText);
@@ -192,7 +216,11 @@ const ManageUsers = () => {
   };
 
   useEffect(() => {
-    loadUsers();
+    if (selectedTab === 'users') {
+      loadUsers();
+    } else {
+      loadAdmins();
+    }
   }, [reload]);
   
   return (
@@ -250,10 +278,24 @@ const ManageUsers = () => {
                 <Paper elevation={2}>
                   <TabContext value={selectedTab}>
                     <TabPanel style={{ padding: 0 }} value="users">
-                      <UserTable ref={usersTable} loaded={state.loaded} users={search !== undefined ? searchedUsers : state.users} editClicked={handleEditClicked} setSelectedUsers={setSelectedUsers} classes={classes} />
+                      <UserTable
+                        ref={usersTable}
+                        loaded={state.loaded}
+                        users={search !== undefined ? searchedUsers : state.users}
+                        editClicked={handleEditClicked}
+                        setSelectedUsers={setSelectedUsers}
+                        classes={classes}
+                      />
                     </TabPanel>
                     <TabPanel style={{ padding: 0 }} value="admins">
-                      <AdminTable ref={adminsTable} editClicked={handleEditClicked} setSelectedAdmins={setSelectedAdmins} classes={classes} />
+                      <AdminTable
+                        ref={adminsTable}
+                        loaded={state.loaded}
+                        admins={search !== undefined ? state.admins : state.admins}
+                        editClicked={handleEditClicked}
+                        setSelectedAdmins={setSelectedAdmins}
+                        classes={classes}
+                      />
                     </TabPanel>
                   </TabContext>
                 </Paper>
