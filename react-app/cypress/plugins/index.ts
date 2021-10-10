@@ -22,7 +22,7 @@ export function pluginConfig (on: any, config: any): void {
   on('task', {
     log (x: any) {
       // prints into the terminal's console
-      console.log(x);
+      
 
       return null;
     }

@@ -5,6 +5,7 @@ import { createStyles, makeStyles, useTheme } from '@material-ui/styles';
 import React, { FC, useEffect, useState } from 'react';
 import { userCollection } from '@/remote-access';
 import { ManageUser } from '@/remote-access/types';
+import { Alert } from '@material-ui/lab';
 
 const useStyle = makeStyles((theme: Theme) => 
 
@@ -33,20 +34,16 @@ const useStyle = makeStyles((theme: Theme) =>
 
 interface ManageUsersEditPanelProps {
   username?: string
+  setActiveUser: any
 }
 
-const ManageUsersEditPanel: FC<ManageUsersEditPanelProps> = ({ username }) => {
+const ManageUsersEditPanel: FC<ManageUsersEditPanelProps> = ({ username, setActiveUser }) => {
   const classes = useStyle();
   const [user, setUser] = useState<ManageUser>();
-  const [name, setName] = useState<string>();
-  const [fields, setFields] = useState<any>();
-  // const [phoneNumber, setPhoneNumber] = useState<string>();
-  // eslint-disable-next-line @typescript-eslint/naming-convention
-  const [family_name, setfamily_name] = useState<string>();
+  const [fields, setFields] = useState<Partial<ManageUser>>({});
   const [errorState, setErrorState] = useState<any>({});
   const [loading, setLoading] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState<boolean>(false);
-  // const [editDialog, setEditDialog] = useState<boolean>(false);
 
   const handleInputChange = (property: string, value: any) => {
     setFields({
@@ -57,8 +54,13 @@ const ManageUsersEditPanel: FC<ManageUsersEditPanelProps> = ({ username }) => {
 
   useEffect(() => {
     if (username) {
-      userCollection.getUserById(username).then((manageUsers) => {
-        const user = manageUsers[0];
+      userCollection.getUserById(username).then((result) => {
+        if (result[0] === null) {
+          console.log(result[1]);
+          
+          return;
+        }
+        const user = result[0];
         
         setFields({
           name: user.name,
@@ -76,29 +78,26 @@ const ManageUsersEditPanel: FC<ManageUsersEditPanelProps> = ({ username }) => {
         name: fields.name,
         family_name: fields.family_name 
       });
+
       if (result[1] !== null) {
-        console.log('I am here', result);
         setErrorState({
-          ...result[0]
+          ...result[0],
+          alert: result[1].error
         });
         setLoading(false);
       } else if (result[0] !== null) {
-        console.log('sadlyImHere', user);
+        console.log('new user', result[0]);
         
         setUser(result[0]);
         setLoading(false);
       }
     } else {
-      console.log('poop');
-      
       setErrorState({
-        name: !name ? 'Required' : undefined,
-        family_name: !family_name ? 'Required' : undefined
+        name: !fields.name ? 'Required' : undefined,
+        family_name: !fields.family_name ? 'Required' : undefined
       });
     }
   };
-
-  // console.log('"meep', user);
   
   const handleCancelClick = () => {
     if (user) {
@@ -107,7 +106,27 @@ const ManageUsersEditPanel: FC<ManageUsersEditPanelProps> = ({ username }) => {
         family_name: user.family_name
       });
     }
-    setUser(undefined);
+  };
+
+  const handleDeletClick = () => {
+    if (!user) return;
+    userCollection.deleteUser(user?.username).then((wasSuccess) => {
+      if (wasSuccess) {
+        setActiveUser(undefined);
+      } else {
+        setErrorState({
+          ...errorState,
+          alert: 'An error occured'
+        });
+      }
+      handleDeleteDialogClose();
+    }).catch((_: any) => {
+      setErrorState({
+        ...errorState,
+        alert: 'An error occured'
+      });
+      handleDeleteDialogClose();
+    });
   };
 
   const theme: Theme = useTheme();
@@ -126,7 +145,7 @@ const ManageUsersEditPanel: FC<ManageUsersEditPanelProps> = ({ username }) => {
       {loading && 
             <LinearProgress />
       }
-      {user && (
+      {user && username && (
 
         <>
           <AppBar position="static" elevation={0} className={classes.panelAppBar}>
@@ -138,15 +157,19 @@ const ManageUsersEditPanel: FC<ManageUsersEditPanelProps> = ({ username }) => {
                 aria-label="deselect user"
                 aria-controls="user-info"
                 color="inherit"
+                onClick={() => { handleCancelClick(); setActiveUser(undefined); }} 
               >
-                <Close onClick={handleCancelClick} />
+                <Close />
               </IconButton>
             </Toolbar>
           </AppBar>
           <Divider />
           <form>
+            {errorState.alert &&
+              <Alert severity="warning">{errorState.alert}</Alert>
+            }
             <Box sx={{ px: 4 }}>
-              <FormControl fullWidth variant="filled">
+              <FormControl fullWidth variant="filled" error={errorState.name !== undefined}>
                 <InputLabel htmlFor="username-input">Name</InputLabel>
                 <Input 
                   id="username-input"
@@ -155,7 +178,7 @@ const ManageUsersEditPanel: FC<ManageUsersEditPanelProps> = ({ username }) => {
                   onChange={(e) => handleInputChange('name', e.target.value) }
                 />
               </FormControl>
-              <FormControl fullWidth variant="filled">
+              <FormControl fullWidth variant="filled" error={errorState.family_name !== undefined}>
                 <InputLabel htmlFor="phone-number-input">Family name</InputLabel>
                 <Input 
                   id="phone-number-input"
@@ -166,11 +189,11 @@ const ManageUsersEditPanel: FC<ManageUsersEditPanelProps> = ({ username }) => {
                 Max 10 digits
               </FormControl>
               <Box display="flex" sx={{ flexDirection: 'row-reverse', py: 1 }}>
-                <Button variant ="contained" color="primary" className={classes.saveButton} onClick={handleSaveClick}
-                >Save
+                <Button variant ="contained" color="primary" className={classes.saveButton} onClick={handleSaveClick}>
+                  Save
                 </Button>
                 <Button color="primary" onClick={handleCancelClick}>
-                Cancel
+                  Cancel
                 </Button>
               </Box>
             </Box>
@@ -209,7 +232,7 @@ const ManageUsersEditPanel: FC<ManageUsersEditPanelProps> = ({ username }) => {
                       <Button autoFocus onClick={handleDeleteDialogClose} color="primary">
                         Cancel
                       </Button>
-                      <Button onClick={handleDeleteDialogClose} className={classes.dialogDelete}>
+                      <Button onClick={handleDeletClick} className={classes.dialogDelete}>
                         Delete
                       </Button>
                     </DialogActions>
@@ -221,7 +244,6 @@ const ManageUsersEditPanel: FC<ManageUsersEditPanelProps> = ({ username }) => {
         </>
       )}
     </Paper>
-
   );
 };
 

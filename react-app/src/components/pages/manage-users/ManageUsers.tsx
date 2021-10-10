@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react/jsx-no-undef */
 import React, { useEffect, useRef, useState } from 'react';
 import {
@@ -7,11 +6,9 @@ import {
   IconButton, Paper, Tab, alpha, InputBase, styled 
 } from '@material-ui/core';
 import { Helmet } from 'react-helmet';
-import { Edit, ExpandMore, FilterList } from '@material-ui/icons';
-import { ManageUser } from '@/remote-access/types';
-import { userCollection } from '@/remote-access';
-import AddSingleUserDialog from './AddUserDialog';
-import AddIcon from '@material-ui/icons/Add';
+import { Replay } from '@material-ui/icons';
+import { ManageAdmin, ManageUser } from '@/remote-access/types';
+import { adminCollection, userCollection } from '@/remote-access';
 import ManageUsersEditPanel from '@/components/manage-users/Users/ManageUsersEditPanel';
 import ManageAdminsEditPanel from '@/components/manage-users/Admins/ManageAdminEditPanel';
 import AdminSettingsAccordian from '@/components/manage-users/Admins/ManageAdminsSettingsAccordian';
@@ -140,6 +137,7 @@ const ManageUsers = () => {
   });
   const [reload, setReload] = useState<boolean>(false);
   const [searchedUsers, setSearchUsers] = useState<ManageUser[]>([]);
+  const [searchedAdmins, setSearchAdmins] = useState<ManageAdmin[]>([]);
   const [search, setSearch] = useState<string>();
   const [activeUser, setActiveUser] = useState<string | undefined>();
   const [selectedAdmins, setSelectedAdmins] = useState<readonly string[]>([]);
@@ -155,6 +153,7 @@ const ManageUsers = () => {
   const handleTabChange = (event: any, newTab: string) => {
     setSelectedTab(newTab);
     setActiveUser(undefined);
+    setReload(true);
   };
 
   const loadUsers = async() => {
@@ -181,13 +180,45 @@ const ManageUsers = () => {
     }
   };
 
+  const loadAdmins = async () => {
+    setState({
+      ...state,
+      loaded: false
+    });
+
+    const [admins, error] = await adminCollection.getAllAdmins();
+
+    if (admins) {
+      setState({
+        loaded: true,
+        admins
+      });
+      setReload(false);
+    } else if (error) {
+      setState({
+        loaded: true,
+        error: true,
+        errorMessage: 'Failed to load admins'
+      });
+      setReload(false);
+    }
+  };
+
   const handleSearch = (searchText: string) => {
     if (searchText !== '') {
       setSearch(searchText);
-      const users = state.users.filter((user: ManageUser) => {        
-        return user.name?.toLowerCase().includes(searchText.toLowerCase());
-      });
-      setSearchUsers(users);  
+
+      if (selectedTab === 'users') {
+        const users = state.users.filter((user: ManageUser) => {        
+          return user.name?.toLowerCase().includes(searchText.toLowerCase());
+        });
+        setSearchUsers(users);  
+      } else {
+        const admins = state.admins.filter((admin: ManageAdmin) => {
+          return admin.name?.toLowerCase().includes(searchText.toLowerCase());
+        });
+        setSearchAdmins(admins);
+      }
     } else {
       setSearch(undefined);
       setReload(true);
@@ -195,7 +226,11 @@ const ManageUsers = () => {
   };
 
   useEffect(() => {
-    loadUsers();
+    if (selectedTab === 'users') {
+      loadUsers();
+    } else {
+      loadAdmins();
+    }
   }, [reload]);
   
   return (
@@ -207,7 +242,7 @@ const ManageUsers = () => {
         <Box className={classes.contentBox}>
           <Container component="section" className={classes.contentSection} maxWidth={false}>
             <Grid container spacing={1} className={`${classes.contentContainer}`}>
-              <Grid item xs={12} md={8} lg={9}>
+              <Grid item xs={12} md={activeUser !== undefined ? 8 : 12} lg={activeUser !== undefined ? 9 : 12}>
                 <AppBar position="static" className={classes.contentAppBar} elevation={1}>
                   <Toolbar variant="dense">
                     <Typography className={classes.contentTitle} variant="h6">
@@ -230,33 +265,47 @@ const ManageUsers = () => {
                       />
                     </Search>
                     <IconButton edge="end"
-                      aria-label="users filter"
+                      aria-label="reload users"
                       aria-haspopup="true"
-                      aria-controls="user-filters"
+                      aria-controls="reload-users"
                       color="inherit"
-                      onClick={ () => setActiveUser('')}
+                      onClick={ () => { setReload(true); setSearch(undefined); }}
                     >
-                      <FilterList />
+                      <Replay />
                     </IconButton>
                   </Toolbar>
                 </AppBar>
                 {selectedTab === 'users' &&
                     <>
-                      <UserSettingsAccordian selectedUsers={selectedUsers} />
+                      <UserSettingsAccordian selectedUsers={selectedUsers} setReload={setReload} />
                     </>
                 }
                 {selectedTab === 'admins' &&
                     <>
-                      <AdminSettingsAccordian selectedAdmins={selectedAdmins} />
+                      <AdminSettingsAccordian selectedAdmins={selectedAdmins} setReload={setReload} />
                     </>
                 }
                 <Paper elevation={2}>
                   <TabContext value={selectedTab}>
-                    <TabPanel value="users">
-                      <UserTable ref={usersTable} loaded={state.loaded} users={search !== undefined ? searchedUsers : state.users} editClicked={handleEditClicked} setSelectedUsers={setSelectedUsers} classes={classes} />
+                    <TabPanel style={{ padding: 0 }} value="users">
+                      <UserTable
+                        ref={usersTable}
+                        loaded={state.loaded}
+                        users={search !== undefined ? searchedUsers : state.users}
+                        editClicked={handleEditClicked}
+                        setSelectedUsers={setSelectedUsers}
+                        classes={classes}
+                      />
                     </TabPanel>
-                    <TabPanel value="admins">
-                      <AdminTable ref={adminsTable} editClicked={handleEditClicked} setSelectedAdmins={setSelectedAdmins} classes={classes} />
+                    <TabPanel style={{ padding: 0 }} value="admins">
+                      <AdminTable
+                        ref={adminsTable}
+                        loaded={state.loaded}
+                        admins={search !== undefined ? searchedAdmins : state.admins}
+                        editClicked={handleEditClicked}
+                        setSelectedAdmins={setSelectedAdmins}
+                        classes={classes}
+                      />
                     </TabPanel>
                   </TabContext>
                 </Paper>
@@ -264,12 +313,12 @@ const ManageUsers = () => {
               <Grid item xs={12} md={4} lg={3}>
                 {selectedTab === 'users' &&
                   <>
-                    <ManageUsersEditPanel username={activeUser} />
+                    <ManageUsersEditPanel username={activeUser} setActiveUser={setActiveUser} />
                   </>
                 }
                 {selectedTab === 'admins' &&
                   <>
-                    <ManageAdminsEditPanel adminId={activeUser} />
+                    <ManageAdminsEditPanel username={activeUser} setActiveUser={setActiveUser} />
                   </>
                 }
               </Grid>

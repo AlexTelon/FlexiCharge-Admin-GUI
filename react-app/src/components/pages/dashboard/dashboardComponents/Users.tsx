@@ -1,18 +1,8 @@
-/* eslint-disable react/react-in-jsx-scope */
-import { chargerStationCollection } from '@/remote-access';
-import {
-  Card,
-  CardContent,
-  Grid,
-  Box,
-  Typography,
-  createStyles,
-  makeStyles,
-  Theme,
-  LinearProgress
-} from '@material-ui/core';
-import EvStationIcon from '@material-ui/icons/EvStation';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { Box, Card, CardContent, Grid, LinearProgress, Theme, Typography } from '@material-ui/core';
+import { makeStyles, createStyles } from '@material-ui/styles';
+import { userCollection } from '@/remote-access';
+import { People } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -22,14 +12,18 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const chargingStationComp = (props: any) => {
+const UsersDashboardComponent = (props: any) => {
   const classes = useStyles();
-  const [numStations, setNumStations] = useState<number>();
   const [loaded, setLoaded] = useState(false);
+  const [numUsers, setNumUsers] = useState<string>();
 
   useEffect(() => {
-    chargerStationCollection.getAllChargerStations().then((stations) => {
-      setNumStations(stations.length);
+    userCollection.getAllUsers().then((result) => {
+      if (result[1] || result[0] === null) {
+        setNumUsers('N/A');
+        return;
+      }
+      setNumUsers(`${result[0].length}`);
       setLoaded(true);
     });
   }, []);
@@ -53,17 +47,17 @@ const chargingStationComp = (props: any) => {
               gutterBottom
               variant="h6"
             >
-              Active Charger Stations
+              Users
             </Typography>
             <Typography
               color="textPrimary"
               variant="h3"
             >
-              {numStations}
+              {numUsers}
             </Typography>
           </Grid>
           <Grid item>
-            <EvStationIcon className={classes.icon} />
+            <People className={classes.icon} />
           </Grid>
         </Grid>
         <Box
@@ -85,4 +79,4 @@ const chargingStationComp = (props: any) => {
   );
 };
 
-export default chargingStationComp;
+export default UsersDashboardComponent;

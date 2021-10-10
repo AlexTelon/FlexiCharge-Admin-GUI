@@ -1,8 +1,7 @@
 /* eslint-disable @typescript-eslint/prefer-optional-chain */
 import { Theme, useMediaQuery, TableProps, TableContainer, LinearProgress, Table, TableHead, TableRow, TableCell, Checkbox, TableBody, TablePagination, useTheme } from '@material-ui/core';
 import React, { useState, useEffect } from 'react';
-import { manageAdminCollection } from '../../../remote-access';
-import { ManageAdmin } from '../../../remote-access/interfaces';
+import { ManageAdmin } from '../../../remote-access/types';
 import AdminRow from './ManageAdminTableRow';
 
 interface HeadCell {
@@ -75,31 +74,13 @@ interface AdminTableState {
 
 const AdminTable = (props: any) => {
   const theme: Theme = useTheme();
-  const [state, setState] = useState<AdminTableState>({
-    loaded: false
-  });
+  const state: AdminTableState = {
+    loaded: props.loaded,
+    admins: props.admins
+  };
   const [selected, setSelected] = useState<readonly string[]>([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-
-  const loadAdmins = () => {
-    manageAdminCollection.getAllAdmins().then((admins) => {
-      setState({
-        loaded: true,
-        admins 
-      });
-    }).catch((_) => {
-      setState({
-        loaded: true,
-        error: true,
-        errorMessage: 'Failed to load'
-      });
-    });
-  };
-
-  useEffect(() => {
-    loadAdmins();
-  }, []);
 
   useEffect(() => {
     props.setSelectedAdmins(selected);
@@ -112,7 +93,7 @@ const AdminTable = (props: any) => {
 
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
-      const newSelected = state.admins?.map((admins) => admins.id);
+      const newSelected = state.admins?.map((admins) => admins.username);
       if (newSelected === undefined) return;
       setSelected(newSelected);
       return;
@@ -160,8 +141,8 @@ const AdminTable = (props: any) => {
 
     for (let i = startOfIndex; i < startOfIndex + numberOfRows; i++) {
       const admin = state.admins[i];
-      const isItemSelected = isSelected(admin.id);
-      adminRows.push(<AdminRow key={admin.id} admin={admin} handleSelect={handleSelect} selected={isItemSelected} {...props} />);
+      const isItemSelected = isSelected(admin.username);
+      adminRows.push(<AdminRow key={admin.username} admin={admin} handleSelect={handleSelect} selected={isItemSelected} {...props} />);
     }
   }
 
@@ -184,24 +165,6 @@ const AdminTable = (props: any) => {
           />
           <TableBody>
             {adminRows}
-            {/* {console.log(userRows)}
-            {state.users !== undefined
-              && state.users
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((users, index) => {
-                  const isItemSelected = isSelected(users.id);
-                  return (
-                    <UserRow
-                      key={users.id}
-                      user={users}
-                      handleSelect={handleSelect}
-                      selected={isItemSelected}
-                      {...props}
-                    >
-                    </UserRow>
-                  );
-                })
-            } */}
           </TableBody>
         </Table>
       </TableContainer>

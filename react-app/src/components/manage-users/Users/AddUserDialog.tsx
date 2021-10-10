@@ -8,6 +8,7 @@ import {
 import { CheckCircle, Close } from '@material-ui/icons';
 import { userCollection } from '@/remote-access';
 import { Alert } from '@material-ui/lab';
+import { ManageUser } from '@/remote-access/types';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -17,68 +18,51 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const AddSingleUserDialog = ({ open, handleClose }: any) => {
+const AddSingleUserDialog = ({ open, handleClose, setReload }: any) => {
   const classes = useStyles();
   const theme: Theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
-  const [name, setName] = useState<string>();
-  const [email, setEmail] = useState<string>();
-  // eslint-disable-next-line @typescript-eslint/naming-convention
-  const [family_name, setFamilyName] = useState<string>();
-  const [password, setPassword] = useState<string>();
-  const [username, setUsername] = useState<string>();
   const [errorState, setErrorState] = useState<any>({});
+  const [fields, setFields] = useState<Partial<ManageUser>>({});
 
-  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setName(e.target.value);
-  };
-  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(e.target.value);
-  };
-  const handlefamilyNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFamilyName(e.target.value);
-  };
-  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPassword(e.target.value);
-  };
-  const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setUsername(e.target.value);
+  const handleInputChange = (property: string, value: any) => {
+    setFields({
+      ...fields,
+      [property]: value
+    });
   };
 
   const handleSubmitClicked = async () => {
-    if (name && email && family_name && username && password) {
+    if (fields.name && fields.email && fields.family_name && fields.username && fields.password) {
       setLoading(true);
-      const result = await userCollection.addUser({
-        username,
-        name,
-        family_name,
-        email,
-        password
-      });
+      const result = await userCollection.addUser((fields as ManageUser));
 
       if (result[1] !== null) {
-        console.log(result);
         setErrorState({
-          ...result[1]
+          ...result[1],
+          alert: result[1].error
         });
         setLoading(false);
       } else {
         setLoading(false);
         setSuccess(true);
+        setReload(true);
+        setErrorState({});
         setTimeout(() => {
           setSuccess(false);
+          setFields({});
           handleClose();
         }, 450);
       } 
     } else {
       setErrorState({
-        name: !name ? 'Required' : undefined,
-        email: !email ? 'Required' : undefined,
-        family_name: !family_name ? 'Required' : undefined,
-        password: !password ? 'Required' : undefined
+        name: !fields.name ? 'Required' : undefined,
+        email: !fields.email ? 'Required' : undefined,
+        family_name: !fields.family_name ? 'Required' : undefined,
+        password: !fields.password ? 'Required' : undefined
       });
     }
   };
@@ -136,7 +120,7 @@ const AddSingleUserDialog = ({ open, handleClose }: any) => {
             <Box>
               <FormControl style={{ marginTop: 12 }} fullWidth variant="outlined" error={errorState.name !== undefined}>
                 <InputLabel htmlFor="user-name-input">Name</InputLabel>
-                <Input id="user-name-input" aria-describedby="user-name-helper" onChange={handleNameChange} value={name} />
+                <Input id="user-name-input" aria-describedby="user-name-helper" onChange={(e) => handleInputChange('name', e.target.value)} value={fields.name} />
                 {errorState.name &&
                   <FormHelperText id="user-address-helper">
                     {errorState.name}
@@ -145,7 +129,7 @@ const AddSingleUserDialog = ({ open, handleClose }: any) => {
               </FormControl>
               <FormControl style={{ marginTop: 12 }} fullWidth variant="outlined" error={errorState.family_name !== undefined}>
                 <InputLabel htmlFor="user-family-name-input">Family name</InputLabel>
-                <Input id="user-family-name-input" aria-describedby="user-family-name-helper" onChange={handlefamilyNameChange} value={family_name} />
+                <Input id="user-family-name-input" aria-describedby="user-family-name-helper" onChange={(e) => handleInputChange('family_name', e.target.value)} value={fields.family_name} />
                 <FormHelperText id="user-family-name-helper">
                   {errorState.family_name
                     ? `${errorState.family_name} | Family name`
@@ -155,7 +139,7 @@ const AddSingleUserDialog = ({ open, handleClose }: any) => {
               </FormControl>
               <FormControl style={{ marginTop: 12 }} fullWidth variant="outlined" error={errorState.email !== undefined}>
                 <InputLabel htmlFor="user-email-input">Email</InputLabel>
-                <Input id="user-email-input" aria-describedby="user-email-helper" onChange={handleEmailChange} value={email} />
+                <Input id="user-email-input" aria-describedby="user-email-helper" onChange={(e) => handleInputChange('email', e.target.value)} value={fields.email} />
                 <FormHelperText id="user-email-helper">
                   {errorState.email
                     ? `${errorState.email} | Email adress`
@@ -165,7 +149,7 @@ const AddSingleUserDialog = ({ open, handleClose }: any) => {
               </FormControl>
               <FormControl style={{ marginTop: 12 }} fullWidth variant="outlined" error={errorState.username !== undefined}>
                 <InputLabel htmlFor="user-username-input">Username</InputLabel>
-                <Input id="user-username-input" aria-describedby="user-username-helper" onChange={handleUsernameChange} value={username} />
+                <Input id="user-username-input" aria-describedby="user-username-helper" onChange={(e) => handleInputChange('username', e.target.value)} value={fields.username} />
                 <FormHelperText id="user-username-helper">
                   {errorState.username
                     ? `${errorState.username} | Username`
@@ -175,7 +159,7 @@ const AddSingleUserDialog = ({ open, handleClose }: any) => {
               </FormControl>
               <FormControl style={{ marginTop: 12 }} fullWidth variant="outlined" error={errorState.password !== undefined}>
                 <InputLabel htmlFor="user-password-input">Password</InputLabel>
-                <Input id="user-password-input" aria-describedby="user-password-helper" onChange={handlePasswordChange} value={password} />
+                <Input id="user-password-input" aria-describedby="user-password-helper" onChange={(e) => handleInputChange('password', e.target.value)} value={fields.password} />
                 <FormHelperText id="user-password-helper">
                   {errorState.password
                     ? `${errorState.password} | Password`

@@ -107,7 +107,7 @@ const LoginFields: FC<LoginFieldProps> = ({ setLoading }) => {
             });
             break;
           default:
-            console.log(errors);
+            
             break;
         }
       }
