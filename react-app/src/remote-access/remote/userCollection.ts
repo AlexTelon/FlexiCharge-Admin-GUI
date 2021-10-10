@@ -3,6 +3,7 @@ import { ManageUser, IManageUserCollection } from '../types';
 import { authenticationProvider } from '..';
 import appConfig from '../appConfig';
 import axios from 'axios';
+import { convertRemoteUserToLocal, toUserAttributes } from '../utility/remote-user-functions';
 
 export default class UserCollection implements IManageUserCollection {
   public async getAllUsers(): Promise<[ManageUser[] | null, any | null]> {
@@ -15,7 +16,7 @@ export default class UserCollection implements IManageUserCollection {
       
       const users: ManageUser[] = [];
       for (const userData of res.data) {
-        const user = this.convertRemoteUserToLocal(userData);
+        const user = convertRemoteUserToLocal(userData);
         users.push(user);
       }
       return [users, null];
@@ -69,7 +70,7 @@ export default class UserCollection implements IManageUserCollection {
         }
       });
       
-      const user = this.convertRemoteUserToLocal(res.data);
+      const user = convertRemoteUserToLocal(res.data);
       
       return [user, null];
     } catch (error: any) {      
@@ -79,7 +80,7 @@ export default class UserCollection implements IManageUserCollection {
 
   public async updateUser(username: string, fields: Omit<ManageUser, 'username'>): Promise<[ManageUser | null, any | null]> {
     try {
-      const userAttributes = this.toUserAttributes(fields);
+      const userAttributes = toUserAttributes(fields);
       const res = await axios.put(`${appConfig.FLEXICHARGE_API_URL}/auth/admin/users/${username}`, {
         userAttributes
       },
@@ -89,7 +90,7 @@ export default class UserCollection implements IManageUserCollection {
         }
       });
       
-      const user = this.convertRemoteUserToLocal(res.data);
+      const user = convertRemoteUserToLocal(res.data);
       return [user, null];
     } catch (error: any) {
       const errorObj: any = {};
@@ -118,49 +119,6 @@ export default class UserCollection implements IManageUserCollection {
     }
   }
 
-  private convertRemoteUserToLocal(remoteUser: any): ManageUser {
-    // Leaving this here just in case
-    /* const user: ManageUser = { 
-      username: userData.Username,
-      userStatus: userData.UserStatus,
-      enabled: userData.Enabled,
-      created: userData.UserCreateDate,
-      lastModified: userData.lastModified
-    };
-    
-    for (const attribute of userData.Attributes) {   
-      switch (attribute.Name) {
-        case 'sub': 
-          user.sub = attribute.Value;
-          break;
-        case 'name': 
-          user.name = attribute.Value;
-          break;
-        case 'family_name': 
-          user.family_name = attribute.Value;
-          break;
-        case 'email': 
-          user.email = attribute.Value;
-          break;
-        case 'email_verified': 
-          user.emailVerified = (attribute.Value === 'true');
-          break;
-        case 'password':
-          user.password = attribute.value;
-          break;
-      }
-    } */ 
-    const localUser: ManageUser = { 
-      username: remoteUser.Username,
-      userStatus: remoteUser.UserStatus,
-      enabled: remoteUser.Enabled,
-      created: remoteUser.UserCreateDate,
-      lastModified: remoteUser.lastModified,
-      ...this.fromUserAttributes(remoteUser.UserAttributes ?? remoteUser.Attributes)
-    };
-    return localUser;
-  }
-
   public async deleteUser (username: string): Promise<boolean> {
     try {
       await axios.delete(`${appConfig.FLEXICHARGE_API_URL}/auth/admin/users/${username}`, {
@@ -176,39 +134,5 @@ export default class UserCollection implements IManageUserCollection {
       }
       return false;
     }
-  }
-
-  private fromUserAttributes (userAttributes: any[]): Partial<ManageUser> {
-    const user: any = {};
-    for (const attribute of userAttributes) {
-      let { Name: key, Value: value } = attribute;
-
-      switch (key) {
-        case 'email_verified':
-          key = 'emailVerified';
-          value = value === 'true';
-          break;
-      }
-
-      user[key] = value;
-    }
-    return user;
-  }
-
-  private toUserAttributes(fields: Omit<ManageUser, 'username'>): any[] {
-    const userAttributes = [];
-    for (const [key, value] of Object.entries(fields)) {
-      userAttributes.push({
-        Name: key,
-        Value: value
-      });
-    }
-    return userAttributes;
-  }
-
-  private validateFields(fields: ManageUser): any | null {
-    const errorObj: any = {};
-
-    return errorObj;
   }
 }
