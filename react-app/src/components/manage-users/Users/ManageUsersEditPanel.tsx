@@ -106,7 +106,6 @@ const ManageUsersEditPanel: FC<ManageUsersEditPanelProps> = ({ username, setActi
         family_name: user.family_name
       });
     }
-    setUser(undefined);
   };
 
   const handleDeletClick = () => {

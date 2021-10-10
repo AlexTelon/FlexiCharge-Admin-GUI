@@ -3,13 +3,10 @@
 import appConfig from '@/appConfig';
 import axios from 'axios';
 import { authenticationProvider } from '..';
-import { manageAdmins } from '../../__mock-data__/admins';
 import { ManageAdmin, IManageAdminCollection } from '../types';
-import { convertRemoteUserToLocal } from '../utility/remote-user-functions';
+import { convertRemoteUserToLocal, toUserAttributes } from '../utility/remote-user-functions';
 
 export default class ManageAdminCollection implements IManageAdminCollection {  
-  admins = manageAdmins;
-
   async deleteAdmin(username: string): Promise<boolean> {
     try {
       await axios.put(`${appConfig.FLEXICHARGE_API_URL}/auth/admin/${username}/disable`, {}, {
@@ -100,36 +97,44 @@ export default class ManageAdminCollection implements IManageAdminCollection {
     };
   }
 
-  async updateAdmin(adminId: string, fields: Omit<ManageAdmin, 'username'>): Promise<[ManageAdmin | null, any | null]> {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        const adminIndex = this.admins.findIndex((admins) => admins.username === adminId);
-        if (adminIndex === -1) return [null, { errorMessage: 'Could not find the requested Manage Admin' }];
+  async updateAdmin(username: string, fields: Omit<ManageAdmin, 'username'>): Promise<[ManageAdmin | null, any | null]> {
+    try {
+      const userAttributes = toUserAttributes(fields);
+      const res = await axios.put(`${appConfig.FLEXICHARGE_API_URL}/auth/admin/${username}`, {
+        userAttributes
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${authenticationProvider.getToken()}`
+        }
+      });
+      
+      const admin = convertRemoteUserToLocal(res.data) as ManageAdmin;
+      return [admin, null];
+    } catch (error: any) {
+      const errorObj: any = {};
 
-        const errorObj = this.validateFields(fields);
-        if (Object.keys(errorObj).length > 0) resolve([null, errorObj]);
+      if (error.response) {
+        switch (error.response.data.code) {
+          case 'UsernameExistsException':
+            errorObj.username = 'Username or Email taken';
+            errorObj.email = 'Username or Email taken';
+            break;
+          case 'InvalidPasswordException':
+            errorObj.password = (error.response.data.message as string).split(': ')[1];
+            break;
+          case 'InvalidParameterException':
+            errorObj.email = 'Must be correct format';
+            break;
+          default:
+            errorObj.error = 'An error occured';
+            break;
+        }
+      } else if (error.request) {
+        errorObj.error = 'Could not connect to server';
+      }
 
-        const ManageAdmins = {
-          ...fields,
-          username: this.admins[adminIndex].username
-        };
-
-        this.admins[adminIndex] = ManageAdmins;
-        resolve([ManageAdmins, null]);
-      }, 1000);
-    });
-  }
-
-  private isNametaken(name: string) {
-    for (const admin of this.admins) {
-      if (admin.name === name) return true;
+      return [null, errorObj];
     }
-    return false;
-  }
-
-  private validateFields(fields: Omit<ManageAdmin, 'username'>): any | null {
-    const errorObj: any = {};
-    if (fields.name && this.isNametaken(fields.name)) errorObj.name = 'Name is taken';
-    return errorObj;
   }
 }

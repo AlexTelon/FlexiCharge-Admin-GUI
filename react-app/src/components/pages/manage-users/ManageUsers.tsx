@@ -318,7 +318,7 @@ const ManageUsers = () => {
                 }
                 {selectedTab === 'admins' &&
                   <>
-                    <ManageAdminsEditPanel adminId={activeUser} setActiveUser={setActiveUser} />
+                    <ManageAdminsEditPanel username={activeUser} setActiveUser={setActiveUser} />
                   </>
                 }
               </Grid>
