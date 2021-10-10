@@ -7,7 +7,7 @@ import {
 } from '@material-ui/core';
 import { Helmet } from 'react-helmet';
 import { Replay } from '@material-ui/icons';
-import { ManageUser } from '@/remote-access/types';
+import { ManageAdmin, ManageUser } from '@/remote-access/types';
 import { adminCollection, userCollection } from '@/remote-access';
 import ManageUsersEditPanel from '@/components/manage-users/Users/ManageUsersEditPanel';
 import ManageAdminsEditPanel from '@/components/manage-users/Admins/ManageAdminEditPanel';
@@ -137,6 +137,7 @@ const ManageUsers = () => {
   });
   const [reload, setReload] = useState<boolean>(false);
   const [searchedUsers, setSearchUsers] = useState<ManageUser[]>([]);
+  const [searchedAdmins, setSearchAdmins] = useState<ManageAdmin[]>([]);
   const [search, setSearch] = useState<string>();
   const [activeUser, setActiveUser] = useState<string | undefined>();
   const [selectedAdmins, setSelectedAdmins] = useState<readonly string[]>([]);
@@ -206,10 +207,18 @@ const ManageUsers = () => {
   const handleSearch = (searchText: string) => {
     if (searchText !== '') {
       setSearch(searchText);
-      const users = state.users.filter((user: ManageUser) => {        
-        return user.name?.toLowerCase().includes(searchText.toLowerCase());
-      });
-      setSearchUsers(users);  
+
+      if (selectedTab === 'users') {
+        const users = state.users.filter((user: ManageUser) => {        
+          return user.name?.toLowerCase().includes(searchText.toLowerCase());
+        });
+        setSearchUsers(users);  
+      } else {
+        const admins = state.admins.filter((admin: ManageAdmin) => {
+          return admin.name?.toLowerCase().includes(searchText.toLowerCase());
+        });
+        setSearchAdmins(admins);
+      }
     } else {
       setSearch(undefined);
       setReload(true);
@@ -292,7 +301,7 @@ const ManageUsers = () => {
                       <AdminTable
                         ref={adminsTable}
                         loaded={state.loaded}
-                        admins={search !== undefined ? state.admins : state.admins}
+                        admins={search !== undefined ? searchedAdmins : state.admins}
                         editClicked={handleEditClicked}
                         setSelectedAdmins={setSelectedAdmins}
                         classes={classes}
