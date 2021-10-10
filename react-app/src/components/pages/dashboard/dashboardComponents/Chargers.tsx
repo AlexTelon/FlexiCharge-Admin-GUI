@@ -38,7 +38,7 @@ const ChargingComp = (props: any) => {
               gutterBottom
               variant="h6"
             >
-              Active Chargers
+              Active Chargers (Mock)
             </Typography>
             <Typography
               color="textPrimary"

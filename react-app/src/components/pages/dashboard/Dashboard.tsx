@@ -13,11 +13,13 @@ import ChargersPage from '../chargers';
 import ManageUsers from '../manage-users/ManageUsers';
 import UsersDashboardComponent from './dashboardComponents/Users';
 import Sales from './dashboardComponents/Sales';
+import AdminsDashboardComponent from './dashboardComponents/Admins';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     BoxSpacing: {
       paddingLeft: theme.spacing(3),
+      paddingRight: theme.spacing(3),
       paddingTop: theme.spacing(2)
     },
     hoverEffect: {
@@ -85,6 +87,7 @@ const DashboardHome = () => {
         xl={3}
         xs={12}
       >
+        <AdminsDashboardComponent />
       </Grid>
 
       <Grid

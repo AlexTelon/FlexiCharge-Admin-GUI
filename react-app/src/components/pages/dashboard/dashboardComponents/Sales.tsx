@@ -1,4 +1,5 @@
 import React from 'react';
+import { Bar } from 'react-chartjs-2';
 import { Box, Button, Card, CardContent, CardHeader, Divider, Theme } from '@material-ui/core';
 import { ArrowRight } from '@material-ui/icons';
 import { useTheme } from '@material-ui/styles';
@@ -9,16 +10,6 @@ const Sales = (props: any) => {
   const data = {
     datasets: [
       {
-        backgroundColor: theme.flexiCharge.accent.primary,
-        barPercentage: 0.5,
-        barThickness: 12,
-        borderRadius: 4,
-        categoryPercentage: 0.5,
-        data: [18, 5, 19, 27, 29, 19, 20],
-        label: 'This year',
-        maxBarThickness: 10
-      },
-      {
         backgroundColor: theme.flexiCharge.primary.lightGrey,
         barPercentage: 0.5,
         barThickness: 12,
@@ -27,12 +18,22 @@ const Sales = (props: any) => {
         data: [11, 20, 12, 29, 30, 25, 13],
         label: 'Last year',
         maxBarThickness: 10
+      },
+      {
+        backgroundColor: theme.flexiCharge.accent.primary,
+        barPercentage: 0.5,
+        barThickness: 12,
+        borderRadius: 4,
+        categoryPercentage: 0.5,
+        data: [18, 5, 19, 27, 29, 19, 20],
+        label: 'This year',
+        maxBarThickness: 10
       }
     ],
     labels: ['1 Aug', '2 Aug', '3 Aug', '4 Aug', '5 Aug', '6 Aug']
   };
 
-  const options = {
+  const options: any = {
     animation: false,
     cornerRadius: 20,
     layout: { padding: 0 },
@@ -82,8 +83,6 @@ const Sales = (props: any) => {
       titleFontColor: theme.palette.text.primary
     }
   };
-
-  console.log(options, data);
   
   return (
     <Card {...props}>
@@ -98,7 +97,7 @@ const Sales = (props: any) => {
             List
           </Button>
         )}
-        title="Latest Sales"
+        title="Latest Sales (Mock)"
       />
       <Divider />
       <CardContent>
@@ -108,7 +107,10 @@ const Sales = (props: any) => {
             position: 'relative'
           }}
         >
-
+          <Bar
+            data={data}
+            options={options}
+          />
         </Box>
       </CardContent>
       <Divider />
