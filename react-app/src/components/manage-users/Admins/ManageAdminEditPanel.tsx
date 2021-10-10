@@ -109,6 +109,20 @@ const ManageAdminsEditPanel: FC<ManageAdminsEditPanelProps> = ({ adminId, setAct
     setDeleteDialogOpen(false);
   };
 
+  const handleDeleteClick = async () => {
+    if (!admin) return;
+    const wasSuccess = await adminCollection.deleteAdmin(admin?.username);
+    if (wasSuccess) {
+      setActiveUser(undefined);
+    } else {
+      setErrorState({
+        ...errorState,
+        alert: 'An error occurred'
+      });
+    }
+    handleDeleteDialogClose();
+  };
+
   return (
     <Paper component="aside">
       {loading && 
@@ -197,7 +211,7 @@ const ManageAdminsEditPanel: FC<ManageAdminsEditPanelProps> = ({ adminId, setAct
                       <Button autoFocus onClick={handleDeleteDialogClose} color="primary">
                         Cancel
                       </Button>
-                      <Button onClick={handleDeleteDialogClose} className={classes.dialogDelete}>
+                      <Button onClick={handleDeleteClick} className={classes.dialogDelete}>
                         Delete
                       </Button>
                     </DialogActions>

@@ -11,7 +11,20 @@ export default class ManageAdminCollection implements IManageAdminCollection {
   admins = manageAdmins;
 
   async deleteAdmin(username: string): Promise<boolean> {
-    return true;
+    try {
+      await axios.put(`${appConfig.FLEXICHARGE_API_URL}/auth/admin/${username}/disable`, {}, {
+        headers: {
+          Authorization: `Bearer ${authenticationProvider.getToken()}`
+        }
+      });
+
+      return true;
+    } catch (error: any) {
+      if (error.response) {
+        return false;
+      }
+      return false;
+    }
   }
   
   async getAllAdmins(): Promise<[ManageAdmin[] | null, any | null]> {
