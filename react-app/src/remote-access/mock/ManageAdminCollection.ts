@@ -1,7 +1,7 @@
 /* eslint-disable no-useless-escape */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { manageAdmins } from '../../__mock-data__/admins';
-import { ManageAdmin, IManageAdminCollection } from '../interfaces';
+import { ManageAdmin, IManageAdminCollection } from '../types';
 
 export default class ManageAdminCollection implements IManageAdminCollection {  
   admins = manageAdmins;
@@ -33,10 +33,10 @@ export default class ManageAdminCollection implements IManageAdminCollection {
         
         const manageAdmin: ManageAdmin = {
           ...fields,
-          id: `${this.admins.length + 1}`
+          username: `${this.admins.length + 1}`
         };
         this.admins.push(manageAdmin);
-        resolve([manageAdmin.id, null]);
+        resolve([manageAdmin.username, null]);
       }, 1000);
     });
   }

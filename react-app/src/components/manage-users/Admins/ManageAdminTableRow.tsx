@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { Theme, useTheme, TableRow, TableCell, Checkbox, Box, Typography, Button } from '@material-ui/core';
 import { Edit } from '@material-ui/icons';
-import { ManageAdmin } from '../../../remote-access/interfaces';
+import { ManageAdmin } from '../../../remote-access/types';
 
 interface adminRowProps {
   admin: ManageAdmin
@@ -17,11 +17,11 @@ const AdminRow: FC<adminRowProps> = ({ admin, editClicked, selected, handleSelec
     <>
       <TableRow 
         hover
-        key={admin.id}
+        key={admin.username}
         style={{ backgroundColor: theme.flexiCharge.primary.white }} 
       >
         <TableCell padding='checkbox'>
-          <Checkbox color="primary" checked={selected} onChange={() => { handleSelect(admin.id); } } />
+          <Checkbox color="primary" checked={selected} onChange={() => { handleSelect(admin.username); } } />
         </TableCell>
         <TableCell>
           <Box 
@@ -48,7 +48,7 @@ const AdminRow: FC<adminRowProps> = ({ admin, editClicked, selected, handleSelec
             style={{ color: theme.flexiCharge.primary.white }}
             variant="contained"
             color="primary"
-            onClick={() => editClicked(admin.id)}
+            onClick={() => editClicked(admin.username)}
           >
             Edit
           </Button>

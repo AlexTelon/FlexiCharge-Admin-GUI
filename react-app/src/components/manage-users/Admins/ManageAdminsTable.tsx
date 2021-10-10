@@ -184,24 +184,6 @@ const AdminTable = (props: any) => {
           />
           <TableBody>
             {adminRows}
-            {/* {console.log(userRows)}
-            {state.users !== undefined
-              && state.users
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((users, index) => {
-                  const isItemSelected = isSelected(users.id);
-                  return (
-                    <UserRow
-                      key={users.id}
-                      user={users}
-                      handleSelect={handleSelect}
-                      selected={isItemSelected}
-                      {...props}
-                    >
-                    </UserRow>
-                  );
-                })
-            } */}
           </TableBody>
         </Table>
       </TableContainer>
