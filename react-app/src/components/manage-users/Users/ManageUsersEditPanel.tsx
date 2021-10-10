@@ -158,8 +158,9 @@ const ManageUsersEditPanel: FC<ManageUsersEditPanelProps> = ({ username, setActi
                 aria-label="deselect user"
                 aria-controls="user-info"
                 color="inherit"
+                onClick={() => { handleCancelClick(); setActiveUser(undefined); }} 
               >
-                <Close onClick={() => { handleCancelClick(); setActiveUser(undefined); }} />
+                <Close />
               </IconButton>
             </Toolbar>
           </AppBar>
