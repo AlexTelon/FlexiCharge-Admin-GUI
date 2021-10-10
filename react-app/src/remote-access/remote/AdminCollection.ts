@@ -51,19 +51,40 @@ export default class ManageAdminCollection implements IManageAdminCollection {
   }
 
   async addAdmin(fields: Omit<ManageAdmin, 'id'>): Promise<[string | null, any | null]> {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        const errorObj = this.validateFields(fields);
-        if (Object.keys(errorObj).length > 0) resolve([null, errorObj]);
-        
-        const manageAdmin: ManageAdmin = {
-          ...fields,
-          username: `${this.admins.length + 1}`
-        };
-        this.admins.push(manageAdmin);
-        resolve([manageAdmin.username, null]);
-      }, 1000);
-    });
+    try {
+      const res = await axios.post(`${appConfig.FLEXICHARGE_API_URL}/auth/admin/`, {
+        ...fields
+      }, {
+        headers: {
+          Authorization: `Bearer ${authenticationProvider.getToken()}`
+        }
+      });
+      return [res.data, null];
+    } catch (error: any) {
+      const errorObj: any = {};
+
+      if (error.response) {
+        switch (error.response.data.code) {
+          case 'UsernameExistsException':
+            errorObj.username = 'Username or Email taken';
+            errorObj.email = 'Username or Email taken';
+            break;
+          case 'InvalidPasswordException':
+            errorObj.password = (error.response.data.message as string).split(': ')[1];
+            break;
+          case 'InvalidParameterException':
+            errorObj.email = 'Must be correct format';
+            break;
+          default:
+            errorObj.error = 'An error occured';
+            break;
+        }
+      } else if (error.request) {
+        errorObj.error = 'Could not connect to server';
+      }
+
+      return [null, errorObj];
+    };
   }
 
   async updateAdmin(adminId: string, fields: Omit<ManageAdmin, 'username'>): Promise<[ManageAdmin | null, any | null]> {
