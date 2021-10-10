@@ -11,6 +11,7 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import Chargers from './dashboardComponents/Chargers';
 import ChargersPage from '../chargers';
 import ManageUsers from '../manage-users/ManageUsers';
+import UsersDashboardComponent from './dashboardComponents/Users';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -73,6 +74,7 @@ const DashboardHome = () => {
         xl={3}
         xs={12}
       >
+        <UsersDashboardComponent className={classes.hoverEffect} />
       </Grid>
       <Grid
         className={classes.BoxSpacing}
