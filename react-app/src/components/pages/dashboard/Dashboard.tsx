@@ -12,6 +12,7 @@ import Chargers from './dashboardComponents/Chargers';
 import ChargersPage from '../chargers';
 import ManageUsers from '../manage-users/ManageUsers';
 import UsersDashboardComponent from './dashboardComponents/Users';
+import Sales from './dashboardComponents/Sales';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -84,6 +85,17 @@ const DashboardHome = () => {
         xl={3}
         xs={12}
       >
+      </Grid>
+
+      <Grid
+        className={classes.BoxSpacing}
+        item
+        lg={8}
+        md={12}
+        xl={9}
+        xs={12}
+      >
+        <Sales />
       </Grid>
     </Grid>
   );
