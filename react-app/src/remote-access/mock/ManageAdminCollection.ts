@@ -1,15 +1,19 @@
 /* eslint-disable no-useless-escape */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { manageAdmins } from '../../__mock-data__/admins';
-import { ManageAdmin, IManageAdminCollection } from '../interfaces';
+import { ManageAdmin, IManageAdminCollection } from '../types';
 
-export default class ManageAdminCollection implements IManageAdminCollection {  
+export default class ManageAdminCollection implements IManageAdminCollection {
   admins = manageAdmins;
 
-  async getAllAdmins(): Promise<ManageAdmin[]> {
+  async deleteAdmin(username: string): Promise<boolean> {
+    return true;
+  }
+
+  async getAllAdmins(): Promise<[ManageAdmin[] | null, any | null]> {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
-        resolve(this.admins);
+        resolve([this.admins, null]);
       }, 1000);
     });
   }
@@ -20,7 +24,7 @@ export default class ManageAdminCollection implements IManageAdminCollection {
       // If not found then try remote
 
       setTimeout(() => {
-        resolve(this.admins.filter((admins) => admins.id === adminId)[0] || null);
+        resolve(this.admins.filter((admins) => admins.username === adminId)[0] || null);
       }, 100);
     });
   }
@@ -33,18 +37,18 @@ export default class ManageAdminCollection implements IManageAdminCollection {
         
         const manageAdmin: ManageAdmin = {
           ...fields,
-          id: `${this.admins.length + 1}`
+          username: `${this.admins.length + 1}`
         };
         this.admins.push(manageAdmin);
-        resolve([manageAdmin.id, null]);
+        resolve([manageAdmin.username, null]);
       }, 1000);
     });
   }
 
-  async updateAdmin(adminId: string, fields: Omit<ManageAdmin, 'id'>): Promise<[ManageAdmin | null, any | null]> {
+  async updateAdmin(adminId: string, fields: Omit<ManageAdmin, 'username'>): Promise<[ManageAdmin | null, any | null]> {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
-        const adminIndex = this.admins.findIndex((admins) => admins.id === adminId);
+        const adminIndex = this.admins.findIndex((admins) => admins.username === adminId);
         if (adminIndex === -1) return [null, { errorMessage: 'Could not find the requested Manage Admin' }];
 
         const errorObj = this.validateFields(fields);
@@ -52,7 +56,7 @@ export default class ManageAdminCollection implements IManageAdminCollection {
 
         const ManageAdmins = {
           ...fields,
-          id: this.admins[adminIndex].id
+          username: this.admins[adminIndex].username
         };
 
         this.admins[adminIndex] = ManageAdmins;
@@ -68,7 +72,7 @@ export default class ManageAdminCollection implements IManageAdminCollection {
     return false;
   }
 
-  private validateFields(fields: Omit<ManageAdmin, 'id'>): any | null {
+  private validateFields(fields: Omit<ManageAdmin, 'username'>): any | null {
     const errorObj: any = {};
     if (fields.name && this.isNametaken(fields.name)) errorObj.name = 'Name is taken';
     return errorObj;

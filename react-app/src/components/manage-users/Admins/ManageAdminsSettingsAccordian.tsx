@@ -9,9 +9,10 @@ import AddIcon from '@material-ui/icons/Add';
   
 interface ManageAdminSettingsAccordianProps {
   selectedAdmins: readonly string[]
+  [key: string]: any
 }
   
-const AdminSettingsAccordian: FC<ManageAdminSettingsAccordianProps> = ({ selectedAdmins }) => {
+const AdminSettingsAccordian: FC<ManageAdminSettingsAccordianProps> = ({ selectedAdmins, ...rest }) => {
   const theme: Theme = useTheme();
   const [openAddAdminDialog, setOpenAddAdminDialog] = useState<boolean>(false);
   const handleOpenAddAdminDialog = () => {
@@ -53,7 +54,7 @@ const AdminSettingsAccordian: FC<ManageAdminSettingsAccordianProps> = ({ selecte
             Add Admin
         </Button>
       </AccordionActions>
-      <AddSingleAdminDialog open={openAddAdminDialog} handleClose={handleCloseAddAdminDialog} />
+      <AddSingleAdminDialog open={openAddAdminDialog} handleClose={handleCloseAddAdminDialog} {...rest} />
     </Accordion>
   );
 };

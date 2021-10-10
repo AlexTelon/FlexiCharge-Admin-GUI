@@ -6,10 +6,11 @@ import {
   useMediaQuery 
 } from '@material-ui/core';
 import { Close } from '@material-ui/icons';
+import { Alert } from '@material-ui/lab';
 import { createStyles, makeStyles, useTheme } from '@material-ui/styles';
 import React, { FC, useEffect, useState } from 'react';
-import { manageAdminCollection } from '../../../remote-access';
-import { ManageAdmin } from '../../../remote-access/interfaces';
+import { adminCollection } from '../../../remote-access';
+import { ManageAdmin } from '../../../remote-access/types';
 
 const useStyle = makeStyles((theme: Theme) => 
 
@@ -37,43 +38,39 @@ const useStyle = makeStyles((theme: Theme) =>
 );
 
 interface ManageAdminsEditPanelProps {
-  adminId?: string
+  username?: string
+  setActiveUser: any
 }
 
-const ManageAdminsEditPanel: FC<ManageAdminsEditPanelProps> = ({ adminId }) => {
+const ManageAdminsEditPanel: FC<ManageAdminsEditPanelProps> = ({ username, setActiveUser }) => {
   const classes = useStyle();
   const [admin, setAdmin] = useState<ManageAdmin>();
-  const [name, setName] = useState<string>();
-  const [email, setEmail] = useState<string>();
+  const [fields, setFields] = useState<any>({});
   const [errorState, setErrorState] = useState<any>({});
   const [loading, setLoading] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState<boolean>(false);
 
-  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setName(e.target.value);
-  };
-
-  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(e.target.value);
-  };
-
   useEffect(() => {
-    if (adminId) {
-      manageAdminCollection.getAdminById(adminId).then((manageAdmins) => {
-        if (manageAdmins === null) return;
-        setName(manageAdmins.name);
-        setEmail(manageAdmins.email);
-        setAdmin(manageAdmins);
+    if (username) {
+      adminCollection.getAdminById(username).then((admin) => {
+        if (admin === null) return;
+        setFields({
+          ...admin
+        });
+        setAdmin(admin);
       });
     }
-  }, [adminId]);
+  }, [username]);
   
   const handleSaveClick = async () => {
-    if (name && email && adminId) {
+    if (fields.name && fields.email && username) {
       setLoading(true);
-      const result = await manageAdminCollection.updateAdmin(adminId, { name, email });
+      const result = await adminCollection.updateAdmin(username, {
+        name: fields.name,
+        email: fields.email
+      });
+
       if (result[1] !== null) {
-        console.log(result);
         setErrorState({
           ...result[0]
         });
@@ -84,18 +81,26 @@ const ManageAdminsEditPanel: FC<ManageAdminsEditPanelProps> = ({ adminId }) => {
       }
     } else {
       setErrorState({
-        name: !name ? 'Required' : undefined,
-        email: !email ? 'Required' : undefined
+        name: !fields.name ? 'Required' : undefined,
+        email: !fields.email ? 'Required' : undefined,
+        password: !fields.password ? 'Required' : undefined
       });
     }
   };
 
+  const handleInputChange = (property: string, value: any) => {
+    setFields({
+      ...fields,
+      [property]: value
+    });
+  };
+
   const handleCancelClick = () => {
     if (admin) {
-      setName(admin.name);
-      setEmail(admin.email);
+      setFields({
+        ...admin
+      });
     }
-    setAdmin(undefined);
   };
 
   const theme: Theme = useTheme();
@@ -109,12 +114,26 @@ const ManageAdminsEditPanel: FC<ManageAdminsEditPanelProps> = ({ adminId }) => {
     setDeleteDialogOpen(false);
   };
 
+  const handleDeleteClick = async () => {
+    if (!admin) return;
+    const wasSuccess = await adminCollection.deleteAdmin(admin?.username);
+    if (wasSuccess) {
+      setActiveUser(undefined);
+    } else {
+      setErrorState({
+        ...errorState,
+        alert: 'An error occurred'
+      });
+    }
+    handleDeleteDialogClose();
+  };
+
   return (
     <Paper component="aside">
       {loading && 
             <LinearProgress />
       }
-      {admin && (
+      {admin && username && (
 
         <>
           <AppBar position="static" elevation={0} className={classes.panelAppBar}>
@@ -126,32 +145,45 @@ const ManageAdminsEditPanel: FC<ManageAdminsEditPanelProps> = ({ adminId }) => {
                 aria-label="deselect user"
                 aria-controls="user-info"
                 color="inherit"
+                onClick={() => { handleCancelClick(); setActiveUser(undefined); }} 
               >
-                <Close onClick={handleCancelClick} />
+                <Close />
               </IconButton>
             </Toolbar>
           </AppBar>
           <Divider />
           <form>
+            {errorState.alert &&
+              <Alert severity="warning">{errorState.alert}</Alert>
+            }
             <Box sx={{ px: 4 }}>
-              <FormControl fullWidth variant="filled">
+              <FormControl fullWidth variant="filled" error={errorState.name !== undefined}>
                 <InputLabel htmlFor="username-input">Name</InputLabel>
                 <Input 
                   id="username-input"
                   aria-describedby="username-helper"
-                  value={name}
-                  onChange={handleNameChange}
+                  value={fields.name}
+                  onChange={(e) => handleInputChange('name', e.target.value) }
                 />
               </FormControl>
-              <FormControl fullWidth variant="filled">
+              <FormControl fullWidth variant="filled" error={errorState.email !== undefined}>
                 <InputLabel htmlFor="email-input">Email</InputLabel>
                 <Input 
                   id="email-input"
                   aria-describedby="email-helper"
-                  value={email}
-                  onChange={handleEmailChange}
+                  value={fields.email}
+                  onChange={(e) => handleInputChange('email', e.target.value) }
                 />
               </FormControl>
+              {/* <FormControl fullWidth variant="filled" error={errorState.password !== undefined}>
+                <InputLabel htmlFor="password-input">Password</InputLabel>
+                <Input 
+                  id="password-input"
+                  aria-describedby="password-helper"
+                  value={fields.password}
+                  onChange={(e) => handleInputChange('password', e.target.value) }
+                />
+              </FormControl> */}
               <Box display="flex" sx={{ flexDirection: 'row-reverse', py: 1 }}>
                 <Button variant ="contained" color="primary" className={classes.saveButton} onClick={handleSaveClick}
                 >Save
@@ -196,7 +228,7 @@ const ManageAdminsEditPanel: FC<ManageAdminsEditPanelProps> = ({ adminId }) => {
                       <Button autoFocus onClick={handleDeleteDialogClose} color="primary">
                         Cancel
                       </Button>
-                      <Button onClick={handleDeleteDialogClose} className={classes.dialogDelete}>
+                      <Button onClick={handleDeleteClick} className={classes.dialogDelete}>
                         Delete
                       </Button>
                     </DialogActions>

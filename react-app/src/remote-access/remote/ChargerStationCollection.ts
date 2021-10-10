@@ -113,7 +113,6 @@ export default class ChargerStationCollection implements IChargerStationCollecti
         const errorObj: any = {};
         if (error.response.data.includes('dbUniqueConstraintError')) {
           errorObj.name = 'Name is taken';
-          console.log(errorObj);
         } else {
           errorObj.error = 'An error occured';
         }

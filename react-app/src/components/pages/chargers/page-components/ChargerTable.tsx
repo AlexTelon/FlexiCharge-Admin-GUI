@@ -16,8 +16,6 @@ export default function ChargerTable({ classes, ...rest }: any) {
   const loadChargers = async () => {
     const [chargers, error] = await chargerCollection.getAllChargers();
     if (chargers) {
-      console.log(chargers);
-      
       setState({
         loaded: true,
         chargers
