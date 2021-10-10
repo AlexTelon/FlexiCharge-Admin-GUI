@@ -34,15 +34,20 @@ export default class ManageAdminCollection implements IManageAdminCollection {
     }
   }
 
-  async getAdminById(adminId: string): Promise<ManageAdmin | null> {
-    return new Promise((resolve, reject) => {
-      // Look up in local
-      // If not found then try remote
-
-      setTimeout(() => {
-        resolve(this.admins.filter((admins) => admins.username === adminId)[0] || null);
-      }, 100);
-    });
+  async getAdminById(username: string): Promise<ManageAdmin | null> {
+    try {
+      const res = await axios.get(`${appConfig.FLEXICHARGE_API_URL}/auth/admin/${username}`, {
+        headers: {
+          Authorization: `Bearer ${authenticationProvider.getToken()}`
+        }
+      });
+      
+      const admin = convertRemoteUserToLocal(res.data) as ManageAdmin;
+      
+      return admin;
+    } catch (error: any) {      
+      return null;
+    }
   }
 
   async addAdmin(fields: Omit<ManageAdmin, 'id'>): Promise<[string | null, any | null]> {

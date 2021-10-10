@@ -152,6 +152,7 @@ const ManageUsers = () => {
   const handleTabChange = (event: any, newTab: string) => {
     setSelectedTab(newTab);
     setActiveUser(undefined);
+    setReload(true);
   };
 
   const loadUsers = async() => {

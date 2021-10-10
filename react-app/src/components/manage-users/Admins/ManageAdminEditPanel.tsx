@@ -8,8 +8,8 @@ import {
 import { Close } from '@material-ui/icons';
 import { createStyles, makeStyles, useTheme } from '@material-ui/styles';
 import React, { FC, useEffect, useState } from 'react';
-import { manageAdminCollection } from '../../../remote-access';
-import { ManageAdmin } from '../../../remote-access/interfaces';
+import { adminCollection } from '../../../remote-access';
+import { ManageAdmin } from '../../../remote-access/types';
 
 const useStyle = makeStyles((theme: Theme) => 
 
@@ -60,7 +60,7 @@ const ManageAdminsEditPanel: FC<ManageAdminsEditPanelProps> = ({ adminId, setAct
 
   useEffect(() => {
     if (adminId) {
-      manageAdminCollection.getAdminById(adminId).then((manageAdmins) => {
+      adminCollection.getAdminById(adminId).then((manageAdmins) => {
         if (manageAdmins === null) return;
         setName(manageAdmins.name);
         setEmail(manageAdmins.email);
@@ -72,7 +72,7 @@ const ManageAdminsEditPanel: FC<ManageAdminsEditPanelProps> = ({ adminId, setAct
   const handleSaveClick = async () => {
     if (name && email && adminId) {
       setLoading(true);
-      const result = await manageAdminCollection.updateAdmin(adminId, { name, email });
+      const result = await adminCollection.updateAdmin(adminId, { name, email });
       if (result[1] !== null) {
         setErrorState({
           ...result[0]
@@ -126,8 +126,9 @@ const ManageAdminsEditPanel: FC<ManageAdminsEditPanelProps> = ({ adminId, setAct
                 aria-label="deselect user"
                 aria-controls="user-info"
                 color="inherit"
+                onClick={() => { handleCancelClick(); setActiveUser(undefined); }} 
               >
-                <Close onClick={() => { handleCancelClick(); setActiveUser(undefined); }} />
+                <Close />
               </IconButton>
             </Toolbar>
           </AppBar>
