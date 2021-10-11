@@ -1,7 +1,7 @@
 import { useMediaQuery, Theme, TableProps, TableContainer, Table, TableHead, TableRow, TableCell, Checkbox, TableBody, TablePagination } from '@material-ui/core';
 import ChargerRow from './ChargerRow';
 import { Charger } from '@/remote-access/types';
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 
 interface ChargerTableProps {
   chargers: Charger[]
@@ -9,9 +9,30 @@ interface ChargerTableProps {
   [key: string]: any
 }
 
+interface ChargerTableState {
+  page: number
+  rowsPerPage: number
+}
+
 const ChargerTable: FC<ChargerTableProps> = ({ loaded, chargers, ...props }: any) => {
+  const [state, setState] = useState<ChargerTableState>({
+    page: 0,
+    rowsPerPage: 5
+  });
+
   const handleChangePage = (event: unknown, newPage: number) => {
-    // 
+    setState({
+      ...state,
+      page: newPage
+    });
+  };
+
+  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setState({
+      ...state,
+      page: 0,
+      rowsPerPage: parseInt(event.target.value, 10)
+    });
   };
 
   const isSmallScreen = useMediaQuery((theme: Theme) => theme.breakpoints.down('xs'));
@@ -34,16 +55,18 @@ const ChargerTable: FC<ChargerTableProps> = ({ loaded, chargers, ...props }: any
             </TableRow>
           </TableHead>
           <TableBody>
-            {chargers?.map((charger: Charger) => {
-              return (
-                <ChargerRow
-                  key={charger.chargerID}
-                  charger={charger}
-                  {...props}
-                  classes={props.classes}
-                />
-              );
-            })
+            {
+              chargers.slice(state.page * state.rowsPerPage, state.page * state.rowsPerPage + state.rowsPerPage)
+                .map((charger: Charger) => {
+                  return (
+                    <ChargerRow
+                      key={charger.chargerID}
+                      charger={charger}
+                      {...props}
+                      classes={props.classes}
+                    />
+                  );
+                })
             }
           </TableBody>
         </Table>
@@ -52,9 +75,11 @@ const ChargerTable: FC<ChargerTableProps> = ({ loaded, chargers, ...props }: any
         rowsPerPageOptions={[5, 10, 15]}
         component='div'
         count={chargers ? chargers.length : 0}
-        rowsPerPage={10}
-        page={1}
-        onPageChange={handleChangePage} />
+        rowsPerPage={state.rowsPerPage}
+        page={state.page}
+        onPageChange={handleChangePage}
+        onRowsPerPageChange={handleChangeRowsPerPage}
+      />
     </>
   );
 };
