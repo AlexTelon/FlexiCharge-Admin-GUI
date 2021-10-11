@@ -74,7 +74,6 @@ const useStyles = makeStyles((theme: Theme) =>
 const ChargersPage = (props: any) => {
   const params = useParams(); 
   const stationId = (params as any).stationId;
-  console.log(stationId);
   const classes = useStyles();
   const [activeChargerID, setActiveChargerID] = useState<number>();
   const editClicked = (chargerID: number) => {
@@ -106,7 +105,7 @@ const ChargersPage = (props: any) => {
                   <ChargerStationAccordian stationId={stationId} />
                 }
                 <Paper elevation={2}>
-                  <ChargerTable classes={classes} editClicked={editClicked} />
+                  <ChargerTable classes={classes} editClicked={editClicked} stationId={stationId} />
                 </Paper>
               </Grid>
               <Grid item xs={12} md={4} lg={3}>
