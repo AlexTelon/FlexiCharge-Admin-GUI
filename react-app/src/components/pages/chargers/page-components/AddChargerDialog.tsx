@@ -1,6 +1,6 @@
 import { chargerCollection } from '@/remote-access';
 import { ChargerStation } from '@/remote-access/types';
-import { Button, Collapse, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControl, FormHelperText, Input, InputLabel, LinearProgress, Theme } from '@material-ui/core';
+import { Button, Collapse, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControl, FormHelperText, Input, InputLabel, LinearProgress, List, ListItem, ListItemText, Theme } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 import { useTheme } from '@material-ui/styles';
 import React, { FC, useState } from 'react';
@@ -22,7 +22,7 @@ interface AddChargerDialogState {
   }
 }
 
-const AddChargerDialog: FC<AddChargerDialogProps> = ({ open, handleClose, station, reload }: any) => {
+const AddChargerDialog: FC<AddChargerDialogProps> = ({ open, handleClose, station, reload }) => {
   const theme: Theme = useTheme();
   const [state, setState] = useState<AddChargerDialogState>({
     loading: false,
@@ -91,21 +91,37 @@ const AddChargerDialog: FC<AddChargerDialogProps> = ({ open, handleClose, statio
           Chager: {state.successfulAddedSerialNumber} Added
         </Alert>
       </Collapse>
-      <DialogTitle>Add Charger to Station</DialogTitle>
+      <DialogTitle>Add Chargers to a station</DialogTitle>
       {state.errorState.alert &&
         <Alert style={{ width: '100%' }} severity="warning">{state.errorState.alert}</Alert>
       }
       <DialogContent>
         <DialogContentText>
-          ({station.chargePointID}), {station.name}
-          <br />
-          lon: {station.location[0]}
-          <br />
-          lat: {station.location[1]}
+          Station Info for station {station.chargePointID}
+          <List dense={true}>
+            <ListItem>
+              <ListItemText
+                primary={station.name}
+                secondary="Name"
+              />
+            </ListItem>
+            <ListItem>
+              <ListItemText
+                primary={`${station.location[0]}, ${station.location[1]}`}
+                secondary="Longitude, Latitude"
+              />
+            </ListItem>
+            <ListItem>
+              <ListItemText
+                primary={station.price / 100}
+                secondary="Price in SEK"
+              />
+            </ListItem>
+          </List>
         </DialogContentText>
         <form>
           <FormControl fullWidth variant="outlined" error={state.errorState.serialNumber !== undefined}>
-            <InputLabel htmlFor="charger-serial-number">Serial Number</InputLabel>
+            <InputLabel htmlFor="charger-serial-number">Charger Serial Number</InputLabel>
             <Input
               id="charger-serial-number"
               aria-describedby="charger-serial-number-helper"

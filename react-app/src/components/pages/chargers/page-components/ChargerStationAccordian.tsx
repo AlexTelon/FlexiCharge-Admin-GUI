@@ -114,7 +114,7 @@ const ChargerStationAccordian: FC<ChargerStationAccordionProps> = ({ stationId, 
               style={{ color: theme.flexiCharge.primary.white }}
               onClick={() => handleOpenAddStationDialog()}
             >
-                Add Charger
+                Add Chargers
             </Button>
           </AccordionActions>
 
