@@ -1,27 +1,35 @@
 import { Charger } from '@/remote-access/types';
 import {
   Theme, useTheme, TableRow, TableCell, Checkbox, Box, Typography,
-  Dialog, DialogTitle, List, ListItem, ListItemIcon, ListItemText, Button
+  Dialog, DialogTitle, Button
 } from '@material-ui/core';
-import { FiberManualRecord, Delete, Error, Edit } from '@material-ui/icons';
-import React, { FC, useState } from 'react';
+import { Delete, Error, Edit } from '@material-ui/icons';
+import { chargerCollection } from '@/remote-access';
+import React, { FC, FormEvent, useState } from 'react';
 
 interface ChargerRowProps {
   editClicked: (chargerID: number) => void
+  deleteClicked: (chargerID: number) => void
   charger: Charger
   classes: any
 }
 
-const ChargerRow: FC<ChargerRowProps> = ({ charger, classes, editClicked }) => {
+const ChargerRow: FC<ChargerRowProps> = ({ charger, classes, editClicked, deleteClicked }) => {
   const theme: Theme = useTheme();
 
-  const [openMore, setOpenMore] = useState(false);
-  /* const handleOpenMore = () => {
-    setOpenMore(true);
-  }; */
+  const [openDelete, setDeleteOpen] = useState(false);
+  const handleDeleteClicked = () => {
+    setDeleteOpen(true);
+  }; 
   
-  const handleCloseMore = () => {
-    setOpenMore(false);
+  const handleCloseDelete = () => {
+    setDeleteOpen(false);
+  };
+
+  const onDeleteCharger = async (event: FormEvent<HTMLFormElement>, chargerId: number) => {
+    event.preventDefault();
+    const [res, error] = await chargerCollection.deleteChargerById(chargerId);
+    console.log(res, error);
   };
 
   return (
@@ -61,32 +69,23 @@ const ChargerRow: FC<ChargerRowProps> = ({ charger, classes, editClicked }) => {
           >
             Edit
           </Button>
-          {/* <IconButton onClick={handleOpenMore}>
-            <MoreVert />
-          </IconButton> */}
-
-          <Dialog open={openMore} onClose={handleCloseMore}>
-            <DialogTitle>Edit charger {charger.chargerID}</DialogTitle>
-            <List aria-label="charger options">
-              <ListItem button>
-                <ListItemIcon>
-                  <Error />
-                </ListItemIcon>
-                <ListItemText primary="Set to offline" />
-              </ListItem>
-              <ListItem button>
-                <ListItemIcon>
-                  <FiberManualRecord />
-                </ListItemIcon>
-                <ListItemText primary="Set to online" />
-              </ListItem>
-              <ListItem button>
-                <ListItemIcon>
-                  <Delete />
-                </ListItemIcon>
-                <ListItemText primary="Delete" />
-              </ListItem>
-            </List>
+          <Button
+            startIcon={<Delete />}
+            style={{ color: theme.flexiCharge.primary.white }}
+            variant="contained"
+            color="secondary"
+            onClick={() => handleDeleteClicked()}
+          >
+            Delete
+          </Button>
+          <Dialog open={openDelete} onClose={handleCloseDelete}>
+            <DialogTitle>Are you sure you want to delete charger {charger.chargerID}?</DialogTitle>
+            <form onSubmit={(e) => { onDeleteCharger(e, charger.chargerID); }}>
+              <Button type="submit" variant="contained" color="primary" className={classes.saveButton}>
+                Yes
+              </Button>
+              <Button type="button" onClick={handleCloseDelete}>No</Button>
+            </form>
           </Dialog>
         </TableCell>
       </TableRow>
