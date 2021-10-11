@@ -56,7 +56,7 @@ const ChargerTable: FC<ChargerTableProps> = ({ loaded, chargers, ...props }: any
           </TableHead>
           <TableBody>
             {
-              chargers.slice(state.page * state.rowsPerPage, state.page * state.rowsPerPage + state.rowsPerPage)
+              chargers?.slice(state.page * state.rowsPerPage, state.page * state.rowsPerPage + state.rowsPerPage)
                 .map((charger: Charger) => {
                   return (
                     <ChargerRow

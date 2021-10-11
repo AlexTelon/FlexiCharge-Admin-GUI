@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
-import { AppBar, Box, createStyles, makeStyles, Theme, Toolbar, Typography, Container, Grid, IconButton, Paper } from '@material-ui/core';
+import { AppBar, Box, createStyles, makeStyles, Theme, Toolbar, Typography, Container, Grid, IconButton, Paper, alpha, InputBase, styled } from '@material-ui/core';
 import { FilterList } from '@material-ui/icons';
 import ChargerTable from './page-components/ChargerTable';
 import ChargerEditPanel from './page-components/ChargerEditPanel';
 import { useParams } from 'react-router-dom';
 import ChargerStationAccordian from './page-components/ChargerStationAccordian';
 import { chargerCollection } from '@/remote-access';
+import { Charger } from '@/remote-access/types';
 
 const useStyles = makeStyles((theme: Theme) => 
   createStyles({
@@ -72,6 +73,51 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
+const Search = styled('div')(({ theme }) => ({
+  position: 'relative',
+  color: 'black',
+  borderRadius: theme.shape.borderRadius,
+  backgroundColor: alpha(theme.flexiCharge.primary.lightGrey, 0.15),
+  '&:hover': {
+    backgroundColor: alpha(theme.palette.common.white, 0.25)
+  },
+  marginLeft: 0,
+  marginRight: theme.spacing(2),
+  width: '100%',
+  [theme.breakpoints.up('sm')]: {
+    marginLeft: theme.spacing(1),
+    width: 'auto'
+  }
+}));
+
+const SearchIconWrapper = styled('div')(({ theme }) => ({
+  padding: theme.spacing(0, 2),
+  height: '100%',
+  position: 'absolute',
+  pointerEvents: 'none',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center'
+}));
+
+const StyledInputBase = styled(InputBase)(({ theme }) => ({
+  color: 'inherit',
+  backgroundColor: 'transparent',
+  '& .MuiInputBase-input': {
+    padding: theme.spacing(1, 1, 1, 0),
+    // vertical padding + font size from searchIcon
+    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+    transition: theme.transitions.create('width'),
+    width: '100%',
+    [theme.breakpoints.up('sm')]: {
+      width: '12ch',
+      '&:focus': {
+        width: '20ch'
+      }
+    }
+  }
+}));
+
 const ChargersPage = (props: any) => {
   const params = useParams(); 
   const stationId = (params as any).stationId;
@@ -79,6 +125,7 @@ const ChargersPage = (props: any) => {
   const [state, setState] = useState<any>({
     loaded: false
   });
+  const [reloaded, setReloaded] = useState(false);
   const [activeChargerID, setActiveChargerID] = useState<number>();
   const editClicked = (chargerID: number) => {
     setActiveChargerID(chargerID);
@@ -102,8 +149,30 @@ const ChargersPage = (props: any) => {
 
   useEffect(() => {
     loadChargers();
-  }, []);
+  }, [reloaded]);
 
+  const handleSearch = (searchText: string) => {
+    if (searchText !== '') {
+      const chargers = state.chargers.filter((charger: Charger) => {
+        return `${charger.chargerID}`.includes(searchText)
+          || charger.serialNumber?.toLowerCase().includes(searchText.toLowerCase());
+      });
+      setState({
+        ...state,
+        searchText,
+        searchedChargers: chargers
+      });
+    } else {
+      setState({
+        ...state,
+        searchText: undefined
+      });
+      setReloaded(true);
+    }
+  };
+
+  console.log(state);
+  
   return (
     <>
       <Helmet>
@@ -121,6 +190,16 @@ const ChargersPage = (props: any) => {
                 <AppBar position='static' className={classes.contentAppBar} elevation={1}>
                   <Toolbar variant='dense'>
                     <Typography className={classes.contentTitle} variant='h6'>Chargers</Typography>
+                    <Search color="primary">
+                      <SearchIconWrapper>
+                        <Search />
+                      </SearchIconWrapper>
+                      <StyledInputBase
+                        placeholder="Search..."
+                        inputProps={{ 'aria-label': 'search' }}
+                        onChange={(e) => { handleSearch(e.target.value); }}
+                      />
+                    </Search>
                     <IconButton edge='end'
                       aria-label='charger stations filters'
                       aria-haspopup='true'
@@ -137,7 +216,7 @@ const ChargersPage = (props: any) => {
                   <ChargerTable
                     classes={classes}
                     editClicked={editClicked}
-                    chargers={state.chargers}
+                    chargers={state.searchText !== undefined ? state.searchedChargers : state.chargers}
                     loaded={state.loaded}
                   />
                 </Paper>
