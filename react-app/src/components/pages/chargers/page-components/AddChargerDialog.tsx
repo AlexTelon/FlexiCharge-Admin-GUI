@@ -152,7 +152,7 @@ const AddChargerDialog: FC<AddChargerDialogProps> = ({ open, handleClose, statio
             color: theme.flexiCharge.primary.white
           }}
           onClick={() => handleAddClick()}
-        >Add</Button>
+        >Add Charger</Button>
       </DialogActions>
     </Dialog>
   );

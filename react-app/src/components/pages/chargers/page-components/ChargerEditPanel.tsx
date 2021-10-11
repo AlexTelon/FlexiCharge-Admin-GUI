@@ -32,7 +32,7 @@ const ChargerEditPanel: FC<ChargerEditPanelProps> = ({ chargerID, setActiveCharg
 
   useEffect(() => {
     loadCharger();
-  }, []);
+  }, [chargerID]);
 
   const [openDelete, setDeleteOpen] = useState(false);
   const handleDeleteClicked = () => {
