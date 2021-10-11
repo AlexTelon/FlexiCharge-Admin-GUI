@@ -1,37 +1,18 @@
-import React, { useState, useEffect } from 'react';
-import { chargerCollection } from '@/remote-access';
 import { useMediaQuery, Theme, TableProps, TableContainer, Table, TableHead, TableRow, TableCell, Checkbox, TableBody, TablePagination } from '@material-ui/core';
 import ChargerRow from './ChargerRow';
 import { Charger } from '@/remote-access/types';
+import React, { FC } from 'react';
 
-export default function ChargerTable(props: any) {
+interface ChargerTableProps {
+  chargers: Charger[]
+  loaded: boolean
+  [key: string]: any
+}
+
+const ChargerTable: FC<ChargerTableProps> = ({ loaded, chargers, ...props }: any) => {
   const handleChangePage = (event: unknown, newPage: number) => {
     // 
   };
-
-  const [state, setState] = useState<any>({
-    loaded: false
-  });
-
-  const loadChargers = async () => {
-    const [chargers, error] = await chargerCollection.getAllChargers(Number(props.stationId));
-    if (chargers) {
-      setState({
-        loaded: true,
-        chargers
-      });  
-    } else if (error) {
-      setState({
-        loaded: true,
-        error: true,
-        errorMessage: 'Failed to fetch chargers'
-      });  
-    }
-  };
-
-  useEffect(() => {
-    loadChargers();
-  }, []);
 
   const isSmallScreen = useMediaQuery((theme: Theme) => theme.breakpoints.down('xs'));
   const tableProps: TableProps = {
@@ -53,7 +34,7 @@ export default function ChargerTable(props: any) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {state.chargers?.map((charger: Charger) => {
+            {chargers?.map((charger: Charger) => {
               return (
                 <ChargerRow
                   key={charger.chargerID}
@@ -70,10 +51,12 @@ export default function ChargerTable(props: any) {
       <TablePagination
         rowsPerPageOptions={[5, 10, 15]}
         component='div'
-        count={state.chargers ? state.chargers.length : 0}
+        count={chargers ? chargers.length : 0}
         rowsPerPage={10}
         page={1}
         onPageChange={handleChangePage} />
     </>
   );
 };
+
+export default ChargerTable;

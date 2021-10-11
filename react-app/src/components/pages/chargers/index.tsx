@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { AppBar, Box, createStyles, makeStyles, Theme, Toolbar, Typography, Container, Grid, IconButton, Paper } from '@material-ui/core';
 import { FilterList } from '@material-ui/icons';
@@ -6,6 +6,7 @@ import ChargerTable from './page-components/ChargerTable';
 import ChargerEditPanel from './page-components/ChargerEditPanel';
 import { useParams } from 'react-router-dom';
 import ChargerStationAccordian from './page-components/ChargerStationAccordian';
+import { chargerCollection } from '@/remote-access';
 
 const useStyles = makeStyles((theme: Theme) => 
   createStyles({
@@ -75,10 +76,34 @@ const ChargersPage = (props: any) => {
   const params = useParams(); 
   const stationId = (params as any).stationId;
   const classes = useStyles();
+  const [state, setState] = useState<any>({
+    loaded: false
+  });
   const [activeChargerID, setActiveChargerID] = useState<number>();
   const editClicked = (chargerID: number) => {
     setActiveChargerID(chargerID);
   };
+
+  const loadChargers = async () => {
+    const [chargers, error] = await chargerCollection.getAllChargers(Number(stationId));
+    if (chargers) {
+      setState({
+        loaded: true,
+        chargers
+      });  
+    } else if (error) {
+      setState({
+        loaded: true,
+        error: true,
+        errorMessage: 'Failed to fetch chargers'
+      });  
+    }
+  };
+
+  useEffect(() => {
+    loadChargers();
+  }, []);
+
   return (
     <>
       <Helmet>
@@ -109,7 +134,12 @@ const ChargersPage = (props: any) => {
                   <ChargerStationAccordian stationId={stationId} />
                 }
                 <Paper elevation={2}>
-                  <ChargerTable classes={classes} editClicked={editClicked} stationId={stationId} />
+                  <ChargerTable
+                    classes={classes}
+                    editClicked={editClicked}
+                    chargers={state.chargers}
+                    loaded={state.loaded}
+                  />
                 </Paper>
               </Grid>
               <Grid item xs={12} md={4} lg={3}>
