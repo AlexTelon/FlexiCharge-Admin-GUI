@@ -4,7 +4,7 @@ import { useMediaQuery, Theme, TableProps, TableContainer, Table, TableHead, Tab
 import ChargerRow from './ChargerRow';
 import { Charger } from '@/remote-access/types';
 
-export default function ChargerTable({ classes, ...rest }: any) {
+export default function ChargerTable(props: any) {
   const handleChangePage = (event: unknown, newPage: number) => {
     // 
   };
@@ -14,7 +14,7 @@ export default function ChargerTable({ classes, ...rest }: any) {
   });
 
   const loadChargers = async () => {
-    const [chargers, error] = await chargerCollection.getAllChargers();
+    const [chargers, error] = await chargerCollection.getAllChargers(Number(props.stationId));
     if (chargers) {
       setState({
         loaded: true,
@@ -26,7 +26,7 @@ export default function ChargerTable({ classes, ...rest }: any) {
         error: true,
         errorMessage: 'Failed to fetch chargers'
       });  
-    } 
+    }
   };
 
   useEffect(() => {
@@ -40,12 +40,12 @@ export default function ChargerTable({ classes, ...rest }: any) {
 
   return (
     <>
-      <TableContainer className={classes.tableContainer}>
+      <TableContainer className={props.classes.tableContainer}>
         <Table {...tableProps} stickyHeader aria-label='sticky table'>
           <TableHead>
             <TableRow>
               <TableCell padding='checkbox'>
-                <Checkbox className={classes.checkBox} />
+                <Checkbox className={props.classes.checkBox} />
               </TableCell>
               <TableCell>Charger ID</TableCell>
               <TableCell>Status</TableCell>
@@ -58,8 +58,8 @@ export default function ChargerTable({ classes, ...rest }: any) {
                 <ChargerRow
                   key={charger.chargerID}
                   charger={charger}
-                  {...rest}
-                  classes={classes}
+                  {...props}
+                  classes={props.classes}
                 />
               );
             })

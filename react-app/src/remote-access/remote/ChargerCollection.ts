@@ -12,10 +12,17 @@ export default class ChargerCollection implements IChargerCollection {
     }
   }
 
-  public async getAllChargers(): Promise<[Charger[] | null, any | null]> {
+  public async getAllChargers(chargePointID?: number): Promise<[Charger[] | null, any | null]> {
     try {
       const res = await axios.get(`${appConfig.FLEXICHARGE_API_URL}/chargers`);
-      return [res.data as Charger[], null];
+      const chargers = res.data as Charger[];
+
+      if (chargePointID && !isNaN(chargePointID)) {
+        const filteredChargers = chargers.filter(charger => (charger.chargePointID === chargePointID));
+        return [filteredChargers, null];
+      } else {
+        return [chargers, null];
+      }
     } catch (error: any) {
       return [null, error];
     }
