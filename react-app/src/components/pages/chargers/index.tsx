@@ -5,6 +5,7 @@ import { FilterList } from '@material-ui/icons';
 import ChargerTable from './page-components/ChargerTable';
 import ChargerEditPanel from './page-components/ChargerEditPanel';
 import { useParams } from 'react-router-dom';
+import ChargerStationAccordian from './page-components/ChargerStationAccordian';
 
 const useStyles = makeStyles((theme: Theme) => 
   createStyles({
@@ -101,6 +102,9 @@ const ChargersPage = (props: any) => {
                     </IconButton>
                   </Toolbar>
                 </AppBar>
+                {stationId &&
+                  <ChargerStationAccordian stationId={stationId} />
+                }
                 <Paper elevation={2}>
                   <ChargerTable classes={classes} editClicked={editClicked} />
                 </Paper>
