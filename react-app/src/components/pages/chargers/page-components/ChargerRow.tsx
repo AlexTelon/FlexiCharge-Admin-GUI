@@ -1,7 +1,7 @@
 import { Charger } from '@/remote-access/types';
 import {
   Theme, useTheme, TableRow, TableCell, Checkbox, Box, Typography,
-  Dialog, DialogTitle, Button
+  Dialog, DialogTitle, Button, DialogActions
 } from '@material-ui/core';
 import { Delete, Error, Edit } from '@material-ui/icons';
 import { chargerCollection } from '@/remote-access';
@@ -80,12 +80,16 @@ const ChargerRow: FC<ChargerRowProps> = ({ charger, classes, editClicked, delete
           </Button>
           <Dialog open={openDelete} onClose={handleCloseDelete}>
             <DialogTitle>Are you sure you want to delete charger {charger.chargerID}?</DialogTitle>
-            <form onSubmit={(e) => { onDeleteCharger(e, charger.chargerID); }}>
-              <Button type="submit" variant="contained" color="primary" className={classes.saveButton}>
-                Yes
-              </Button>
-              <Button type="button" onClick={handleCloseDelete}>No</Button>
-            </form>
+            <DialogActions>
+              <form onSubmit={(e) => { onDeleteCharger(e, charger.chargerID); }}>
+                <Button type="button" autoFocus onClick={handleCloseDelete}>
+                  Cancel
+                </Button>
+                <Button type="submit" variant="contained" color="secondary" className={classes.dialogDelete} >
+                  Delete
+                </Button>
+              </form>
+            </DialogActions>
           </Dialog>
         </TableCell>
       </TableRow>
