@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { AppBar, Box, createStyles, makeStyles, Theme, Toolbar, Typography, Container, Grid, IconButton, Paper, alpha, InputBase, styled } from '@material-ui/core';
-import { FilterList } from '@material-ui/icons';
+import { Replay } from '@material-ui/icons';
 import ChargerTable from './page-components/ChargerTable';
 import ChargerEditPanel from './page-components/ChargerEditPanel';
 import { useParams } from 'react-router-dom';
@@ -132,6 +132,10 @@ const ChargersPage = (props: any) => {
   };
 
   const loadChargers = async () => {
+    setState({
+      ...state,
+      loaded: false
+    });
     const [chargers, error] = await chargerCollection.getAllChargers(Number(stationId));
     if (chargers) {
       setState({
@@ -170,8 +174,6 @@ const ChargersPage = (props: any) => {
       setReloaded(true);
     }
   };
-
-  console.log(state);
   
   return (
     <>
@@ -204,8 +206,10 @@ const ChargersPage = (props: any) => {
                       aria-label='charger stations filters'
                       aria-haspopup='true'
                       aria-controls='charger-stations-filters'
-                      color='inherit'>
-                      <FilterList />
+                      color='inherit'
+                      onClick={loadChargers}
+                    >
+                      <Replay />
                     </IconButton>
                   </Toolbar>
                 </AppBar>
