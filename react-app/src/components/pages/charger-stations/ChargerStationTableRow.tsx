@@ -6,15 +6,17 @@ import { ChargerStation } from '@/remote-access/types';
 interface ChargerStationTableRowProps {
   station: ChargerStation
   editClicked: (stationId: number) => void
+  handleManageChargersClicked: (stationId: number) => void
   selected: boolean
   handleSelect: (stationId: number) => void
 }
 
-const ChargerStationTableRow: FC<ChargerStationTableRowProps> = ({ station, editClicked, selected, handleSelect }) => {
+const ChargerStationTableRow: FC<ChargerStationTableRowProps> = ({ station, editClicked, selected, handleSelect, handleManageChargersClicked }) => {
   const [open, setOpen] = useState(false);
   const theme: Theme = useTheme();
   return (
     <>
+ 
       <TableRow
         hover
         key={station.chargePointID}
@@ -46,7 +48,7 @@ const ChargerStationTableRow: FC<ChargerStationTableRowProps> = ({ station, edit
         </TableCell>
         <TableCell align="right">
           <Hidden xsDown>
-            <Button color="primary" disabled>
+            <Button color="primary" onClick={() => handleManageChargersClicked(station.chargePointID)}>
               Manage Chargers
             </Button>
           </Hidden>

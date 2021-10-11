@@ -69,7 +69,9 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const ChargersPage = () => {
+const ChargersPage = (props: any) => {
+  const stationId = props.stationId;
+  console.log(stationId);
   const classes = useStyles();
   const [activeChargerID, setActiveChargerID] = useState<number>();
   const editClicked = (chargerID: number) => {

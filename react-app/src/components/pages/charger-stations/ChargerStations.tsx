@@ -112,6 +112,11 @@ const ChargerStations = () => {
   const [activeStationId, setActiveStationId] = useState<number>();
   const [selectedStations, setSelectedStations] = useState<readonly string[]>([]);
   const stationsTable = useRef(null);
+
+  const handleManageChargersClicked = (stationId: number) => {
+    console.log(stationId);
+  };
+
   const handleStationEditClicked = (stationId: number) => {
     setActiveStationId(stationId);
   };
@@ -193,7 +198,7 @@ const ChargerStations = () => {
                 </AppBar>
                 <ChargerStationsSettingsAccordian selectedStations={selectedStations} />
                 <Paper elevation={2}>
-                  <ChargerStationsTable loaded={state.loaded} stations={search !== undefined ? searchedStations : state.stations} ref={stationsTable} setSelectedStations={setSelectedStations} editClicked={handleStationEditClicked} classes={classes} />
+                  <ChargerStationsTable handleManageChargersClicked={handleManageChargersClicked} loaded={state.loaded} stations={search !== undefined ? searchedStations : state.stations} ref={stationsTable} setSelectedStations={setSelectedStations} editClicked={handleStationEditClicked} classes={classes} />
                 </Paper>
               </Grid>
               <Grid item xs={12} md={4} lg={3}>
