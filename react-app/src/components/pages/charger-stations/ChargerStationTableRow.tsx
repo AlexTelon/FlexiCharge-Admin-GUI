@@ -47,7 +47,13 @@ const ChargerStationTableRow: FC<ChargerStationTableRowProps> = ({ station, edit
         </TableCell>
         <TableCell align="right">
           <Hidden xsDown>
-            <Link to={`/dashboard/chargers/${station.chargePointID}`}>Manage Chargers</Link>
+            <Button
+              component={Link}
+              to={`/dashboard/chargers/${station.chargePointID}`}
+              variant="text"
+              color="primary">
+                Manage Chargers
+            </Button>
           </Hidden>
           <Button
             startIcon={<Edit />}
