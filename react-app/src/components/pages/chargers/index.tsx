@@ -4,6 +4,7 @@ import { AppBar, Box, createStyles, makeStyles, Theme, Toolbar, Typography, Cont
 import { FilterList } from '@material-ui/icons';
 import ChargerTable from './page-components/ChargerTable';
 import ChargerEditPanel from './page-components/ChargerEditPanel';
+import { useParams } from 'react-router-dom';
 
 const useStyles = makeStyles((theme: Theme) => 
   createStyles({
@@ -70,7 +71,8 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const ChargersPage = (props: any) => {
-  const stationId = props.stationId;
+  const params = useParams(); 
+  const stationId = (params as any).stationId;
   console.log(stationId);
   const classes = useStyles();
   const [activeChargerID, setActiveChargerID] = useState<number>();
