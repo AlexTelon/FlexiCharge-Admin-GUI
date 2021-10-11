@@ -1,4 +1,8 @@
-import { useMediaQuery, Theme, TableProps, TableContainer, Table, TableHead, TableRow, TableCell, Checkbox, TableBody, TablePagination, LinearProgress } from '@material-ui/core';
+import {
+  useMediaQuery, Theme, TableProps, TableContainer,
+  Table, TableHead, TableRow, TableCell, TableBody,
+  TablePagination, LinearProgress
+} from '@material-ui/core';
 import ChargerRow from './ChargerRow';
 import { Charger } from '@/remote-access/types';
 import React, { FC, useState } from 'react';
@@ -49,10 +53,9 @@ const ChargerTable: FC<ChargerTableProps> = ({ loaded, chargers, ...props }: any
         <Table {...tableProps} stickyHeader aria-label='sticky table'>
           <TableHead>
             <TableRow>
-              <TableCell padding='checkbox'>
-                <Checkbox className={props.classes.checkBox} />
-              </TableCell>
               <TableCell>Charger ID</TableCell>
+              <TableCell>Serial Number</TableCell>
+              <TableCell>Charger Station ID</TableCell>
               <TableCell>Status</TableCell>
               <TableCell align='right'>Actions</TableCell>
             </TableRow>

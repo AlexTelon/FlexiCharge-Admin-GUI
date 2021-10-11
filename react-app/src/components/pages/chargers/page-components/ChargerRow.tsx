@@ -1,9 +1,9 @@
 import { Charger } from '@/remote-access/types';
 import {
-  Theme, useTheme, TableRow, TableCell, Checkbox, Box, Typography,
+  Theme, useTheme, TableRow, TableCell, Box, Typography,
   Button 
 } from '@material-ui/core';
-import { Error, Edit } from '@material-ui/icons';
+import { Edit } from '@material-ui/icons';
 import React, { FC } from 'react';
 
 interface ChargerRowProps {
@@ -22,9 +22,6 @@ const ChargerRow: FC<ChargerRowProps> = ({ charger, classes, editClicked, delete
         hover
         style={{ backgroundColor: theme.flexiCharge.primary.white }}
       >
-        <TableCell padding='checkbox'>
-          <Checkbox />
-        </TableCell>
         <TableCell>
           <Box
             sx={{
@@ -42,7 +39,18 @@ const ChargerRow: FC<ChargerRowProps> = ({ charger, classes, editClicked, delete
             </Typography>
           </Box>
         </TableCell>
-        <TableCell><Error color='error' />Offline</TableCell>
+        <TableCell>
+          <Typography
+            color="textPrimary"
+            variant="body1"
+            style={{ maxWidth: '15vw' }}
+            noWrap
+          >
+            {charger.serialNumber}
+          </Typography>
+        </TableCell>
+        <TableCell>{charger.chargePointID}</TableCell>
+        <TableCell>{charger.status}</TableCell>
         <TableCell align='right'>
           <Button
             startIcon={<Edit />}
