@@ -93,10 +93,10 @@ const DashboardHome = () => {
       <Grid
         className={classes.BoxSpacing}
         item
-        lg={8}
-        md={12}
-        xl={9}
         xs={12}
+        md={12}
+        lg={7}
+        xl={8}
       >
         <Sales />
       </Grid>

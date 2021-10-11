@@ -3,6 +3,7 @@ import { ChargerStation } from '@/remote-access/types';
 import { Accordion, AccordionActions, AccordionDetails, AccordionSummary, Button, Divider, Grid, Theme, Typography, useTheme } from '@material-ui/core';
 import { ExpandMore } from '@material-ui/icons';
 import React, { FC, useEffect, useState } from 'react';
+import AddChargerDialog from './AddChargerDialog';
 
 interface ChargerStationAccordionProps {
   stationId: number
@@ -11,12 +12,14 @@ interface ChargerStationAccordionProps {
 interface ChargerStationAccordianState {
   loaded: boolean
   station?: ChargerStation
+  openAddStationDialog: boolean
 }
 
 const ChargerStationAccordian: FC<ChargerStationAccordionProps> = ({ stationId }) => {
   const theme: Theme = useTheme();
   const [state, setState] = useState<ChargerStationAccordianState>({
-    loaded: false
+    loaded: false,
+    openAddStationDialog: false
   });
 
   const loadStation = () => {
@@ -24,6 +27,7 @@ const ChargerStationAccordian: FC<ChargerStationAccordionProps> = ({ stationId }
       chargerStationCollection.getChargerStationById(stationId).then((chargerStation) => {
         if (chargerStation === null) return;
         setState({
+          ...state,
           loaded: true,
           station: chargerStation
         });
@@ -34,6 +38,20 @@ const ChargerStationAccordian: FC<ChargerStationAccordionProps> = ({ stationId }
   useEffect(() => {
     loadStation();
   }, [stationId]);
+
+  const handleOpenAddStationDialog = () => {
+    setState({
+      ...state,
+      openAddStationDialog: true
+    });
+  };
+
+  const handleCloseAddStationDialog = () => {
+    setState({
+      ...state,
+      openAddStationDialog: false
+    });
+  };
 
   return (
     <>
@@ -72,10 +90,17 @@ const ChargerStationAccordian: FC<ChargerStationAccordionProps> = ({ stationId }
               variant="contained"
               color="primary"
               style={{ color: theme.flexiCharge.primary.white }}
+              onClick={() => handleOpenAddStationDialog()}
             >
                 Add Charger
             </Button>
           </AccordionActions>
+
+          <AddChargerDialog
+            open={state.openAddStationDialog}
+            handleClose={handleCloseAddStationDialog}
+            station={state.station}
+          />
         </Accordion>
       }
     </>
