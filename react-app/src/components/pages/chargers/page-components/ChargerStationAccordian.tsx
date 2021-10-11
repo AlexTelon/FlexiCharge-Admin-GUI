@@ -47,7 +47,7 @@ const ChargerStationAccordian: FC<ChargerStationAccordionProps> = ({ stationId }
             <Grid container id="charger-station-panel-header">
               <Grid item xs={9} md={10}>
                 <Typography>
-                  Viewing Chargers in Charger Station: {state.station?.name}
+                  Viewing Chargers in Charger Station: {state.station.chargePointID}, {state.station?.name}
                 </Typography>
               </Grid>
               <Grid item xs={3} md={2}>
