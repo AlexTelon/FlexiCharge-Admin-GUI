@@ -7,6 +7,7 @@ import AddChargerDialog from './AddChargerDialog';
 
 interface ChargerStationAccordionProps {
   stationId: number
+  reload: () => void
 }
 
 interface ChargerStationAccordianState {
@@ -15,7 +16,7 @@ interface ChargerStationAccordianState {
   openAddStationDialog: boolean
 }
 
-const ChargerStationAccordian: FC<ChargerStationAccordionProps> = ({ stationId }) => {
+const ChargerStationAccordian: FC<ChargerStationAccordionProps> = ({ stationId, reload }) => {
   const theme: Theme = useTheme();
   const [state, setState] = useState<ChargerStationAccordianState>({
     loaded: false,
@@ -100,6 +101,7 @@ const ChargerStationAccordian: FC<ChargerStationAccordionProps> = ({ stationId }
             open={state.openAddStationDialog}
             handleClose={handleCloseAddStationDialog}
             station={state.station}
+            reload={reload}
           />
         </Accordion>
       }

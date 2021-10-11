@@ -9,6 +9,7 @@ interface AddChargerDialogProps {
   open: boolean
   handleClose: () => void
   station: ChargerStation
+  reload: () => void
 }
 
 interface AddChargerDialogState {
@@ -21,7 +22,7 @@ interface AddChargerDialogState {
   }
 }
 
-const AddChargerDialog: FC<AddChargerDialogProps> = ({ open, handleClose, station }: any) => {
+const AddChargerDialog: FC<AddChargerDialogProps> = ({ open, handleClose, station, reload }: any) => {
   const theme: Theme = useTheme();
   const [state, setState] = useState<AddChargerDialogState>({
     loading: false,
@@ -63,6 +64,7 @@ const AddChargerDialog: FC<AddChargerDialogProps> = ({ open, handleClose, statio
             successfulAddedSerialNumber: state.serialNumber,
             loading: false
           });
+          reload();
         }
       });
     } else {

@@ -125,7 +125,6 @@ const ChargersPage = (props: any) => {
   const [state, setState] = useState<any>({
     loaded: false
   });
-  const [reloaded, setReloaded] = useState(false);
   const [activeChargerID, setActiveChargerID] = useState<number>();
   const editClicked = (chargerID: number) => {
     setActiveChargerID(chargerID);
@@ -153,7 +152,7 @@ const ChargersPage = (props: any) => {
 
   useEffect(() => {
     loadChargers();
-  }, [reloaded]);
+  }, []);
 
   const handleSearch = (searchText: string) => {
     if (searchText !== '') {
@@ -171,7 +170,6 @@ const ChargersPage = (props: any) => {
         ...state,
         searchText: undefined
       });
-      setReloaded(true);
     }
   };
   
@@ -214,7 +212,7 @@ const ChargersPage = (props: any) => {
                   </Toolbar>
                 </AppBar>
                 {stationId &&
-                  <ChargerStationAccordian stationId={stationId} />
+                  <ChargerStationAccordian stationId={stationId} reload={loadChargers} />
                 }
                 <Paper elevation={2}>
                   <ChargerTable
