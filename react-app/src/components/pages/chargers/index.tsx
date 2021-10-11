@@ -225,7 +225,11 @@ const ChargersPage = (props: any) => {
               </Grid>
               <Grid item xs={12} md={4} lg={3}>
                 {activeChargerID &&
-                  <ChargerEditPanel chargerID={activeChargerID} />
+                  <ChargerEditPanel
+                    chargerID={activeChargerID}
+                    setActiveChargerID={setActiveChargerID}
+                    reload={loadChargers}
+                  />
                 }
               </Grid>
             </Grid>

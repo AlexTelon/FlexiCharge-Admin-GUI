@@ -1,6 +1,10 @@
 import { chargerStationCollection } from '@/remote-access';
 import { ChargerStation } from '@/remote-access/types';
-import { Accordion, AccordionActions, AccordionDetails, AccordionSummary, Button, Divider, Grid, Theme, Typography, useTheme } from '@material-ui/core';
+import {
+  Accordion, AccordionActions, AccordionDetails,
+  AccordionSummary, Button, Divider, Grid, ListItemText,
+  Theme, Typography, useTheme
+} from '@material-ui/core';
 import { ExpandMore } from '@material-ui/icons';
 import React, { FC, useEffect, useState } from 'react';
 import AddChargerDialog from './AddChargerDialog';
@@ -76,15 +80,32 @@ const ChargerStationAccordian: FC<ChargerStationAccordionProps> = ({ stationId, 
           </AccordionSummary>
           <Divider />
           <AccordionDetails>
-            <Typography variant="caption">
-              {state.station?.chargePointID}
-              <br />
-              {state.station?.name}
-              <br />
-              {state.station.location}
-              <br />
-              {state.station.price}
-            </Typography>
+            <Grid container spacing={5}>
+              <Grid item xl={3}>
+                <ListItemText
+                  primary={state.station.chargePointID}
+                  secondary="Station ID"
+                />
+              </Grid>
+              <Grid item xl={3}>
+                <ListItemText
+                  primary={state.station.name}
+                  secondary="Name"
+                />
+              </Grid>
+              <Grid item xl={3}>
+                <ListItemText
+                  primary={`${state.station.location[0]}, ${state.station.location[1]}`}
+                  secondary="Longitude, Latitude"
+                />
+              </Grid>
+              <Grid item xl={3}>
+                <ListItemText
+                  primary={`SEK ${state.station.price / 100}`}
+                  secondary="Price"
+                />
+              </Grid>
+            </Grid>
           </AccordionDetails>
           <AccordionActions>
             <Button

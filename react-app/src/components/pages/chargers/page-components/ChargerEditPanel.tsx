@@ -8,9 +8,11 @@ import { Alert } from '@material-ui/lab';
 
 interface ChargerEditPanelProps {
   chargerID: number
+  setActiveChargerID: (chargerID: number | undefined) => void
+  reload: () => void
 }
 
-const ChargerEditPanel: FC<ChargerEditPanelProps> = ({ chargerID }) => {
+const ChargerEditPanel: FC<ChargerEditPanelProps> = ({ chargerID, setActiveChargerID, reload }) => {
   const theme: Theme = useTheme();
   const [charger, setCharger] = useState<Charger>();
   const [loading, setLoading] = useState(false);
@@ -43,8 +45,9 @@ const ChargerEditPanel: FC<ChargerEditPanelProps> = ({ chargerID }) => {
 
   const onDeleteCharger = async (event: FormEvent<HTMLFormElement>, chargerId: number) => {
     event.preventDefault();
-    const [res, error] = await chargerCollection.deleteChargerById(chargerId);
-    console.log(res, error);
+    await chargerCollection.deleteChargerById(chargerId);
+    setActiveChargerID(undefined);
+    reload();
   };
 
   return (
@@ -71,6 +74,7 @@ const ChargerEditPanel: FC<ChargerEditPanelProps> = ({ chargerID }) => {
                   aria-label="deselect charger"
                   aria-controls="charger-info"
                   color="inherit"
+                  onClick={() => setActiveChargerID(undefined)}
                 >
                   <Close />
                 </IconButton>
