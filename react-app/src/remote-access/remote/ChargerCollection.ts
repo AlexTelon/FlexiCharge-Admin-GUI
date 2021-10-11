@@ -1,14 +1,31 @@
 import { Charger, IChargerCollection } from '../types';
 import appConfig from '@/appConfig';
 import axios from 'axios';
+import { authenticationProvider } from '..';
 
 export default class ChargerCollection implements IChargerCollection {
-  public async addCharger(fields: Omit<Charger, 'chargerID'>): Promise<[Charger | null, any | null]> {
+  public async addCharger(fields: Omit<Charger, 'chargerID' | 'status'>): Promise<[Charger | null, any | null]> {
     try {
-      const res = await axios.post(`${appConfig.FLEXICHARGE_API_URL}/chargers/`, fields);
+      const res = await axios.post(`${appConfig.FLEXICHARGE_API_URL}/chargers/`, fields, {
+        headers: {
+          Authorization: `Bearer ${authenticationProvider.getToken()}`
+        }
+      });
       return [res.data, null];
     } catch (error: any) {
-      return [null, error];
+      if (error.response) {
+        const errorObj: any = {};
+        if (error.response.data.includes('dbUniqueConstraintError')) {
+          errorObj.serialNumber = 'Serial Number already exsists in system';
+        } else {
+          errorObj.error = 'An error occured';
+        }
+        return [null, errorObj];
+      } else if (error.request) {
+        return [null, { error: 'Could not connect to server' }];
+      } else {
+        return [null, {}];
+      }
     }
   }
 

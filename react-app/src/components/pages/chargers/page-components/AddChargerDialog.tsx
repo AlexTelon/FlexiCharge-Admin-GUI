@@ -1,5 +1,6 @@
+import { chargerCollection } from '@/remote-access';
 import { ChargerStation } from '@/remote-access/types';
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControl, FormHelperText, Input, InputLabel, LinearProgress, Theme } from '@material-ui/core';
+import { Button, Collapse, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControl, FormHelperText, Input, InputLabel, LinearProgress, Theme } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 import { useTheme } from '@material-ui/styles';
 import React, { FC, useState } from 'react';
@@ -13,6 +14,7 @@ interface AddChargerDialogProps {
 interface AddChargerDialogState {
   loading: boolean
   serialNumber?: string
+  successfulAddedSerialNumber?: string
   errorState: {
     alert?: string
     serialNumber?: string
@@ -34,23 +36,71 @@ const AddChargerDialog: FC<AddChargerDialogProps> = ({ open, handleClose, statio
   };
 
   const handleAddClick = () => {
-    if (state.serialNumber === undefined) return;
-    console.log(state.serialNumber);
+    if (state.serialNumber !== undefined) {
+      setState({
+        ...state,
+        loading: true
+      });
+
+      chargerCollection.addCharger({
+        serialNumber: state.serialNumber,
+        location: station.location,
+        chargePointID: station.chargePointID
+      }).then((result) => {
+        if (result[1] !== null) {
+          setState({
+            ...state,
+            errorState: {
+              ...result[1],
+              alert: result[1].error
+            },
+            loading: false
+          });
+        } else if (result[0]) {
+          setState({
+            ...state,
+            errorState: {},
+            successfulAddedSerialNumber: state.serialNumber,
+            loading: false
+          });
+        }
+      });
+    } else {
+      setState({
+        ...state,
+        errorState: {
+          serialNumber: 'Required'
+        }
+      });
+    }
   };
 
   return (
-    <Dialog open={open} onClose={handleClose}>
+    <Dialog
+      open={open}
+      onClose={() => { setState({ loading: false, errorState: {} }); handleClose(); }}
+      fullWidth
+    >
       {state.loading &&
         <LinearProgress />
       }
+      <Collapse in={state.successfulAddedSerialNumber !== undefined}>
+        <Alert>
+          Chager: {state.successfulAddedSerialNumber} Added
+        </Alert>
+      </Collapse>
       <DialogTitle>Add Charger to Station</DialogTitle>
+      {state.errorState.alert &&
+        <Alert style={{ width: '100%' }} severity="warning">{state.errorState.alert}</Alert>
+      }
       <DialogContent>
         <DialogContentText>
           ({station.chargePointID}), {station.name}
+          <br />
+          lon: {station.location[0]}
+          <br />
+          lat: {station.location[1]}
         </DialogContentText>
-        {state.errorState.alert &&
-          <Alert style={{ width: '100%' }} severity="warning">{state.errorState.alert}</Alert>
-        }
         <form>
           <FormControl fullWidth variant="outlined" error={state.errorState.serialNumber !== undefined}>
             <InputLabel htmlFor="charger-serial-number">Serial Number</InputLabel>
@@ -74,7 +124,7 @@ const AddChargerDialog: FC<AddChargerDialogProps> = ({ open, handleClose, statio
         <Button
           variant="text"
           color="primary"
-          onClick={handleClose}
+          onClick={() => { setState({ loading: false, errorState: {} }); handleClose(); }}
         >Cancel</Button>
         <Button
           variant="contained"

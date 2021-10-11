@@ -6,14 +6,14 @@ export enum ChargerStatus {
 
 export interface Charger {
   chargerID: number
-  location: string
-  cooidinates: string
+  serialNumber?: string
+  location: [number, number]
   chargePointID: number
   status: ChargerStatus
 }
 
 export interface IChargerCollection {
-  addCharger: (fields: Omit<Charger, 'chargerID'>) => Promise<[Charger | null, any | null]>
+  addCharger: (fields: Omit<Charger, 'chargerID' | 'status'>) => Promise<[Charger | null, any | null]>
   getAllChargers: (chargePointID?: number) => Promise<[Charger[] | null, any | null]>
   getAllAvailableChargers: () => Promise<[Charger[] | null, any | null]>
   getChargerById: (chargerId: number) => Promise<[Charger | null, any | null]>
