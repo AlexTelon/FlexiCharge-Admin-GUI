@@ -1,15 +1,9 @@
-export enum ChargerStatus {
-  OCCUPIED = 0,
-  AVAILABLE = 0,
-  OUT_OF_ORDER = 1
-}
-
 export interface Charger {
   chargerID: number
   serialNumber?: string
   location: [number, number]
   chargePointID: number
-  status: ChargerStatus
+  status: string
 }
 
 export interface IChargerCollection {

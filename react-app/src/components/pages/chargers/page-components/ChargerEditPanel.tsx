@@ -1,10 +1,10 @@
 import { Charger } from '@/remote-access/types';
-import { AppBar, Box, Button, Dialog, DialogActions, DialogTitle, Divider, IconButton, LinearProgress, Paper, Theme, Toolbar, Typography } from '@material-ui/core';
+import { AppBar, Box, Button, Dialog, DialogActions, DialogTitle, Divider, Grid, IconButton, LinearProgress, List, ListItem, ListItemText, Paper, Theme, Toolbar, Typography } from '@material-ui/core';
 import React, { FC, FormEvent, useEffect, useState } from 'react';
 import { chargerCollection } from '@/remote-access';
 import { useTheme } from '@material-ui/styles';
 import { Close, Delete } from '@material-ui/icons';
-import { Alert, ToggleButton, ToggleButtonGroup } from '@material-ui/lab';
+import { Alert } from '@material-ui/lab';
 
 interface ChargerEditPanelProps {
   chargerID: number
@@ -15,7 +15,6 @@ const ChargerEditPanel: FC<ChargerEditPanelProps> = ({ chargerID }) => {
   const [charger, setCharger] = useState<Charger>();
   const [loading, setLoading] = useState(false);
   const [errorState, setErrorState] = useState<any>({});
-  const [availability, setAvailability] = useState<string>();
 
   const loadCharger = async () => {
     const [charger, error] = await chargerCollection.getChargerById(chargerID);
@@ -32,10 +31,6 @@ const ChargerEditPanel: FC<ChargerEditPanelProps> = ({ chargerID }) => {
   useEffect(() => {
     loadCharger();
   }, []);
-
-  const handleAvailabilityChange = (event: React.MouseEvent<HTMLElement>, newAvailability: string) => {
-    setAvailability(newAvailability);
-  };
 
   const [openDelete, setDeleteOpen] = useState(false);
   const handleDeleteClicked = () => {
@@ -82,20 +77,35 @@ const ChargerEditPanel: FC<ChargerEditPanelProps> = ({ chargerID }) => {
               </Toolbar>
             </AppBar>
             <Divider />
-            <form>
+            <List dense={true}>
               {errorState.alert &&
                 <Alert severity="warning">{errorState.alert}</Alert>
               }
-              <ToggleButtonGroup
-                color="primary"
-                value={availability}
-                exclusive
-                onChange={handleAvailabilityChange}
-              >
-                <ToggleButton value="ONLINE" style={{ borderColor: theme.flexiCharge.accent.primary }}>ONLINE</ToggleButton>
-                <ToggleButton value="OFFLINE" style={{ borderColor: theme.flexiCharge.accent.error }}>OFFLINE</ToggleButton>
-              </ToggleButtonGroup>
-            </form>
+              <ListItem>
+                <ListItemText
+                  primary={charger.chargerID}
+                  secondary="Charger ID"
+                />
+              </ListItem>
+              <ListItem>
+                <ListItemText
+                  primary={charger.serialNumber}
+                  secondary="Serial Number"
+                />
+              </ListItem>
+              <ListItem>
+                <ListItemText
+                  primary={charger.chargePointID}
+                  secondary="Charger Station ID"
+                />
+              </ListItem>
+              <ListItem>
+                <ListItemText
+                  primary={charger.status}
+                  secondary="Status"
+                />
+              </ListItem>
+            </List>
             <Divider />
             <Box 
               sx={{ px: 4 }}
@@ -103,15 +113,26 @@ const ChargerEditPanel: FC<ChargerEditPanelProps> = ({ chargerID }) => {
               padding={2}
               borderColor="error.main"
             >
-              <Button
-                startIcon={<Delete />}
-                style={{ color: theme.flexiCharge.primary.white }}
-                variant="contained"
-                color="secondary"
-                onClick={() => handleDeleteClicked()}
-              >
-                Delete
-              </Button>
+              <Grid container>
+                <Grid item lg={8}>
+                  <Typography variant="caption">
+                    Delete this Charger
+                  </Typography>
+                </Grid>
+                <Grid item xs={12} lg={4}>
+                  <Button
+                    startIcon={<Delete />}
+                    variant="contained"
+                    style={{
+                      backgroundColor: theme.flexiCharge.accent.error,
+                      color: theme.flexiCharge.primary.white
+                    }}
+                    onClick={() => handleDeleteClicked()}
+                  >
+                    Delete
+                  </Button>
+                </Grid>
+              </Grid>
               <Dialog open={openDelete} onClose={handleCloseDelete}>
                 <DialogTitle>Are you sure you want to delete charger {charger.chargerID}?</DialogTitle>
                 <DialogActions>
@@ -119,7 +140,14 @@ const ChargerEditPanel: FC<ChargerEditPanelProps> = ({ chargerID }) => {
                     <Button type="button" autoFocus onClick={handleCloseDelete}>
                       Cancel
                     </Button>
-                    <Button type="submit" variant="contained" color="secondary" startIcon={<Delete />} >
+                    <Button
+                      type="submit"
+                      variant="contained"
+                      style={{
+                        backgroundColor: theme.flexiCharge.accent.error,
+                        color: theme.flexiCharge.primary.white
+                      }}
+                      startIcon={<Delete />} >
                       Delete
                     </Button>
                   </form>
