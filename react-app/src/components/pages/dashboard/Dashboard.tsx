@@ -101,7 +101,17 @@ const DashboardHome = () => {
       >
         <Sales />
       </Grid>
-      <ChargerStationMap />
+
+      <Grid
+        className={classes.BoxSpacing}
+        item
+        lg={5}
+        sm={7}
+        xl={5}
+        xs={12}
+      >
+        <ChargerStationMap />
+      </Grid>
     </Grid>
   );
 };
