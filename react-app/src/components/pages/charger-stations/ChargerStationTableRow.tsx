@@ -1,5 +1,9 @@
 import React, { FC, useState } from 'react';
-import { Theme, useTheme, TableRow, TableCell, Checkbox, Box, Typography, Hidden, Button, Collapse, Table, TableHead, TableBody } from '@material-ui/core';
+import {
+  Theme, useTheme, TableRow, TableCell,
+  Checkbox, Box, Typography, Hidden, Button,
+  Collapse, Grid, ListItemText
+} from '@material-ui/core';
 import { Edit } from '@material-ui/icons';
 import { ChargerStation } from '@/remote-access/types';
 import { Link } from 'react-router-dom';
@@ -67,29 +71,43 @@ const ChargerStationTableRow: FC<ChargerStationTableRowProps> = ({ station, edit
         </TableCell>
       </TableRow>
       <TableRow
-        key={station.chargePointID}
+        key={`${station.chargePointID}-info`}
       >
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box margin={1} >
-              <Table size="small" aria-label="charger station details">
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Price</TableCell>
-                    <TableCell>Klarna Reservation Price</TableCell>
-                    <TableCell>Longitude</TableCell>
-                    <TableCell>Latitude</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  <TableRow>
-                    <TableCell>{station.price}</TableCell>
-                    <TableCell>{station.klarnaReservationAmount}</TableCell>
-                    <TableCell>{station.location[0]}</TableCell>
-                    <TableCell>{station.location[1]}</TableCell>
-                  </TableRow>
-                </TableBody>
-              </Table>
+              <Grid container spacing={5}>
+                <Grid item xl={2}>
+                  <ListItemText
+                    primary={station.chargePointID}
+                    secondary="Station ID"
+                  />
+                </Grid>
+                <Grid item xl={2}>
+                  <ListItemText
+                    primary={station.name}
+                    secondary="Name"
+                  />
+                </Grid>
+                <Grid item xl={2}>
+                  <ListItemText
+                    primary={`${station.location[0]}, ${station.location[1]}`}
+                    secondary="Longitude, Latitude"
+                  />
+                </Grid>
+                <Grid item xl={2}>
+                  <ListItemText
+                    primary={`SEK ${station.price / 100}`}
+                    secondary="Price"
+                  />
+                </Grid>
+                <Grid item xl={2}>
+                  <ListItemText
+                    primary={`SEK ${station.klarnaReservationAmount / 100}`}
+                    secondary="Klarna Reservation Amount"
+                  />
+                </Grid>
+              </Grid>
             </Box>
           </Collapse>
         </TableCell>
