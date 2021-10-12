@@ -18,21 +18,14 @@ const ChargerStationTableRow: FC<ChargerStationTableRowProps> = ({ station, edit
   const [open, setOpen] = useState(false);
   const stationRow = useRef(null);
 
-  const handleRowClicked = (e: React.MouseEvent<HTMLElement>) => {
-    console.log(stationRow);
-    console.log(e);
-    setOpen(!open);
-  };
-
   const theme: Theme = useTheme();
   return (
     <>
- 
       <TableRow
         hover
         key={station.chargePointID}
         ref={stationRow}
-        onClick={handleRowClicked}
+        onClick={() => setOpen(!open)}
         style={{ backgroundColor: open ? 'rgba(240,240,240,1)' : theme.flexiCharge.primary.white }}
       >
         <TableCell padding="checkbox">
@@ -61,7 +54,7 @@ const ChargerStationTableRow: FC<ChargerStationTableRowProps> = ({ station, edit
           </Box>
         </TableCell>
         <TableCell>
-          {station.price}
+          SEK {station.price / 100}
         </TableCell>
         <TableCell align="right">
           <Hidden xsDown>
