@@ -93,10 +93,10 @@ const DashboardHome = () => {
       <Grid
         className={classes.BoxSpacing}
         item
-        lg={8}
-        md={12}
-        xl={9}
         xs={12}
+        md={12}
+        lg={7}
+        xl={8}
       >
         <Sales />
       </Grid>
@@ -123,7 +123,8 @@ const Dashboard = (props: any) => {
           </AppBar>
           <Route path="/dashboard" exact render={() => (<DashboardHome />)} />
           <Route path="/dashboard/stations" exact render={() => (<ChargerStations />)} />
-          <Route path="/dashboard/chargers" exact render={() => (<ChargersPage />)} />
+          <Route path="/dashboard/chargers" exact render={(props) => (<ChargersPage {...props} />)} />
+          <Route path="/dashboard/chargers/:stationId" exact render={(props) => (<ChargersPage {...props} />)} />
           <Route path="/dashboard/users" exact render={() => (<ManageUsers />) } />
         </Box>
         <Box component="main" sx={{ flexGrow: 1 }}>
