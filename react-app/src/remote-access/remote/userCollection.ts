@@ -15,7 +15,7 @@ export default class UserCollection implements IManageUserCollection {
       });
       
       const users: ManageUser[] = [];
-      for (const userData of res.data) {
+      for (const userData of res.data.Users) {
         const user = convertRemoteUserToLocal(userData);
         users.push(user);
       }
