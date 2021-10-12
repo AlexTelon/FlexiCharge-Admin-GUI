@@ -108,7 +108,6 @@ const ChargerStations = () => {
   });
   const [searchedStations, setSearchedStations] = useState<ChargerStation[]>([]);
   const [search, setSearch] = useState<string>();
-  const [reloaded, setReload] = useState<boolean>(false);
   const [activeStationId, setActiveStationId] = useState<number>();
   const [selectedStations, setSelectedStations] = useState<readonly string[]>([]);
   const stationsTable = useRef(null);
@@ -127,7 +126,7 @@ const ChargerStations = () => {
       setSearchedStations(stations);
     } else {
       setSearch(undefined);
-      setReload(true);
+      loadStations();
     }
   };
 
@@ -141,20 +140,18 @@ const ChargerStations = () => {
         loaded: true,
         stations
       });
-      setReload(false);
     }).catch((_) => {
       setState({
         loaded: true,
         error: true,
         errorMessage: 'Failed to load'
       });
-      setReload(false);
     });
   };
 
   useEffect(() => {
     loadStations();
-  }, [reloaded]);
+  }, []);
 
   return (
     <>
@@ -192,19 +189,19 @@ const ChargerStations = () => {
                       aria-haspopup="true"
                       aria-controls="charger-stations-reload"
                       color="inherit"
-                      onClick={ () => { setReload(true); setSearch(undefined); }}
+                      onClick={ () => { loadStations(); setSearch(undefined); }}
                     >
                       <Replay />
                     </IconButton>
                   </Toolbar>
                 </AppBar>
-                <ChargerStationsSettingsAccordian setReload={setReload} selectedStations={selectedStations} />
+                <ChargerStationsSettingsAccordian reload={loadStations} selectedStations={selectedStations} />
                 <Paper elevation={2}>
                   <ChargerStationsTable loaded={state.loaded} stations={search !== undefined ? searchedStations : state.stations} ref={stationsTable} setSelectedStations={setSelectedStations} editClicked={handleStationEditClicked} classes={classes} />
                 </Paper>
               </Grid>
               <Grid item xs={12} md={4} lg={3}>
-                <ChargerStationEditPanel setReload={setReload} stationId={activeStationId} setActiveStationId={setActiveStationId} />
+                <ChargerStationEditPanel reload={loadStations} stationId={activeStationId} setActiveStationId={setActiveStationId} />
               </Grid>
             </Grid>
           </Container>

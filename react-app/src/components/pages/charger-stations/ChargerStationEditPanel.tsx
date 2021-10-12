@@ -40,10 +40,10 @@ const useStyle = makeStyles((theme: Theme) =>
 interface ChargerStationEditPanelProps {
   stationId?: number
   setActiveStationId: any
-  setReload: any
+  reload: any
 }
 
-const ChargerStationEditPanel: FC<ChargerStationEditPanelProps> = ({ stationId, setActiveStationId, setReload }) => {
+const ChargerStationEditPanel: FC<ChargerStationEditPanelProps> = ({ stationId, setActiveStationId, reload }) => {
   const classes = useStyle();
 
   const [deleteDialogOpen, setDeleteDialogOpen] = useState<boolean>(false);
@@ -92,7 +92,7 @@ const ChargerStationEditPanel: FC<ChargerStationEditPanelProps> = ({ stationId, 
         setStation(result[0]);
         setLoading(false);
         setErrorState({});
-        setReload(true);
+        reload();
       }
     } else {
       setErrorState({
@@ -136,7 +136,7 @@ const ChargerStationEditPanel: FC<ChargerStationEditPanelProps> = ({ stationId, 
         });
       } else {
         setActiveStationId(undefined);
-        setReload(true);
+        reload();
       }
       setDeleteDialogOpen(false);
       stationId = 0;
