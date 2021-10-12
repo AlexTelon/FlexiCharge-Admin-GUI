@@ -2,8 +2,13 @@ import { TileLayer, Popup, MapContainer, Marker } from 'react-leaflet';
 import { chargerStationCollection } from '@/remote-access';
 import { ChargerStation } from '@/remote-access/types';
 import React, { useState, useEffect } from 'react';
-import { Typography, Card, CardContent, List, ListItem, LinearProgress, ListItemText } from '@material-ui/core';
+import {
+  Typography, Card, CardContent, List, ListItem,
+  LinearProgress, ListItemText, Button
+} from '@material-ui/core';
+import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
+import { ChevronRight } from '@material-ui/icons';
 
 interface ChargerStationMapState {
   loaded?: boolean
@@ -75,7 +80,7 @@ const ChargerStationMap = (props: any) => {
             id="charger-station-map"
             center={[57.78088050269488, 14.161473514345374]} 
             zoom={13} 
-            style={{ height: 432, width: '100%' }}>
+            style={{ height: 510, width: '100%' }}>
             <TileLayer
               attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -110,6 +115,17 @@ const ChargerStationMap = (props: any) => {
                         primary={`SEK ${station.price / 100}`}
                         secondary="Price"
                       />
+                    </ListItem>
+                    <ListItem>
+                      <Button
+                        component={Link}
+                        to={`/dashboard/chargers/${station.chargePointID}`}
+                        variant="text"
+                        color="primary"
+                        endIcon={<ChevronRight />}
+                      >
+                          Go to Chargers
+                      </Button>
                     </ListItem>
                   </List>
                 </Popup>

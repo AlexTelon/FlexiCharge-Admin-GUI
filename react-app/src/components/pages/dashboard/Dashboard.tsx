@@ -45,32 +45,6 @@ const DashboardHome = () => {
       container
     > 
       <Grid
-        onClick={() => {
-          history.push('/dashboard/stations');
-        }}
-        className={classes.BoxSpacing}
-        item
-        lg={3}
-        sm={6}
-        xl={3}
-        xs={12}
-      >
-        <ChargerStation className={classes.hoverEffect} />
-      </Grid>
-      <Grid
-        onClick={() => {
-          history.push('/dashboard/chargers');
-        }}
-        className={classes.BoxSpacing}
-        item
-        lg={3}
-        sm={6}
-        xl={3}
-        xs={12}
-      >
-        <Chargers className={classes.hoverEffect} />
-      </Grid>
-      <Grid
         className={classes.BoxSpacing}
         item
         lg={3}
@@ -90,7 +64,32 @@ const DashboardHome = () => {
       >
         <AdminsDashboardComponent />
       </Grid>
-
+      <Grid
+        onClick={() => {
+          history.push('/dashboard/chargers');
+        }}
+        className={classes.BoxSpacing}
+        item
+        lg={3}
+        sm={6}
+        xl={3}
+        xs={12}
+      >
+        <Chargers className={classes.hoverEffect} />
+      </Grid>
+      <Grid
+        onClick={() => {
+          history.push('/dashboard/stations');
+        }}
+        className={classes.BoxSpacing}
+        item
+        lg={3}
+        sm={6}
+        xl={3}
+        xs={12}
+      >
+        <ChargerStation className={classes.hoverEffect} />
+      </Grid>
       <Grid
         className={classes.BoxSpacing}
         item
@@ -101,14 +100,13 @@ const DashboardHome = () => {
       >
         <Sales />
       </Grid>
-
       <Grid
         className={classes.BoxSpacing}
         item
-        lg={5}
-        sm={7}
-        xl={5}
         xs={12}
+        md={12}
+        lg={5}
+        xl={4}
       >
         <ChargerStationMap />
       </Grid>
