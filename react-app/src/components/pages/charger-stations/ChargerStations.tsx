@@ -108,7 +108,6 @@ const ChargerStations = () => {
   });
   const [searchedStations, setSearchedStations] = useState<ChargerStation[]>([]);
   const [search, setSearch] = useState<string>();
-  const [reloaded, setReload] = useState<boolean>(false);
   const [activeStationId, setActiveStationId] = useState<number>();
   const [selectedStations, setSelectedStations] = useState<readonly string[]>([]);
   const stationsTable = useRef(null);
@@ -121,12 +120,13 @@ const ChargerStations = () => {
     setSearch(searchText);
     if (searchText !== '') {
       const stations = state.stations.filter((station: ChargerStation) => {
-        return station.chargePointID === Number(searchText);
+        return station.chargePointID === Number(searchText)
+          || station.name.toLowerCase().includes(searchText.toLowerCase());
       });
       setSearchedStations(stations);
     } else {
       setSearch(undefined);
-      setReload(true);
+      loadStations();
     }
   };
 
@@ -140,20 +140,18 @@ const ChargerStations = () => {
         loaded: true,
         stations
       });
-      setReload(false);
     }).catch((_) => {
       setState({
         loaded: true,
         error: true,
         errorMessage: 'Failed to load'
       });
-      setReload(false);
     });
   };
 
   useEffect(() => {
     loadStations();
-  }, [reloaded]);
+  }, []);
 
   return (
     <>
@@ -164,7 +162,12 @@ const ChargerStations = () => {
         <Box className={classes.contentBox}>
           <Container component="section" className={classes.contentSection} maxWidth={false}>
             <Grid container spacing={1} className={`${classes.contentContainer}`}>
-              <Grid item xs={12} md={8} lg={9}>
+              <Grid
+                item
+                xs={12}
+                md={activeStationId ? 8 : 12}
+                lg={activeStationId ? 9 : 12}
+              >
                 <AppBar position="static" className={classes.contentAppBar} elevation={1}>
                   <Toolbar variant="dense">
                     <Typography className={classes.contentTitle} variant="h6">
@@ -186,19 +189,19 @@ const ChargerStations = () => {
                       aria-haspopup="true"
                       aria-controls="charger-stations-reload"
                       color="inherit"
-                      onClick={ () => { setReload(true); setSearch(undefined); }}
+                      onClick={ () => { loadStations(); setSearch(undefined); }}
                     >
                       <Replay />
                     </IconButton>
                   </Toolbar>
                 </AppBar>
-                <ChargerStationsSettingsAccordian selectedStations={selectedStations} />
+                <ChargerStationsSettingsAccordian reload={loadStations} selectedStations={selectedStations} />
                 <Paper elevation={2}>
                   <ChargerStationsTable loaded={state.loaded} stations={search !== undefined ? searchedStations : state.stations} ref={stationsTable} setSelectedStations={setSelectedStations} editClicked={handleStationEditClicked} classes={classes} />
                 </Paper>
               </Grid>
               <Grid item xs={12} md={4} lg={3}>
-                <ChargerStationEditPanel stationId={activeStationId} />
+                <ChargerStationEditPanel reload={loadStations} stationId={activeStationId} setActiveStationId={setActiveStationId} />
               </Grid>
             </Grid>
           </Container>
