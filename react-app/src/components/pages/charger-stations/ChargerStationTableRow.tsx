@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useRef, useState } from 'react';
 import {
   Theme, useTheme, TableRow, TableCell,
   Checkbox, Box, Typography, Hidden, Button,
@@ -16,6 +16,14 @@ interface ChargerStationTableRowProps {
 
 const ChargerStationTableRow: FC<ChargerStationTableRowProps> = ({ station, editClicked, selected, handleSelect }) => {
   const [open, setOpen] = useState(false);
+  const stationRow = useRef(null);
+
+  const handleRowClicked = (e: React.MouseEvent<HTMLElement>) => {
+    console.log(stationRow);
+    console.log(e);
+    setOpen(!open);
+  };
+
   const theme: Theme = useTheme();
   return (
     <>
@@ -23,11 +31,17 @@ const ChargerStationTableRow: FC<ChargerStationTableRowProps> = ({ station, edit
       <TableRow
         hover
         key={station.chargePointID}
-        onClick={() => setOpen(!open)}
+        ref={stationRow}
+        onClick={handleRowClicked}
         style={{ backgroundColor: open ? 'rgba(240,240,240,1)' : theme.flexiCharge.primary.white }}
       >
         <TableCell padding="checkbox">
-          <Checkbox color="primary" checked={selected} onChange={() => { handleSelect(station.chargePointID); } } />
+          <Checkbox
+            color="primary"
+            checked={selected}
+            onChange={() => { handleSelect(station.chargePointID); } }
+            onClick={(e) => e.stopPropagation()}
+          />
         </TableCell>
         <TableCell>
           <Box
@@ -64,7 +78,10 @@ const ChargerStationTableRow: FC<ChargerStationTableRowProps> = ({ station, edit
             style={{ color: theme.flexiCharge.primary.white }}
             variant="contained"
             color="primary"
-            onClick={() => editClicked(station.chargePointID)}
+            onClick={(e) => {
+              e.stopPropagation();
+              editClicked(station.chargePointID);
+            }}
           >
             Edit
           </Button>
