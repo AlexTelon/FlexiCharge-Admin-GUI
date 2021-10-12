@@ -33,7 +33,7 @@ export default class ManageAdminCollection implements IManageAdminCollection {
       });
 
       const admins: ManageAdmin[] = [];
-      for (const adminData of res.data) {
+      for (const adminData of res.data.Users) {
         const admin = convertRemoteUserToLocal(adminData) as ManageAdmin;
         admins.push(admin);
       }
