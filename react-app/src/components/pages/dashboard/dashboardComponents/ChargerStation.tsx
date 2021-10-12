@@ -1,4 +1,5 @@
 /* eslint-disable react/react-in-jsx-scope */
+import { chargerStationCollection } from '@/remote-access';
 import {
   Card,
   CardContent,
@@ -7,9 +8,11 @@ import {
   Typography,
   createStyles,
   makeStyles,
-  Theme
+  Theme,
+  LinearProgress
 } from '@material-ui/core';
 import EvStationIcon from '@material-ui/icons/EvStation';
+import { useEffect, useState } from 'react';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -21,11 +24,24 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const chargingStationComp = (props: any) => {
   const classes = useStyles();
+  const [numStations, setNumStations] = useState<number>();
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    chargerStationCollection.getAllChargerStations().then((stations) => {
+      setNumStations(stations.length);
+      setLoaded(true);
+    });
+  }, []);
+
   return (
     <Card
       sx={{ height: '100%' }}
       {...props}
     >
+      {!loaded && 
+        <LinearProgress />
+      }
       <CardContent>
         <Grid
           container
@@ -43,7 +59,7 @@ const chargingStationComp = (props: any) => {
               color="textPrimary"
               variant="h3"
             >
-              12
+              {numStations}
             </Typography>
           </Grid>
           <Grid item>

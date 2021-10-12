@@ -2,9 +2,9 @@
 import { AppBar, Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Divider, FormControl, Grid, IconButton, Input, InputLabel, LinearProgress, Paper, Theme, Toolbar, Typography, useMediaQuery } from '@material-ui/core';
 import { Close } from '@material-ui/icons';
 import { createStyles, makeStyles, useTheme } from '@material-ui/styles';
-import React, { FC, useState } from 'react';
-import { manageUserCollection } from '@/remote-access';
-import { ManageUser } from '@/remote-access/interfaces';
+import React, { FC, useEffect, useState } from 'react';
+import { manageUserCollection } from '../../../remote-access';
+import { ManageUser } from '@/remote-access/types';
 
 const useStyle = makeStyles((theme: Theme) => 
 
@@ -39,40 +39,43 @@ const ManageUsersEditPanel: FC<ManageUsersEditPanelProps> = ({ userId }) => {
   const classes = useStyle();
   const [user, setUser] = useState<ManageUser>();
   const [name, setName] = useState<string>();
-  const [payment, setPayment] = useState<string>();
-  const [role, setRole] = useState<string>();
+  const [email, setEmail] = useState<string>();
+  const [phoneNumber, setPhoneNumber] = useState<string>();
   const [errorState, setErrorState] = useState<any>({});
   const [loading, setLoading] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState<boolean>(false);
+  // const [editDialog, setEditDialog] = useState<boolean>(false);
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
   };
 
-  const handlePaymentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPayment(e.target.value);
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(e.target.value);
   };
 
-  const handleRoleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setRole(e.target.value);
+  const handlePhoneNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPhoneNumber(e.target.value);
   };
 
-  if (userId && user === undefined) {
-    manageUserCollection.getUserById(userId).then((manageUsers) => {
-      if (manageUsers === null) return;
-      setName(manageUsers.name);
-      setPayment(manageUsers.payment);
-      setRole(manageUsers.role);
-      setUser(manageUsers);
-    });
-  }
+  useEffect(() => {
+    if (userId) {
+      manageUserCollection.getUserById(userId).then((manageUsers) => {
+        if (manageUsers === null) return;
+        setName(manageUsers.name);
+        setEmail(manageUsers.email);
+        setPhoneNumber(manageUsers.phoneNumber);
+        setUser(manageUsers);
+      });
+    }
+  }, [userId]);
 
   const handleSaveClick = async () => {
-    if (name && payment && role && userId) {
+    if (name && email && phoneNumber && userId) {
       setLoading(true);
-      const result = await manageUserCollection.updateUser(userId, { name, payment, role });
+      const result = await manageUserCollection.updateUser(userId, { name, email });
       if (result[1] !== null) {
-        console.log(result);
+        
         setErrorState({
           ...result[0]
         });
@@ -84,18 +87,19 @@ const ManageUsersEditPanel: FC<ManageUsersEditPanelProps> = ({ userId }) => {
     } else {
       setErrorState({
         name: !name ? 'Required' : undefined,
-        payment: !payment ? 'Required' : undefined,
-        role: !role ? 'Required' : undefined
+        email: !email ? 'Required' : undefined,
+        phoneNumber: !phoneNumber ? 'Required' : undefined
       });
     }
   };
 
-  const handleCancleClick = () => {
+  const handleCancelClick = () => {
     if (user) {
       setName(user.name);
-      setPayment(user.payment);
-      setRole(user.role);
+      setEmail(user.email);
+      setPhoneNumber(user.phoneNumber);
     }
+    setUser(undefined);
   };
 
   const theme: Theme = useTheme();
@@ -127,7 +131,7 @@ const ManageUsersEditPanel: FC<ManageUsersEditPanelProps> = ({ userId }) => {
                 aria-controls="user-info"
                 color="inherit"
               >
-                <Close />
+                <Close onClick={handleCancelClick} />
               </IconButton>
             </Toolbar>
           </AppBar>
@@ -144,29 +148,30 @@ const ManageUsersEditPanel: FC<ManageUsersEditPanelProps> = ({ userId }) => {
                 />
               </FormControl>
               <FormControl fullWidth variant="filled">
-                <InputLabel htmlFor="payment-input">Payment</InputLabel>
+                <InputLabel htmlFor="email-input">Payment</InputLabel>
                 <Input 
-                  id="payment-input"
-                  aria-describedby="payment-helper"
-                  value={payment}
-                  onChange={handlePaymentChange}
+                  id="email-input"
+                  aria-describedby="email-helper"
+                  value={email}
+                  onChange={handleEmailChange}
                 />
               </FormControl>
               <FormControl fullWidth variant="filled">
-                <InputLabel htmlFor="role-input">Role</InputLabel>
+                <InputLabel htmlFor="phone-number-input">Role</InputLabel>
                 <Input 
-                  id="role-input"
-                  aria-describedby="role-helper"
-                  value={role}
-                  onChange={handleRoleChange}
+                  id="phone-number-input"
+                  aria-describedby="phone-number-helper"
+                  value={phoneNumber}
+                  onChange={handlePhoneNumberChange}
                 />
+                Max 10 digits
               </FormControl>
               <Box display="flex" sx={{ flexDirection: 'row-reverse', py: 1 }}>
                 <Button variant ="contained" color="primary" className={classes.saveButton} onClick={handleSaveClick}
                 >Save
                 </Button>
-                <Button color="primary" onClick={handleCancleClick}>
-                Cancle
+                <Button color="primary" onClick={handleCancelClick}>
+                Cancel
                 </Button>
               </Box>
             </Box>

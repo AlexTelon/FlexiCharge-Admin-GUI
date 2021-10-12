@@ -1,13 +1,15 @@
+/* eslint-disable no-useless-escape */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { manageUsers } from '../../__mock-data__/users';
-import { ManageUser, IManageUserCollection } from '../interfaces';
+import { ManageUser, IManageUserCollection } from '../types';
 
 export default class ManageUserCollection implements IManageUserCollection {
   users = manageUsers;
 
-  async getAllUsers(): Promise<ManageUser[]> {
+  async getAllUsers(): Promise<[ManageUser[], any | null]> {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
-        resolve(this.users);
+        resolve([this.users, null]);
       }, 1000);
     });
   }
@@ -18,7 +20,7 @@ export default class ManageUserCollection implements IManageUserCollection {
       // If not found then try remote
 
       setTimeout(() => {
-        resolve(this.users.filter((users) => users.id === userId)[0] || null);
+        resolve(this.users.filter((users) => users.username === userId)[0] || null);
       }, 100);
     });
   }
@@ -29,12 +31,12 @@ export default class ManageUserCollection implements IManageUserCollection {
         const errorObj = this.validateFields(fields);
         if (Object.keys(errorObj).length > 0) resolve([null, errorObj]);
         
-        const chargerStation: ManageUser = {
+        const manageUser: ManageUser = {
           ...fields,
-          id: `${this.users.length + 1}`
+          username: `${this.users.length + 1}`
         };
-        this.users.push(chargerStation);
-        resolve([chargerStation.id, null]);
+        this.users.push(manageUser);
+        resolve([manageUser.username, null]);
       }, 1000);
     });
   }
@@ -42,15 +44,15 @@ export default class ManageUserCollection implements IManageUserCollection {
   async updateUser(userId: string, fields: Omit<ManageUser, 'id'>): Promise<[ManageUser | null, any | null]> {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
-        const userIndex = this.users.findIndex((users) => users.id === userId);
-        if (userIndex === -1) return [null, { errorMessage: 'Could not find the requested Charger Station' }];
+        const userIndex = this.users.findIndex((users) => users.username === userId);
+        if (userIndex === -1) return [null, { errorMessage: 'Could not find the requested Manage User' }];
 
         const errorObj = this.validateFields(fields);
         if (Object.keys(errorObj).length > 0) resolve([null, errorObj]);
 
         const ManageUsers = {
           ...fields,
-          id: this.users[userIndex].id
+          id: this.users[userIndex].username
         };
 
         this.users[userIndex] = ManageUsers;

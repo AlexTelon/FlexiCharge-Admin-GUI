@@ -1,13 +1,43 @@
 export interface ManageUser {
-  id: string
-  name: string
-  payment: string
-  role: string
+  username: string
+  sub?: string
+  emailVerified?: boolean
+  name?: string
+  family_name?: string
+  email?: string
+  created?: string
+  lastModified?: string
+  enabled?: boolean
+  password?: string
+  userStatus?: 'UNCONFIRMED' | 'CONFIRMED' | 'FORCE_CHANGE_PASSWORD'
 }
 
 export interface IManageUserCollection {
-  getAllUsers: () => Promise<ManageUser[]>
-  getUserById: (userId: string) => Promise<ManageUser | null>
-  addUser: (fields: Omit<ManageUser, 'id'>) => Promise<[string | null, any | null]>
-  updateUser: (stationId: string, fields: Omit<ManageUser, 'id'>) => Promise<[ManageUser | null, any | null]>
+  getAllUsers: () => Promise<[ManageUser[] | null, any | null]>
+  getUserById: (username: string) => Promise<ManageUser | null | any | null>
+  addUser: (fields: Omit<ManageUser, 'id'>) => Promise<[ManageUser | null, any | null]>
+  updateUser: (username: string, fields: Omit<ManageUser, 'username'>) => Promise<[ManageUser | null, any | null]>
+  deleteUser: (username: string) => Promise<boolean>
+}
+
+export interface ManageAdmin {
+  username: string
+  sub?: string
+  emailVerified?: boolean
+  name?: string
+  family_name?: string
+  email?: string
+  created?: string
+  lastModified?: string
+  enabled?: boolean
+  password?: string
+  userStatus?: 'UNCONFIRMED' | 'CONFIRMED' | 'FORCE_CHANGE_PASSWORD'
+}
+
+export interface IManageAdminCollection {
+  getAllAdmins: () => Promise<[ManageAdmin[] | null, any | null]>
+  getAdminById: (username: string) => Promise<ManageAdmin | null>
+  addAdmin: (fields: Omit<ManageAdmin, 'id'>) => Promise<[string | null, any | null]>
+  updateAdmin: (username: string, fields: Omit<ManageAdmin, 'username'>) => Promise<[ManageAdmin | null, any | null]>
+  deleteAdmin: (username: string) => Promise<boolean>
 }

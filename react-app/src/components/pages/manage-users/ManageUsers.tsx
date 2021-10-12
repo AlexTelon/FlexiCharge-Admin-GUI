@@ -1,20 +1,21 @@
-import React, { FC, useEffect, useState } from 'react';
-import { useTheme } from '@material-ui/styles';
+/* eslint-disable react/jsx-no-undef */
+import React, { useEffect, useRef, useState } from 'react';
 import {
   createStyles, makeStyles, Theme, Box, 
   AppBar, Toolbar, Typography, Container, Grid, 
-  IconButton, TableContainer, TableHead, Table, 
-  TableProps, TableRow, Checkbox, TableCell, 
-  useMediaQuery, TableBody, Paper, LinearProgress, 
-  TablePagination, Button, Accordion, AccordionSummary, AccordionDetails, AccordionActions, Divider 
+  IconButton, Paper, Tab, alpha, InputBase, styled 
 } from '@material-ui/core';
 import { Helmet } from 'react-helmet';
-import { Edit, ExpandMore, FilterList } from '@material-ui/icons';
-import { ManageUser } from '@/remote-access/types';
-import { manageUserCollection } from '@/remote-access/index';
-import AddSingleUserDialog from './AddUserDialog';
-import AddIcon from '@material-ui/icons/Add';
-import ManageUsersEditPanel from './ManageUsersEditPanel';
+import { Replay } from '@material-ui/icons';
+import { ManageAdmin, ManageUser } from '@/remote-access/types';
+import { adminCollection, userCollection } from '@/remote-access';
+import ManageUsersEditPanel from '@/components/manage-users/Users/ManageUsersEditPanel';
+import ManageAdminsEditPanel from '@/components/manage-users/Admins/ManageAdminEditPanel';
+import AdminSettingsAccordian from '@/components/manage-users/Admins/ManageAdminsSettingsAccordian';
+import AdminTable from '@/components/manage-users/Admins/ManageAdminsTable';
+import UserSettingsAccordian from '@/components/manage-users/Users/ManageUsersSettingsAccordian';
+import UserTable from '@/components/manage-users/Users/ManageUsersTable';
+import { TabContext, TabList, TabPanel } from '@material-ui/lab';
 
 const useStyles = makeStyles((theme: Theme) => 
   createStyles({
@@ -84,189 +85,154 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-interface userRowProps {
-  user: ManageUser
-  classes: any
-  editClicked: (userId: string) => void
-}
+const Search = styled('div')(({ theme }) => ({
+  position: 'relative',
+  color: 'black',
+  borderRadius: theme.shape.borderRadius,
+  backgroundColor: alpha(theme.flexiCharge.primary.lightGrey, 0.15),
+  '&:hover': {
+    backgroundColor: alpha(theme.palette.common.white, 0.25)
+  },
+  marginLeft: 0,
+  marginRight: theme.spacing(2),
+  width: '100%',
+  [theme.breakpoints.up('sm')]: {
+    marginLeft: theme.spacing(1),
+    width: 'auto'
+  }
+}));
 
-const UserRow: FC<userRowProps> = ({ user, classes, editClicked }) => {
-  // const [open, setOpen] = useState(false);
-  const theme: Theme = useTheme();
+const SearchIconWrapper = styled('div')(({ theme }) => ({
+  padding: theme.spacing(0, 2),
+  height: '100%',
+  position: 'absolute',
+  pointerEvents: 'none',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center'
+}));
 
-  return (
-    <>
-      <TableRow 
-        hover
-        key={user.id}
-        style={{ backgroundColor: theme.flexiCharge.primary.white }} >
-        <TableCell padding='checkbox'>
-          <Checkbox />
-        </TableCell>
-        <TableCell>
-          <Box sx={{ alignItems: 'center', display: 'flex' }}>
-            <Typography
-              color='textPrimary'
-              variant='body1'
-              className={classes.usernameCell}
-              noWrap
-            >
-              {user.name}
-            </Typography>
-          </Box>
-        </TableCell>
-        <TableCell>
-          {user.payment}
-        </TableCell>
-        <TableCell>
-          {user.role}
-        </TableCell>
-        <TableCell align="right">
-          <Button
-            startIcon={<Edit />}
-            className={classes.buttonLight}
-            variant="contained"
-            color="primary"
-            onClick={() => editClicked(user.id)}
-          >
-            Edit
-          </Button>
-        </TableCell>
-      </TableRow>
-    </>
-  );
-};
+const StyledInputBase = styled(InputBase)(({ theme }) => ({
+  color: 'inherit',
+  backgroundColor: 'transparent',
+  '& .MuiInputBase-input': {
+    padding: theme.spacing(1, 1, 1, 0),
+    // vertical padding + font size from searchIcon
+    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+    transition: theme.transitions.create('width'),
+    width: '100%',
+    [theme.breakpoints.up('sm')]: {
+      width: '12ch',
+      '&:focus': {
+        width: '20ch'
+      }
+    }
+  }
+}));
 
-interface UserTableState {
-  loaded?: boolean
-  users?: ManageUser[]
-  error?: boolean
-  errorMessage?: string
-}
-
-const UserTable = ({ classes, ...rest }: any) => {
-  const [state, setState] = useState<UserTableState>({
+const ManageUsers = () => {
+  const classes = useStyles();
+  const [state, setState] = useState<any>({
     loaded: false
   });
+  const [reload, setReload] = useState<boolean>(false);
+  const [searchedUsers, setSearchUsers] = useState<ManageUser[]>([]);
+  const [searchedAdmins, setSearchAdmins] = useState<ManageAdmin[]>([]);
+  const [search, setSearch] = useState<string>();
+  const [activeUser, setActiveUser] = useState<string | undefined>();
+  const [selectedAdmins, setSelectedAdmins] = useState<readonly string[]>([]);
+  const [selectedUsers, setSelectedUsers] = useState<readonly string[]>([]);
+  const [selectedTab, setSelectedTab] = React.useState('users');
+  const usersTable = useRef(null);
+  const adminsTable = useRef(null);
 
-  useEffect(() => {
-    manageUserCollection.getAllUsers().then((users) => {
+  const handleEditClicked = (username: string) => {
+    setActiveUser(username);
+  };
+
+  const handleTabChange = (event: any, newTab: string) => {
+    setSelectedTab(newTab);
+    setActiveUser(undefined);
+    setReload(true);
+  };
+
+  const loadUsers = async() => {
+    setState({
+      ...state,
+      loaded: false
+    });
+
+    const [users, error] = await userCollection.getAllUsers();
+
+    if (users) {
       setState({
         loaded: true,
         users
       });
-    }).catch((_) => {
+      setReload(false);
+    } else if (error) {
       setState({
         loaded: true,
         error: true,
-        errorMessage: 'Failed to load'
+        errorMessage: 'Failed to load users'
       });
-    });
-  }, []);
-  
-  let userRows = null;
-  if (state.users) {
-    userRows = [];
-    const length = state.users.length > 5 ? 5 : state.users.length;
-    for (let i = 0; i < length; i++) {
-      const user = state.users[i];
-      userRows.push(<UserRow key={user.id} {...rest} user={user} classes={classes} />);
+      setReload(false);
     }
-  }
-
-  const isSmallScreen = useMediaQuery((theme: Theme) => theme.breakpoints.down('xs'));
-  const tableProps: TableProps = {
-    size: isSmallScreen ? 'small' : 'medium'
   };
 
-  const handleChangePage = (event: unknown, newPage: number) => {
-    //
+  const loadAdmins = async () => {
+    setState({
+      ...state,
+      loaded: false
+    });
+
+    const [admins, error] = await adminCollection.getAllAdmins();
+
+    if (admins) {
+      setState({
+        loaded: true,
+        admins
+      });
+      setReload(false);
+    } else if (error) {
+      setState({
+        loaded: true,
+        error: true,
+        errorMessage: 'Failed to load admins'
+      });
+      setReload(false);
+    }
   };
 
-  return (
-    <>
-      <TableContainer className={classes.tableContainer}>
-        {!state.loaded &&
-                <LinearProgress />
-        }
-        <Table {...tableProps} stickyHeader aria-label="sticky table">
-          <TableHead>
-            <TableRow>
-              <TableCell padding="checkbox">
-                <Checkbox className={classes.checkBox} />
-              </TableCell>
-              <TableCell>Username</TableCell>
-              <TableCell>Payment</TableCell>
-              <TableCell>Roles</TableCell>
-              <TableCell align="right">Actions</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>{userRows}</TableBody>
-        </Table>
-      </TableContainer>
-      {state.users &&
-      <TablePagination
-        rowsPerPageOptions={[5, 10, 15]}
-        component="div"
-        count={state.users ? state.users.length : 0}
-        rowsPerPage={5}
-        page={0}
-        onPageChange={handleChangePage}
-      />
+  const handleSearch = (searchText: string) => {
+    if (searchText !== '') {
+      setSearch(searchText);
+
+      if (selectedTab === 'users') {
+        const users = state.users.filter((user: ManageUser) => {        
+          return user.name?.toLowerCase().includes(searchText.toLowerCase());
+        });
+        setSearchUsers(users);  
+      } else {
+        const admins = state.admins.filter((admin: ManageAdmin) => {
+          return admin.name?.toLowerCase().includes(searchText.toLowerCase());
+        });
+        setSearchAdmins(admins);
       }
-    </>
-  );
-};
-
-const UserSettingsAccordian = ({ classes }: any) => {
-  const [openAddUserDialog, setOpenAddUserDialog] = useState<boolean>(false);
-  const handleOpenAddUserDialog = () => {
-    setOpenAddUserDialog(true);
-  };
-  const handleCloseAddUserDialog = () => {
-    setOpenAddUserDialog(false);
+    } else {
+      setSearch(undefined);
+      setReload(true);
+    }
   };
 
-  return (
-    <Accordion defaultExpanded>
-      <AccordionSummary
-        expandIcon={<ExpandMore />}
-        aria-controls="manage-user-action-panel"
-        id="manage-user-actions-panel-header"
-      >
-        <Grid container id="manage-user-actions-panel">
-          <Grid item xs={9} md={10}>
-            <Typography>
-              0 selected
-            </Typography>
-          </Grid>
-          <Grid item xs={3} md={2}>
-            More Actions
-          </Grid>
-        </Grid>
-      </AccordionSummary>
-      <AccordionDetails>
-      </AccordionDetails>
-      <Divider />
-      <AccordionActions>
-        <Button startIcon={<AddIcon />} variant="contained" className={classes.buttonLight} color='primary' onClick={handleOpenAddUserDialog}>
-         Add User
-        </Button>
-      </AccordionActions>
-
-      <AddSingleUserDialog open={openAddUserDialog} handleClose={handleCloseAddUserDialog} />
-    </Accordion>
-  );
-};
-
-const ManageUsers = () => {
-  const classes = useStyles();
-  const [activeUserId, setActiveUserId] = useState<string>();
-
-  const handleUserEditClicked = (userId: string) => {
-    setActiveUserId(userId);
-  };
-
+  useEffect(() => {
+    if (selectedTab === 'users') {
+      loadUsers();
+    } else {
+      loadAdmins();
+    }
+  }, [reload]);
+  
   return (
     <>
       <Helmet>
@@ -276,29 +242,85 @@ const ManageUsers = () => {
         <Box className={classes.contentBox}>
           <Container component="section" className={classes.contentSection} maxWidth={false}>
             <Grid container spacing={1} className={`${classes.contentContainer}`}>
-              <Grid item xs={12} md={8} lg={9}>
+              <Grid item xs={12} md={activeUser !== undefined ? 8 : 12} lg={activeUser !== undefined ? 9 : 12}>
                 <AppBar position="static" className={classes.contentAppBar} elevation={1}>
                   <Toolbar variant="dense">
                     <Typography className={classes.contentTitle} variant="h6">
-                      Users
+                      <TabContext value={selectedTab}>
+                        <TabList onChange={handleTabChange} indicatorColor="primary">
+                          <Tab label="Users" value="users" />
+                          <Tab label="Admins" value="admins" />
+                        </TabList>
+                      </TabContext>
                     </Typography>
+                    <Search color="primary">
+                      <SearchIconWrapper>
+                        <Search />
+                      </SearchIconWrapper>
+                      <StyledInputBase
+                        value={search}
+                        placeholder="Search..."
+                        inputProps={{ 'aria-label': 'search' }}
+                        onChange={(e) => { handleSearch(e.target.value); }}
+                      />
+                    </Search>
                     <IconButton edge="end"
-                      aria-label="users filter"
+                      aria-label="reload users"
                       aria-haspopup="true"
-                      aria-controls="user-filters"
+                      aria-controls="reload-users"
                       color="inherit"
+                      onClick={ () => { setReload(true); setSearch(undefined); }}
                     >
-                      <FilterList />
+                      <Replay />
                     </IconButton>
                   </Toolbar>
                 </AppBar>
-                <UserSettingsAccordian classes={classes} />
+                {selectedTab === 'users' &&
+                    <>
+                      <UserSettingsAccordian selectedUsers={selectedUsers} setReload={setReload} />
+                    </>
+                }
+                {selectedTab === 'admins' &&
+                    <>
+                      <AdminSettingsAccordian selectedAdmins={selectedAdmins} setReload={setReload} />
+                    </>
+                }
                 <Paper elevation={2}>
-                  <UserTable editClicked={handleUserEditClicked} classes= { classes } />
+                  <TabContext value={selectedTab}>
+                    <TabPanel style={{ padding: 0 }} value="users">
+                      <UserTable
+                        ref={usersTable}
+                        loaded={state.loaded}
+                        users={search !== undefined ? searchedUsers : state.users}
+                        editClicked={handleEditClicked}
+                        setSelectedUsers={setSelectedUsers}
+                        classes={classes}
+                      />
+                    </TabPanel>
+                    <TabPanel style={{ padding: 0 }} value="admins">
+                      <AdminTable
+                        ref={adminsTable}
+                        loaded={state.loaded}
+                        admins={search !== undefined ? searchedAdmins : state.admins}
+                        editClicked={handleEditClicked}
+                        setSelectedAdmins={setSelectedAdmins}
+                        classes={classes}
+                      />
+                    </TabPanel>
+                  </TabContext>
                 </Paper>
               </Grid>
               <Grid item xs={12} md={4} lg={3}>
-                <ManageUsersEditPanel userId={activeUserId} />
+                {selectedTab === 'users' &&
+                  <>
+                    <ManageUsersEditPanel username={activeUser} setActiveUser={setActiveUser} />
+                  </>
+                }
+                {selectedTab === 'admins' &&
+                  <>
+                    <ManageAdminsEditPanel username={activeUser} setActiveUser={setActiveUser} />
+                  </>
+                }
               </Grid>
             </Grid>
           </Container>

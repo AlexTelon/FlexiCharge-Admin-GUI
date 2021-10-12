@@ -112,6 +112,7 @@ const ChargerStations = () => {
   const [activeStationId, setActiveStationId] = useState<number>();
   const [selectedStations, setSelectedStations] = useState<readonly string[]>([]);
   const stationsTable = useRef(null);
+
   const handleStationEditClicked = (stationId: number) => {
     setActiveStationId(stationId);
   };

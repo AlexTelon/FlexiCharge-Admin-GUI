@@ -11,11 +11,15 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import Chargers from './dashboardComponents/Chargers';
 import ChargersPage from '../chargers';
 import ManageUsers from '../manage-users/ManageUsers';
+import UsersDashboardComponent from './dashboardComponents/Users';
+import Sales from './dashboardComponents/Sales';
+import AdminsDashboardComponent from './dashboardComponents/Admins';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     BoxSpacing: {
       paddingLeft: theme.spacing(3),
+      paddingRight: theme.spacing(3),
       paddingTop: theme.spacing(2)
     },
     hoverEffect: {
@@ -73,6 +77,7 @@ const DashboardHome = () => {
         xl={3}
         xs={12}
       >
+        <UsersDashboardComponent className={classes.hoverEffect} />
       </Grid>
       <Grid
         className={classes.BoxSpacing}
@@ -82,6 +87,18 @@ const DashboardHome = () => {
         xl={3}
         xs={12}
       >
+        <AdminsDashboardComponent />
+      </Grid>
+
+      <Grid
+        className={classes.BoxSpacing}
+        item
+        xs={12}
+        md={12}
+        lg={7}
+        xl={8}
+      >
+        <Sales />
       </Grid>
     </Grid>
   );
@@ -106,7 +123,8 @@ const Dashboard = (props: any) => {
           </AppBar>
           <Route path="/dashboard" exact render={() => (<DashboardHome />)} />
           <Route path="/dashboard/stations" exact render={() => (<ChargerStations />)} />
-          <Route path="/dashboard/chargers" exact render={() => (<ChargersPage />)} />
+          <Route path="/dashboard/chargers" exact render={(props) => (<ChargersPage {...props} />)} />
+          <Route path="/dashboard/chargers/:stationId" exact render={(props) => (<ChargersPage {...props} />)} />
           <Route path="/dashboard/users" exact render={() => (<ManageUsers />) } />
         </Box>
         <Box component="main" sx={{ flexGrow: 1 }}>

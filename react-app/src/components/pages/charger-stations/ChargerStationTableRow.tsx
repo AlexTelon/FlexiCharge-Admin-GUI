@@ -2,7 +2,7 @@ import React, { FC, useState } from 'react';
 import { Theme, useTheme, TableRow, TableCell, Checkbox, Box, Typography, Hidden, Button, Collapse, Table, TableHead, TableBody } from '@material-ui/core';
 import { Edit } from '@material-ui/icons';
 import { ChargerStation } from '@/remote-access/types';
-
+import { Link } from 'react-router-dom';
 interface ChargerStationTableRowProps {
   station: ChargerStation
   editClicked: (stationId: number) => void
@@ -15,6 +15,7 @@ const ChargerStationTableRow: FC<ChargerStationTableRowProps> = ({ station, edit
   const theme: Theme = useTheme();
   return (
     <>
+ 
       <TableRow
         hover
         key={station.chargePointID}
@@ -46,8 +47,12 @@ const ChargerStationTableRow: FC<ChargerStationTableRowProps> = ({ station, edit
         </TableCell>
         <TableCell align="right">
           <Hidden xsDown>
-            <Button color="primary" disabled>
-              Manage Chargers
+            <Button
+              component={Link}
+              to={`/dashboard/chargers/${station.chargePointID}`}
+              variant="text"
+              color="primary">
+                Manage Chargers
             </Button>
           </Hidden>
           <Button

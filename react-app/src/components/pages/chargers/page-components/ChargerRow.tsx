@@ -1,28 +1,20 @@
 import { Charger } from '@/remote-access/types';
 import {
-  Theme, useTheme, TableRow, TableCell, Checkbox, Box, Typography,
-  Dialog, DialogTitle, List, ListItem, ListItemIcon, ListItemText, Button
+  Theme, useTheme, TableRow, TableCell, Box, Typography,
+  Button 
 } from '@material-ui/core';
-import { FiberManualRecord, Delete, Error, Edit } from '@material-ui/icons';
-import React, { FC, useState } from 'react';
+import { Edit } from '@material-ui/icons';
+import React, { FC } from 'react';
 
 interface ChargerRowProps {
   editClicked: (chargerID: number) => void
+  deleteClicked: (chargerID: number) => void
   charger: Charger
   classes: any
 }
 
-const ChargerRow: FC<ChargerRowProps> = ({ charger, classes, editClicked }) => {
+const ChargerRow: FC<ChargerRowProps> = ({ charger, classes, editClicked, deleteClicked }) => {
   const theme: Theme = useTheme();
-
-  const [openMore, setOpenMore] = useState(false);
-  /* const handleOpenMore = () => {
-    setOpenMore(true);
-  }; */
-  
-  const handleCloseMore = () => {
-    setOpenMore(false);
-  };
 
   return (
     <>
@@ -30,9 +22,6 @@ const ChargerRow: FC<ChargerRowProps> = ({ charger, classes, editClicked }) => {
         hover
         style={{ backgroundColor: theme.flexiCharge.primary.white }}
       >
-        <TableCell padding='checkbox'>
-          <Checkbox />
-        </TableCell>
         <TableCell>
           <Box
             sx={{
@@ -50,7 +39,18 @@ const ChargerRow: FC<ChargerRowProps> = ({ charger, classes, editClicked }) => {
             </Typography>
           </Box>
         </TableCell>
-        <TableCell><Error color='error' />Offline</TableCell>
+        <TableCell>
+          <Typography
+            color="textPrimary"
+            variant="body1"
+            style={{ maxWidth: '15vw' }}
+            noWrap
+          >
+            {charger.serialNumber}
+          </Typography>
+        </TableCell>
+        <TableCell>{charger.chargePointID}</TableCell>
+        <TableCell>{charger.status}</TableCell>
         <TableCell align='right'>
           <Button
             startIcon={<Edit />}
@@ -61,33 +61,6 @@ const ChargerRow: FC<ChargerRowProps> = ({ charger, classes, editClicked }) => {
           >
             Edit
           </Button>
-          {/* <IconButton onClick={handleOpenMore}>
-            <MoreVert />
-          </IconButton> */}
-
-          <Dialog open={openMore} onClose={handleCloseMore}>
-            <DialogTitle>Edit charger {charger.chargerID}</DialogTitle>
-            <List aria-label="charger options">
-              <ListItem button>
-                <ListItemIcon>
-                  <Error />
-                </ListItemIcon>
-                <ListItemText primary="Set to offline" />
-              </ListItem>
-              <ListItem button>
-                <ListItemIcon>
-                  <FiberManualRecord />
-                </ListItemIcon>
-                <ListItemText primary="Set to online" />
-              </ListItem>
-              <ListItem button>
-                <ListItemIcon>
-                  <Delete />
-                </ListItemIcon>
-                <ListItemText primary="Delete" />
-              </ListItem>
-            </List>
-          </Dialog>
         </TableCell>
       </TableRow>
     </>

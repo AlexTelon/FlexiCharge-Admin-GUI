@@ -10,6 +10,7 @@ import React, { FC, useEffect, useState } from 'react';
 import { chargerStationCollection } from '@/remote-access';
 import { ChargerStation } from '@/remote-access/types';
 import { Alert } from '@material-ui/lab';
+import { Link } from 'react-router-dom';
 
 const useStyle = makeStyles((theme: Theme) => 
   createStyles({
@@ -83,7 +84,6 @@ const ChargerStationEditPanel: FC<ChargerStationEditPanelProps> = ({ stationId, 
         klarnaReservationAmount: 500
       });
       if (result[1] !== null) {
-        console.log(result);
         setErrorState({
           ...result[1]
         });
@@ -104,7 +104,7 @@ const ChargerStationEditPanel: FC<ChargerStationEditPanelProps> = ({ stationId, 
     }
   };
 
-  const handleCancleClick = () => {
+  const handleCancelClick = () => {
     if (station) {
       setFields({
         name: station.name,
@@ -217,7 +217,7 @@ const ChargerStationEditPanel: FC<ChargerStationEditPanelProps> = ({ stationId, 
                 <Button variant="contained" color="primary" className={classes.saveButton} onClick={handleSaveClick} >
                   Save
                 </Button>
-                <Button color="primary" onClick={handleCancleClick}>
+                <Button color="primary" onClick={handleCancelClick}>
                   Cancel
                 </Button>
               </Box>
@@ -225,7 +225,14 @@ const ChargerStationEditPanel: FC<ChargerStationEditPanelProps> = ({ stationId, 
           </form>
           <Divider />
           <Box sx={{ py: 2, px: 4 }}>
-            <Button fullWidth color="primary" endIcon={<ChevronRight />} disabled>
+            <Button
+              component={Link}
+              to={`/dashboard/chargers/${station.chargePointID}`}
+              variant="text"
+              color="primary"
+              fullWidth
+              endIcon={<ChevronRight />}
+            >
                 Manage Chargers
             </Button>
           </Box>

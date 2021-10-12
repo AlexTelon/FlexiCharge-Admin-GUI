@@ -1,39 +1,43 @@
-import React, { useState, useEffect } from 'react';
-import { chargerCollection } from '@/remote-access';
-import { useMediaQuery, Theme, TableProps, TableContainer, Table, TableHead, TableRow, TableCell, Checkbox, TableBody, TablePagination } from '@material-ui/core';
+import {
+  useMediaQuery, Theme, TableProps, TableContainer,
+  Table, TableHead, TableRow, TableCell, TableBody,
+  TablePagination, LinearProgress
+} from '@material-ui/core';
 import ChargerRow from './ChargerRow';
 import { Charger } from '@/remote-access/types';
+import React, { FC, useState } from 'react';
 
-export default function ChargerTable({ classes, ...rest }: any) {
-  const handleChangePage = (event: unknown, newPage: number) => {
-    // 
-  };
+interface ChargerTableProps {
+  chargers: Charger[]
+  loaded: boolean
+  [key: string]: any
+}
 
-  const [state, setState] = useState<any>({
-    loaded: false
+interface ChargerTableState {
+  page: number
+  rowsPerPage: number
+}
+
+const ChargerTable: FC<ChargerTableProps> = ({ loaded, chargers, ...props }: any) => {
+  const [state, setState] = useState<ChargerTableState>({
+    page: 0,
+    rowsPerPage: 5
   });
 
-  const loadChargers = async () => {
-    const [chargers, error] = await chargerCollection.getAllChargers();
-    if (chargers) {
-      console.log(chargers);
-      
-      setState({
-        loaded: true,
-        chargers
-      });  
-    } else if (error) {
-      setState({
-        loaded: true,
-        error: true,
-        errorMessage: 'Failed to fetch chargers'
-      });  
-    } 
+  const handleChangePage = (event: unknown, newPage: number) => {
+    setState({
+      ...state,
+      page: newPage
+    });
   };
 
-  useEffect(() => {
-    loadChargers();
-  }, []);
+  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setState({
+      ...state,
+      page: 0,
+      rowsPerPage: parseInt(event.target.value, 10)
+    });
+  };
 
   const isSmallScreen = useMediaQuery((theme: Theme) => theme.breakpoints.down('xs'));
   const tableProps: TableProps = {
@@ -42,29 +46,33 @@ export default function ChargerTable({ classes, ...rest }: any) {
 
   return (
     <>
-      <TableContainer className={classes.tableContainer}>
+      <TableContainer className={props.classes.tableContainer}>
+        {!loaded &&
+          <LinearProgress />
+        }
         <Table {...tableProps} stickyHeader aria-label='sticky table'>
           <TableHead>
             <TableRow>
-              <TableCell padding='checkbox'>
-                <Checkbox className={classes.checkBox} />
-              </TableCell>
               <TableCell>Charger ID</TableCell>
+              <TableCell>Serial Number</TableCell>
+              <TableCell>Charger Station ID</TableCell>
               <TableCell>Status</TableCell>
               <TableCell align='right'>Actions</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {state.chargers?.map((charger: Charger) => {
-              return (
-                <ChargerRow
-                  key={charger.chargerID}
-                  charger={charger}
-                  {...rest}
-                  classes={classes}
-                />
-              );
-            })
+            {
+              chargers?.slice(state.page * state.rowsPerPage, state.page * state.rowsPerPage + state.rowsPerPage)
+                .map((charger: Charger) => {
+                  return (
+                    <ChargerRow
+                      key={charger.chargerID}
+                      charger={charger}
+                      {...props}
+                      classes={props.classes}
+                    />
+                  );
+                })
             }
           </TableBody>
         </Table>
@@ -72,10 +80,14 @@ export default function ChargerTable({ classes, ...rest }: any) {
       <TablePagination
         rowsPerPageOptions={[5, 10, 15]}
         component='div'
-        count={state.chargers ? state.chargers.length : 0}
-        rowsPerPage={10}
-        page={1}
-        onPageChange={handleChangePage} />
+        count={chargers ? chargers.length : 0}
+        rowsPerPage={state.rowsPerPage}
+        page={state.page}
+        onPageChange={handleChangePage}
+        onRowsPerPageChange={handleChangeRowsPerPage}
+      />
     </>
   );
 };
+
+export default ChargerTable;
