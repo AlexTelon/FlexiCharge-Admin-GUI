@@ -13,6 +13,7 @@ import ChargersPage from '../chargers';
 import ManageUsers from '../manage-users/ManageUsers';
 import UsersDashboardComponent from './dashboardComponents/Users';
 import Sales from './dashboardComponents/Sales';
+import ChargerStationMap from './dashboardComponents/ChargerStationMap';
 import AdminsDashboardComponent from './dashboardComponents/Admins';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -100,6 +101,7 @@ const DashboardHome = () => {
       >
         <Sales />
       </Grid>
+      <ChargerStationMap />
     </Grid>
   );
 };
