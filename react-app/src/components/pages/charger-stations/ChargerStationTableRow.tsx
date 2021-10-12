@@ -103,7 +103,7 @@ const ChargerStationTableRow: FC<ChargerStationTableRowProps> = ({ station, edit
                 </Grid>
                 <Grid item xl={2}>
                   <ListItemText
-                    primary={`SEK ${station.klarnaReservationAmount / 100}`}
+                    primary={`SEK ${(station.klarnaReservationAmount ?? 0) / 100}`}
                     secondary="Klarna Reservation Amount"
                   />
                 </Grid>
