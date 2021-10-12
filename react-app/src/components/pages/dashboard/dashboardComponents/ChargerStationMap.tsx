@@ -76,6 +76,7 @@ const ChargerStationMap = (props: any) => {
         <LinearProgress />
         }
         <CardContent>
+          <Typography variant="h6" gutterBottom>Charger Stations Map</Typography>
           <MapContainer 
             id="charger-station-map"
             center={[57.78088050269488, 14.161473514345374]} 
