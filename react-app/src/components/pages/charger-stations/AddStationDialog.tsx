@@ -49,7 +49,7 @@ const AddSingleStationDialog = ({ open, handleClose }: any) => {
         name: fields.name,
         location: [fields.longitude, fields.latitude],
         price: fields.price,
-        klarnaReservationAmount: 5000
+        klarnaReservationAmount: 50000
       });
       
       if (result[1] !== null) {
