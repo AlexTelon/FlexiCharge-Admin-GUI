@@ -1,4 +1,5 @@
 /* eslint-disable react/react-in-jsx-scope */
+import { chargerCollection } from '@/remote-access';
 import {
   Card,
   CardContent,
@@ -7,9 +8,11 @@ import {
   Typography,
   createStyles,
   makeStyles,
-  Theme
+  Theme,
+  LinearProgress
 } from '@material-ui/core';
 import BatteryChargingFullIcon from '@material-ui/icons/BatteryChargingFull';
+import { useEffect, useState } from 'react';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -21,12 +24,27 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const ChargingComp = (props: any) => {
   const classes = useStyles();
+  const [numChargers, setNumChargers] = useState<number>(NaN);
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    chargerCollection.getAllChargers().then((result) => {
+      if (result[0]) {
+        setNumChargers(result[0].length);
+      }
+      setLoaded(true);
+    });
+  }, []);
+
   return (
 
     <Card
       sx={{ height: '100%' }}
       {...props}
     >
+      {!loaded &&
+        <LinearProgress />
+      }
       <CardContent>
         <Grid
           container
@@ -38,13 +56,13 @@ const ChargingComp = (props: any) => {
               gutterBottom
               variant="h6"
             >
-              Active Chargers (Mock)
+              Active Chargers
             </Typography>
             <Typography
               color="textPrimary"
               variant="h3"
             >
-              30
+              {numChargers}
             </Typography>
           </Grid>
           <Grid item>
