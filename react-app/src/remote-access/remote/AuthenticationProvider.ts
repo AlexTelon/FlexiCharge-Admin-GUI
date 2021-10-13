@@ -6,8 +6,18 @@ import axios from 'axios';
 export default class AuthenticationProvider implements IAuthenticationProvider {
   public isAuthenticated: boolean = false;
   private token: string | null = null;
+  private username: string | null = null;
   
   getToken(): string | null {
+    axios.get(`${appConfig.FLEXICHARGE_API_URL}/auth/admin/${this.username}`, {
+      headers: {
+        Authorization: `Bearer ${this.token}`
+      }
+    }).catch((error) => {
+      if (error.response && error.response.status === 401) {
+        location.reload();
+      }
+    });
     return this.token;
   }
 
@@ -24,6 +34,7 @@ export default class AuthenticationProvider implements IAuthenticationProvider {
       });
       
       this.token = response.data.accessToken;
+      this.username = response.data.username;
       this.isAuthenticated = true;
       return [true, {}];
     } catch (error: any) {
