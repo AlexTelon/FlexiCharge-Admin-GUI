@@ -18,7 +18,7 @@ const headCells: HeadCell[] = [
   },
   {
     id: 'email',
-    label: 'email',
+    label: 'Email',
     alignRight: false
   },
   {

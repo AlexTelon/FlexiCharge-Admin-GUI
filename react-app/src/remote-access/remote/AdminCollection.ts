@@ -9,7 +9,7 @@ import { convertRemoteUserToLocal, toUserAttributes } from '../utility/remote-us
 export default class ManageAdminCollection implements IManageAdminCollection {  
   async deleteAdmin(username: string): Promise<boolean> {
     try {
-      await axios.put(`${appConfig.FLEXICHARGE_API_URL}/auth/admin/${username}/disable`, {}, {
+      await axios.delete(`${appConfig.FLEXICHARGE_API_URL}/auth/admin/${username}`, {
         headers: {
           Authorization: `Bearer ${authenticationProvider.getToken()}`
         }

@@ -26,7 +26,7 @@ const headCells: HeadCell[] = [
   },
   {
     id: 'username',
-    label: 'username',
+    label: 'Username',
     alignRight: false
   },
   {
