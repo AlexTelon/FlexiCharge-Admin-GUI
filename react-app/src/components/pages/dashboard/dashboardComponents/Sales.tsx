@@ -30,7 +30,7 @@ const Sales = (props: any) => {
         maxBarThickness: 10
       }
     ],
-    labels: ['1 Aug', '2 Aug', '3 Aug', '4 Aug', '5 Aug', '6 Aug']
+    labels: ['May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct']
   };
 
   const options: any = {
@@ -93,11 +93,12 @@ const Sales = (props: any) => {
             size="small"
             variant="text"
             color="primary"
+            disabled
           >
             List
           </Button>
         )}
-        title="Latest Sales (Mock)"
+        title="Latest Sales"
       />
       <Divider />
       <CardContent>
@@ -127,6 +128,7 @@ const Sales = (props: any) => {
           size="small"
           variant="contained"
           style={{ color: theme.flexiCharge.primary.white }}
+          disabled
         >
           Overview
         </Button>
