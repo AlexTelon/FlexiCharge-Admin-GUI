@@ -210,12 +210,18 @@ const ManageUsers = () => {
 
       if (selectedTab === 'users') {
         const users = state.users.filter((user: ManageUser) => {        
-          return user.name?.toLowerCase().includes(searchText.toLowerCase());
+          return user.name?.toLowerCase().includes(searchText.toLowerCase())
+            // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+            || user.username.toLowerCase().includes(searchText.toLowerCase())
+            || user.email?.toLowerCase().includes(searchText.toLowerCase());
         });
         setSearchUsers(users);  
       } else {
         const admins = state.admins.filter((admin: ManageAdmin) => {
-          return admin.name?.toLowerCase().includes(searchText.toLowerCase());
+          return admin.name?.toLowerCase().includes(searchText.toLowerCase())
+            // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+            || admin.username.toLowerCase().includes(searchText.toLowerCase())
+            || admin.email?.toLowerCase().includes(searchText.toLowerCase());
         });
         setSearchAdmins(admins);
       }
