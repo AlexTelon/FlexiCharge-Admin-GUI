@@ -1,4 +1,5 @@
 {
+  "extends": "./tsconfig.paths.json",
   "compilerOptions": {
     "target": "es5",
     "lib": [
@@ -6,6 +7,7 @@
       "dom.iterable",
       "esnext"
     ],
+    "sourceRoot": "./src",
     "outDir": "./dist/",
     "noImplicitAny": true,
     "allowJs": false,
@@ -21,11 +23,13 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-    "types": ["cypress"]
+    "types": [
+      "cypress"
+    ]
   },
   "include": [
     "cypress/**/*.{ts, tsx}",
     "src/**/*.ts",
-    "src/**/*.tsx",
+    "src/**/*.tsx"
   ]
 }
