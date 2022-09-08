@@ -3,8 +3,8 @@ import { createContainer, asClass, Lifetime, InjectionMode } from 'awilix';
 import ManageUserCollection from './remote-access/mock/ManageUserCollection';
 import ManageAdminCollection from './remote-access/mock/ManageAdminCollection';
 //
-import AuthenticationProvider from './remote-access/remote/AuthenticationProvider';
-import ChargerStationCollection from './remote-access/remote/ChargerStationCollection';
+import AuthenticationProvider from './remote-access/mock/AuthenticationProvider';
+import ChargerStationCollection from './remote-access/mock/ChargerStationCollection';
 import UserCollection from './remote-access/remote/userCollection';
 import ChargerCollection from './remote-access/remote/ChargerCollection';
 import AdminCollection from './remote-access/remote/AdminCollection';
