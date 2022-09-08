@@ -8,9 +8,6 @@ import ChargerStationCollection from './remote-access/mock/ChargerStationCollect
 import UserCollection from './remote-access/remote/userCollection';
 import ChargerCollection from './remote-access/remote/ChargerCollection';
 import AdminCollection from './remote-access/remote/AdminCollection';
-//
-
-// comment
 
 const container = createContainer({
   injectionMode: InjectionMode.CLASSIC
