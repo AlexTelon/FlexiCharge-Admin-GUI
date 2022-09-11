@@ -14,6 +14,7 @@ import { Icon } from '@material-ui/core';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import EvStationIcon from '@material-ui/icons/EvStation';
 import BatteryChargingFullIcon from '@material-ui/icons/BatteryChargingFull';
+import ReceiptIcon from '@material-ui/icons/Receipt';
 import PeopleIcon from '@material-ui/icons/People';
 import { useHistory } from 'react-router';
 
@@ -28,7 +29,9 @@ const categories = [
       { id: 'Dashboard', icon: <DashboardIcon />, location: '/Dashboard', active: false },
       { id: 'Charger Station', icon: <EvStationIcon />, location: '/Dashboard/stations' },
       { id: 'Chargers', icon: <BatteryChargingFullIcon />, location: '/Dashboard/chargers' },
-      { id: 'Users', icon: <PeopleIcon />, location: '/Dashboard/users' }
+      { id: 'Users', icon: <PeopleIcon />, location: '/Dashboard/users' },
+      // TODO
+      { id: 'Users', icon: <ReceiptIcon />, location: '/Dashboard/billings' }
     ]
   }
 ];

@@ -136,6 +136,8 @@ const Dashboard = (props: any) => {
           <Route path="/dashboard/chargers" exact render={(props) => (<ChargersPage {...props} />)} />
           <Route path="/dashboard/chargers/:stationId" exact render={(props) => (<ChargersPage {...props} />)} />
           <Route path="/dashboard/users" exact render={() => (<ManageUsers />) } />
+          
+          <Route path="/dashboard/billings" exact render={() => (<ManageUsers />) } />
         </Box>
         <Box component="main" sx={{ flexGrow: 1 }}>
         </Box>
