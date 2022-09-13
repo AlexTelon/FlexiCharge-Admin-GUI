@@ -1,14 +1,14 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 import { ManageUser, IManageUserCollection } from '../types';
 import { authenticationProvider } from '..';
-import appConfig from '../appConfig';
+import { FLEXICHARGE_API_URL } from '../appConfig';
 import axios from 'axios';
 import { convertRemoteUserToLocal, toUserAttributes } from '../utility/remote-user-functions';
 
 export default class UserCollection implements IManageUserCollection {
   public async getAllUsers(): Promise<[ManageUser[] | null, any | null]> {
     try {
-      const res = await axios.get(`${appConfig.FLEXICHARGE_API_URL}/auth/admin/users`, {
+      const res = await axios.get(`${FLEXICHARGE_API_URL}/auth/admin/users`, {
         headers: {
           Authorization: `Bearer ${authenticationProvider.getToken()}`
         }
@@ -27,7 +27,7 @@ export default class UserCollection implements IManageUserCollection {
   
   public async addUser(fields: Omit<ManageUser, 'id'>): Promise<[ManageUser | null, any | null]> {
     try {
-      const res = await axios.post(`${appConfig.FLEXICHARGE_API_URL}/auth/admin/users`, {
+      const res = await axios.post(`${FLEXICHARGE_API_URL}/auth/admin/users`, {
         ...fields
       }, {
         headers: {
@@ -64,7 +64,7 @@ export default class UserCollection implements IManageUserCollection {
 
   public async getUserById(username: string): Promise<[ManageUser | null, any | null]> {
     try {
-      const res = await axios.get(`${appConfig.FLEXICHARGE_API_URL}/auth/admin/users/${username}`, {
+      const res = await axios.get(`${FLEXICHARGE_API_URL}/auth/admin/users/${username}`, {
         headers: {
           Authorization: `Bearer ${authenticationProvider.getToken()}`
         }
@@ -81,7 +81,7 @@ export default class UserCollection implements IManageUserCollection {
   public async updateUser(username: string, fields: Omit<ManageUser, 'username'>): Promise<[ManageUser | null, any | null]> {
     try {
       const userAttributes = toUserAttributes(fields);
-      const res = await axios.put(`${appConfig.FLEXICHARGE_API_URL}/auth/admin/users/${username}`, {
+      const res = await axios.put(`${FLEXICHARGE_API_URL}/auth/admin/users/${username}`, {
         userAttributes
       },
       {
@@ -121,7 +121,7 @@ export default class UserCollection implements IManageUserCollection {
 
   public async deleteUser (username: string): Promise<boolean> {
     try {
-      await axios.delete(`${appConfig.FLEXICHARGE_API_URL}/auth/admin/users/${username}`, {
+      await axios.delete(`${FLEXICHARGE_API_URL}/auth/admin/users/${username}`, {
         headers: {
           Authorization: `Bearer ${authenticationProvider.getToken()}`
         }
