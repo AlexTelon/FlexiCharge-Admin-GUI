@@ -10,6 +10,7 @@ import ChargerStation from './dashboardComponents/ChargerStation';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import Chargers from './dashboardComponents/Chargers';
 import ChargersPage from '../chargers';
+import InvoicesPage from '../invoices/InvoicesPage';
 import ManageUsers from '../manage-users/ManageUsers';
 import UsersDashboardComponent from './dashboardComponents/Users';
 import Sales from './dashboardComponents/Sales';
@@ -135,6 +136,7 @@ const Dashboard = (props: any) => {
           <Route path="/dashboard/stations" exact render={() => (<ChargerStations />)} />
           <Route path="/dashboard/chargers" exact render={(props) => (<ChargersPage {...props} />)} />
           <Route path="/dashboard/chargers/:stationId" exact render={(props) => (<ChargersPage {...props} />)} />
+          <Route path="/dashboard/invoices" exact render={() => (<InvoicesPage />) } />
           <Route path="/dashboard/users" exact render={() => (<ManageUsers />) } />
         </Box>
         <Box component="main" sx={{ flexGrow: 1 }}>
