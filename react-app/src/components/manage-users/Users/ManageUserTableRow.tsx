@@ -3,6 +3,7 @@ import React, { FC } from 'react';
 import { Theme, useTheme, TableRow, TableCell, Checkbox, Box, Typography, Button } from '@material-ui/core';
 import { Edit, LockOpen } from '@material-ui/icons';
 import { ManageUser } from '@/remote-access/types';
+import { userCollection } from '@/remote-access';
 
 interface userRowProps {
   user: ManageUser
@@ -13,6 +14,19 @@ interface userRowProps {
 
 const UserRow: FC<userRowProps> = ({ user, editClicked, selected, handleSelect }) => {
   const theme: Theme = useTheme();
+
+  const handleResetUserPassword = () => {
+    if (!user) return;
+    userCollection.resetUserPassword(user?.username).then((wasSuccess) => {
+      if (wasSuccess) {
+        console.log('success');
+      } else {
+        console.log('failed');
+      }
+    }).catch((_: any) => {
+      console.log('error');
+    });
+  };
 
   return (
     <>
@@ -55,9 +69,9 @@ const UserRow: FC<userRowProps> = ({ user, editClicked, selected, handleSelect }
             style={{ color: theme.flexiCharge.primary.white }}
             variant="contained"
             color="primary"
-            onClick={() => editClicked(user.username)}
+            onClick={() => handleResetUserPassword()}
           >
-            {console.log(editClicked)}
+            {console.log('editClicked')}
             Reset Password
           </Button>
           <Button
