@@ -50,6 +50,16 @@ const UserRow: FC<userRowProps> = ({ user, editClicked, selected, handleSelect }
           {user.created}
         </TableCell>
         <TableCell align="right">
+        <Button
+            startIcon={<LockOpen />}
+            style={{ color: theme.flexiCharge.primary.white }}
+            variant="contained"
+            color="primary"
+            onClick={() => editClicked(user.username)}
+          >
+            {console.log(editClicked)}
+            Reset Password
+          </Button>
           <Button
             startIcon={<Edit />}
             style={{ color: theme.flexiCharge.primary.white }}
