@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { FC } from 'react';
 import { Theme, useTheme, TableRow, TableCell, Checkbox, Box, Typography, Button } from '@material-ui/core';
-import { Edit } from '@material-ui/icons';
+import { Edit, LockOpen } from '@material-ui/icons';
 import { ManageUser } from '@/remote-access/types';
 
 interface userRowProps {
@@ -57,7 +57,6 @@ const UserRow: FC<userRowProps> = ({ user, editClicked, selected, handleSelect }
             color="primary"
             onClick={() => editClicked(user.username)}
           >
-            {console.log(editClicked)}
             Edit
           </Button>
         </TableCell>
