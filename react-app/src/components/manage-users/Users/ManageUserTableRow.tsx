@@ -50,7 +50,7 @@ const UserRow: FC<userRowProps> = ({ user, editClicked, selected, handleSelect }
           {user.created}
         </TableCell>
         <TableCell align="right">
-        <Button
+          <Button
             startIcon={<LockOpen />}
             style={{ color: theme.flexiCharge.primary.white }}
             variant="contained"
