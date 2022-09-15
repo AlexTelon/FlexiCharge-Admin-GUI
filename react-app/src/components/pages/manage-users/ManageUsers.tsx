@@ -8,7 +8,7 @@ import {
 import { Helmet } from 'react-helmet';
 import { Replay } from '@material-ui/icons';
 import { ManageAdmin, ManageUser } from '@/remote-access/types';
-import { adminCollection, userCollection } from '@/remote-access';
+import { adminCollection, manageUserCollection } from '@/remote-access';
 import ManageUsersEditPanel from '@/components/manage-users/Users/ManageUsersEditPanel';
 import ManageAdminsEditPanel from '@/components/manage-users/Admins/ManageAdminEditPanel';
 import AdminSettingsAccordian from '@/components/manage-users/Admins/ManageAdminsSettingsAccordian';
@@ -162,7 +162,7 @@ const ManageUsers = () => {
       loaded: false
     });
 
-    const [users, error] = await userCollection.getAllUsers();
+    const [users, error] = await manageUserCollection.getAllUsers();
 
     if (users) {
       setState({
