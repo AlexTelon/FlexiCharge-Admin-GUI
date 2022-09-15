@@ -1,3 +1,4 @@
+/* eslint-disable */ 
 /* eslint-disable react/jsx-no-undef */
 import React, { useEffect, useRef, useState } from 'react';
 import {
@@ -6,7 +7,7 @@ import {
   IconButton, Paper, Tab, alpha, InputBase, styled 
 } from '@material-ui/core';
 import { Helmet } from 'react-helmet';
-import { Replay } from '@material-ui/icons';
+import { Replay, ThumbUpSharp } from '@material-ui/icons';
 import { ManageAdmin, ManageUser } from '@/remote-access/types';
 import ManageUsersEditPanel from '@/components/manage-users/Users/ManageUsersEditPanel';
 import ManageAdminsEditPanel from '@/components/manage-users/Admins/ManageAdminEditPanel';
@@ -129,7 +130,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   }
 }));
 
-const ManageUsers = () => {
+const RenderInvoices = () => {
   const classes = useStyles();
   const [state, setState] = useState<any>({
     loaded: false
@@ -145,8 +146,6 @@ const ManageUsers = () => {
   const usersTable = useRef(null);
   const adminsTable = useRef(null);
 
-  const dummyData = ['Jakoob', 'Philip', 'Kyrollos'];
-
   const handleEditClicked = (username: string) => {
     setActiveUser(username);
   };
@@ -157,29 +156,8 @@ const ManageUsers = () => {
     setReload(true);
   };
 
-  const loadUsers = async() => {
-    setState({
-      ...dummyData,
-      loaded: false
-    });
-
-    const [users, error] = dummyData;
-
-    if (users) {
-      setState({
-        loaded: true,
-        users
-      });
-      setReload(false);
-    } else if (error) {
-      setState({
-        loaded: true,
-        error: true,
-        errorMessage: 'Failed to load users'
-      });
-      setReload(false);
-    }
-  };
+  const dummyData = ['Jakoob', 'Philip', 'Kyrollos', 'Daniel', 'Hasan'];
+  const dummyDataV2 = ['Rob', 'Mattias', 'Jasmin', 'Peter', 'Ragnar', 'Anders', "Tompa", "Kaitao"];
 
   const handleSearch = (searchText: string) => {
     if (searchText !== '') {
@@ -207,18 +185,16 @@ const ManageUsers = () => {
       setReload(true);
     }
   };
-
-  useEffect(() => {
+  
+  function useEffect() {
     if (selectedTab === 'create-invoices') {
-      loadUsers();
-      // loadPeopleWithDebt();
       console.log('viewing create invoices');
+      return dummyData;
     } else {
-      loadUsers();
-      // loadPeopleWithDebt();
       console.log('viewing create individual nvoices');
+      return dummyData;
     }
-  }, [reload]);
+  }
   
   return (
     <>
@@ -240,73 +216,55 @@ const ManageUsers = () => {
                         </TabList>
                       </TabContext>
                     </Typography>
-                    <Search color="primary">
-                      <SearchIconWrapper>
-                        <Search />
-                      </SearchIconWrapper>
-                      <StyledInputBase
-                        value={search}
-                        placeholder="Search..."
-                        inputProps={{ 'aria-label': 'search' }}
-                        onChange={(e) => { handleSearch(e.target.value); }}
-                      />
-                    </Search>
-                    <IconButton edge="end"
-                      aria-label="reload users"
-                      aria-haspopup="true"
-                      aria-controls="reload-users"
-                      color="inherit"
-                      onClick={ () => { setReload(true); setSearch(undefined); }}
-                    >
-                      <Replay />
-                    </IconButton>
                   </Toolbar>
                 </AppBar>
                 {selectedTab === 'create-invoices' &&
                     <>
-                      <UserSettingsAccordian selectedUsers={dummyData} setReload={setReload} />
+                      <ol> 
+                        {
+                          dummyData.map((user: string) => ( <li>{user}</li> ))
+                        }
+                      </ol>
                     </>
                 }
                 {selectedTab === 'create-individual-invoices' &&
                     <>
-                      <AdminSettingsAccordian selectedAdmins={dummyData} setReload={setReload} />
+                      <ol> 
+                        {
+                          dummyDataV2.map((user: string) => ( <li>{user}</li> ))
+                        }
+                      </ol>
                     </>
                 }
                 <Paper elevation={2}>
                   <TabContext value={selectedTab}>
-                    <TabPanel style={{ padding: 0 }} value="users">
-                      <UserTable
-                        ref={usersTable}
-                        loaded={state.loaded}
-                        users={search !== undefined ? searchedUsers : state.users}
-                        editClicked={handleEditClicked}
-                        setSelectedUsers={dummyData}
-                        classes={classes}
-                      />
+                    <TabPanel style={{ padding: 0 }} value="all-invoices">
+                    <>
+                      <ol> 
+                        {
+                          dummyData.map((user: string) => ( <li>{user}</li> ))
+                        }
+                      </ol>
+                    </>
                     </TabPanel>
-                    <TabPanel style={{ padding: 0 }} value="admins">
-                      <AdminTable
-                        ref={adminsTable}
-                        loaded={state.loaded}
-                        admins={search !== undefined ? searchedAdmins : state.admins}
-                        editClicked={handleEditClicked}
-                        setSelectedAdmins={dummyData}
-                        classes={classes}
-                      />
+                    <TabPanel style={{ padding: 0 }} value="individual-invoices">
+                    <>
+                      <ol> 
+                        {
+                          dummyDataV2.map((user: string) => ( <li>{user}</li> ))
+                        }
+                      </ol>
+                    </>
                     </TabPanel>
                   </TabContext>
                 </Paper>
               </Grid>
               <Grid item xs={12} md={4} lg={3}>
-                {selectedTab === 'users' &&
-                  <>
-                    <ManageUsersEditPanel username={activeUser} setActiveUser={setActiveUser} />
-                  </>
+                {selectedTab === 'all-invoices' &&
+                  <h6>All Invoices</h6>
                 }
-                {selectedTab === 'admins' &&
-                  <>
-                    <ManageAdminsEditPanel username={activeUser} setActiveUser={setActiveUser} />
-                  </>
+                {selectedTab === 'individual-invoices' &&
+                  <h6>Individual Invoices</h6>
                 }
               </Grid>
             </Grid>
@@ -317,4 +275,4 @@ const ManageUsers = () => {
   );
 };
 
-export default ManageUsers;
+export default RenderInvoices;
