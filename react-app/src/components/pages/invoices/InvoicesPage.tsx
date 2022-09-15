@@ -132,69 +132,14 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 const RenderInvoices = () => {
   const classes = useStyles();
-  const [state, setState] = useState<any>({
-    loaded: false
-  });
-  const [reload, setReload] = useState<boolean>(false);
-  const [searchedUsers, setSearchUsers] = useState<ManageUser[]>([]);
-  const [searchedAdmins, setSearchAdmins] = useState<ManageAdmin[]>([]);
-  const [search, setSearch] = useState<string>();
-  const [activeUser, setActiveUser] = useState<string | undefined>();
-  // const [selectedAdmins, setSelectedAdmins] = useState<readonly string[]>([]);
-  // const [selectedUsers, setSelectedUsers] = useState<readonly string[]>([]);
   const [selectedTab, setSelectedTab] = React.useState('users');
-  const usersTable = useRef(null);
-  const adminsTable = useRef(null);
-
-  const handleEditClicked = (username: string) => {
-    setActiveUser(username);
-  };
-
+  
   const handleTabChange = (event: any, newTab: string) => {
     setSelectedTab(newTab);
-    setActiveUser(undefined);
-    setReload(true);
   };
 
   const dummyData = ['Jakoob', 'Philip', 'Kyrollos', 'Daniel', 'Hasan'];
   const dummyDataV2 = ['Rob', 'Mattias', 'Jasmin', 'Peter', 'Ragnar', 'Anders', "Tompa", "Kaitao"];
-
-  const handleSearch = (searchText: string) => {
-    if (searchText !== '') {
-      setSearch(searchText);
-
-      if (selectedTab === 'users') {
-        const users = state.users.filter((user: ManageUser) => {        
-          return user.name?.toLowerCase().includes(searchText.toLowerCase())
-            // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-            || user.username.toLowerCase().includes(searchText.toLowerCase())
-            || user.email?.toLowerCase().includes(searchText.toLowerCase());
-        });
-        setSearchUsers(users);  
-      } else {
-        const admins = state.admins.filter((admin: ManageAdmin) => {
-          return admin.name?.toLowerCase().includes(searchText.toLowerCase())
-            // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-            || admin.username.toLowerCase().includes(searchText.toLowerCase())
-            || admin.email?.toLowerCase().includes(searchText.toLowerCase());
-        });
-        setSearchAdmins(admins);
-      }
-    } else {
-      setSearch(undefined);
-      setReload(true);
-    }
-  };
-  
-  function useEffect() {
-    if (selectedTab === 'create-invoices') {
-      console.log('viewing create invoices');
-      return dummyData;
-    } else {
-      console.log('viewing create individual nvoices');
-      return dummyData;
-    }
-  }
   
   return (
     <>
@@ -205,7 +150,7 @@ const RenderInvoices = () => {
         <Box className={classes.contentBox}>
           <Container component="section" className={classes.contentSection} maxWidth={false}>
             <Grid container spacing={1} className={`${classes.contentContainer}`}>
-              <Grid item xs={12} md={activeUser !== undefined ? 8 : 12} lg={activeUser !== undefined ? 9 : 12}>
+              <Grid item xs={12} md={12} lg={12}>
                 <AppBar position="static" className={classes.contentAppBar} elevation={1}>
                   <Toolbar variant="dense">
                     <Typography className={classes.contentTitle} variant="h6">
