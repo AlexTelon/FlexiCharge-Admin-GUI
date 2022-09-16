@@ -220,6 +220,31 @@ const RenderInvoices = () => {
                 }
                 {selectedTab === 'create-individual-invoices' &&
                     <>
+                      <Box sx={{ width: '100%', marginTop:'15pt' }}>
+                        <AppBar position="static" className={classes.contentAppBar} elevation={1}>
+                          <Toolbar variant='dense'> 
+                              <Search color="primary">
+                                <SearchIconWrapper>
+                                  <Search />
+                                </SearchIconWrapper>
+                                <StyledInputBase
+                                  placeholder="Search users"
+                                  inputProps={{ 'aria-label': 'search' }}
+                                />
+                              </Search>
+
+                              <IconButton edge='end'
+                                aria-label='user invoices filters'
+                                aria-haspopup='true'
+                                aria-controls='user-invoices-filters'
+                                color='inherit'
+                              >
+                                <Replay />
+                              </IconButton>
+
+                          </Toolbar>
+                        </AppBar>
+                      </Box>
                       <ol> 
                         {
                           dummyDataV2.map((user: string) => ( <li>{user}</li> ))
