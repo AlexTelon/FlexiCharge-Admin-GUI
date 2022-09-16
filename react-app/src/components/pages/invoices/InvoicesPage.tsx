@@ -4,7 +4,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import {
   createStyles, makeStyles, Theme, Box, 
   AppBar, Toolbar, Typography, Container, Grid, 
-  IconButton, Paper, Tab, alpha, InputBase, styled 
+  IconButton, Paper, Tab, alpha, InputBase, styled, 
+  Divider, Select, FormControl, InputLabel, MenuItem
 } from '@material-ui/core';
 import { Helmet } from 'react-helmet';
 import { Replay, ThumbUpSharp } from '@material-ui/icons';
@@ -163,8 +164,53 @@ const RenderInvoices = () => {
                     </Typography>
                   </Toolbar>
                 </AppBar>
+                <Divider/>
                 {selectedTab === 'create-invoices' &&
                     <>
+                    <Box sx={{ width: '100%', marginTop: '15pt'}}>
+                        <AppBar position="static" className={classes.contentAppBar} elevation={1}>
+                          <Toolbar>
+                            <Box sx={{ width: '15%', marginRight: '10pt'}}>
+                              <FormControl fullWidth>
+                                <InputLabel id="demo-simple-select-label">Year</InputLabel>
+                                <Select
+                                  labelId="demo-simple-select-label"
+                                  id="demo-simple-select"
+                                  label="Year"
+                                >
+                                  <MenuItem value={2019}>2019</MenuItem>
+                                  <MenuItem value={2020}>2020</MenuItem>
+                                  <MenuItem value={2021}>2021</MenuItem>
+                                  <MenuItem value={2022}>2022</MenuItem>
+                                </Select>
+                              </FormControl>
+                            </Box>
+                            <Box sx={{ width: '15%'}}>
+                              <FormControl fullWidth>
+                                <InputLabel id="demo-simple-select-label">Month</InputLabel>
+                                <Select
+                                  labelId="demo-simple-select-label"
+                                  id="demo-simple-select"
+                                  label="Month"
+                                >
+                                  <MenuItem value={1}>January</MenuItem>
+                                  <MenuItem value={2}>Feburary</MenuItem>
+                                  <MenuItem value={3}>Mars</MenuItem>
+                                  <MenuItem value={4}>April</MenuItem>
+                                  <MenuItem value={5}>May</MenuItem>
+                                  <MenuItem value={6}>June</MenuItem>
+                                  <MenuItem value={7}>July</MenuItem>
+                                  <MenuItem value={8}>August</MenuItem>
+                                  <MenuItem value={9}>September</MenuItem>
+                                  <MenuItem value={10}>October</MenuItem>
+                                  <MenuItem value={11}>November</MenuItem>
+                                  <MenuItem value={12}>December</MenuItem>
+                                </Select>
+                              </FormControl>
+                            </Box>
+                          </Toolbar>
+                        </AppBar>
+                      </Box>
                       <ol> 
                         {
                           dummyData.map((user: string) => ( <li>{user}</li> ))
