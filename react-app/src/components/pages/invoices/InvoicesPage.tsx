@@ -17,6 +17,7 @@ import AdminTable from '@/components/manage-users/Admins/ManageAdminsTable';
 import UserSettingsAccordian from '@/components/manage-users/Users/ManageUsersSettingsAccordian';
 import UserTable from '@/components/manage-users/Users/ManageUsersTable';
 import { TabContext, TabList, TabPanel } from '@material-ui/lab';
+import PersonRow from '@/components/pages/invoices/PersonRow';
 
 const useStyles = makeStyles((theme: Theme) => 
   createStyles({
@@ -141,7 +142,7 @@ const RenderInvoices = () => {
 
   const dummyData = ['Jakoob', 'Philip', 'Kyrollos', 'Daniel', 'Hasan'];
   const dummyDataV2 = ['Rob', 'Mattias', 'Jasmin', 'Peter', 'Ragnar', 'Anders', "Tompa", "Kaitao"];
-  
+
   return (
     <>
       <Helmet>
