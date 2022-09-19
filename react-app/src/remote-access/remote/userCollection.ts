@@ -90,8 +90,6 @@ export default class UserCollection implements IManageUserCollection {
           session: 'lawkjelajwe'
         }
       });
-
-      console.log('HELLO');
       return [res.data, null];
     } catch (error: any) {
       console.log(error);
