@@ -8,15 +8,9 @@ import {
   Divider, Select, FormControl, InputLabel, MenuItem,
 } from '@material-ui/core';
 import { Helmet } from 'react-helmet';
-import { Replay, ThumbUpSharp } from '@material-ui/icons';
-import { ManageAdmin, ManageUser } from '@/remote-access/types';
-import ManageUsersEditPanel from '@/components/manage-users/Users/ManageUsersEditPanel';
-import ManageAdminsEditPanel from '@/components/manage-users/Admins/ManageAdminEditPanel';
-import AdminSettingsAccordian from '@/components/manage-users/Admins/ManageAdminsSettingsAccordian';
-import UserSettingsAccordian from '@/components/manage-users/Users/ManageUsersSettingsAccordian';
-import UserTable from '@/components/manage-users/Users/ManageUsersTable';
+import { Replay } from '@material-ui/icons';
+import { ManageUser } from '@/remote-access/types';
 import { TabContext, TabList, TabPanel } from '@material-ui/lab';
-import PersonRow from '@/components/pages/invoices/PersonRow';
 import PersonTable from '@/components/pages/invoices/PersonTable';
 import { useParams } from 'react-router-dom';
 import { manageUserCollection } from '@/remote-access';

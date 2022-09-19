@@ -3,11 +3,9 @@
 
 import { ManageUser } from '@/remote-access/types';
 import {
-  Theme, useTheme, TableRow, TableCell, Box, Typography,
-  Button 
+  Theme, useTheme, TableRow, TableCell, Box, Typography, 
 } from '@material-ui/core';
-import { Edit } from '@material-ui/icons';
-import React, { FC } from 'react';
+import { FC } from 'react';
 
 interface PersonRowProps {
   person: ManageUser
