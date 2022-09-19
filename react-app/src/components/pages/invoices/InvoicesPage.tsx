@@ -5,7 +5,7 @@ import {
   createStyles, makeStyles, Theme, Box, 
   AppBar, Toolbar, Typography, Container, Grid, 
   IconButton, Paper, Tab, alpha, InputBase, styled, 
-  Divider, Select, FormControl, InputLabel, MenuItem
+  Divider, Select, FormControl, InputLabel, MenuItem,
 } from '@material-ui/core';
 import { Helmet } from 'react-helmet';
 import { Replay, ThumbUpSharp } from '@material-ui/icons';
@@ -13,12 +13,13 @@ import { ManageAdmin, ManageUser } from '@/remote-access/types';
 import ManageUsersEditPanel from '@/components/manage-users/Users/ManageUsersEditPanel';
 import ManageAdminsEditPanel from '@/components/manage-users/Admins/ManageAdminEditPanel';
 import AdminSettingsAccordian from '@/components/manage-users/Admins/ManageAdminsSettingsAccordian';
-import AdminTable from '@/components/manage-users/Admins/ManageAdminsTable';
 import UserSettingsAccordian from '@/components/manage-users/Users/ManageUsersSettingsAccordian';
 import UserTable from '@/components/manage-users/Users/ManageUsersTable';
 import { TabContext, TabList, TabPanel } from '@material-ui/lab';
 import PersonRow from '@/components/pages/invoices/PersonRow';
-
+import PersonTable from '@/components/pages/invoices/PersonTable';
+import { useParams } from 'react-router-dom';
+import { manageUserCollection } from '@/remote-access';
 const useStyles = makeStyles((theme: Theme) => 
   createStyles({
     appBar: {
@@ -140,9 +141,55 @@ const RenderInvoices = () => {
     setSelectedTab(newTab);
   };
 
-  const dummyData = ['Jakoob', 'Philip', 'Kyrollos', 'Daniel', 'Hasan'];
-  const dummyDataV2 = ['Rob', 'Mattias', 'Jasmin', 'Peter', 'Ragnar', 'Anders', "Tompa", "Kaitao"];
+  const params = useParams(); 
+  const person = (params as any).person;
+  const [state, setState] = useState<any>({
+    loaded: false
+  });
 
+  const loadPersons = async () => {
+    setState({
+      ...state,
+      loaded: false
+    });
+    const [persons, error] = await manageUserCollection.getAllUsers();
+    
+    if (persons) {
+      setState({
+        loaded: true,
+        persons
+      });  
+    } else if (error) {
+      setState({
+        loaded: true,
+        error: true,
+        errorMessage: 'Failed to fetch chargers'
+      });  
+    }
+  };
+
+  useEffect(() => {
+    loadPersons();
+  }, []);
+
+  const handleSearch = (searchText: string) => {
+    if (searchText !== '') {
+      const persons = state.persons.filter((person: ManageUser) => {
+        return `${person.username}`.includes(searchText)
+          || person.name?.toLowerCase().includes(searchText.toLowerCase());
+      });
+      setState({
+        ...state,
+        searchText,
+        searchedPersons: persons
+      });
+    } else {
+      setState({
+        ...state,
+        searchText: undefined
+      });
+    }
+  };
   return (
     <>
       <Helmet>
@@ -212,11 +259,13 @@ const RenderInvoices = () => {
                           </Toolbar>
                         </AppBar>
                       </Box>
-                      <ol> 
-                        {
-                          dummyData.map((user: string) => ( <li>{user}</li> ))
-                        }
-                      </ol>
+                      <Paper elevation={2}>
+                        <PersonTable
+                          classes={classes}
+                          persons={state.searchText !== undefined ? state.searchedPersons : state.persons}
+                          loaded={state.loaded}
+                        />
+                      </Paper>
                     </>
                 }
                 {selectedTab === 'create-individual-invoices' &&
@@ -246,31 +295,26 @@ const RenderInvoices = () => {
                           </Toolbar>
                         </AppBar>
                       </Box>
-                      <ol> 
-                        {
-                          dummyDataV2.map((user: string) => ( <li>{user}</li> ))
-                        }
-                      </ol>
+
+
+
+
                     </>
                 }
                 <Paper elevation={2}>
                   <TabContext value={selectedTab}>
                     <TabPanel style={{ padding: 0 }} value="all-invoices">
                     <>
-                      <ol> 
-                        {
-                          dummyData.map((user: string) => ( <li>{user}</li> ))
-                        }
-                      </ol>
+
+
+
                     </>
                     </TabPanel>
                     <TabPanel style={{ padding: 0 }} value="individual-invoices">
                     <>
-                      <ol> 
-                        {
-                          dummyDataV2.map((user: string) => ( <li>{user}</li> ))
-                        }
-                      </ol>
+                     
+
+
                     </>
                     </TabPanel>
                   </TabContext>

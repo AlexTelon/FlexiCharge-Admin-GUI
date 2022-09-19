@@ -4,11 +4,11 @@ import {
   TablePagination, LinearProgress
 } from '@material-ui/core';
 import PersonRow from './PersonRow';
-import { TestManageUser } from '@/remote-access/types';
+import { ManageUser } from '@/remote-access/types';
 import React, { FC, useState } from 'react';
 
 interface PersonTableProps {
-  persons: TestManageUser[]
+  persons: ManageUser[]
   loaded: boolean
   [key: string]: any
 }
@@ -18,7 +18,7 @@ interface PersonTableState {
   rowsPerPage: number
 }
 
-const ChargerTable: FC<PersonTableProps> = ({ loaded, persons, ...props }: any) => {
+const PersonTable: FC<PersonTableProps> = ({ loaded, persons, ...props }: any) => {
   const [state, setState] = useState<PersonTableState>({
     page: 0,
     rowsPerPage: 5
@@ -53,17 +53,17 @@ const ChargerTable: FC<PersonTableProps> = ({ loaded, persons, ...props }: any) 
         <Table {...tableProps} stickyHeader aria-label='sticky table'>
           <TableHead>
             <TableRow>
-              <TableCell>Charger ID</TableCell>
-              <TableCell>Serial Number</TableCell>
-              <TableCell>Charger Station ID</TableCell>
-              <TableCell>Status</TableCell>
-              <TableCell align='right'>Actions</TableCell>
+              <TableCell>Username</TableCell>
+              <TableCell>Name</TableCell>
+              <TableCell>Invoice File</TableCell>
+              <TableCell>placeholder</TableCell>
+              <TableCell align='right'>placeholder</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {
               persons?.slice(state.page * state.rowsPerPage, state.page * state.rowsPerPage + state.rowsPerPage)
-                .map((person: TestManageUser) => {
+                .map((person: ManageUser) => {
                   return (
                     <PersonRow
                       key={person.username}
@@ -90,4 +90,4 @@ const ChargerTable: FC<PersonTableProps> = ({ loaded, persons, ...props }: any) 
   );
 };
 
-export default ChargerTable;
+export default PersonTable;

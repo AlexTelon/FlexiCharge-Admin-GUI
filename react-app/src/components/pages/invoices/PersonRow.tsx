@@ -9,18 +9,13 @@ import {
 import { Edit } from '@material-ui/icons';
 import React, { FC } from 'react';
 
-interface ChargerRowProps {
-/*  editClicked: (chargerID: number) => void
-  deleteClicked: (chargerID: number) => void
-  charger: Charger
-  classes: any
-  */
+interface PersonRowProps {
   person: ManageUser
+  classes: any
 }
 
-const ChargerRow: FC<ChargerRowProps> = ({person}) => {
+const PersonRow: FC<PersonRowProps> = ({ person, classes}) => {
   const theme: Theme = useTheme();
-
 
   return (
     <>
@@ -38,8 +33,10 @@ const ChargerRow: FC<ChargerRowProps> = ({person}) => {
             <Typography
               color='textPrimary'
               variant='body1'
+              className={classes.stationNameCell}
               noWrap
             >
+              {person.username}
             </Typography>
           </Box>
         </TableCell>
@@ -55,19 +52,9 @@ const ChargerRow: FC<ChargerRowProps> = ({person}) => {
         </TableCell>
         <TableCell>{person.username}</TableCell>
         <TableCell>{person.username}</TableCell>
-        <TableCell align='right'>
-          <Button
-            startIcon={<Edit />}
-            style={{ color: theme.flexiCharge.primary.white }}
-            variant="contained"
-            color="primary"
-          >
-            Edit
-          </Button>
-        </TableCell>
       </TableRow>
     </>
   );
 }; 
 
-export default ChargerRow;
+export default PersonRow;
