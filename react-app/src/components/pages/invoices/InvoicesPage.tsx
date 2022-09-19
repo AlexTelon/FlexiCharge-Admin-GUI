@@ -170,7 +170,7 @@ const RenderInvoices = () => {
                     <Box sx={{ width: '100%', marginTop: '15pt'}}>
                         <AppBar position="static" className={classes.contentAppBar} elevation={1}>
                           <Toolbar>
-                            <Box sx={{ width: '15%', marginRight: '10pt'}}>
+                            <Box sx={{ width: '15%', marginRight: '10pt', height:'40pt'}}>
                               <FormControl fullWidth>
                                 <InputLabel id="demo-simple-select-label">Year</InputLabel>
                                 <Select
@@ -185,7 +185,7 @@ const RenderInvoices = () => {
                                 </Select>
                               </FormControl>
                             </Box>
-                            <Box sx={{ width: '15%'}}>
+                            <Box sx={{ width: '15%', height:'40pt'}}>
                               <FormControl fullWidth>
                                 <InputLabel id="demo-simple-select-label">Month</InputLabel>
                                 <Select
