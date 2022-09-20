@@ -5,10 +5,10 @@ import {
   createStyles, makeStyles, Theme, Box,
   AppBar, Toolbar, Typography, Container, Grid,
   IconButton, Paper, Tab, alpha, InputBase, styled,
-  Divider, Select, FormControl, InputLabel, MenuItem,
+  Divider, Select, FormControl, InputLabel, MenuItem, Button, TableCell, useTheme
 } from '@material-ui/core';
 import { Helmet } from 'react-helmet';
-import { Replay } from '@material-ui/icons';
+import { Replay, Edit } from '@material-ui/icons';
 import { ManageUser } from '@/remote-access/types';
 import { TabContext, TabList, TabPanel } from '@material-ui/lab';
 import PersonTable from '@/components/pages/invoices/PersonTable';
@@ -78,6 +78,9 @@ const useStyles = makeStyles((theme: Theme) =>
     tableContainer: {
       maxHeight: '600px',
       marginTop: theme.spacing(1)
+    },
+    buttonPosition: {
+      marginLeft: 'auto',
     }
   })
 );
@@ -128,6 +131,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 const RenderInvoices = () => {
+  const theme: Theme = useTheme();
   const classes = useStyles();
   const [selectedTab, setSelectedTab] = React.useState('users');
 
@@ -189,6 +193,7 @@ const RenderInvoices = () => {
       });
     }
   };
+
   return (
     <>
       <Helmet>
@@ -255,6 +260,17 @@ const RenderInvoices = () => {
                               </Select>
                             </FormControl>
                           </Box>
+                          <TableCell className={classes.buttonPosition}>
+                            <Button
+                              startIcon={<Edit />}
+                              style={{ color: theme.flexiCharge.primary.white }}
+                              variant="contained"
+                              color="primary"
+                              onClick={() => console.log('btn pressed!')}
+                            >
+                              Create Invoice
+                            </Button>
+                          </TableCell>
                         </Toolbar>
                       </AppBar>
                     </Box>

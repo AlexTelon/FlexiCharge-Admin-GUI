@@ -1,7 +1,7 @@
 import { Charger } from '@/remote-access/types';
 import {
   Theme, useTheme, TableRow, TableCell, Box, Typography,
-  Button 
+  Button
 } from '@material-ui/core';
 import { Edit } from '@material-ui/icons';
 import React, { FC } from 'react';
@@ -65,6 +65,6 @@ const ChargerRow: FC<ChargerRowProps> = ({ charger, classes, editClicked, delete
       </TableRow>
     </>
   );
-}; 
+};
 
 export default ChargerRow;
