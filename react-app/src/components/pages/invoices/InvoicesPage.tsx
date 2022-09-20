@@ -5,7 +5,8 @@ import {
   createStyles, makeStyles, Theme, Box,
   AppBar, Toolbar, Typography, Container, Grid,
   IconButton, Paper, Tab, alpha, InputBase, styled,
-  Divider, Select, FormControl, InputLabel, MenuItem, Button, TableCell, useTheme
+  Divider, Select, FormControl, InputLabel, MenuItem,
+  Button, TableCell, useTheme
 } from '@material-ui/core';
 import { Helmet } from 'react-helmet';
 import { Replay, ControlPoint } from '@material-ui/icons';
@@ -195,6 +196,12 @@ const RenderInvoices = () => {
     }
   };
 
+  let selectedMonth;
+  const setMonth = (event: any) => {
+    selectedMonth = event?.target.value
+    console.log(selectedMonth)
+  };
+
   return (
     <>
       <Helmet>
@@ -244,6 +251,7 @@ const RenderInvoices = () => {
                               <Select
                                 labelId="demo-simple-select-label"
                                 id="demo-simple-select"
+                                onChange={setMonth}
                                 label="Month"
                               >
                                 <MenuItem value={1}>January</MenuItem>
@@ -268,6 +276,7 @@ const RenderInvoices = () => {
                               variant="contained"
                               color="primary"
                               onClick={() => console.log('btn pressed!')}
+                              disabled
                             >
                               Create Invoice
                             </Button>
