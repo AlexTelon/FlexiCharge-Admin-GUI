@@ -202,12 +202,25 @@ const RenderInvoices = () => {
   }
   const setMonth = (event: any) => {
     selectedDate.month = event?.target.value
+    handleDateFilter
     console.log(selectedDate.month)
   };
 
   const setYear = (event: any) => {
     selectedDate.year = event?.target.value
+    handleDateFilter
     console.log(selectedDate.year)
+  };
+
+  const handleDateFilter = () => {
+    if(selectedDate.month !== 0 && selectedDate.year !== 0){
+      /*
+      TODO: Filter invoices based on date, once we get invoices and their dates from backend (Like below for example)
+      const persons = state.persons.filter((person: ManageUser) => {
+        return `${invoice.date}` = selectedDate.year+'-'+selectedDate.month;
+      });
+      */
+    }
   };
 
   return (
