@@ -202,6 +202,12 @@ const RenderInvoices = () => {
     console.log(selectedMonth)
   };
 
+  let selectedYear;
+  const setYear = (event: any) => {
+    selectedYear = event?.target.value
+    console.log(selectedYear)
+  };
+
   return (
     <>
       <Helmet>
@@ -236,6 +242,7 @@ const RenderInvoices = () => {
                               <Select
                                 labelId="demo-simple-select-label"
                                 id="demo-simple-select"
+                                onChange={setYear}
                                 label="Year"
                               >
                                 <MenuItem value={2019}>2019</MenuItem>
