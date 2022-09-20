@@ -1,10 +1,10 @@
-/* eslint-disable */ 
+/* eslint-disable */
 /* eslint-disable react/jsx-no-undef */
 import React, { useEffect, useRef, useState } from 'react';
 import {
-  createStyles, makeStyles, Theme, Box, 
-  AppBar, Toolbar, Typography, Container, Grid, 
-  IconButton, Paper, Tab, alpha, InputBase, styled, 
+  createStyles, makeStyles, Theme, Box,
+  AppBar, Toolbar, Typography, Container, Grid,
+  IconButton, Paper, Tab, alpha, InputBase, styled,
   Divider, Select, FormControl, InputLabel, MenuItem,
 } from '@material-ui/core';
 import { Helmet } from 'react-helmet';
@@ -14,7 +14,7 @@ import { TabContext, TabList, TabPanel } from '@material-ui/lab';
 import PersonTable from '@/components/pages/invoices/PersonTable';
 import { useParams } from 'react-router-dom';
 import { manageUserCollection } from '@/remote-access';
-const useStyles = makeStyles((theme: Theme) => 
+const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     appBar: {
       backgroundColor: theme.flexiCharge.accent.primary,
@@ -130,40 +130,45 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 const RenderInvoices = () => {
   const classes = useStyles();
   const [selectedTab, setSelectedTab] = React.useState('users');
-  
+
   const handleTabChange = (event: any, newTab: string) => {
     setSelectedTab(newTab);
   };
 
-  const params = useParams(); 
+  const params = useParams();
   const person = (params as any).person;
   const [state, setState] = useState<any>({
-    loaded: false
+    loaded: false,
   });
 
   const loadPersons = async () => {
+    setSelectedTab('create-invoices');
     setState({
       ...state,
       loaded: false
     });
     const [persons, error] = await manageUserCollection.getAllUsers();
-    
+
     if (persons) {
       setState({
         loaded: true,
-        persons
-      });  
+        persons,
+      });
     } else if (error) {
       setState({
         loaded: true,
         error: true,
-        errorMessage: 'Failed to fetch chargers'
-      });  
+        errorMessage: 'Failed to fetch invoices'
+      });
     }
   };
 
   useEffect(() => {
-    loadPersons();
+    if (selectedTab === 'all-invoices') {
+      loadPersons();
+    } else {
+      loadPersons();
+    }
   }, []);
 
   const handleSearch = (searchText: string) => {
@@ -206,110 +211,110 @@ const RenderInvoices = () => {
                     </Typography>
                   </Toolbar>
                 </AppBar>
-                <Divider/>
+                <Divider />
                 {selectedTab === 'create-invoices' &&
-                    <>
-                    <Box sx={{ width: '100%', marginTop: '15pt'}}>
-                        <AppBar position="static" className={classes.contentAppBar} elevation={1}>
-                          <Toolbar>
-                            <Box sx={{ width: '15%', marginRight: '10pt', height:'40pt'}}>
-                              <FormControl fullWidth>
-                                <InputLabel id="demo-simple-select-label">Year</InputLabel>
-                                <Select
-                                  labelId="demo-simple-select-label"
-                                  id="demo-simple-select"
-                                  label="Year"
-                                >
-                                  <MenuItem value={2019}>2019</MenuItem>
-                                  <MenuItem value={2020}>2020</MenuItem>
-                                  <MenuItem value={2021}>2021</MenuItem>
-                                  <MenuItem value={2022}>2022</MenuItem>
-                                </Select>
-                              </FormControl>
-                            </Box>
-                            <Box sx={{ width: '15%', height:'40pt'}}>
-                              <FormControl fullWidth>
-                                <InputLabel id="demo-simple-select-label">Month</InputLabel>
-                                <Select
-                                  labelId="demo-simple-select-label"
-                                  id="demo-simple-select"
-                                  label="Month"
-                                >
-                                  <MenuItem value={1}>January</MenuItem>
-                                  <MenuItem value={2}>Feburary</MenuItem>
-                                  <MenuItem value={3}>Mars</MenuItem>
-                                  <MenuItem value={4}>April</MenuItem>
-                                  <MenuItem value={5}>May</MenuItem>
-                                  <MenuItem value={6}>June</MenuItem>
-                                  <MenuItem value={7}>July</MenuItem>
-                                  <MenuItem value={8}>August</MenuItem>
-                                  <MenuItem value={9}>September</MenuItem>
-                                  <MenuItem value={10}>October</MenuItem>
-                                  <MenuItem value={11}>November</MenuItem>
-                                  <MenuItem value={12}>December</MenuItem>
-                                </Select>
-                              </FormControl>
-                            </Box>
-                          </Toolbar>
-                        </AppBar>
-                      </Box>
-                      <Paper elevation={2}>
-                        <PersonTable
-                          classes={classes}
-                          persons={state.searchText !== undefined ? state.searchedPersons : state.persons}
-                          loaded={state.loaded}
-                        />
-                      </Paper>
-                    </>
+                  <>
+                    <Box sx={{ width: '100%', marginTop: '15pt' }}>
+                      <AppBar position="static" className={classes.contentAppBar} elevation={1}>
+                        <Toolbar>
+                          <Box sx={{ width: '15%', marginRight: '10pt', height: '40pt' }}>
+                            <FormControl fullWidth>
+                              <InputLabel id="demo-simple-select-label">Year</InputLabel>
+                              <Select
+                                labelId="demo-simple-select-label"
+                                id="demo-simple-select"
+                                label="Year"
+                              >
+                                <MenuItem value={2019}>2019</MenuItem>
+                                <MenuItem value={2020}>2020</MenuItem>
+                                <MenuItem value={2021}>2021</MenuItem>
+                                <MenuItem value={2022}>2022</MenuItem>
+                              </Select>
+                            </FormControl>
+                          </Box>
+                          <Box sx={{ width: '15%', height: '40pt' }}>
+                            <FormControl fullWidth>
+                              <InputLabel id="demo-simple-select-label">Month</InputLabel>
+                              <Select
+                                labelId="demo-simple-select-label"
+                                id="demo-simple-select"
+                                label="Month"
+                              >
+                                <MenuItem value={1}>January</MenuItem>
+                                <MenuItem value={2}>Feburary</MenuItem>
+                                <MenuItem value={3}>Mars</MenuItem>
+                                <MenuItem value={4}>April</MenuItem>
+                                <MenuItem value={5}>May</MenuItem>
+                                <MenuItem value={6}>June</MenuItem>
+                                <MenuItem value={7}>July</MenuItem>
+                                <MenuItem value={8}>August</MenuItem>
+                                <MenuItem value={9}>September</MenuItem>
+                                <MenuItem value={10}>October</MenuItem>
+                                <MenuItem value={11}>November</MenuItem>
+                                <MenuItem value={12}>December</MenuItem>
+                              </Select>
+                            </FormControl>
+                          </Box>
+                        </Toolbar>
+                      </AppBar>
+                    </Box>
+                    <Paper elevation={2}>
+                      <PersonTable
+                        classes={classes}
+                        persons={state.searchText !== undefined ? state.searchedPersons : state.persons}
+                        loaded={state.loaded}
+                      />
+                    </Paper>
+                  </>
                 }
                 {selectedTab === 'create-individual-invoices' &&
-                    <>
-                      <Box sx={{ width: '100%', marginTop:'15pt' }}>
-                        <AppBar position="static" className={classes.contentAppBar} elevation={1}>
-                          <Toolbar variant='dense'> 
-                              <Search color="primary">
-                                <SearchIconWrapper>
-                                  <Search />
-                                </SearchIconWrapper>
-                                <StyledInputBase
-                                  placeholder="Search users"
-                                  inputProps={{ 'aria-label': 'search' }}
-                                />
-                              </Search>
+                  <>
+                    <Box sx={{ width: '100%', marginTop: '15pt' }}>
+                      <AppBar position="static" className={classes.contentAppBar} elevation={1}>
+                        <Toolbar variant='dense'>
+                          <Search color="primary">
+                            <SearchIconWrapper>
+                              <Search />
+                            </SearchIconWrapper>
+                            <StyledInputBase
+                              placeholder="Search users"
+                              inputProps={{ 'aria-label': 'search' }}
+                            />
+                          </Search>
 
-                              <IconButton edge='end'
-                                aria-label='user invoices filters'
-                                aria-haspopup='true'
-                                aria-controls='user-invoices-filters'
-                                color='inherit'
-                              >
-                                <Replay />
-                              </IconButton>
+                          <IconButton edge='end'
+                            aria-label='user invoices filters'
+                            aria-haspopup='true'
+                            aria-controls='user-invoices-filters'
+                            color='inherit'
+                          >
+                            <Replay />
+                          </IconButton>
 
-                          </Toolbar>
-                        </AppBar>
-                      </Box>
-
-
+                        </Toolbar>
+                      </AppBar>
+                    </Box>
 
 
-                    </>
+
+
+                  </>
                 }
                 <Paper elevation={2}>
                   <TabContext value={selectedTab}>
                     <TabPanel style={{ padding: 0 }} value="all-invoices">
-                    <>
+                      <>
 
 
 
-                    </>
+                      </>
                     </TabPanel>
                     <TabPanel style={{ padding: 0 }} value="individual-invoices">
-                    <>
-                     
+                      <>
 
 
-                    </>
+
+                      </>
                     </TabPanel>
                   </TabContext>
                 </Paper>
