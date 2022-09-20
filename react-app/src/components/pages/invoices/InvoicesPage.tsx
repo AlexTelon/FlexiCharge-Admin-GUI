@@ -196,16 +196,18 @@ const RenderInvoices = () => {
     }
   };
 
-  let selectedMonth;
+  let selectedDate = {
+    month: 0,
+    year: 0
+  }
   const setMonth = (event: any) => {
-    selectedMonth = event?.target.value
-    console.log(selectedMonth)
+    selectedDate.month = event?.target.value
+    console.log(selectedDate.month)
   };
 
-  let selectedYear;
   const setYear = (event: any) => {
-    selectedYear = event?.target.value
-    console.log(selectedYear)
+    selectedDate.year = event?.target.value
+    console.log(selectedDate.year)
   };
 
   return (
