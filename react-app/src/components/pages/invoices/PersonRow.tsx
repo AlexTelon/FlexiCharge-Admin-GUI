@@ -1,8 +1,7 @@
 /* eslint-disable */
 /* eslint-disable react/jsx-no-undef */
-
 import { ManageUser } from '@/remote-access/types';
-import { userCollection } from '@/remote-access';
+import { singletonUserList } from './InvoicesListSingleton';
 import {
   Theme, useTheme, TableRow, TableCell, Box, Typography, Checkbox
 } from '@material-ui/core';
@@ -13,16 +12,18 @@ interface PersonRowProps {
   classes: any
 }
 
-let arr = [];
+// let arr = [];
 
 const PersonRow: FC<PersonRowProps> = ({ person, classes }) => {
   const theme: Theme = useTheme();
 
   const handleSelectedPerson = () => {
     if (!person) return;
-    arr.push(person);
+    // arr.push(person);
+    singletonUserList.addUser(person);
     console.log('added to array');
-    console.log('persons to receive said invoice: ', arr);
+    console.log('LIST ', singletonUserList.logList());
+    // console.log('persons to receive said invoice: ', arr);
   };
 
   return (
