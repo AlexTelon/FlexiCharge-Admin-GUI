@@ -2,6 +2,7 @@
 /* eslint-disable react/jsx-no-undef */
 
 import { ManageUser } from '@/remote-access/types';
+import { userCollection } from '@/remote-access';
 import {
   Theme, useTheme, TableRow, TableCell, Box, Typography, Checkbox
 } from '@material-ui/core';
@@ -10,17 +11,19 @@ import { FC } from 'react';
 interface PersonRowProps {
   person: ManageUser
   classes: any
-  // selectedPerson: boolean
-  // handleSelectedPerson: (person: number) => void
 }
+
+let arr = [];
 
 const PersonRow: FC<PersonRowProps> = ({ person, classes }) => {
   const theme: Theme = useTheme();
-  let arrPers = [];
 
-  function handleSelectedPerson(userID: number) {
-    console.log(userID);
-  }
+  const handleSelectedPerson = () => {
+    if (!person) return;
+    arr.push(person);
+    console.log('added to array');
+    console.log('persons to receive said invoice: ', arr);
+  };
 
   return (
     <>
@@ -31,8 +34,8 @@ const PersonRow: FC<PersonRowProps> = ({ person, classes }) => {
         <TableCell padding="checkbox">
           <Checkbox
             color="primary"
-            onChange={() => { handleSelectedPerson(Number(person.username)); }}
-            onClick={() => arrPers.push(person)}
+            onChange={() => { handleSelectedPerson() }}
+            onClick={(e) => e.stopPropagation()}
           />
         </TableCell>
         <TableCell>
