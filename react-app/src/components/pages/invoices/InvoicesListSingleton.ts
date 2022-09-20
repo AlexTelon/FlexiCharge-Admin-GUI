@@ -6,8 +6,17 @@ class userListSingleton {
         return users;
     }
 
-    addUser(user) {
-        users.push(user);
+    addUser(newUser) {
+        const duplicateUser = users.find((user) => {
+            if (newUser.username === user.username) {
+                console.log('this person was already added to the list!!');
+                return true;
+            }
+        })
+        if (duplicateUser) {
+            return;
+        }
+        users.push(newUser);
     }
 }
 
