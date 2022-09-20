@@ -8,10 +8,11 @@ import {
   Divider, Select, FormControl, InputLabel, MenuItem, Button, TableCell, useTheme
 } from '@material-ui/core';
 import { Helmet } from 'react-helmet';
-import { Replay, Edit } from '@material-ui/icons';
+import { Replay, ControlPoint } from '@material-ui/icons';
 import { ManageUser } from '@/remote-access/types';
 import { TabContext, TabList, TabPanel } from '@material-ui/lab';
 import PersonTable from '@/components/pages/invoices/PersonTable';
+import PersonTableIndividualInvoice from '@/components/pages/invoices/PersonTableIndividualInvoice';
 import { useParams } from 'react-router-dom';
 import { manageUserCollection } from '@/remote-access';
 const useStyles = makeStyles((theme: Theme) =>
@@ -262,7 +263,7 @@ const RenderInvoices = () => {
                           </Box>
                           <TableCell className={classes.buttonPosition}>
                             <Button
-                              startIcon={<Edit />}
+                              startIcon={<ControlPoint />}
                               style={{ color: theme.flexiCharge.primary.white }}
                               variant="contained"
                               color="primary"
@@ -312,7 +313,7 @@ const RenderInvoices = () => {
                       </AppBar>
                     </Box>
                     <Paper elevation={2}>
-                      <PersonTable
+                      <PersonTableIndividualInvoice
                         classes={classes}
                         persons={state.searchText !== undefined ? state.searchedPersons : state.persons}
                         loaded={state.loaded}
