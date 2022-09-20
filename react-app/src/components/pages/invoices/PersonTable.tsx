@@ -53,7 +53,6 @@ const PersonTable: FC<PersonTableProps> = ({ loaded, persons, ...props }: any) =
         <Table {...tableProps} stickyHeader aria-label='sticky table'>
           <TableHead>
             <TableRow>
-              <TableCell>Check Users</TableCell>
               <TableCell>UserID</TableCell>
               <TableCell>Name</TableCell>
               <TableCell>Invoice File (PDF)</TableCell>
