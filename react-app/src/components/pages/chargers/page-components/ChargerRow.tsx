@@ -66,5 +66,4 @@ const ChargerRow: FC<ChargerRowProps> = ({ charger, classes, editClicked, delete
     </>
   );
 };
-
 export default ChargerRow;

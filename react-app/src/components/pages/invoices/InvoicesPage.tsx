@@ -146,7 +146,7 @@ const RenderInvoices = () => {
   });
 
   const loadPersons = async () => {
-    setSelectedTab('create-invoices');
+    setSelectedTab('generate-invoices');
     setState({
       ...state,
       loaded: false
@@ -209,7 +209,7 @@ const RenderInvoices = () => {
                     <Typography className={classes.contentTitle} variant="h6">
                       <TabContext value={selectedTab}>
                         <TabList onChange={handleTabChange} indicatorColor="primary">
-                          <Tab label="Create Invoices" value="create-invoices" />
+                          <Tab label="Create Invoices" value="generate-invoices" />
                           <Tab label="Create Individual Invoices" value="create-individual-invoices" />
                         </TabList>
                       </TabContext>
@@ -217,7 +217,7 @@ const RenderInvoices = () => {
                   </Toolbar>
                 </AppBar>
                 <Divider />
-                {selectedTab === 'create-invoices' &&
+                {selectedTab === 'generate-invoices' &&
                   <>
                     <Box sx={{ width: '100%', marginTop: '15pt' }}>
                       <AppBar position="static" className={classes.contentAppBar} elevation={1}>
@@ -277,7 +277,7 @@ const RenderInvoices = () => {
                     <Paper elevation={2}>
                       <PersonTable
                         classes={classes}
-                        persons={state.searchText !== undefined ? state.searchedPersons : state.persons}
+                        persons={state.persons}
                         loaded={state.loaded}
                       />
                     </Paper>
@@ -295,6 +295,7 @@ const RenderInvoices = () => {
                             <StyledInputBase
                               placeholder="Search users"
                               inputProps={{ 'aria-label': 'search' }}
+                              onChange={(e) => { handleSearch(e.target.value); }}
                             />
                           </Search>
 
@@ -310,26 +311,23 @@ const RenderInvoices = () => {
                         </Toolbar>
                       </AppBar>
                     </Box>
-
-
-
-
+                    <Paper elevation={2}>
+                      <PersonTable
+                        classes={classes}
+                        persons={state.searchText !== undefined ? state.searchedPersons : state.persons}
+                        loaded={state.loaded}
+                      />
+                    </Paper>
                   </>
                 }
                 <Paper elevation={2}>
                   <TabContext value={selectedTab}>
                     <TabPanel style={{ padding: 0 }} value="all-invoices">
                       <>
-
-
-
                       </>
                     </TabPanel>
                     <TabPanel style={{ padding: 0 }} value="individual-invoices">
                       <>
-
-
-
                       </>
                     </TabPanel>
                   </TabContext>
