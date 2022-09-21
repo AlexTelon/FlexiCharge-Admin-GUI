@@ -1,3 +1,5 @@
+/* eslint-disable */
+/* eslint-disable react/jsx-no-undef */
 import { ManageTransaction } from '../remote-access/types';
 
 export const manageTransactions: ManageTransaction[] = [

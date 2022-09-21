@@ -1,3 +1,6 @@
+/* eslint-disable */
+/* eslint-disable react/jsx-no-undef */
+
 import { ManageTransaction, IManageTransactionCollection } from '../types';
 import { FLEXICHARGE_API_URL } from '@/appConfig';
 import axios from 'axios';
