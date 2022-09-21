@@ -11,11 +11,13 @@ import {
 import { Helmet } from 'react-helmet';
 import { Replay, ControlPoint } from '@material-ui/icons';
 import { ManageUser } from '@/remote-access/types';
+import { ManageTransaction } from '@/remote-access/types';
 import { TabContext, TabList, TabPanel } from '@material-ui/lab';
 import PersonTable from '@/components/pages/invoices/PersonTable';
 import PersonTableIndividualInvoice from '@/components/pages/invoices/PersonTableIndividualInvoice';
 import { useParams } from 'react-router-dom';
 import { manageUserCollection } from '@/remote-access';
+import { transactionCollection } from '@/remote-access';
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     appBar: {
