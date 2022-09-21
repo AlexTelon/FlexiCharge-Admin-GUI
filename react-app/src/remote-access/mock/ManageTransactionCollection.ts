@@ -6,7 +6,7 @@ import { ManageTransaction, IManageTransactionCollection } from '../types';
 export default class ManageTransactionCollection implements IManageTransactionCollection {
   transactions = manageTransactions;
 
-  async getTransactionsByUserId(username: string): Promise<[ManageTransaction[], any | null]> {
+  async getTransactionsByUserId(username: string): Promise<[ManageTransaction[] | null, any | null]> {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         console.log([this.transactions, null]);
