@@ -1,3 +1,5 @@
+/* eslint-disable */
+/* eslint-disable react/jsx-no-undef */
 import {
   AppBar, Box, Container, createStyles,
   Grid, IconButton, makeStyles, Theme, Toolbar, Typography,
@@ -15,7 +17,7 @@ import ChargerStationsSettingsAccordian from './ChargerStationsSettingsAccordian
 import { chargerStationCollection } from '@/remote-access';
 import { ChargerStation } from '@/remote-access/types';
 
-const useStyles = makeStyles((theme: Theme) => 
+const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     contentBox: {
       paddingTop: theme.spacing(2),
@@ -144,7 +146,7 @@ const ChargerStations = () => {
       setState({
         loaded: true,
         error: true,
-        errorMessage: 'Failed to load'
+        errorMessage: 'Failed to load stations'
       });
     });
   };
@@ -189,7 +191,7 @@ const ChargerStations = () => {
                       aria-haspopup="true"
                       aria-controls="charger-stations-reload"
                       color="inherit"
-                      onClick={ () => { loadStations(); setSearch(undefined); }}
+                      onClick={() => { loadStations(); setSearch(undefined); }}
                     >
                       <Replay />
                     </IconButton>

@@ -12,6 +12,11 @@ export interface ManageUser {
   userStatus?: 'UNCONFIRMED' | 'CONFIRMED' | 'FORCE_CHANGE_PASSWORD'
 }
 
+export interface TestManageUser {
+  username: string
+  name?: string
+}
+
 export interface IManageUserCollection {
   getAllUsers: () => Promise<[ManageUser[] | null, any | null]>
   getUserById: (username: string) => Promise<ManageUser | null | any | null>
