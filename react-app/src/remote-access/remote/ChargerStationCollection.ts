@@ -1,4 +1,4 @@
-import appConfig from '@/appConfig';
+import { FLEXICHARGE_API_URL } from '@/appConfig';
 import { chargerStations } from '@/__mock-data__';
 import axios from 'axios';
 import { authenticationProvider } from '..';
@@ -8,7 +8,7 @@ export default class ChargerStationCollection implements IChargerStationCollecti
   stations = chargerStations;
 
   async getAllChargerStations(): Promise<ChargerStation[]> {
-    const response = await axios.get(`${appConfig.FLEXICHARGE_API_URL}/chargePoints`, {
+    const response = await axios.get(`${FLEXICHARGE_API_URL}/chargePoints`, {
       headers: {
         Authorization: `Bearer ${authenticationProvider.getToken()}`
       }
@@ -20,7 +20,7 @@ export default class ChargerStationCollection implements IChargerStationCollecti
 
   async getChargerStationById(stationId: number): Promise<ChargerStation | null> {
     try {
-      const reponse = await axios.get(`${appConfig.FLEXICHARGE_API_URL}/chargePoints/${stationId}`, {
+      const reponse = await axios.get(`${FLEXICHARGE_API_URL}/chargePoints/${stationId}`, {
         headers: {
           Authorization: `Bearer ${authenticationProvider.getToken()}`
         }
@@ -41,7 +41,7 @@ export default class ChargerStationCollection implements IChargerStationCollecti
       const errorObj = this.validateFields(fields);
       if (Object.keys(errorObj).length > 0) return [null, errorObj];
 
-      const response = await axios.post(`${appConfig.FLEXICHARGE_API_URL}/chargePoints`, {
+      const response = await axios.post(`${FLEXICHARGE_API_URL}/chargePoints`, {
         ...fields
       }, {
         headers: {
@@ -73,7 +73,7 @@ export default class ChargerStationCollection implements IChargerStationCollecti
 
   async deleteChargerStation(stationId: number): Promise<boolean> {
     try {
-      const response = await axios.delete(`${appConfig.FLEXICHARGE_API_URL}/chargePoints/${stationId}`, {
+      const response = await axios.delete(`${FLEXICHARGE_API_URL}/chargePoints/${stationId}`, {
         headers: {
           Authorization: `Bearer ${authenticationProvider.getToken()}`
         }
@@ -95,7 +95,7 @@ export default class ChargerStationCollection implements IChargerStationCollecti
       const errorObj = this.validateFields(fields);
       if (Object.keys(errorObj).length > 0) return [null, errorObj];
 
-      const response = await axios.put(`${appConfig.FLEXICHARGE_API_URL}/chargePoints/${stationId}`, {
+      const response = await axios.put(`${FLEXICHARGE_API_URL}/chargePoints/${stationId}`, {
         ...fields
       }, {
         headers: {

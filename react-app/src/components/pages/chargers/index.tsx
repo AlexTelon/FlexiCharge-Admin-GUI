@@ -9,7 +9,7 @@ import ChargerStationAccordian from './page-components/ChargerStationAccordian';
 import { chargerCollection } from '@/remote-access';
 import { Charger } from '@/remote-access/types';
 
-const useStyles = makeStyles((theme: Theme) => 
+const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     contentBox: {
       padding: theme.spacing(2),
@@ -119,7 +119,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 const ChargersPage = (props: any) => {
-  const params = useParams(); 
+  const params = useParams();
   const stationId = (params as any).stationId;
   const classes = useStyles();
   const [state, setState] = useState<any>({
@@ -140,13 +140,13 @@ const ChargersPage = (props: any) => {
       setState({
         loaded: true,
         chargers
-      });  
+      });
     } else if (error) {
       setState({
         loaded: true,
         error: true,
         errorMessage: 'Failed to fetch chargers'
-      });  
+      });
     }
   };
 
@@ -172,7 +172,7 @@ const ChargersPage = (props: any) => {
       });
     }
   };
-  
+
   return (
     <>
       <Helmet>
@@ -238,5 +238,5 @@ const ChargersPage = (props: any) => {
       </Box>
     </>);
 };
- 
+
 export default ChargersPage;

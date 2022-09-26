@@ -1,6 +1,6 @@
 /* eslint-disable no-useless-escape */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import appConfig from '@/appConfig';
+import { FLEXICHARGE_API_URL } from '@/appConfig';
 import axios from 'axios';
 import { authenticationProvider } from '..';
 import { ManageAdmin, IManageAdminCollection } from '../types';
@@ -9,7 +9,7 @@ import { convertRemoteUserToLocal, toUserAttributes } from '../utility/remote-us
 export default class ManageAdminCollection implements IManageAdminCollection {  
   async deleteAdmin(username: string): Promise<boolean> {
     try {
-      await axios.delete(`${appConfig.FLEXICHARGE_API_URL}/auth/admin/${username}`, {
+      await axios.delete(`${FLEXICHARGE_API_URL}/auth/admin/${username}`, {
         headers: {
           Authorization: `Bearer ${authenticationProvider.getToken()}`
         }
@@ -26,7 +26,7 @@ export default class ManageAdminCollection implements IManageAdminCollection {
   
   async getAllAdmins(): Promise<[ManageAdmin[] | null, any | null]> {
     try {
-      const res = await axios.get(`${appConfig.FLEXICHARGE_API_URL}/auth/admin/`, {
+      const res = await axios.get(`${FLEXICHARGE_API_URL}/auth/admin/`, {
         headers: {
           Authorization: `Bearer ${authenticationProvider.getToken()}`
         }
@@ -46,7 +46,7 @@ export default class ManageAdminCollection implements IManageAdminCollection {
 
   async getAdminById(username: string): Promise<ManageAdmin | null> {
     try {
-      const res = await axios.get(`${appConfig.FLEXICHARGE_API_URL}/auth/admin/${username}`, {
+      const res = await axios.get(`${FLEXICHARGE_API_URL}/auth/admin/${username}`, {
         headers: {
           Authorization: `Bearer ${authenticationProvider.getToken()}`
         }
@@ -62,7 +62,7 @@ export default class ManageAdminCollection implements IManageAdminCollection {
 
   async addAdmin(fields: Omit<ManageAdmin, 'id'>): Promise<[string | null, any | null]> {
     try {
-      const res = await axios.post(`${appConfig.FLEXICHARGE_API_URL}/auth/admin/`, {
+      const res = await axios.post(`${FLEXICHARGE_API_URL}/auth/admin/`, {
         ...fields
       }, {
         headers: {
@@ -100,7 +100,7 @@ export default class ManageAdminCollection implements IManageAdminCollection {
   async updateAdmin(username: string, fields: Omit<ManageAdmin, 'username'>): Promise<[ManageAdmin | null, any | null]> {
     try {
       const userAttributes = toUserAttributes(fields);
-      const res = await axios.put(`${appConfig.FLEXICHARGE_API_URL}/auth/admin/${username}`, {
+      const res = await axios.put(`${FLEXICHARGE_API_URL}/auth/admin/${username}`, {
         userAttributes
       },
       {

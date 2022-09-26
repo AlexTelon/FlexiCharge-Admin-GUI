@@ -1,3 +1,1 @@
-export default {
-  FLEXICHARGE_API_URL: process.env.REACT_APP_FLEXICHARGE_API_URL
-};
+export const FLEXICHARGE_API_URL = process.env.REACT_APP_FLEXICHARGE_API_URL;

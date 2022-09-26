@@ -12,12 +12,18 @@ export interface ManageUser {
   userStatus?: 'UNCONFIRMED' | 'CONFIRMED' | 'FORCE_CHANGE_PASSWORD'
 }
 
+export interface TestManageUser {
+  username: string
+  name?: string
+}
+
 export interface IManageUserCollection {
   getAllUsers: () => Promise<[ManageUser[] | null, any | null]>
   getUserById: (username: string) => Promise<ManageUser | null | any | null>
   addUser: (fields: Omit<ManageUser, 'id'>) => Promise<[ManageUser | null, any | null]>
   updateUser: (username: string, fields: Omit<ManageUser, 'username'>) => Promise<[ManageUser | null, any | null]>
   deleteUser: (username: string) => Promise<boolean>
+  resetUserPassword: (username: string) => Promise<[ManageUser | null, any | null]>
 }
 
 export interface ManageAdmin {
