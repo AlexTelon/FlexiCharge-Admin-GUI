@@ -19,6 +19,7 @@ export default class UserCollection implements IManageUserCollection {
         const user = convertRemoteUserToLocal(userData);
         users.push(user);
       }
+      console.log(users);
       return [users, null];
     } catch (error: any) {
       return [null, error];
@@ -85,13 +86,11 @@ export default class UserCollection implements IManageUserCollection {
           Authorization: `Bearer ${authenticationProvider.getToken()}`
         },
         body: {
-          username,
-          password: 'weaweaweawe',
-          session: 'lawkjelajwe'
+          username: username,
+          password: 'hejhej123123',
+          session: authenticationProvider.getToken()
         }
       });
-
-      console.log('HELLO');
       return [res.data, null];
     } catch (error: any) {
       console.log(error);

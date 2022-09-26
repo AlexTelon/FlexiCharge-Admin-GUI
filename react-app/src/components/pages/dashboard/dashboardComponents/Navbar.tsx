@@ -136,6 +136,12 @@ export default function MiniDrawer() {
     setMobileOpen(!mobileOpen);
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem('isAuthenticated');
+    localStorage.removeItem('access_token');
+    window.location.reload();
+  };
+
   const history = useHistory();
 
   return (
@@ -207,7 +213,7 @@ export default function MiniDrawer() {
         <Divider />
         
         <List className={classes.navBotSection}>
-          <ListItem button onClick={() => { window.location.reload(); }}>
+          <ListItem button onClick={() => { handleLogout(); }}>
             <ListItemIcon>
               <Icon className={classes.itemIcon}>logout</Icon>
             </ListItemIcon>
