@@ -81,21 +81,19 @@ export default class UserCollection implements IManageUserCollection {
 
   public async resetUserPassword(username: string): Promise<[ManageUser | null, any | null]> {
     try {
-      const res = await axios.post(`${FLEXICHARGE_API_URL}/auth/admin/force-change-password`, {
+      const res = await axios.post(`${FLEXICHARGE_API_URL}/auth/admin/reset-user-password/${username}`, {
         headers: {
           Authorization: `Bearer ${authenticationProvider.getToken()}`
-        },
-        body: {
-          username: username,
-          password: 'hejhej123123',
-          session: authenticationProvider.getToken()
         }
       });
-      return [res.data, null];
-    } catch (error: any) {
-      console.log(error);
+
+      const user = convertRemoteUserToLocal(res.data);
+
+      return [user, null];
+    } catch (error: any) {  
+      console.log(`Bearer ${authenticationProvider.getToken()}`);
       return [null, error];
-    } 
+    }
   }
 
   public async updateUser(username: string, fields: Omit<ManageUser, 'username'>): Promise<[ManageUser | null, any | null]> {

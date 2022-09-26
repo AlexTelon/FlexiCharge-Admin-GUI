@@ -4,7 +4,7 @@ export interface ManageUser {
   emailVerified?: boolean
   name?: string
   family_name?: string
-  email?: string
+  email: string
   created?: string
   lastModified?: string
   enabled?: boolean
@@ -23,7 +23,7 @@ export interface IManageUserCollection {
   addUser: (fields: Omit<ManageUser, 'id'>) => Promise<[ManageUser | null, any | null]>
   updateUser: (username: string, fields: Omit<ManageUser, 'username'>) => Promise<[ManageUser | null, any | null]>
   deleteUser: (username: string) => Promise<boolean>
-  resetUserPassword: (username: string) => Promise<[ManageUser | null, any | null]>
+  resetUserPassword: (email: string) => Promise<[ManageUser | null, any | null]>
 }
 
 export interface ManageAdmin {
