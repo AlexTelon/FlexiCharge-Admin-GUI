@@ -1,23 +1,16 @@
-import { ManageUser, ManageTransaction, ManageAdmin } from '../types';
+/* eslint-disable */
+/* eslint-disable react/jsx-no-undef */
+import { ManageUser, ManageAdmin } from '../types';
 import { convertRemoteUserToLocal, toUserAttributes } from '../utility/remote-user-functions';
 
 
-export function handleUsersData(usersData: string){
+export function handleUsersData(usersData: any){
     const users: ManageUser[] = [];
       for (const userData of usersData) {
         const user = convertRemoteUserToLocal(userData);
         users.push(user);
       }
       return users
-}
-
-export function handleTransactionsData(transactionsData: any){
-    const transactions: ManageTransaction[] = [];
-    for (const transactionData of transactionsData) {
-      transactions.push(transactionData);
-    }
-    console.log(transactions)
-    return transactions
 }
 
 export function handleAdminsData(adminsData: any){

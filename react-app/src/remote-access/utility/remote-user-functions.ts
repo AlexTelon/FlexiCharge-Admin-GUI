@@ -32,7 +32,7 @@ export const convertRemoteUserToLocal = (remoteUser: any): ManageUser => {
   const attributes = fromUserAttributes(remoteUser.UserAttributes ?? remoteUser.Attributes);
   const localUser: ManageUser = {
     username: remoteUser.Username,
-    userStatus: remoteUser.UserStatus,
+    userStatus: remoteUser.userStatus,
     enabled: remoteUser.Enabled,
     created: remoteUser.UserCreateDate,
     lastModified: remoteUser.lastModified,

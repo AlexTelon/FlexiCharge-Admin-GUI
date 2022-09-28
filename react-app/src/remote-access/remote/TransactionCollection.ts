@@ -5,7 +5,6 @@ import { ManageTransaction, IManageTransactionCollection } from '../types';
 import { FLEXICHARGE_API_URL } from '@/appConfig';
 import axios from 'axios';
 import { authenticationProvider } from '..';
-import { handleTransactionsData } from './business-logic';
 
 export default class ManageTransactionCollection implements IManageTransactionCollection {
 
@@ -16,9 +15,7 @@ export default class ManageTransactionCollection implements IManageTransactionCo
           Authorization: `Bearer ${authenticationProvider.getToken()}`
         }
       });
-      
-      const transactions = handleTransactionsData(res.data)
-      return [transactions, null];
+      return [res.data, null];
     } catch (error: any) {
       return [null ,error];
     }

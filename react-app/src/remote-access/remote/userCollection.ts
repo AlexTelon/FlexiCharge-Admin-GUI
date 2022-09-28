@@ -6,6 +6,7 @@ import { authenticationProvider } from '..';
 import { FLEXICHARGE_API_URL } from '../appConfig';
 import axios from 'axios';
 import { convertRemoteUserToLocal, toUserAttributes } from '../utility/remote-user-functions';
+import { handleUsersData } from './business-logic';
 
 export default class UserCollection implements IManageUserCollection {
   public async getAllUsers(): Promise<[ManageUser[] | null, any | null]> {
@@ -15,7 +16,6 @@ export default class UserCollection implements IManageUserCollection {
           Authorization: `Bearer ${authenticationProvider.getToken()}`
         }
       });
-      
       const users = handleUsersData(res.data.Users)
       return [users, null];
     } catch (error: any) {

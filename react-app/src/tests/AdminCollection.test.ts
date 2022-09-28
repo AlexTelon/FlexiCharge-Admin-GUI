@@ -40,10 +40,17 @@ const testUnhandledAdmins = [
 ]
 
 test("Admin Collection", () => {
-	handleAdminsData(testUnhandledAdmins)
- });
+    const handledTestAdmins = handleAdminsData(testUnhandledAdmins)
+	const handledTestAdmin = handledTestAdmins[0]
 
- test("Initial test", () => {
-	expect(3).toEqual(3);
- });
+    expect(handledTestAdmins.length).toEqual(2)
+
+    expect(handledTestAdmin).toHaveProperty('username')
+    expect(handledTestAdmin).toHaveProperty('userStatus')
+    expect(handledTestAdmin).toHaveProperty('enabled')
+    expect(handledTestAdmin).toHaveProperty('created')
+    expect(handledTestAdmin).toHaveProperty('lastModified')
+    expect(handledTestAdmin).toHaveProperty('sub')
+    expect(handledTestAdmin).toHaveProperty('email')
+});
  
