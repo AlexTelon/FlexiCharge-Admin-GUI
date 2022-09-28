@@ -15,5 +15,5 @@ export interface ManageTransaction {
 }
   
 export interface IManageTransactionCollection {
-    getTransactionsByUserId: (username: string) => Promise<[ManageTransaction[] | null, any | null]>
+    getTransactionsByUserId: (username: any) => any
 }

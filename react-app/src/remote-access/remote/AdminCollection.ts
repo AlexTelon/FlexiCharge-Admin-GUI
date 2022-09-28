@@ -5,6 +5,7 @@ import axios from 'axios';
 import { authenticationProvider } from '..';
 import { ManageAdmin, IManageAdminCollection } from '../types';
 import { convertRemoteUserToLocal, toUserAttributes } from '../utility/remote-user-functions';
+import { handleAdminsData } from './business-logic';
 
 export default class ManageAdminCollection implements IManageAdminCollection {  
   async deleteAdmin(username: string): Promise<boolean> {
@@ -31,7 +32,7 @@ export default class ManageAdminCollection implements IManageAdminCollection {
           Authorization: `Bearer ${authenticationProvider.getToken()}`
         }
       });
-      const admins = this.handleAdminsData(res.data.Users)
+      const admins = handleAdminsData(res.data.Users)
       return [admins, null];
     } catch (error: any) {
       return [null, error];
@@ -132,12 +133,4 @@ export default class ManageAdminCollection implements IManageAdminCollection {
     }
   }
 
-  public handleAdminsData(adminsData: string){
-    const admins: ManageAdmin[] = [];
-    for (const adminData of adminsData) {
-      const admin = convertRemoteUserToLocal(adminData) as ManageAdmin;
-      admins.push(admin);
-    }
-    return admins;
-  }
 }

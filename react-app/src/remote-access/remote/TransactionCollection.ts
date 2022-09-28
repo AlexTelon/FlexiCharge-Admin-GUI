@@ -5,6 +5,7 @@ import { ManageTransaction, IManageTransactionCollection } from '../types';
 import { FLEXICHARGE_API_URL } from '@/appConfig';
 import axios from 'axios';
 import { authenticationProvider } from '..';
+import { handleTransactionsData } from './business-logic';
 
 export default class ManageTransactionCollection implements IManageTransactionCollection {
 
@@ -16,18 +17,10 @@ export default class ManageTransactionCollection implements IManageTransactionCo
         }
       });
       
-      const transactions = this.handleTransactionsData(res.data)
+      const transactions = handleTransactionsData(res.data)
       return [transactions, null];
     } catch (error: any) {
       return [null ,error];
     }
-  }
-  public handleTransactionsData(transactionsData: any){
-    const transactions: ManageTransaction[] = [];
-    for (const transactionData of transactionsData) {
-      transactions.push(transactionData);
-    }
-    console.log(transactions)
-    return transactions
   }
 }

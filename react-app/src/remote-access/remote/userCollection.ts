@@ -16,7 +16,7 @@ export default class UserCollection implements IManageUserCollection {
         }
       });
       
-      const users = this.handleUsersData(res.data.Users)
+      const users = handleUsersData(res.data.Users)
       return [users, null];
     } catch (error: any) {
       return [null, error];
@@ -151,14 +151,5 @@ export default class UserCollection implements IManageUserCollection {
       }
       return false;
     }
-  }
-
-  public handleUsersData(usersData: string){
-    const users: ManageUser[] = [];
-      for (const userData of usersData) {
-        const user = convertRemoteUserToLocal(userData);
-        users.push(user);
-      }
-      return users
   }
 }
