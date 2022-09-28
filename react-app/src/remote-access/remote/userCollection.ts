@@ -1,4 +1,6 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
+/* eslint-disable */
+/* eslint-disable react/jsx-no-undef */
 import { ManageUser, IManageUserCollection } from '../types';
 import { authenticationProvider } from '..';
 import { FLEXICHARGE_API_URL } from '../appConfig';
@@ -14,12 +16,7 @@ export default class UserCollection implements IManageUserCollection {
         }
       });
       
-      const users: ManageUser[] = [];
-      for (const userData of res.data.Users) {
-        const user = convertRemoteUserToLocal(userData);
-        users.push(user);
-      }
-      console.log(users);
+      const users = this.handleUsersData(res.data.Users)
       return [users, null];
     } catch (error: any) {
       return [null, error];
@@ -154,5 +151,14 @@ export default class UserCollection implements IManageUserCollection {
       }
       return false;
     }
+  }
+
+  public handleUsersData(usersData: string){
+    const users: ManageUser[] = [];
+      for (const userData of usersData) {
+        const user = convertRemoteUserToLocal(userData);
+        users.push(user);
+      }
+      return users
   }
 }

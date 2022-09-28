@@ -1,5 +1,5 @@
-/* eslint-disable no-useless-escape */
-/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable */
+/* eslint-disable react/jsx-no-undef */
 import { FLEXICHARGE_API_URL } from '@/appConfig';
 import axios from 'axios';
 import { authenticationProvider } from '..';
@@ -31,13 +31,7 @@ export default class ManageAdminCollection implements IManageAdminCollection {
           Authorization: `Bearer ${authenticationProvider.getToken()}`
         }
       });
-
-      const admins: ManageAdmin[] = [];
-      for (const adminData of res.data.Users) {
-        const admin = convertRemoteUserToLocal(adminData) as ManageAdmin;
-        admins.push(admin);
-      }
-
+      const admins = this.handleAdminsData(res.data.Users)
       return [admins, null];
     } catch (error: any) {
       return [null, error];
@@ -136,5 +130,14 @@ export default class ManageAdminCollection implements IManageAdminCollection {
 
       return [null, errorObj];
     }
+  }
+
+  public handleAdminsData(adminsData: string){
+    const admins: ManageAdmin[] = [];
+    for (const adminData of adminsData) {
+      const admin = convertRemoteUserToLocal(adminData) as ManageAdmin;
+      admins.push(admin);
+    }
+    return admins;
   }
 }
