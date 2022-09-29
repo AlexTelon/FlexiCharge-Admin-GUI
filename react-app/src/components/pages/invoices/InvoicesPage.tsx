@@ -150,7 +150,7 @@ const RenderInvoices = () => {
   });
 
   const loadPersons = async () => {
-    setSelectedTab('generate-invoices');
+    setSelectedTab('view-all-invoices');
     setState({
       ...state,
       loaded: false
@@ -204,19 +204,21 @@ const RenderInvoices = () => {
     year: 0
   }
   const setMonth = (event: any) => {
+    console.log('changed month');
     selectedDate.month = event?.target.value
     handleDateFilter
-    console.log(selectedDate.month)
+    // console.log(selectedDate.month)
   };
 
   const setYear = (event: any) => {
+    console.log('changed year');
     selectedDate.year = event?.target.value
     handleDateFilter
-    console.log(selectedDate.year)
+    // console.log(selectedDate.year)
   };
 
   const handleDateFilter = () => {
-    if(selectedDate.month !== 0 && selectedDate.year !== 0){
+    if (selectedDate.month !== 0 && selectedDate.year !== 0) {
       /*
       TODO: Filter invoices based on date, once we get invoices and their dates from backend (Like below for example)
       const persons = state.persons.filter((person: ManageUser) => {
@@ -241,15 +243,15 @@ const RenderInvoices = () => {
                     <Typography className={classes.contentTitle} variant="h6">
                       <TabContext value={selectedTab}>
                         <TabList onChange={handleTabChange} indicatorColor="primary">
-                          <Tab label="Create Invoices" value="generate-invoices" />
-                          <Tab label="Create Individual Invoices" value="create-individual-invoices" />
+                          <Tab label="View All Invoices" value="view-all-invoices" />
+                          <Tab label="Search Specific Invoice" value="search-specific-invoice" />
                         </TabList>
                       </TabContext>
                     </Typography>
                   </Toolbar>
                 </AppBar>
                 <Divider />
-                {selectedTab === 'generate-invoices' &&
+                {selectedTab === 'view-all-invoices' &&
                   <>
                     <Box sx={{ width: '100%', marginTop: '15pt' }}>
                       <AppBar position="static" className={classes.contentAppBar} elevation={1}>
@@ -303,7 +305,7 @@ const RenderInvoices = () => {
                               onClick={() => console.log('btn pressed!')}
                               disabled
                             >
-                              Create Invoice
+                              Generate Invoices
                             </Button>
                           </TableCell>
                         </Toolbar>
@@ -314,11 +316,12 @@ const RenderInvoices = () => {
                         classes={classes}
                         persons={state.persons}
                         loaded={state.loaded}
+                        selectedDate={selectedDate}
                       />
                     </Paper>
                   </>
                 }
-                {selectedTab === 'create-individual-invoices' &&
+                {selectedTab === 'search-specific-invoice' &&
                   <>
                     <Box sx={{ width: '100%', marginTop: '15pt' }}>
                       <AppBar position="static" className={classes.contentAppBar} elevation={1}>
@@ -351,6 +354,7 @@ const RenderInvoices = () => {
                         classes={classes}
                         persons={state.searchText !== undefined ? state.searchedPersons : state.persons}
                         loaded={state.loaded}
+                        selectedDate={selectedDate}
                       />
                     </Paper>
                   </>
@@ -385,3 +389,4 @@ const RenderInvoices = () => {
 };
 
 export default RenderInvoices;
+

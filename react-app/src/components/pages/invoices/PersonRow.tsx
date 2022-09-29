@@ -2,17 +2,32 @@
 /* eslint-disable react/jsx-no-undef */
 import { ManageUser } from '@/remote-access/types';
 import {
-  Theme, useTheme, TableRow, TableCell, Box, Typography, Checkbox
+  Theme, useTheme, TableRow, TableCell, Box, Typography,
 } from '@material-ui/core';
 import { FC } from 'react';
+// ignore below triggered error regarding imported invoice PDF
+import pdf from './dummy invoice.pdf';
 
 interface PersonRowProps {
   person: ManageUser
   classes: any
 }
 
-const PersonRow: FC<PersonRowProps> = ({ person, classes }) => {
+const PersonRow: FC<PersonRowProps> = ({ person, classes, ...props }) => {
   const theme: Theme = useTheme();
+  console.log('prop passed along to child');
+  console.log('year passed in ', props.selectedDate.year);
+  console.log('month passed in ', props.selectedDate.month);
+
+  function toMonthName() {
+    const date = new Date();
+    date.setMonth(props.selectedDate.month - 1);
+  
+    return date.toLocaleString('en-US', {
+      month: 'long',
+    });
+  }
+
   return (
     <>
       <TableRow
@@ -46,7 +61,7 @@ const PersonRow: FC<PersonRowProps> = ({ person, classes }) => {
             {person.name}
           </Typography>
         </TableCell>
-        <TableCell style={{ textDecoration: 'underline' }}>invoice-september.pdf</TableCell>
+        <TableCell><a href={pdf} target="_blank" rel="noreferrer">{props.selectedDate.year}, {toMonthName()}</a></TableCell>
       </TableRow>
     </>
   );

@@ -4,7 +4,7 @@ import { ManageUser } from '@/remote-access/types';
 import {
     Theme, useTheme, TableRow, TableCell, Box, Typography, Button
 } from '@material-ui/core';
-import { Edit } from '@material-ui/icons';
+import { Add } from '@material-ui/icons';
 import { FC } from 'react';
 
 interface PersonRowProps {
@@ -52,13 +52,13 @@ const PersonRowIndividualInvoice: FC<PersonRowProps> = ({ person, classes }) => 
                 </TableCell>
                 <TableCell align='right'>
                     <Button
-                        startIcon={<Edit />}
+                        startIcon={<Add />}
                         style={{ color: theme.flexiCharge.primary.white }}
                         variant="contained"
                         color="primary"
                         onClick={() => editClicked()}
                     >
-                        Edit
+                        Create invoice
                     </Button>
                 </TableCell>
             </TableRow>

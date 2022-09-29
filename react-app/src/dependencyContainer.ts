@@ -4,7 +4,7 @@ import ManageUserCollection from './remote-access/mock/ManageUserCollection';
 import ManageAdminCollection from './remote-access/mock/ManageAdminCollection';
 import ManageTransactionCollection from './remote-access/mock/ManageTransactionCollection';
 //
-import AuthenticationProvider from './remote-access/remote/AuthenticationProvider';
+import AuthenticationProvider from './remote-access/mock/AuthenticationProvider';
 import ChargerStationCollection from './remote-access/remote/ChargerStationCollection';
 import UserCollection from './remote-access/remote/userCollection';
 import ChargerCollection from './remote-access/remote/ChargerCollection';
