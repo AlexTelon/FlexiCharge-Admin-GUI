@@ -1,5 +1,6 @@
+/* eslint-disable */
 /* eslint-disable react/jsx-no-undef */
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import { AppBar, Box, Grid, Toolbar, Typography } from '@material-ui/core';
 import { Route, Redirect, useHistory } from 'react-router-dom';
@@ -16,6 +17,7 @@ import UsersDashboardComponent from './dashboardComponents/Users';
 import Sales from './dashboardComponents/Sales';
 import ChargerStationMap from './dashboardComponents/ChargerStationMap';
 import AdminsDashboardComponent from './dashboardComponents/Admins';
+import axios from 'axios';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -41,6 +43,7 @@ const useStyles = makeStyles((theme: Theme) =>
 const DashboardHome = () => {
   const history = useHistory();
   const classes = useStyles();
+
   return (
     <Grid 
       container
@@ -117,6 +120,7 @@ const DashboardHome = () => {
 
 const Dashboard = (props: any) => {
   const classes = useStyles();
+
   return (
     <>
       <Helmet>
@@ -149,7 +153,7 @@ const Dashboard = (props: any) => {
 export const DashboardRoute = ({ ...rest }) => {
   return (
     <Route {...rest} render={() => {
-      return authenticationProvider.isAuthenticated
+      return localStorage.getItem('isAuthenticated')
         ? <Dashboard />
         : <Redirect to='/login' />;
     }} />

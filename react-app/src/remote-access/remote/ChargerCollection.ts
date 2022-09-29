@@ -1,14 +1,13 @@
 import { Charger, IChargerCollection } from '../types';
 import { FLEXICHARGE_API_URL } from '@/appConfig';
 import axios from 'axios';
-import { authenticationProvider } from '..';
 
 export default class ChargerCollection implements IChargerCollection {
   public async addCharger(fields: Omit<Charger, 'chargerID' | 'status'>): Promise<[Charger | null, any | null]> {
     try {
       const res = await axios.post(`${FLEXICHARGE_API_URL}/chargers/`, fields, {
         headers: {
-          Authorization: `Bearer ${authenticationProvider.getToken()}`
+          Authorization: `Bearer ${localStorage.getItem('token')}`
         }
       });
       return [res.data, null];
@@ -33,7 +32,7 @@ export default class ChargerCollection implements IChargerCollection {
     try {
       const res = await axios.get(`${FLEXICHARGE_API_URL}/chargers`, {
         headers: {
-          Authorization: `Bearer ${authenticationProvider.getToken()}`
+          Authorization: `Bearer ${localStorage.getItem('token')}`
         }
       });
       const chargers = res.data as Charger[];
@@ -53,7 +52,7 @@ export default class ChargerCollection implements IChargerCollection {
     try {
       const res = await axios.get(`${FLEXICHARGE_API_URL}/chargers/available`, {
         headers: {
-          Authorization: `Bearer ${authenticationProvider.getToken()}`
+          Authorization: `Bearer ${localStorage.getItem('token')}`
         }
       });
       return [res.data as Charger[], null];
@@ -66,7 +65,7 @@ export default class ChargerCollection implements IChargerCollection {
     try {
       const res = await axios.get(`${FLEXICHARGE_API_URL}/chargers/${chargerId}`, {
         headers: {
-          Authorization: `Bearer ${authenticationProvider.getToken()}`
+          Authorization: `Bearer ${localStorage.getItem('token')}`
         }
       });
       return [res.data as Charger, null];
@@ -79,7 +78,7 @@ export default class ChargerCollection implements IChargerCollection {
     try {
       const res = await axios.put(`${FLEXICHARGE_API_URL}/chargers/${chargerId}`, fields, {
         headers: {
-          Authorization: `Bearer ${authenticationProvider.getToken()}`
+          Authorization: `Bearer ${localStorage.getItem('token')}`
         }
       });
       return [res.data, null];
@@ -92,7 +91,7 @@ export default class ChargerCollection implements IChargerCollection {
     try {
       const res = await axios.delete(`${FLEXICHARGE_API_URL}/chargers/${chargerId}`, {
         headers: {
-          Authorization: `Bearer ${authenticationProvider.getToken()}`
+          Authorization: `Bearer ${localStorage.getItem('token')}`
         }
       });
       return [res.data, null];

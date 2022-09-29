@@ -12,7 +12,7 @@ export default class ManageTransactionCollection implements IManageTransactionCo
     try {
       const res = await axios.get(`${FLEXICHARGE_API_URL}/transactions/userTransactions/${username}`, {
         headers: {
-          Authorization: `Bearer ${authenticationProvider.getToken()}`
+          Authorization: `Bearer ${localStorage.getItem('token')}`
         }
       });
       return [res.data, null];

@@ -9,9 +9,9 @@ export default class AuthenticationProvider implements IAuthenticationProvider {
   private username: string | null = null;
   
   getToken(): string | null {
-    axios.get(`${FLEXICHARGE_API_URL}/auth/admin/${this.username}`, {
+    axios.get(`${FLEXICHARGE_API_URL}/auth/admin/${localStorage.getItem('username')}`, {
       headers: {
-        Authorization: `Bearer ${this.token}`
+        Authorization: `Bearer ${localStorage.getItem('token')}`
       }
     }).catch((error) => {
       if (error.response && error.response.status === 401) {
@@ -37,11 +37,9 @@ export default class AuthenticationProvider implements IAuthenticationProvider {
       this.username = response.data.username;
       this.isAuthenticated = true;
 
-      localStorage.setItem('access_token', String(this.token));
-      localStorage.setItem('isAuthenticated', String(this.isAuthenticated));
-
-      const isAuth = localStorage.getItem('isAuthenticated');
-      console.log(isAuth);
+      localStorage.setItem('token', `${this.token}`);
+      localStorage.setItem('isAuthenticated', `${this.isAuthenticated}`);
+      localStorage.setItem('username', `${this.username}`);
 
       return [true, {}];
     } catch (error: any) {

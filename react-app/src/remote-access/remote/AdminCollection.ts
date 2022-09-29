@@ -2,7 +2,6 @@
 /* eslint-disable react/jsx-no-undef */
 import { FLEXICHARGE_API_URL } from '@/appConfig';
 import axios from 'axios';
-import { authenticationProvider } from '..';
 import { ManageAdmin, IManageAdminCollection } from '../types';
 import { convertRemoteUserToLocal, toUserAttributes } from '../utility/remote-user-functions';
 import { handleAdminsData } from './business-logic';
@@ -12,7 +11,7 @@ export default class ManageAdminCollection implements IManageAdminCollection {
     try {
       await axios.delete(`${FLEXICHARGE_API_URL}/auth/admin/${username}`, {
         headers: {
-          Authorization: `Bearer ${authenticationProvider.getToken()}`
+          Authorization: `Bearer ${localStorage.getItem('token')}`
         }
       });
 
@@ -29,7 +28,7 @@ export default class ManageAdminCollection implements IManageAdminCollection {
     try {
       const res = await axios.get(`${FLEXICHARGE_API_URL}/auth/admin/`, {
         headers: {
-          Authorization: `Bearer ${authenticationProvider.getToken()}`
+          Authorization: `Bearer ${localStorage.getItem('token')}`
         }
       });
       const admins = handleAdminsData(res.data.Users)
@@ -43,7 +42,7 @@ export default class ManageAdminCollection implements IManageAdminCollection {
     try {
       const res = await axios.get(`${FLEXICHARGE_API_URL}/auth/admin/${username}`, {
         headers: {
-          Authorization: `Bearer ${authenticationProvider.getToken()}`
+          Authorization: `Bearer ${localStorage.getItem('token')}`
         }
       });
       
@@ -61,7 +60,7 @@ export default class ManageAdminCollection implements IManageAdminCollection {
         ...fields
       }, {
         headers: {
-          Authorization: `Bearer ${authenticationProvider.getToken()}`
+          Authorization: `Bearer ${localStorage.getItem('token')}`
         }
       });
       return [res.data, null];
@@ -100,7 +99,7 @@ export default class ManageAdminCollection implements IManageAdminCollection {
       },
       {
         headers: {
-          Authorization: `Bearer ${authenticationProvider.getToken()}`
+          Authorization: `Bearer ${localStorage.getItem('token')}`
         }
       });
       
