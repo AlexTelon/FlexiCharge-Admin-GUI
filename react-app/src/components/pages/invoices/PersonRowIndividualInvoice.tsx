@@ -4,15 +4,15 @@ import { ManageUser } from '@/remote-access/types';
 import {
     Theme, useTheme, TableRow, TableCell, Box, Typography, Button
 } from '@material-ui/core';
+import { Add } from '@material-ui/icons';
 import { FC } from 'react';
-import pdf from './dummy invoice.pdf';
 
 interface PersonRowProps {
     person: ManageUser
     classes: any
 }
 
-const PersonRowIndividualInvoice: FC<PersonRowProps> = ({ person, classes, ...props }) => {
+const PersonRowIndividualInvoice: FC<PersonRowProps> = ({ person, classes }) => {
     const theme: Theme = useTheme();
     function editClicked() {
         console.log('edit clicked!');
@@ -50,7 +50,17 @@ const PersonRowIndividualInvoice: FC<PersonRowProps> = ({ person, classes, ...pr
                         {person.name}
                     </Typography>
                 </TableCell>
-                <TableCell><a href={pdf} target="_blank" rel="noreferrer">View all invoices for user</a></TableCell>
+                <TableCell align='right'>
+                    <Button
+                        startIcon={<Add />}
+                        style={{ color: theme.flexiCharge.primary.white }}
+                        variant="contained"
+                        color="primary"
+                        onClick={() => editClicked()}
+                    >
+                        Create invoice
+                    </Button>
+                </TableCell>
             </TableRow>
         </>
     );

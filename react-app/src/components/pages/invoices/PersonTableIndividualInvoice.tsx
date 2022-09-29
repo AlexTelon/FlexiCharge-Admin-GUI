@@ -57,7 +57,7 @@ const PersonTableIndividualInvoice: FC<PersonTableProps> = ({ loaded, persons, .
                         <TableRow>
                             <TableCell>UserID</TableCell>
                             <TableCell>Name</TableCell>
-                            <TableCell>Invoices List</TableCell>
+                            <TableCell align="right">Action</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -70,7 +70,6 @@ const PersonTableIndividualInvoice: FC<PersonTableProps> = ({ loaded, persons, .
                                             person={person}
                                             {...props}
                                             classes={props.classes}
-                                            selectedDate={props.selectedDate}
                                         />
                                     );
                                 })
