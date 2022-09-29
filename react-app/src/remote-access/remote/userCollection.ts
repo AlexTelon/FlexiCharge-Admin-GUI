@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 import { ManageUser, IManageUserCollection } from '../types';
-import { authenticationProvider } from '..';
 import { FLEXICHARGE_API_URL } from '../appConfig';
 import axios from 'axios';
 import { convertRemoteUserToLocal, toUserAttributes } from '../utility/remote-user-functions';
@@ -10,7 +9,7 @@ export default class UserCollection implements IManageUserCollection {
     try {
       const res = await axios.get(`${FLEXICHARGE_API_URL}/auth/admin/users`, {
         headers: {
-          Authorization: `Bearer ${authenticationProvider.getToken()}`
+          Authorization: `Bearer ${localStorage.getItem('token')}`
         }
       });
       
@@ -32,7 +31,7 @@ export default class UserCollection implements IManageUserCollection {
         ...fields
       }, {
         headers: {
-          Authorization: `Bearer ${authenticationProvider.getToken()}`
+          Authorization: `Bearer ${localStorage.getItem('token')}`
         }
       });
       return [res.data, null];
@@ -67,7 +66,7 @@ export default class UserCollection implements IManageUserCollection {
     try {
       const res = await axios.get(`${FLEXICHARGE_API_URL}/auth/admin/users/${username}`, {
         headers: {
-          Authorization: `Bearer ${authenticationProvider.getToken()}`
+          Authorization: `Bearer ${localStorage.getItem('token')}`
         }
       });
       
@@ -84,7 +83,7 @@ export default class UserCollection implements IManageUserCollection {
       const res = await axios({
         method: 'post',
         url: `${FLEXICHARGE_API_URL}/auth/admin/reset-user-password/${username}`,
-        headers: { Authorization: `Bearer ${authenticationProvider.getToken()}` }
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
       });
 
       return [res.data, null];
@@ -101,7 +100,7 @@ export default class UserCollection implements IManageUserCollection {
       },
       {
         headers: {
-          Authorization: `Bearer ${authenticationProvider.getToken()}`
+          Authorization: `Bearer ${localStorage.getItem('token')}`
         }
       });
       
@@ -138,7 +137,7 @@ export default class UserCollection implements IManageUserCollection {
     try {
       await axios.delete(`${FLEXICHARGE_API_URL}/auth/admin/users/${username}`, {
         headers: {
-          Authorization: `Bearer ${authenticationProvider.getToken()}`
+          Authorization: `Bearer ${localStorage.getItem('token')}`
         }
       });
 

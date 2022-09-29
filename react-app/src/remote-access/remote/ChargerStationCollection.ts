@@ -1,7 +1,6 @@
 import { FLEXICHARGE_API_URL } from '@/appConfig';
 import { chargerStations } from '@/__mock-data__';
 import axios from 'axios';
-import { authenticationProvider } from '..';
 import { ChargerStation, IChargerStationCollection } from '../types';
 
 export default class ChargerStationCollection implements IChargerStationCollection {
@@ -10,7 +9,7 @@ export default class ChargerStationCollection implements IChargerStationCollecti
   async getAllChargerStations(): Promise<ChargerStation[]> {
     const response = await axios.get(`${FLEXICHARGE_API_URL}/chargePoints`, {
       headers: {
-        Authorization: `Bearer ${authenticationProvider.getToken()}`
+        Authorization: `Bearer ${localStorage.getItem('token')}`
       }
     });
 
@@ -22,7 +21,7 @@ export default class ChargerStationCollection implements IChargerStationCollecti
     try {
       const reponse = await axios.get(`${FLEXICHARGE_API_URL}/chargePoints/${stationId}`, {
         headers: {
-          Authorization: `Bearer ${authenticationProvider.getToken()}`
+          Authorization: `Bearer ${localStorage.getItem('token')}`
         }
       });
 
@@ -45,7 +44,7 @@ export default class ChargerStationCollection implements IChargerStationCollecti
         ...fields
       }, {
         headers: {
-          Authorization: `Bearer ${authenticationProvider.getToken()}`
+          Authorization: `Bearer ${localStorage.getItem('token')}`
         }
       });
 
@@ -75,7 +74,7 @@ export default class ChargerStationCollection implements IChargerStationCollecti
     try {
       const response = await axios.delete(`${FLEXICHARGE_API_URL}/chargePoints/${stationId}`, {
         headers: {
-          Authorization: `Bearer ${authenticationProvider.getToken()}`
+          Authorization: `Bearer ${localStorage.getItem('token')}`
         }
       });
       if (response.status === 204) {
@@ -99,7 +98,7 @@ export default class ChargerStationCollection implements IChargerStationCollecti
         ...fields
       }, {
         headers: {
-          Authorization: `Bearer ${authenticationProvider.getToken()}`
+          Authorization: `Bearer ${localStorage.getItem('token')}`
         }
       });
 

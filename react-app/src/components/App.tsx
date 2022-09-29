@@ -1,12 +1,18 @@
-import React, { /* useState */ } from 'react';
+/* eslint-disable */
+/* eslint-disable react/jsx-no-undef */
+import React, { useEffect } from 'react';
 import { Switch, useLocation, Route, Redirect } from 'react-router-dom';
 import './App.css';
 import { DashboardRoute } from './pages/dashboard/Dashboard';
 import Login from './pages/login/Login';
+import { authenticationProvider } from '@/remote-access';
+import axios from 'axios';
 
 function App(): JSX.Element {
   const location = useLocation();
-  // const [isAuthenticated, setIsAuthenticated] = useState<boolean>(AuthenticationProvider.instance.isAuthenticated);
+  /* const [isAuthenticated, setIsAuthenticated] = useState<boolean>(authenticationProvider.isAuthenticated); */
+
+
   return (
     <>
       <Switch location={location}>
