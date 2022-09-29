@@ -301,6 +301,7 @@ const RenderInvoices = () => {
                         classes={classes}
                         persons={state.persons}
                         loaded={state.loaded}
+                        selectedDate={selectedDate}
                       />
                     </Paper>
                   </>

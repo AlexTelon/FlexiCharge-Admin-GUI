@@ -13,7 +13,7 @@ interface PersonRowProps {
   classes: any
 }
 
-const PersonRow: FC<PersonRowProps> = ({ person, classes }) => {
+const PersonRow: FC<PersonRowProps> = ({ person, classes, ...props }) => {
   const theme: Theme = useTheme();
   return (
     <>
@@ -48,7 +48,7 @@ const PersonRow: FC<PersonRowProps> = ({ person, classes }) => {
             {person.name}
           </Typography>
         </TableCell>
-        <TableCell><a href={pdf} target="_blank" rel="noreferrer">View invoice</a></TableCell>
+        <TableCell><a href={pdf} target="_blank" rel="noreferrer">{props.selectedDate.month}</a></TableCell>
       </TableRow>
     </>
   );
