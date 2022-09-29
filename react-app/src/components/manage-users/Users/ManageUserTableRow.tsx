@@ -18,34 +18,6 @@ interface userRowProps {
 const UserRow: FC<userRowProps> = ({ user, editClicked, selected, handleSelect }) => {
   const theme: Theme = useTheme();
 
-  const handleResetUserPassword = () => {
-    userCollection.resetUserPassword(user?.email).then((wasSuccess) => {
-      if (wasSuccess) {
-        console.log('success');
-      } else {
-        console.log('failed');
-      }
-    }).catch((_: any) => {
-      console.log('error');
-    });
-  };
-  const [open, setOpen] = React.useState(false);
-  const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleYesClicked = () => {
-    setOpen(false);
-    handleResetUserPassword();
-  };
-
-  const handleNoClicked = () => {
-    setOpen(false);
-  };
-
-  
-
   return (
     <>
       <TableRow 
@@ -82,41 +54,6 @@ const UserRow: FC<userRowProps> = ({ user, editClicked, selected, handleSelect }
           {user.created}
         </TableCell>
         <TableCell align="right">
-          <Button
-            startIcon={<LockOpen />}
-            style={{ color: theme.flexiCharge.primary.white }}
-            variant="contained"
-            color="primary"
-            onClick={() => handleClickOpen()}
-          >
-            Reset Password
-          </Button>
-
-          <div>
-            <Dialog
-              fullScreen={fullScreen}
-              open={open}
-              onClose={handleNoClicked}
-              aria-labelledby="responsive-dialog-title"
-            >
-              <DialogTitle id="responsive-dialog-title">
-                {"Are you sure you want to reset this user's password?"}
-              </DialogTitle>
-              <DialogContent>
-                <DialogContentText>
-                  The password for this user is about to be reset. Proceed?
-                </DialogContentText>
-              </DialogContent>
-              <DialogActions>
-                <Button autoFocus onClick={handleNoClicked}>
-                  No
-                </Button>
-                <Button onClick={handleYesClicked} autoFocus>
-                  Yes
-                </Button>
-              </DialogActions>
-            </Dialog>
-          </div>
           <Button
             startIcon={<Edit />}
             style={{ color: theme.flexiCharge.primary.white }}
