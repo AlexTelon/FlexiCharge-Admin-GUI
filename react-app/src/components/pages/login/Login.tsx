@@ -120,7 +120,7 @@ const LoginFields: FC<LoginFieldProps> = ({ setLoading }) => {
     }
   };
 
-  if (authenticationProvider.isAuthenticated) {
+  if (localStorage.getItem('isAuthenticated')) {
     return (
       <Redirect to="/dashboard" />
     );
