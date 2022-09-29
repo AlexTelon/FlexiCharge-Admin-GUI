@@ -215,7 +215,7 @@ const RenderInvoices = () => {
   };
 
   const handleDateFilter = () => {
-    if(selectedDate.month !== 0 && selectedDate.year !== 0){
+    if (selectedDate.month !== 0 && selectedDate.year !== 0) {
       /*
       TODO: Filter invoices based on date, once we get invoices and their dates from backend (Like below for example)
       const persons = state.persons.filter((person: ManageUser) => {
@@ -293,18 +293,6 @@ const RenderInvoices = () => {
                               </Select>
                             </FormControl>
                           </Box>
-                          <TableCell className={classes.buttonPosition}>
-                            <Button
-                              startIcon={<ControlPoint />}
-                              style={{ color: theme.flexiCharge.primary.white }}
-                              variant="contained"
-                              color="primary"
-                              onClick={() => console.log('btn pressed!')}
-                              disabled
-                            >
-                              Create Invoice
-                            </Button>
-                          </TableCell>
                         </Toolbar>
                       </AppBar>
                     </Box>
@@ -384,3 +372,19 @@ const RenderInvoices = () => {
 };
 
 export default RenderInvoices;
+
+/*
+Code for re-adding the 'create invoice' button
+                          <TableCell className={classes.buttonPosition}>
+                            <Button
+                              startIcon={<ControlPoint />}
+                              style={{ color: theme.flexiCharge.primary.white }}
+                              variant="contained"
+                              color="primary"
+                              onClick={() => console.log('btn pressed!')}
+                              disabled
+                            >
+                              Create Invoice
+                            </Button>
+                          </TableCell>
+*/
