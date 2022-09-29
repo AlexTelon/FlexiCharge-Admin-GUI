@@ -16,8 +16,7 @@ const UserRow: FC<userRowProps> = ({ user, editClicked, selected, handleSelect }
   const theme: Theme = useTheme();
 
   const handleResetUserPassword = () => {
-    if (!user) return;
-    userCollection.resetUserPassword(user?.username).then((wasSuccess) => {
+    userCollection.resetUserPassword(user?.email).then((wasSuccess) => {
       if (wasSuccess) {
         console.log('success');
       } else {

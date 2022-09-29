@@ -37,12 +37,6 @@ export default class AuthenticationProvider implements IAuthenticationProvider {
       this.username = response.data.username;
       this.isAuthenticated = true;
 
-      localStorage.setItem('access_token', String(this.token));
-      localStorage.setItem('isAuthenticated', String(this.isAuthenticated));
-
-      const isAuth = localStorage.getItem('isAuthenticated');
-      console.log(isAuth);
-
       return [true, {}];
     } catch (error: any) {
       switch (error.response.status) {

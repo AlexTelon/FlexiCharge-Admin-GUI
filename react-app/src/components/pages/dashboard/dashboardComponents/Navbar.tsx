@@ -136,12 +136,6 @@ export default function MiniDrawer() {
     setMobileOpen(!mobileOpen);
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem('isAuthenticated');
-    localStorage.removeItem('access_token');
-    window.location.reload();
-  };
-
   const history = useHistory();
 
   return (
