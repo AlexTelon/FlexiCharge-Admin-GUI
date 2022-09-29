@@ -150,7 +150,7 @@ const RenderInvoices = () => {
   });
 
   const loadPersons = async () => {
-    setSelectedTab('generate-invoices');
+    setSelectedTab('view-all-invoices');
     setState({
       ...state,
       loaded: false
@@ -242,15 +242,15 @@ const RenderInvoices = () => {
                     <Typography className={classes.contentTitle} variant="h6">
                       <TabContext value={selectedTab}>
                         <TabList onChange={handleTabChange} indicatorColor="primary">
-                          <Tab label="Create Invoices" value="generate-invoices" />
-                          <Tab label="Create Individual Invoices" value="create-individual-invoices" />
+                          <Tab label="View All Invoices" value="view-all-invoices" />
+                          <Tab label="Search Specific Invoice" value="search-specific-invoice" />
                         </TabList>
                       </TabContext>
                     </Typography>
                   </Toolbar>
                 </AppBar>
                 <Divider />
-                {selectedTab === 'generate-invoices' &&
+                {selectedTab === 'view-all-invoices' &&
                   <>
                     <Box sx={{ width: '100%', marginTop: '15pt' }}>
                       <AppBar position="static" className={classes.contentAppBar} elevation={1}>
@@ -295,6 +295,18 @@ const RenderInvoices = () => {
                               </Select>
                             </FormControl>
                           </Box>
+                          <TableCell className={classes.buttonPosition}>
+                            <Button
+                              startIcon={<ControlPoint />}
+                              style={{ color: theme.flexiCharge.primary.white }}
+                              variant="contained"
+                              color="primary"
+                              onClick={() => console.log('btn pressed!')}
+                              disabled
+                            >
+                              Generate Invoices
+                            </Button>
+                          </TableCell>
                         </Toolbar>
                       </AppBar>
                     </Box>
@@ -308,7 +320,7 @@ const RenderInvoices = () => {
                     </Paper>
                   </>
                 }
-                {selectedTab === 'create-individual-invoices' &&
+                {selectedTab === 'search-specific-invoice' &&
                   <>
                     <Box sx={{ width: '100%', marginTop: '15pt' }}>
                       <AppBar position="static" className={classes.contentAppBar} elevation={1}>
@@ -376,18 +388,3 @@ const RenderInvoices = () => {
 
 export default RenderInvoices;
 
-/*
-Code for re-adding the 'create invoice' button
-                          <TableCell className={classes.buttonPosition}>
-                            <Button
-                              startIcon={<ControlPoint />}
-                              style={{ color: theme.flexiCharge.primary.white }}
-                              variant="contained"
-                              color="primary"
-                              onClick={() => console.log('btn pressed!')}
-                              disabled
-                            >
-                              Create Invoice
-                            </Button>
-                          </TableCell>
-*/
