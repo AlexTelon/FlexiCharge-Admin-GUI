@@ -1,6 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable */
+/* eslint-disable react/jsx-no-undef */
 import React, { FC } from 'react';
-import { Theme, useTheme, TableRow, TableCell, Checkbox, Box, Typography, Button } from '@material-ui/core';
+import { Theme, useTheme, TableRow, TableCell, Checkbox, Box, Typography, Button, 
+  Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, useMediaQuery } from '@material-ui/core';
 import { Edit, LockOpen } from '@material-ui/icons';
 import { ManageUser } from '@/remote-access/types';
 import { userCollection } from '@/remote-access';
@@ -26,6 +29,22 @@ const UserRow: FC<userRowProps> = ({ user, editClicked, selected, handleSelect }
       console.log('error');
     });
   };
+  const [open, setOpen] = React.useState(false);
+  const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleYesClicked = () => {
+    setOpen(false);
+    handleResetUserPassword();
+  };
+
+  const handleNoClicked = () => {
+    setOpen(false);
+  };
+
+  
 
   return (
     <>
@@ -68,11 +87,36 @@ const UserRow: FC<userRowProps> = ({ user, editClicked, selected, handleSelect }
             style={{ color: theme.flexiCharge.primary.white }}
             variant="contained"
             color="primary"
-            onClick={() => handleResetUserPassword()}
+            onClick={() => handleClickOpen()}
           >
-            {console.log('editClicked')}
             Reset Password
           </Button>
+
+          <div>
+            <Dialog
+              fullScreen={fullScreen}
+              open={open}
+              onClose={handleNoClicked}
+              aria-labelledby="responsive-dialog-title"
+            >
+              <DialogTitle id="responsive-dialog-title">
+                {"Are you sure you want to reset this user's password?"}
+              </DialogTitle>
+              <DialogContent>
+                <DialogContentText>
+                  The password for this user is about to be reset. Proceed?
+                </DialogContentText>
+              </DialogContent>
+              <DialogActions>
+                <Button autoFocus onClick={handleNoClicked}>
+                  No
+                </Button>
+                <Button onClick={handleYesClicked} autoFocus>
+                  Yes
+                </Button>
+              </DialogActions>
+            </Dialog>
+          </div>
           <Button
             startIcon={<Edit />}
             style={{ color: theme.flexiCharge.primary.white }}
