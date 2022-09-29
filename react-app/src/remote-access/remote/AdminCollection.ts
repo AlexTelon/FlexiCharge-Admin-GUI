@@ -1,9 +1,10 @@
-/* eslint-disable no-useless-escape */
-/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable */
+/* eslint-disable react/jsx-no-undef */
 import { FLEXICHARGE_API_URL } from '@/appConfig';
 import axios from 'axios';
 import { ManageAdmin, IManageAdminCollection } from '../types';
 import { convertRemoteUserToLocal, toUserAttributes } from '../utility/remote-user-functions';
+import { handleAdminsData } from './business-logic';
 
 export default class ManageAdminCollection implements IManageAdminCollection {  
   async deleteAdmin(username: string): Promise<boolean> {
@@ -30,13 +31,7 @@ export default class ManageAdminCollection implements IManageAdminCollection {
           Authorization: `Bearer ${localStorage.getItem('token')}`
         }
       });
-
-      const admins: ManageAdmin[] = [];
-      for (const adminData of res.data.Users) {
-        const admin = convertRemoteUserToLocal(adminData) as ManageAdmin;
-        admins.push(admin);
-      }
-
+      const admins = handleAdminsData(res.data.Users)
       return [admins, null];
     } catch (error: any) {
       return [null, error];
@@ -136,4 +131,5 @@ export default class ManageAdminCollection implements IManageAdminCollection {
       return [null, errorObj];
     }
   }
+
 }

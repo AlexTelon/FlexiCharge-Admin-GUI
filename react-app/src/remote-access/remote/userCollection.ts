@@ -1,8 +1,11 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
+/* eslint-disable */
+/* eslint-disable react/jsx-no-undef */
 import { ManageUser, IManageUserCollection } from '../types';
 import { FLEXICHARGE_API_URL } from '../appConfig';
 import axios from 'axios';
 import { convertRemoteUserToLocal, toUserAttributes } from '../utility/remote-user-functions';
+import { handleUsersData } from './business-logic';
 
 export default class UserCollection implements IManageUserCollection {
   public async getAllUsers(): Promise<[ManageUser[] | null, any | null]> {
@@ -12,13 +15,7 @@ export default class UserCollection implements IManageUserCollection {
           Authorization: `Bearer ${localStorage.getItem('token')}`
         }
       });
-      
-      const users: ManageUser[] = [];
-      for (const userData of res.data.Users) {
-        const user = convertRemoteUserToLocal(userData);
-        users.push(user);
-      }
-      console.log(users);
+      const users = handleUsersData(res.data.Users)
       return [users, null];
     } catch (error: any) {
       return [null, error];

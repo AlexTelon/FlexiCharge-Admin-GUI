@@ -16,7 +16,7 @@ import { TabContext, TabList, TabPanel } from '@material-ui/lab';
 import PersonTable from '@/components/pages/invoices/PersonTable';
 import PersonTableIndividualInvoice from '@/components/pages/invoices/PersonTableIndividualInvoice';
 import { useParams } from 'react-router-dom';
-import { manageUserCollection } from '@/remote-access';
+import { manageTransactionCollection, manageUserCollection } from '@/remote-access';
 import { transactionCollection } from '@/remote-access';
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -156,6 +156,7 @@ const RenderInvoices = () => {
       loaded: false
     });
     const [persons, error] = await manageUserCollection.getAllUsers();
+    await manageTransactionCollection.getTransactionsByUserId('1');
 
     if (persons) {
       setState({

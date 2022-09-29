@@ -8,21 +8,16 @@ import { authenticationProvider } from '..';
 
 export default class ManageTransactionCollection implements IManageTransactionCollection {
 
-    public async getTransactionsByUserId(username: string): Promise<[ManageTransaction[] | null, any | null]> {
-        try {
-          const res = await axios.get(`${FLEXICHARGE_API_URL}/transactions/userTransactions/${username}`, {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem('token')}`
-            }
-          });
-          
-          const transactions: ManageTransaction[] = [];
-          for (const transactionData of res.data) {
-            transactions.push(transactionData);
-          }
-          return [transactions, null];
-        } catch (error: any) {
-          return [null ,error];
+  public async getTransactionsByUserId(username: string): Promise<[ManageTransaction[] | null, any | null]> {
+    try {
+      const res = await axios.get(`${FLEXICHARGE_API_URL}/transactions/userTransactions/${username}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`
         }
+      });
+      return [res.data, null];
+    } catch (error: any) {
+      return [null ,error];
     }
+  }
 }
