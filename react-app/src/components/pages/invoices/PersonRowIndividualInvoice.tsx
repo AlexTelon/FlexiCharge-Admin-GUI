@@ -13,15 +13,6 @@ interface PersonRowProps {
 }
 
 const PersonRowIndividualInvoice: FC<PersonRowProps> = ({ person, classes, ...props }) => {
-    function toMonthName() {
-        const date = new Date();
-        date.setMonth(props.selectedDate.month - 1);
-      
-        return date.toLocaleString('en-US', {
-          month: 'long',
-        });
-    }
-
     const theme: Theme = useTheme();
     function editClicked() {
         console.log('edit clicked!');
@@ -59,7 +50,7 @@ const PersonRowIndividualInvoice: FC<PersonRowProps> = ({ person, classes, ...pr
                         {person.name}
                     </Typography>
                 </TableCell>
-                <TableCell><a href={pdf} target="_blank" rel="noreferrer">{props.selectedDate.year}, {toMonthName()}</a></TableCell>
+                <TableCell><a href={pdf} target="_blank" rel="noreferrer">View all invoices for user</a></TableCell>
             </TableRow>
         </>
     );

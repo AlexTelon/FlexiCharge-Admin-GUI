@@ -57,7 +57,7 @@ const PersonTableIndividualInvoice: FC<PersonTableProps> = ({ loaded, persons, .
                         <TableRow>
                             <TableCell>UserID</TableCell>
                             <TableCell>Name</TableCell>
-                            <TableCell>Invoice File (PDF)</TableCell>
+                            <TableCell>Invoices List</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
