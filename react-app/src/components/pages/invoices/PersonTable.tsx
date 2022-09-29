@@ -68,7 +68,7 @@ const PersonTable: FC<PersonTableProps> = ({ loaded, persons, ...props }: any) =
                       person={person}
                       {...props}
                       classes={props.classes}
-                      dateFilter={props.selectedDate}
+                      selectedDate={props.selectedDate}
                     />
                   );
                 })

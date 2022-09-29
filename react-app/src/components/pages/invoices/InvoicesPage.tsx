@@ -203,15 +203,17 @@ const RenderInvoices = () => {
     year: 0
   }
   const setMonth = (event: any) => {
+    console.log('changed month');
     selectedDate.month = event?.target.value
     handleDateFilter
-    console.log(selectedDate.month)
+    // console.log(selectedDate.month)
   };
 
   const setYear = (event: any) => {
+    console.log('changed year');
     selectedDate.year = event?.target.value
     handleDateFilter
-    console.log(selectedDate.year)
+    // console.log(selectedDate.year)
   };
 
   const handleDateFilter = () => {

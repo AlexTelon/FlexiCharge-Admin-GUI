@@ -15,6 +15,19 @@ interface PersonRowProps {
 
 const PersonRow: FC<PersonRowProps> = ({ person, classes, ...props }) => {
   const theme: Theme = useTheme();
+  console.log('prop passed along to child');
+  console.log('year passed in ', props.selectedDate.year);
+  console.log('month passed in ', props.selectedDate.month);
+
+  function toMonthName() {
+    const date = new Date();
+    date.setMonth(props.selectedDate.month - 1);
+  
+    return date.toLocaleString('en-US', {
+      month: 'long',
+    });
+  }
+
   return (
     <>
       <TableRow
@@ -48,7 +61,7 @@ const PersonRow: FC<PersonRowProps> = ({ person, classes, ...props }) => {
             {person.name}
           </Typography>
         </TableCell>
-        <TableCell><a href={pdf} target="_blank" rel="noreferrer">{props.selectedDate.month}</a></TableCell>
+        <TableCell><a href={pdf} target="_blank" rel="noreferrer">{props.selectedDate.year}, {toMonthName()}</a></TableCell>
       </TableRow>
     </>
   );
