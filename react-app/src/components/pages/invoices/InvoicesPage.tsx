@@ -353,6 +353,7 @@ const RenderInvoices = () => {
                         classes={classes}
                         persons={state.searchText !== undefined ? state.searchedPersons : state.persons}
                         loaded={state.loaded}
+                        selectedDate={selectedDate}
                       />
                     </Paper>
                   </>
