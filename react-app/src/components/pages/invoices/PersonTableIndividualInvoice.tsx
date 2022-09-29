@@ -57,7 +57,7 @@ const PersonTableIndividualInvoice: FC<PersonTableProps> = ({ loaded, persons, .
                         <TableRow>
                             <TableCell>UserID</TableCell>
                             <TableCell>Name</TableCell>
-                            <TableCell align="right">Action</TableCell>
+                            <TableCell>Action</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
