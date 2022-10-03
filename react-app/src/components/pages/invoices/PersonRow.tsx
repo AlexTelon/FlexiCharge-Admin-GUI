@@ -5,15 +5,13 @@ import {
   Theme, useTheme, TableRow, TableCell, Box, Typography,
 } from '@material-ui/core';
 import { FC } from 'react';
-// ignore below triggered error regarding imported invoice PDF
-import pdf from './dummy invoice.pdf';
 
 interface PersonRowProps {
   person: ManageUser
   classes: any
 }
 
-const PersonRow: FC<PersonRowProps> = ({ person, classes, ...props }) => {
+const PersonRow: FC<PersonRowProps> = ({ invoice, classes, ...props }) => {
   const theme: Theme = useTheme();
 
   function toMonthName() {
@@ -44,7 +42,7 @@ const PersonRow: FC<PersonRowProps> = ({ person, classes, ...props }) => {
               className={classes.stationNameCell}
               noWrap
             >
-              {person.username}
+              {invoice.invoiceID}
             </Typography>
           </Box>
         </TableCell>
@@ -55,10 +53,10 @@ const PersonRow: FC<PersonRowProps> = ({ person, classes, ...props }) => {
             style={{ maxWidth: '15vw' }}
             noWrap
           >
-            {person.name}
+            {invoice.totalSum}
           </Typography>
         </TableCell>
-        <TableCell><a href={pdf} target="_blank" rel="noreferrer">{props.selectedDate.year}, {toMonthName()}</a></TableCell>
+        <TableCell><a href={invoice.invoiceURL} target="_blank" rel="noreferrer">PDF-LINK </a></TableCell>
       </TableRow>
     </>
   );

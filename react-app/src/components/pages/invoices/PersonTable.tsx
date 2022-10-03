@@ -18,7 +18,7 @@ interface PersonTableState {
   rowsPerPage: number
 }
 
-const PersonTable: FC<PersonTableProps> = ({ loaded, persons, ...props }: any) => {
+const PersonTable: FC<PersonTableProps> = ({ loaded, invoices, ...props }: any) => {
   const [state, setState] = useState<PersonTableState>({
     page: 0,
     rowsPerPage: 5
@@ -60,12 +60,12 @@ const PersonTable: FC<PersonTableProps> = ({ loaded, persons, ...props }: any) =
           </TableHead>
           <TableBody>
             {
-              persons?.slice(state.page * state.rowsPerPage, state.page * state.rowsPerPage + state.rowsPerPage)
-                .map((person: ManageUser) => {
+              invoices?.slice(state.page * state.rowsPerPage, state.page * state.rowsPerPage + state.rowsPerPage)
+                .map((invoice: ManageUser) => {
                   return (
                     <PersonRow
-                      key={person.username}
-                      person={person}
+                      key={invoices.invoiceID}
+                      invoice={invoice}
                       {...props}
                       classes={props.classes}
                       selectedDate={props.selectedDate}
@@ -79,7 +79,7 @@ const PersonTable: FC<PersonTableProps> = ({ loaded, persons, ...props }: any) =
       <TablePagination
         rowsPerPageOptions={[5, 10, 15]}
         component='div'
-        count={persons ? persons.length : 0}
+        count={invoices ? invoices.length : 0}
         rowsPerPage={state.rowsPerPage}
         page={state.page}
         onPageChange={handleChangePage}

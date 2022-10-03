@@ -15,7 +15,7 @@ import { TabContext, TabList, TabPanel } from '@material-ui/lab';
 import PersonTable from '@/components/pages/invoices/PersonTable';
 import PersonTableIndividualInvoice from '@/components/pages/invoices/PersonTableIndividualInvoice';
 import { useParams } from 'react-router-dom';
-import { manageInvoiceCollection, manageUserCollection } from '@/remote-access';
+import { manageInvoiceCollection } from '@/remote-access';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -154,20 +154,6 @@ const RenderInvoices = () => {
       ...state,
       loaded: false
     });
-    const [persons, error] = await manageUserCollection.getAllUsers();
-
-    if (persons) {
-      setState({
-        loaded: true,
-        persons,
-      });
-    } else if (error) {
-      setState({
-        loaded: true,
-        error: true,
-        errorMessage: 'Failed to fetch invoices'
-      });
-    }
   };
 
   useEffect(() => {
@@ -213,7 +199,20 @@ const RenderInvoices = () => {
 
   const handleDateFilter = async () => {
     if (selectedDate.month !== 0 && selectedDate.year !== 0) {
-      await manageInvoiceCollection.getInvoiceByDate(selectedDate.year, selectedDate.month,'PAID' );
+      const [invoices, error] = await manageInvoiceCollection.getInvoiceByDate(selectedDate.year, selectedDate.month, 'PAID');
+      console.log(invoices);
+      if (invoices) {
+        setState({
+          loaded: true,
+          invoices,
+        });
+      } else if (error) {
+        setState({
+          loaded: true,
+          error: true,
+          errorMessage: 'Failed to fetch invoices'
+        });
+      }
     }
   };
 
@@ -303,7 +302,7 @@ const RenderInvoices = () => {
                     <Paper elevation={2}>
                       <PersonTable
                         classes={classes}
-                        persons={state.persons}
+                        invoices={state.invoices}
                         loaded={state.loaded}
                         selectedDate={selectedDate}
                       />
