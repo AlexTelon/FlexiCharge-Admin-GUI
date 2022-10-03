@@ -15,9 +15,6 @@ interface PersonRowProps {
 
 const PersonRow: FC<PersonRowProps> = ({ person, classes, ...props }) => {
   const theme: Theme = useTheme();
-  console.log('prop passed along to child');
-  console.log('year passed in ', props.selectedDate.year);
-  console.log('month passed in ', props.selectedDate.month);
 
   function toMonthName() {
     const date = new Date();

@@ -3,3 +3,4 @@ export * from './charger-station';
 export * from './charger';
 export * from './users';
 export * from './transactions';
+export * from './invoices';

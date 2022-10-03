@@ -11,13 +11,12 @@ import {
 import { Helmet } from 'react-helmet';
 import { Replay, ControlPoint } from '@material-ui/icons';
 import { ManageUser } from '@/remote-access/types';
-import { ManageTransaction } from '@/remote-access/types';
 import { TabContext, TabList, TabPanel } from '@material-ui/lab';
 import PersonTable from '@/components/pages/invoices/PersonTable';
 import PersonTableIndividualInvoice from '@/components/pages/invoices/PersonTableIndividualInvoice';
 import { useParams } from 'react-router-dom';
-import { manageTransactionCollection, manageUserCollection } from '@/remote-access';
-import { transactionCollection } from '@/remote-access';
+import { manageInvoiceCollection, manageUserCollection } from '@/remote-access';
+
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     appBar: {
@@ -156,7 +155,6 @@ const RenderInvoices = () => {
       loaded: false
     });
     const [persons, error] = await manageUserCollection.getAllUsers();
-    await manageTransactionCollection.getTransactionsByUserId('1');
 
     if (persons) {
       setState({
@@ -203,28 +201,19 @@ const RenderInvoices = () => {
     month: 0,
     year: 0
   }
-  const setMonth = (event: any) => {
-    console.log('changed month');
+  const setMonth = async (event: any) => {
     selectedDate.month = event?.target.value
-    handleDateFilter
-    // console.log(selectedDate.month)
+    await handleDateFilter()
   };
 
-  const setYear = (event: any) => {
-    console.log('changed year');
+  const setYear = async (event: any) => {
     selectedDate.year = event?.target.value
-    handleDateFilter
-    // console.log(selectedDate.year)
+    await handleDateFilter()
   };
 
-  const handleDateFilter = () => {
+  const handleDateFilter = async () => {
     if (selectedDate.month !== 0 && selectedDate.year !== 0) {
-      /*
-      TODO: Filter invoices based on date, once we get invoices and their dates from backend (Like below for example)
-      const persons = state.persons.filter((person: ManageUser) => {
-        return `${invoice.date}` = selectedDate.year+'-'+selectedDate.month;
-      });
-      */
+      await manageInvoiceCollection.getInvoiceByDate(selectedDate.year, selectedDate.month,'PAID' );
     }
   };
 
