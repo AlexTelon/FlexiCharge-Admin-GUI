@@ -27,23 +27,29 @@ export default class ManageInvoiceCollection implements IManageInvoiceCollection
   async getInvoiceByDate(year: number, month: number, status: string): Promise<[ManageInvoice[] | null, any | null]> {
     return new Promise((resolve, reject) => {
       const arr = [];
+
+      let monthTypeConversion = ''
+
+      if (String(month).length === 1) {
+        monthTypeConversion = `0${month}`
+      }
+
+      const fullDateFormat = `${year}-${monthTypeConversion}`
+
+      console.log('before filter ', this.invoices);
+
       setTimeout(() => {
         for (let i = 0; i < this.invoices.length; i++)
         {
           for (let j = 0; j < this.invoices[i].invoices.length; j++)
           {
-            arr.push(this.invoices[i].invoices[j]);
+            if (this.invoices[i].invoices[j].date !== fullDateFormat) {
+              this.invoices[i].invoices.splice(j, 1);
+            }
           }
         }
-        let monthTypeConversion = ''
-        if (String(month).length === 1) {
-          monthTypeConversion = `0${month}`
-        }
-        const fullDateFormat = `${year}-${monthTypeConversion}`
-        const filteredArr = arr.filter((invoice) => invoice.date === fullDateFormat);
-        console.log('!!!! FILTERED ARRAY !!!!!! ', filteredArr);
-        // resolve([this.invoices.filter((invoice) => invoice.date === String(year+'-'+month)), null]);
-        resolve([filteredArr, null]);
+        console.log('after filter ', this.invoices);
+        resolve([this.invoices, null]);
       }, 1000);
     });
   }
