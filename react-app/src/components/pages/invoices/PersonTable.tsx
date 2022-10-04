@@ -18,7 +18,7 @@ interface PersonTableState {
   rowsPerPage: number
 }
 
-const PersonTable: FC<PersonTableProps> = ({ loaded, invoices, ...props }: any) => {
+const PersonTable: FC<PersonTableProps> = ({ loaded, invoices, selectedYear, selectedMonth, ...props }: any) => {
   const [state, setState] = useState<PersonTableState>({
     page: 0,
     rowsPerPage: 5
@@ -70,7 +70,8 @@ const PersonTable: FC<PersonTableProps> = ({ loaded, invoices, ...props }: any) 
                       invoice={invoice}
                       {...props}
                       classes={props.classes}
-                      selectedDate={props.selectedDate}
+                      selectedYear={selectedYear}
+                      selectedMonth={selectedMonth}
                     />
                   );
                 })

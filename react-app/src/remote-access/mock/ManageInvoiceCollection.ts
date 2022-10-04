@@ -28,6 +28,9 @@ export default class ManageInvoiceCollection implements IManageInvoiceCollection
     return new Promise((resolve, reject) => {
       let monthTypeConversion = ''
 
+      console.log('year in getInvoiceByDate ', year);
+      console.log('month in getInvoiceByDate ', month);
+
       if (String(month).length === 1) {
         monthTypeConversion = `0${month}`
       }

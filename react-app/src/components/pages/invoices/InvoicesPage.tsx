@@ -1,6 +1,6 @@
 /* eslint-disable */
 /* eslint-disable react/jsx-no-undef */
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   createStyles, makeStyles, Theme, Box,
   AppBar, Toolbar, Typography, Container, Grid,
@@ -137,6 +137,8 @@ const RenderInvoices = () => {
   const theme: Theme = useTheme();
   const classes = useStyles();
   const [selectedTab, setSelectedTab] = React.useState('users');
+  let [selectedYear, setYear] = React.useState(2022);
+  let [selectedMonth, setMonth] = React.useState(1);
 
   const handleTabChange = (event: any, newTab: string) => {
     setSelectedTab(newTab);
@@ -182,24 +184,24 @@ const RenderInvoices = () => {
       });
     }
   };
-
-  let selectedDate = {
-    month: 0,
-    year: 0
+  
+  const updateSelectedYear = async (event: any) => {
+    setYear(() => {
+      console.log('year picked ', event?.target.value);
+      return selectedYear = event?.target.value
+    });
+    await handleDateFilter(); 
+  } 
+  const updateSelectedMonth = async (event: any) => {
+    setMonth(() => {
+      console.log('month picked ', event?.target.value);
+      return selectedMonth = event?.target.value
+    });
+    await handleDateFilter(); 
   }
-  const setMonth = async (event: any) => {
-    selectedDate.month = event?.target.value
-    await handleDateFilter()
-  };
-
-  const setYear = async (event: any) => {
-    selectedDate.year = event?.target.value
-    await handleDateFilter()
-  };
 
   const handleDateFilter = async () => {
-    if (selectedDate.month !== 0 && selectedDate.year !== 0) {
-      const [invoices, error] = await manageInvoiceCollection.getInvoiceByDate(selectedDate.year, selectedDate.month, 'PAID');
+      const [invoices, error] = await manageInvoiceCollection.getInvoiceByDate(selectedYear, selectedMonth, 'PAID');
       // console.log('invoices: ', invoices);
       if (invoices) {
         setState({
@@ -213,7 +215,6 @@ const RenderInvoices = () => {
           errorMessage: 'Failed to fetch invoices'
         });
       }
-    }
   };
 
   return (
@@ -245,12 +246,12 @@ const RenderInvoices = () => {
                       <AppBar position="static" className={classes.contentAppBar} elevation={1}>
                         <Toolbar>
                           <Box sx={{ width: '15%', marginRight: '10pt', height: '40pt' }}>
-                            <FormControl fullWidth>
+                            <FormControl fullWidth >
                               <InputLabel id="demo-simple-select-label">Year</InputLabel>
                               <Select
                                 labelId="demo-simple-select-label"
                                 id="demo-simple-select"
-                                onChange={setYear}
+                                onChange={updateSelectedYear}
                                 label="Year"
                               >
                                 <MenuItem value={2019}>2019</MenuItem>
@@ -266,7 +267,7 @@ const RenderInvoices = () => {
                               <Select
                                 labelId="demo-simple-select-label"
                                 id="demo-simple-select"
-                                onChange={setMonth}
+                                onChange={updateSelectedMonth}
                                 label="Month"
                               >
                                 <MenuItem value={1}>January</MenuItem>
@@ -304,7 +305,8 @@ const RenderInvoices = () => {
                         classes={classes}
                         invoices={state.invoices}
                         loaded={state.loaded}
-                        selectedDate={selectedDate}
+                        selectedYear={selectedYear}
+                        selectedMonth={selectedMonth}
                       />
                     </Paper>
                   </>
@@ -342,7 +344,8 @@ const RenderInvoices = () => {
                         classes={classes}
                         persons={state.searchText !== undefined ? state.searchedPersons : state.persons}
                         loaded={state.loaded}
-                        selectedDate={selectedDate}
+                        selectedYear={selectedYear}
+                        selectedMonth={selectedMonth}
                       />
                     </Paper>
                   </>
