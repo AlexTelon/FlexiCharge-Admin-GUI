@@ -4,11 +4,11 @@ import {
   TablePagination, LinearProgress
 } from '@material-ui/core';
 import PersonRow from './PersonRow';
-import { ManageUser } from '@/remote-access/types';
+import { Invoice } from '@/remote-access/types';
 import React, { FC, useState } from 'react';
 
 interface PersonTableProps {
-  persons: ManageUser[]
+  invoices: Invoice[]
   loaded: boolean
   [key: string]: any
 }
@@ -53,15 +53,17 @@ const PersonTable: FC<PersonTableProps> = ({ loaded, invoices, ...props }: any) 
         <Table {...tableProps} stickyHeader aria-label='sticky table'>
           <TableHead>
             <TableRow>
-              <TableCell>UserID</TableCell>
-              <TableCell>Name</TableCell>
+              <TableCell>InvoiceID</TableCell>
+              <TableCell>E-Mail</TableCell>
               <TableCell>Invoice File (PDF)</TableCell>
+              <TableCell>Date (expires following month)</TableCell>
+              <TableCell>Total fee</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {
               invoices?.slice(state.page * state.rowsPerPage, state.page * state.rowsPerPage + state.rowsPerPage)
-                .map((invoice: ManageUser) => {
+                .map((invoice: Invoice) => {
                   return (
                     <PersonRow
                       key={invoices.invoiceID}
