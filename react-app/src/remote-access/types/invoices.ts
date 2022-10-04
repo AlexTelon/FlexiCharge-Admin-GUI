@@ -1,5 +1,6 @@
-interface Invoice { 
+export interface Invoice { 
   invoiceID: number
+  email: string
   createdAt: number
   totalSum: number
   invoiceURL: string
