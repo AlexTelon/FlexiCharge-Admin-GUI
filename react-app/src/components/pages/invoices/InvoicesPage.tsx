@@ -187,14 +187,12 @@ const RenderInvoices = () => {
   
   const updateSelectedYear = async (event: any) => {
     setYear(() => {
-      console.log('year picked ', event?.target.value);
       return selectedYear = event?.target.value
     });
     await handleDateFilter(); 
   } 
   const updateSelectedMonth = async (event: any) => {
     setMonth(() => {
-      console.log('month picked ', event?.target.value);
       return selectedMonth = event?.target.value
     });
     await handleDateFilter(); 
@@ -202,7 +200,6 @@ const RenderInvoices = () => {
 
   const handleDateFilter = async () => {
       const [invoices, error] = await manageInvoiceCollection.getInvoiceByDate(selectedYear, selectedMonth, 'PAID');
-      // console.log('invoices: ', invoices);
       if (invoices) {
         setState({
           loaded: true,

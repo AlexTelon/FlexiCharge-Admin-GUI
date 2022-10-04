@@ -8,7 +8,6 @@ import { Invoice } from '@/remote-access/types';
 import React, { FC, useState } from 'react';
 
 interface PersonTableProps {
-  invoices: Invoice[]
   loaded: boolean
   [key: string]: any
 }
