@@ -200,7 +200,7 @@ const RenderInvoices = () => {
   const handleDateFilter = async () => {
     if (selectedDate.month !== 0 && selectedDate.year !== 0) {
       const [invoices, error] = await manageInvoiceCollection.getInvoiceByDate(selectedDate.year, selectedDate.month, 'PAID');
-      console.log(invoices);
+      console.log('invoices: ', invoices);
       if (invoices) {
         setState({
           loaded: true,
