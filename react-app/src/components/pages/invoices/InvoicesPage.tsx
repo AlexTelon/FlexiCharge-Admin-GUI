@@ -137,8 +137,8 @@ const RenderInvoices = () => {
   const theme: Theme = useTheme();
   const classes = useStyles();
   const [selectedTab, setSelectedTab] = React.useState('users');
-  let [selectedYear, setYear] = React.useState(2022);
-  let [selectedMonth, setMonth] = React.useState(1);
+  let [selectedYear, setYear] = React.useState('2022');
+  let [selectedMonth, setMonth] = React.useState('00');
 
   const handleTabChange = (event: any, newTab: string) => {
     setSelectedTab(newTab);
@@ -251,10 +251,10 @@ const RenderInvoices = () => {
                                 onChange={updateSelectedYear}
                                 label="Year"
                               >
-                                <MenuItem value={2019}>2019</MenuItem>
-                                <MenuItem value={2020}>2020</MenuItem>
-                                <MenuItem value={2021}>2021</MenuItem>
-                                <MenuItem value={2022}>2022</MenuItem>
+                                <MenuItem value={'2019'}>2019</MenuItem>
+                                <MenuItem value={'2020'}>2020</MenuItem>
+                                <MenuItem value={'2021'}>2021</MenuItem>
+                                <MenuItem value={'2022'}>2022</MenuItem>
                               </Select>
                             </FormControl>
                           </Box>
@@ -267,18 +267,18 @@ const RenderInvoices = () => {
                                 onChange={updateSelectedMonth}
                                 label="Month"
                               >
-                                <MenuItem value={1}>January</MenuItem>
-                                <MenuItem value={2}>Feburary</MenuItem>
-                                <MenuItem value={3}>Mars</MenuItem>
-                                <MenuItem value={4}>April</MenuItem>
-                                <MenuItem value={5}>May</MenuItem>
-                                <MenuItem value={6}>June</MenuItem>
-                                <MenuItem value={7}>July</MenuItem>
-                                <MenuItem value={8}>August</MenuItem>
-                                <MenuItem value={9}>September</MenuItem>
-                                <MenuItem value={10}>October</MenuItem>
-                                <MenuItem value={11}>November</MenuItem>
-                                <MenuItem value={12}>December</MenuItem>
+                                <MenuItem value={'01'}>January</MenuItem>
+                                <MenuItem value={'02'}>Feburary</MenuItem>
+                                <MenuItem value={'03'}>Mars</MenuItem>
+                                <MenuItem value={'04'}>April</MenuItem>
+                                <MenuItem value={'05'}>May</MenuItem>
+                                <MenuItem value={'06'}>June</MenuItem>
+                                <MenuItem value={'07'}>July</MenuItem>
+                                <MenuItem value={'08'}>August</MenuItem>
+                                <MenuItem value={'09'}>September</MenuItem>
+                                <MenuItem value={'10'}>October</MenuItem>
+                                <MenuItem value={'11'}>November</MenuItem>
+                                <MenuItem value={'12'}>December</MenuItem>
                               </Select>
                             </FormControl>
                           </Box>

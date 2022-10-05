@@ -24,16 +24,10 @@ export default class ManageInvoiceCollection implements IManageInvoiceCollection
       }, 1000);
     });
   }
-  async getInvoiceByDate(year: number, month: number, status: string): Promise<[Invoice[] | null, any | null]> {
+  async getInvoiceByDate(year: string, month: string, status: string): Promise<[Invoice[] | null, any | null]> {
     return new Promise((resolve, reject) => {
-      let monthTypeConversion = ''
       
-      if (String(month).length === 1) {
-        monthTypeConversion = `0${month}`
-      }
-
-      const fullDateFormat = `${year}-${monthTypeConversion}`      
-      console.log('before filter ', this.invoices);
+      const fullDateFormat = `${year}-${month}`      
 
       setTimeout(() => {
         const arr = this.invoices.filter((object) => object.date === fullDateFormat)
