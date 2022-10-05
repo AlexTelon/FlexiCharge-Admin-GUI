@@ -199,19 +199,24 @@ const RenderInvoices = () => {
   }
 
   const handleDateFilter = async () => {
-      const [invoices, error] = await manageInvoiceCollection.getInvoiceByDate(selectedYear, selectedMonth, 'PAID');
-      if (invoices) {
-        setState({
-          loaded: true,
-          invoices,
-        });
-      } else if (error) {
-        setState({
-          loaded: true,
-          error: true,
-          errorMessage: 'Failed to fetch invoices'
-        });
-      }
+    setState({
+      ...state,
+      loaded: false
+    });
+    const [invoices, error] = await manageInvoiceCollection.getInvoiceByDate(selectedYear, selectedMonth, 'PAID');
+    
+    if (invoices) {
+      setState({
+        loaded: true,
+        invoices,
+      });
+    } else if (error) {
+      setState({
+        loaded: true,
+        error: true,
+        errorMessage: 'Failed to fetch invoices'
+      });
+    }
   };
 
   return (
