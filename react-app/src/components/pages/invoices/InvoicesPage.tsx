@@ -9,8 +9,8 @@ import {
   Button, TableCell, useTheme
 } from '@material-ui/core';
 import { Helmet } from 'react-helmet';
-import { Replay, ControlPoint, Search } from '@material-ui/icons';
-import { ManageInvoice, ManageUser } from '@/remote-access/types';
+import { ControlPoint, Search } from '@material-ui/icons';
+
 import { TabContext, TabList, TabPanel } from '@material-ui/lab';
 import PersonTable from '@/components/pages/invoices/PersonTable';
 import PersonTableIndividualInvoice from '@/components/pages/invoices/PersonTableIndividualInvoice';

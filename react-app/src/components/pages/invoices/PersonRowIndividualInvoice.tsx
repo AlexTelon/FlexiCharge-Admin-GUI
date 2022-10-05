@@ -14,7 +14,7 @@ interface IndividualPersonRowProps {
 
 const PersonRowIndividualInvoice: FC<IndividualPersonRowProps> = ({ individualInvoice, classes, ...props}) => {
     const theme: Theme = useTheme();
-    
+
 return (
     <>
         <TableRow
@@ -68,6 +68,17 @@ return (
             >
             {individualInvoice.totalSum}
             </Typography>
+        </TableCell>
+        <TableCell align='right'>
+            <Button
+                startIcon={<Add />}
+                style={{ color: theme.flexiCharge.primary.white }}
+                variant="contained"
+                color="primary"
+                onClick={() => console.log('create invoice clicked!')}
+            >
+                Create invoice
+            </Button>
         </TableCell>
         </TableRow>
     </>
