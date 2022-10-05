@@ -48,7 +48,7 @@ return (
             {individualInvoice.email}
             </Typography>
         </TableCell>
-        <TableCell><a href={individualInvoice.invoiceURL} target="_blank" rel="noreferrer">PDF-LINK </a></TableCell>
+        <TableCell><a href={individualInvoice.invoiceURL} target="_blank" rel="noreferrer">{individualInvoice.email.split('@')[0]}-{individualInvoice.date}.pdf </a></TableCell>
         <TableCell>
             <Typography
             color="textPrimary"

@@ -58,7 +58,7 @@ const PersonRow: FC<PersonRowProps> = ({ invoice, classes, ...props }) => {
             {invoice.email}
           </Typography>
         </TableCell>
-        <TableCell><a href={invoice.invoiceURL} target="_blank" rel="noreferrer">PDF-LINK </a></TableCell>
+        <TableCell><a href={invoice.invoiceURL} target="_blank" rel="noreferrer">{invoice.email.split('@')[0]}-{invoice.date}.pdf</a></TableCell>
         <TableCell>
           <Typography
             color="textPrimary"
