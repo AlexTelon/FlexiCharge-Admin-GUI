@@ -5,12 +5,11 @@ import {
     Table, TableHead, TableRow, TableCell, TableBody,
     TablePagination, LinearProgress
 } from '@material-ui/core';
-import { ManageUser } from '@/remote-access/types';
+import { Invoice } from '@/remote-access/types';
 import React, { FC, useState } from 'react';
 import PersonRowIndividualInvoice from './PersonRowIndividualInvoice';
 
 interface PersonTableProps {
-    persons: ManageUser[]
     loaded: boolean
     [key: string]: any
 }
@@ -20,7 +19,7 @@ interface PersonTableState {
     rowsPerPage: number
 }
 
-const PersonTableIndividualInvoice: FC<PersonTableProps> = ({ loaded, persons, ...props }: any) => {
+const PersonTableIndividualInvoice: FC<PersonTableProps> = ({ loaded, individualInvoices, ...props }: any) => {
     const [state, setState] = useState<PersonTableState>({
         page: 0,
         rowsPerPage: 5
@@ -31,7 +30,7 @@ const PersonTableIndividualInvoice: FC<PersonTableProps> = ({ loaded, persons, .
             ...state,
             page: newPage
         });
-    };
+        };
 
     const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
         setState({
@@ -49,45 +48,47 @@ const PersonTableIndividualInvoice: FC<PersonTableProps> = ({ loaded, persons, .
     return (
         <>
             <TableContainer className={props.classes.tableContainer}>
-                {!loaded &&
-                    <LinearProgress />
+            {!loaded &&
+                <LinearProgress />
+            }
+            <Table {...tableProps} stickyHeader aria-label='sticky table'>
+                <TableHead>
+                <TableRow>
+                    <TableCell>InvoiceID</TableCell>
+                    <TableCell>E-Mail</TableCell>
+                    <TableCell>Invoice File (PDF)</TableCell>
+                    <TableCell>Date (expires following month)</TableCell>
+                    <TableCell>Total fee</TableCell>
+                </TableRow>
+                </TableHead>
+                <TableBody>
+                {
+                    individualInvoices?.slice(state.page * state.rowsPerPage, state.page * state.rowsPerPage + state.rowsPerPage)
+                    .map((individualInvoice: Invoice) => {
+                        return (
+                        <PersonRowIndividualInvoice
+                            key={individualInvoices.invoiceID}
+                            individualInvoice={individualInvoice}
+                            {...props}
+                            classes={props.classes}
+                        />
+                        );
+                    })
                 }
-                <Table {...tableProps} stickyHeader aria-label='sticky table'>
-                    <TableHead>
-                        <TableRow>
-                            <TableCell>UserID</TableCell>
-                            <TableCell>Name</TableCell>
-                            <TableCell>Action</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {
-                            persons?.slice(state.page * state.rowsPerPage, state.page * state.rowsPerPage + state.rowsPerPage)
-                                .map((person: ManageUser) => {
-                                    return (
-                                        <PersonRowIndividualInvoice
-                                            key={person.username}
-                                            person={person}
-                                            {...props}
-                                            classes={props.classes}
-                                        />
-                                    );
-                                })
-                        }
-                    </TableBody>
-                </Table>
+                </TableBody>
+            </Table>
             </TableContainer>
             <TablePagination
-                rowsPerPageOptions={[5, 10, 15]}
-                component='div'
-                count={persons ? persons.length : 0}
-                rowsPerPage={state.rowsPerPage}
-                page={state.page}
-                onPageChange={handleChangePage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
+            rowsPerPageOptions={[5, 10, 15]}
+            component='div'
+            count={individualInvoices ? individualInvoices.length : 0}
+            rowsPerPage={state.rowsPerPage}
+            page={state.page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
             />
         </>
-    );
+        );
 };
 
 export default PersonTableIndividualInvoice;

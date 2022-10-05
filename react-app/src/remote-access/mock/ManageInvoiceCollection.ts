@@ -19,8 +19,9 @@ export default class ManageInvoiceCollection implements IManageInvoiceCollection
   async getInvoiceByUserId(userID: string): Promise<[Invoice[] | null, any | null]> {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
-        console.log([this.invoices, null]);
-        resolve([this.invoices, null]);
+        const arr = this.invoices.filter((object) => object.email === userID);
+        
+        resolve([arr, null]);
       }, 1000);
     });
   }

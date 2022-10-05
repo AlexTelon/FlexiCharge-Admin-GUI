@@ -9,8 +9,8 @@ import {
   Button, TableCell, useTheme
 } from '@material-ui/core';
 import { Helmet } from 'react-helmet';
-import { Replay, ControlPoint } from '@material-ui/icons';
-import { ManageUser } from '@/remote-access/types';
+import { ControlPoint, Search } from '@material-ui/icons';
+
 import { TabContext, TabList, TabPanel } from '@material-ui/lab';
 import PersonTable from '@/components/pages/invoices/PersonTable';
 import PersonTableIndividualInvoice from '@/components/pages/invoices/PersonTableIndividualInvoice';
@@ -88,7 +88,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const Search = styled('div')(({ theme }) => ({
+const SearchBar = styled('div')(({ theme }) => ({
   position: 'relative',
   color: 'black',
   borderRadius: theme.shape.borderRadius,
@@ -137,46 +137,45 @@ const RenderInvoices = () => {
   const theme: Theme = useTheme();
   const classes = useStyles();
   const [selectedTab, setSelectedTab] = React.useState('users');
-  let [selectedYear, setYear] = React.useState('2022');
+  let [selectedYear, setYear] = React.useState('2000');
   let [selectedMonth, setMonth] = React.useState('00');
+  let [searchValue, setSearchValue] = React.useState('')
 
   const handleTabChange = (event: any, newTab: string) => {
+    resetYear()
+    resetMonth()
+    handleDateFilter()
     setSelectedTab(newTab);
   };
 
   const params = useParams();
   const person = (params as any).person;
   const [state, setState] = useState<any>({
-    loaded: false,
+    loaded: true,
   });
 
-  const loadPersons = async () => {
+  useEffect(() => {
     setSelectedTab('view-all-invoices');
     setState({
       ...state,
-      loaded: false
     });
-  };
-
-  useEffect(() => {
-    if (selectedTab === 'all-invoices') {
-      loadPersons();
-    } else {
-      loadPersons();
-    }
   }, []);
 
-  const handleSearch = (searchText: string) => {
+  const handleSearch = async (searchText: string) => {
     if (searchText !== '') {
-      const persons = state.persons.filter((person: ManageUser) => {
-        return `${person.username}`.includes(searchText)
-          || person.name?.toLowerCase().includes(searchText.toLowerCase());
-      });
       setState({
         ...state,
-        searchText,
-        searchedPersons: persons
+        loaded: false
       });
+      const [individualInvoices, error] = await manageInvoiceCollection.getInvoiceByUserId(searchText, 'paid')
+      if(individualInvoices){
+        setState({
+        ...state,
+        loaded: true,
+        searchText,
+        individualInvoices
+        });
+      }
     } else {
       setState({
         ...state,
@@ -185,6 +184,17 @@ const RenderInvoices = () => {
     }
   };
   
+  const resetYear = () => {
+    setYear(() => {
+      return selectedYear = '2000'
+    })
+  }
+  const resetMonth = () => {
+    setMonth(() => {
+      return selectedMonth = '00'
+    })
+  }
+
   const updateSelectedYear = async (event: any) => {
     setYear(() => {
       return selectedYear = event?.target.value
@@ -199,6 +209,7 @@ const RenderInvoices = () => {
   }
 
   const handleDateFilter = async () => {
+    if(selectedYear != '2000' && selectedMonth != '00')
     setState({
       ...state,
       loaded: false
@@ -318,16 +329,23 @@ const RenderInvoices = () => {
                     <Box sx={{ width: '100%', marginTop: '15pt' }}>
                       <AppBar position="static" className={classes.contentAppBar} elevation={1}>
                         <Toolbar variant='dense'>
-                          <Search color="primary">
+                          <SearchBar color="primary">
                             <SearchIconWrapper>
                               <Search />
                             </SearchIconWrapper>
                             <StyledInputBase
                               placeholder="Search users"
                               inputProps={{ 'aria-label': 'search' }}
-                              onChange={(e) => { handleSearch(e.target.value); }}
+                              onChange={ e =>
+                                setSearchValue(e.target.value)
+                              }
+                              onKeyDown={ e => {
+                                if(e.key === 'Enter'){
+                                  handleSearch(searchValue)
+                                }
+                              }}
                             />
-                          </Search>
+                          </SearchBar>
 
                           <IconButton edge='end'
                             aria-label='user invoices filters'
@@ -335,7 +353,7 @@ const RenderInvoices = () => {
                             aria-controls='user-invoices-filters'
                             color='inherit'
                           >
-                            <Replay />
+                            <Search />
                           </IconButton>
 
                         </Toolbar>
@@ -344,10 +362,8 @@ const RenderInvoices = () => {
                     <Paper elevation={2}>
                       <PersonTableIndividualInvoice
                         classes={classes}
-                        persons={state.searchText !== undefined ? state.searchedPersons : state.persons}
+                        individualInvoices={state.individualInvoices}
                         loaded={state.loaded}
-                        selectedYear={selectedYear}
-                        selectedMonth={selectedMonth}
                       />
                     </Paper>
                   </>

@@ -21,7 +21,7 @@ export default class ManageInvoiceCollection implements IManageInvoiceCollection
     }
   }
 
-  public async getInvoiceByDate(year: number, month: number, status: string): Promise<[ManageInvoice[] | null, any | null]> {
+  public async getInvoiceByDate(year: string, month: string, status: string): Promise<[ManageInvoice[] | null, any | null]> {
     try {
       const res = await axios.get(`${FLEXICHARGE_API_URL}/invoices/`, {
         headers: {
