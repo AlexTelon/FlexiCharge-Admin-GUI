@@ -9,7 +9,7 @@ export default class AuthenticationProvider implements IAuthenticationProvider {
   private username: string | null = null;
   
   getToken(): string | null {
-    axios.get(`${FLEXICHARGE_API_URL}/auth/admin/${localStorage.getItem('username')}`, {
+    axios.get(`${FLEXICHARGE_API_URL}/admin/${localStorage.getItem('username')}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`
       }
@@ -24,7 +24,7 @@ export default class AuthenticationProvider implements IAuthenticationProvider {
   async login(username: string, password: string): Promise<[boolean, any | null]> {
     try {
       const response = await axios({
-        url: `${FLEXICHARGE_API_URL}/auth/admin/sign-in`,
+        url: `${FLEXICHARGE_API_URL}/admin/sign-in`,
         method: 'post',
         timeout: 3000,
         data: {

@@ -10,7 +10,7 @@ import { handleUsersData } from './business-logic';
 export default class UserCollection implements IManageUserCollection {
   public async getAllUsers(): Promise<[ManageUser[] | null, any | null]> {
     try {
-      const res = await axios.get(`${FLEXICHARGE_API_URL}/auth/admin/users`, {
+      const res = await axios.get(`${FLEXICHARGE_API_URL}/admin/users`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`
         }
@@ -24,7 +24,7 @@ export default class UserCollection implements IManageUserCollection {
   
   public async addUser(fields: Omit<ManageUser, 'id'>): Promise<[ManageUser | null, any | null]> {
     try {
-      const res = await axios.post(`${FLEXICHARGE_API_URL}/auth/admin/users`, {
+      const res = await axios.post(`${FLEXICHARGE_API_URL}/admin/users`, {
         ...fields
       }, {
         headers: {
@@ -61,7 +61,7 @@ export default class UserCollection implements IManageUserCollection {
 
   public async getUserById(username: string): Promise<[ManageUser | null, any | null]> {
     try {
-      const res = await axios.get(`${FLEXICHARGE_API_URL}/auth/admin/users/${username}`, {
+      const res = await axios.get(`${FLEXICHARGE_API_URL}/admin/users/${username}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`
         }
@@ -79,7 +79,7 @@ export default class UserCollection implements IManageUserCollection {
     try {
       const res = await axios({
         method: 'post',
-        url: `${FLEXICHARGE_API_URL}/auth/admin/reset-user-password/${username}`,
+        url: `${FLEXICHARGE_API_URL}/admin/reset-user-password/${username}`,
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
       });
 
@@ -92,7 +92,7 @@ export default class UserCollection implements IManageUserCollection {
   public async updateUser(username: string, fields: Omit<ManageUser, 'username'>): Promise<[ManageUser | null, any | null]> {
     try {
       const userAttributes = toUserAttributes(fields);
-      const res = await axios.put(`${FLEXICHARGE_API_URL}/auth/admin/users/${username}`, {
+      const res = await axios.put(`${FLEXICHARGE_API_URL}/admin/users/${username}`, {
         userAttributes
       },
       {
@@ -132,7 +132,7 @@ export default class UserCollection implements IManageUserCollection {
 
   public async deleteUser (username: string): Promise<boolean> {
     try {
-      await axios.delete(`${FLEXICHARGE_API_URL}/auth/admin/users/${username}`, {
+      await axios.delete(`${FLEXICHARGE_API_URL}/admin/users/${username}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`
         }
