@@ -4,11 +4,10 @@ import {
   TablePagination, LinearProgress
 } from '@material-ui/core';
 import PersonRow from './PersonRow';
-import { ManageUser } from '@/remote-access/types';
+import { Invoice } from '@/remote-access/types';
 import React, { FC, useState } from 'react';
 
 interface PersonTableProps {
-  persons: ManageUser[]
   loaded: boolean
   [key: string]: any
 }
@@ -18,7 +17,7 @@ interface PersonTableState {
   rowsPerPage: number
 }
 
-const PersonTable: FC<PersonTableProps> = ({ loaded, persons, ...props }: any) => {
+const PersonTable: FC<PersonTableProps> = ({ loaded, invoices, selectedYear, selectedMonth, ...props }: any) => {
   const [state, setState] = useState<PersonTableState>({
     page: 0,
     rowsPerPage: 5
@@ -53,22 +52,25 @@ const PersonTable: FC<PersonTableProps> = ({ loaded, persons, ...props }: any) =
         <Table {...tableProps} stickyHeader aria-label='sticky table'>
           <TableHead>
             <TableRow>
-              <TableCell>UserID</TableCell>
-              <TableCell>Name</TableCell>
+              <TableCell>InvoiceID</TableCell>
+              <TableCell>E-Mail</TableCell>
               <TableCell>Invoice File (PDF)</TableCell>
+              <TableCell>Date (expires following month)</TableCell>
+              <TableCell>Total fee</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {
-              persons?.slice(state.page * state.rowsPerPage, state.page * state.rowsPerPage + state.rowsPerPage)
-                .map((person: ManageUser) => {
+              invoices?.slice(state.page * state.rowsPerPage, state.page * state.rowsPerPage + state.rowsPerPage)
+                .map((invoice: Invoice) => {
                   return (
                     <PersonRow
-                      key={person.username}
-                      person={person}
+                      key={invoices.invoiceID}
+                      invoice={invoice}
                       {...props}
                       classes={props.classes}
-                      selectedDate={props.selectedDate}
+                      selectedYear={selectedYear}
+                      selectedMonth={selectedMonth}
                     />
                   );
                 })
@@ -79,7 +81,7 @@ const PersonTable: FC<PersonTableProps> = ({ loaded, persons, ...props }: any) =
       <TablePagination
         rowsPerPageOptions={[5, 10, 15]}
         component='div'
-        count={persons ? persons.length : 0}
+        count={invoices ? invoices.length : 0}
         rowsPerPage={state.rowsPerPage}
         page={state.page}
         onPageChange={handleChangePage}

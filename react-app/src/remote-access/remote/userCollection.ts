@@ -68,7 +68,7 @@ export default class UserCollection implements IManageUserCollection {
       });
       
       const user = convertRemoteUserToLocal(res.data);
-      
+
       return [user, null];
     } catch (error: any) {      
       return [null, error];

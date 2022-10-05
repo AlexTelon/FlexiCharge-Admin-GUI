@@ -1,6 +1,6 @@
 /* eslint-disable */
 /* eslint-disable react/jsx-no-undef */
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   createStyles, makeStyles, Theme, Box,
   AppBar, Toolbar, Typography, Container, Grid,
@@ -11,13 +11,12 @@ import {
 import { Helmet } from 'react-helmet';
 import { Replay, ControlPoint } from '@material-ui/icons';
 import { ManageUser } from '@/remote-access/types';
-import { ManageTransaction } from '@/remote-access/types';
 import { TabContext, TabList, TabPanel } from '@material-ui/lab';
 import PersonTable from '@/components/pages/invoices/PersonTable';
 import PersonTableIndividualInvoice from '@/components/pages/invoices/PersonTableIndividualInvoice';
 import { useParams } from 'react-router-dom';
-import { manageTransactionCollection, manageUserCollection } from '@/remote-access';
-import { transactionCollection } from '@/remote-access';
+import { manageInvoiceCollection } from '@/remote-access';
+
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     appBar: {
@@ -138,6 +137,8 @@ const RenderInvoices = () => {
   const theme: Theme = useTheme();
   const classes = useStyles();
   const [selectedTab, setSelectedTab] = React.useState('users');
+  let [selectedYear, setYear] = React.useState('2022');
+  let [selectedMonth, setMonth] = React.useState('00');
 
   const handleTabChange = (event: any, newTab: string) => {
     setSelectedTab(newTab);
@@ -155,21 +156,6 @@ const RenderInvoices = () => {
       ...state,
       loaded: false
     });
-    const [persons, error] = await manageUserCollection.getAllUsers();
-    await manageTransactionCollection.getTransactionsByUserId('1');
-
-    if (persons) {
-      setState({
-        loaded: true,
-        persons,
-      });
-    } else if (error) {
-      setState({
-        loaded: true,
-        error: true,
-        errorMessage: 'Failed to fetch invoices'
-      });
-    }
   };
 
   useEffect(() => {
@@ -198,33 +184,38 @@ const RenderInvoices = () => {
       });
     }
   };
-
-  let selectedDate = {
-    month: 0,
-    year: 0
+  
+  const updateSelectedYear = async (event: any) => {
+    setYear(() => {
+      return selectedYear = event?.target.value
+    });
+    await handleDateFilter(); 
+  } 
+  const updateSelectedMonth = async (event: any) => {
+    setMonth(() => {
+      return selectedMonth = event?.target.value
+    });
+    await handleDateFilter(); 
   }
-  const setMonth = (event: any) => {
-    console.log('changed month');
-    selectedDate.month = event?.target.value
-    handleDateFilter
-    // console.log(selectedDate.month)
-  };
 
-  const setYear = (event: any) => {
-    console.log('changed year');
-    selectedDate.year = event?.target.value
-    handleDateFilter
-    // console.log(selectedDate.year)
-  };
-
-  const handleDateFilter = () => {
-    if (selectedDate.month !== 0 && selectedDate.year !== 0) {
-      /*
-      TODO: Filter invoices based on date, once we get invoices and their dates from backend (Like below for example)
-      const persons = state.persons.filter((person: ManageUser) => {
-        return `${invoice.date}` = selectedDate.year+'-'+selectedDate.month;
+  const handleDateFilter = async () => {
+    setState({
+      ...state,
+      loaded: false
+    });
+    const [invoices, error] = await manageInvoiceCollection.getInvoiceByDate(selectedYear, selectedMonth, 'PAID');
+    
+    if (invoices) {
+      setState({
+        loaded: true,
+        invoices,
       });
-      */
+    } else if (error) {
+      setState({
+        loaded: true,
+        error: true,
+        errorMessage: 'Failed to fetch invoices'
+      });
     }
   };
 
@@ -257,18 +248,18 @@ const RenderInvoices = () => {
                       <AppBar position="static" className={classes.contentAppBar} elevation={1}>
                         <Toolbar>
                           <Box sx={{ width: '15%', marginRight: '10pt', height: '40pt' }}>
-                            <FormControl fullWidth>
+                            <FormControl fullWidth >
                               <InputLabel id="demo-simple-select-label">Year</InputLabel>
                               <Select
                                 labelId="demo-simple-select-label"
                                 id="demo-simple-select"
-                                onChange={setYear}
+                                onChange={updateSelectedYear}
                                 label="Year"
                               >
-                                <MenuItem value={2019}>2019</MenuItem>
-                                <MenuItem value={2020}>2020</MenuItem>
-                                <MenuItem value={2021}>2021</MenuItem>
-                                <MenuItem value={2022}>2022</MenuItem>
+                                <MenuItem value={'2019'}>2019</MenuItem>
+                                <MenuItem value={'2020'}>2020</MenuItem>
+                                <MenuItem value={'2021'}>2021</MenuItem>
+                                <MenuItem value={'2022'}>2022</MenuItem>
                               </Select>
                             </FormControl>
                           </Box>
@@ -278,21 +269,21 @@ const RenderInvoices = () => {
                               <Select
                                 labelId="demo-simple-select-label"
                                 id="demo-simple-select"
-                                onChange={setMonth}
+                                onChange={updateSelectedMonth}
                                 label="Month"
                               >
-                                <MenuItem value={1}>January</MenuItem>
-                                <MenuItem value={2}>Feburary</MenuItem>
-                                <MenuItem value={3}>Mars</MenuItem>
-                                <MenuItem value={4}>April</MenuItem>
-                                <MenuItem value={5}>May</MenuItem>
-                                <MenuItem value={6}>June</MenuItem>
-                                <MenuItem value={7}>July</MenuItem>
-                                <MenuItem value={8}>August</MenuItem>
-                                <MenuItem value={9}>September</MenuItem>
-                                <MenuItem value={10}>October</MenuItem>
-                                <MenuItem value={11}>November</MenuItem>
-                                <MenuItem value={12}>December</MenuItem>
+                                <MenuItem value={'01'}>January</MenuItem>
+                                <MenuItem value={'02'}>Feburary</MenuItem>
+                                <MenuItem value={'03'}>Mars</MenuItem>
+                                <MenuItem value={'04'}>April</MenuItem>
+                                <MenuItem value={'05'}>May</MenuItem>
+                                <MenuItem value={'06'}>June</MenuItem>
+                                <MenuItem value={'07'}>July</MenuItem>
+                                <MenuItem value={'08'}>August</MenuItem>
+                                <MenuItem value={'09'}>September</MenuItem>
+                                <MenuItem value={'10'}>October</MenuItem>
+                                <MenuItem value={'11'}>November</MenuItem>
+                                <MenuItem value={'12'}>December</MenuItem>
                               </Select>
                             </FormControl>
                           </Box>
@@ -314,9 +305,10 @@ const RenderInvoices = () => {
                     <Paper elevation={2}>
                       <PersonTable
                         classes={classes}
-                        persons={state.persons}
+                        invoices={state.invoices}
                         loaded={state.loaded}
-                        selectedDate={selectedDate}
+                        selectedYear={selectedYear}
+                        selectedMonth={selectedMonth}
                       />
                     </Paper>
                   </>
@@ -354,7 +346,8 @@ const RenderInvoices = () => {
                         classes={classes}
                         persons={state.searchText !== undefined ? state.searchedPersons : state.persons}
                         loaded={state.loaded}
-                        selectedDate={selectedDate}
+                        selectedYear={selectedYear}
+                        selectedMonth={selectedMonth}
                       />
                     </Paper>
                   </>

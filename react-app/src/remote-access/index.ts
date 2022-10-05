@@ -1,5 +1,5 @@
 import container from '../dependencyContainer';
-import { IAuthenticationProvider, IChargerCollection, IChargerStationCollection, IManageUserCollection, IManageAdminCollection, IManageTransactionCollection } from './types';
+import { IAuthenticationProvider, IChargerCollection, IChargerStationCollection, IManageUserCollection, IManageAdminCollection, IManageTransactionCollection, IManageInvoiceCollection } from './types';
 
 export const authenticationProvider = container.resolve<IAuthenticationProvider>('authenticationProvider');
 export const chargerStationCollection = container.resolve<IChargerStationCollection>('chargerStationCollection');
@@ -10,3 +10,5 @@ export const userCollection = container.resolve<IManageUserCollection>('userColl
 export const chargerCollection = container.resolve<IChargerCollection>('chargerCollection');
 export const manageTransactionCollection = container.resolve<IManageTransactionCollection>('manageTransactionCollection');
 export const transactionCollection = container.resolve<IManageTransactionCollection>('transactionCollection');
+export const manageInvoiceCollection = container.resolve<IManageInvoiceCollection>('manageInvoiceCollection');
+// export const invoiceCollection = container.resolve<IManageInvoiceCollection>('invoiceCollection');
