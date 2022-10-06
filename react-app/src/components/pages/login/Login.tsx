@@ -86,7 +86,8 @@ const LoginFields: FC<LoginFieldProps> = ({ setLoading }) => {
   let [tempPassword, setTempPassword] = React.useState('');
   let [newPassword, setNewPassword] = React.useState('');
   let [verifyUsername, setVerifyUserame] = React.useState('');
-  const [errorState, setErrorState] = useState<any>({});
+  const [alertState, setAlertState] = useState<any>({});
+  //const [successState, setSuccessState] = useState<any>({});
 
   const toggleForm = () => {
     if(selectedForm === 'login'){
@@ -132,26 +133,26 @@ const LoginFields: FC<LoginFieldProps> = ({ setLoading }) => {
       setLoading(true);
       const [wasSuccess, errors] = await authenticationProvider.login(username, password);
       if (wasSuccess) {
-        setErrorState({});
+        setAlertState({});
       } else { 
         switch (true) {
           case errors.invalidCredentials: 
-            setErrorState({
+            setAlertState({
               alertError: 'Invalid credentials'
             });
             break;
           case errors.unauthorized:
-            setErrorState({
+            setAlertState({
               alertError: 'User has unathorized access'
             });
             break;
           case errors.notVerified: 
-            setErrorState({
+            setAlertState({
               alertError: 'User is not verified'
             });
             break;
           case errors.unknownError:
-            setErrorState({
+            setAlertState({
               alertError: 'An error occured, please try again later'
             });
             break;
@@ -162,7 +163,7 @@ const LoginFields: FC<LoginFieldProps> = ({ setLoading }) => {
       }
       setLoading(false);
     } else {
-      setErrorState({
+      setAlertState({
         usernameError: !username ? 'Required' : undefined,
         passwordError: !password ? 'Required' : undefined
       });
@@ -174,12 +175,12 @@ const LoginFields: FC<LoginFieldProps> = ({ setLoading }) => {
       setLoading(true);
       const wasSuccess = await authenticationProvider.getAdminSession(verifyUsername, tempPassword, newPassword);
       if (wasSuccess) {
-        setErrorState({
-          alertError: 'Verified'
+        setAlertState({
+          alertVerifySuccess: 'Verified'
         });
       } else { 
-        setErrorState({
-          alertError: 'Invalid credentials'
+        setAlertState({
+          alertVerifyError: 'Invalid credentials'
         });
       }
     } 
@@ -195,8 +196,21 @@ const LoginFields: FC<LoginFieldProps> = ({ setLoading }) => {
   return (
     <>
       <form className="login-input-fields">
-        {errorState.alertError !== undefined &&
-          <Alert className={classes.alertBox} severity="warning">{errorState.alertError}</Alert>
+        
+        {selectedForm === 'login' && alertState.alertError !== undefined &&
+          <>
+          <Alert className={classes.alertBox} severity="warning">{alertState.alertError}</Alert>
+          </>
+        }
+        {selectedForm === 'verify' && alertState.alertVerifySuccess !== undefined &&
+          <>
+            <Alert className={classes.alertBox} severity="success">{alertState.alertVerifySuccess}</Alert>
+          </>
+        }
+        {selectedForm === 'verify' && alertState.alertVerifyError !== undefined &&
+          <>
+            <Alert className={classes.alertBox} severity="warning">{alertState.alertVerifyError}</Alert>
+          </>
         }
         {selectedForm === 'login' &&
         <>
@@ -206,8 +220,8 @@ const LoginFields: FC<LoginFieldProps> = ({ setLoading }) => {
             label="Username"
             size="small"
             value={username}
-            error={errorState.usernameError !== undefined}
-            helperText={errorState.usernameError}
+            error={alertState.usernameError !== undefined}
+            helperText={alertState.usernameError}
             variant="standard" InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -223,8 +237,8 @@ const LoginFields: FC<LoginFieldProps> = ({ setLoading }) => {
             variant="standard"
             size="small"
             value={password}
-            error={errorState.passwordError !== undefined}
-            helperText={errorState.passwordError}
+            error={alertState.passwordError !== undefined}
+            helperText={alertState.passwordError}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -253,8 +267,8 @@ const LoginFields: FC<LoginFieldProps> = ({ setLoading }) => {
             size="small"
             autoComplete="new-password"
             value={verifyUsername}
-            error={errorState.usernameError !== undefined}
-            helperText={errorState.usernameError}
+            error={alertState.usernameError !== undefined}
+            helperText={alertState.usernameError}
             variant="standard" InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -271,8 +285,8 @@ const LoginFields: FC<LoginFieldProps> = ({ setLoading }) => {
             size="small"
             autoComplete="new-password"
             value={tempPassword}
-            error={errorState.passwordError !== undefined}
-            helperText={errorState.passwordError}
+            error={alertState.passwordError !== undefined}
+            helperText={alertState.passwordError}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -289,8 +303,8 @@ const LoginFields: FC<LoginFieldProps> = ({ setLoading }) => {
             size="small"
             autoComplete="new-password"
             value={newPassword}
-            error={errorState.passwordError !== undefined}
-            helperText={errorState.passwordError}
+            error={alertState.passwordError !== undefined}
+            helperText={alertState.passwordError}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
