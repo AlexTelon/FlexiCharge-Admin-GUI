@@ -19,7 +19,7 @@ const UserRow: FC<userRowProps> = ({ user, editClicked, selected, handleSelect }
   const theme: Theme = useTheme();
 
   const created = user.created?.replace('T', ' ').replace('Z', '').split('.').at(0);
-
+  
   return (
     <>
       <TableRow 
