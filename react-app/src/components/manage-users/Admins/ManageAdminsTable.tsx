@@ -13,7 +13,7 @@ interface HeadCell {
 const headCells: HeadCell[] = [
   {
     id: 'name',
-    label: 'Name',
+    label: 'Name/userID',
     alignRight: false
   },
   {
