@@ -65,8 +65,8 @@ const ChargerStationEditPanel: FC<ChargerStationEditPanelProps> = ({ stationId, 
         if (chargerStation === null) return;
         setFields({
           name: chargerStation.name,
-          longitude: chargerStation.location[0],
-          latitude: chargerStation.location[1],
+          longitude: chargerStation.location[1],
+          latitude: chargerStation.location[0],
           price: chargerStation.price
         });
         setStation(chargerStation);
@@ -79,7 +79,7 @@ const ChargerStationEditPanel: FC<ChargerStationEditPanelProps> = ({ stationId, 
       setLoading(true);
       const result = await chargerStationCollection.updateChargerStation(stationId, {
         name: fields.name,
-        location: [Number(fields.longitude), Number(fields.latitude)],
+        location: [Number(fields.latitude), Number(fields.longitude)],
         price: Number(fields.price),
         klarnaReservationAmount: 500
       });
@@ -108,8 +108,8 @@ const ChargerStationEditPanel: FC<ChargerStationEditPanelProps> = ({ stationId, 
     if (station) {
       setFields({
         name: station.name,
-        longitude: station.location[0],
-        latitude: station.location[1]
+        longitude: station.location[1],
+        latitude: station.location[0]
       });
     }
   };
@@ -191,17 +191,6 @@ const ChargerStationEditPanel: FC<ChargerStationEditPanelProps> = ({ stationId, 
                 />
                 <FormHelperText id="station-price-helper">Station Price</FormHelperText>
               </FormControl>
-              <FormControl fullWidth variant="filled" error={errorState.longitude !== undefined}>
-                <InputLabel htmlFor="station-longitude-input">Longitude</InputLabel>
-                <Input
-                  id="station-longitude-input"
-                  aria-describedby="station-longitude-helper"
-                  type="number"
-                  value={fields.longitude}
-                  onChange={(e) => { handleInputChange('longitude', e.target.value); }}
-                />
-                <FormHelperText id="station-longitude-helper">Geographic Coordinate</FormHelperText>
-              </FormControl>
               <FormControl fullWidth variant="filled" error={errorState.latitude !== undefined}>
                 <InputLabel htmlFor="station-latitude-input">Latitude</InputLabel>
                 <Input
@@ -212,6 +201,17 @@ const ChargerStationEditPanel: FC<ChargerStationEditPanelProps> = ({ stationId, 
                   onChange={(e) => { handleInputChange('latitude', e.target.value); }} 
                 />
                 <FormHelperText id="station-latitude-helper">Geographic Coordinate</FormHelperText>
+              </FormControl>
+              <FormControl fullWidth variant="filled" error={errorState.longitude !== undefined}>
+                <InputLabel htmlFor="station-longitude-input">Longitude</InputLabel>
+                <Input
+                  id="station-longitude-input"
+                  aria-describedby="station-longitude-helper"
+                  type="number"
+                  value={fields.longitude}
+                  onChange={(e) => { handleInputChange('longitude', e.target.value); }}
+                />
+                <FormHelperText id="station-longitude-helper">Geographic Coordinate</FormHelperText>
               </FormControl>
               <Box display="flex" sx={{ flexDirection: 'row-reverse', py: 1 }}>
                 <Button variant="contained" color="primary" className={classes.saveButton} onClick={handleSaveClick} >

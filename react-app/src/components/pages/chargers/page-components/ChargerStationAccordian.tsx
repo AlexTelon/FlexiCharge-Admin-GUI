@@ -96,7 +96,7 @@ const ChargerStationAccordian: FC<ChargerStationAccordionProps> = ({ stationId, 
               <Grid item xl={3}>
                 <ListItemText
                   primary={`${state.station.location[0]}, ${state.station.location[1]}`}
-                  secondary="Longitude, Latitude"
+                  secondary="Latitude, Longitude"
                 />
               </Grid>
               <Grid item xl={3}>
