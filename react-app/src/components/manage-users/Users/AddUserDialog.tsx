@@ -36,7 +36,7 @@ const AddSingleUserDialog = ({ open, handleClose, setReload }: any) => {
   };
 
   const handleSubmitClicked = async () => {
-    if (fields.name && fields.email && fields.family_name && fields.username && fields.password) {
+    if (fields.name && fields.family_name && fields.username && fields.password) {
       setLoading(true);
       const result = await userCollection.addUser((fields as ManageUser));
 
@@ -60,7 +60,7 @@ const AddSingleUserDialog = ({ open, handleClose, setReload }: any) => {
     } else {
       setErrorState({
         name: !fields.name ? 'Required' : undefined,
-        email: !fields.email ? 'Required' : undefined,
+        username: !fields.username ? 'Required' : undefined,
         family_name: !fields.family_name ? 'Required' : undefined,
         password: !fields.password ? 'Required' : undefined
       });
@@ -137,23 +137,13 @@ const AddSingleUserDialog = ({ open, handleClose, setReload }: any) => {
                   }
                 </FormHelperText>
               </FormControl>
-              <FormControl style={{ marginTop: 12 }} fullWidth variant="outlined" error={errorState.email !== undefined}>
-                <InputLabel htmlFor="user-email-input">Email</InputLabel>
-                <Input id="user-email-input" aria-describedby="user-email-helper" onChange={(e) => handleInputChange('email', e.target.value)} value={fields.email} />
-                <FormHelperText id="user-email-helper">
-                  {errorState.email
-                    ? `${errorState.email} | Email adress`
-                    : 'example@mail.com'
-                  }
-                </FormHelperText>
-              </FormControl>
               <FormControl style={{ marginTop: 12 }} fullWidth variant="outlined" error={errorState.username !== undefined}>
-                <InputLabel htmlFor="user-username-input">Username</InputLabel>
-                <Input id="user-username-input" aria-describedby="user-username-helper" onChange={(e) => handleInputChange('username', e.target.value)} value={fields.username} />
-                <FormHelperText id="user-username-helper">
+                <InputLabel htmlFor="user-email-input">Email</InputLabel>
+                <Input id="user-email-input" aria-describedby="user-email-helper" onChange={(e) => handleInputChange('username', e.target.value)} value={fields.email} />
+                <FormHelperText id="user-email-helper">
                   {errorState.username
-                    ? `${errorState.username} | Username`
-                    : ''
+                    ? `${errorState.username} | Email adress`
+                    : 'example@mail.com'
                   }
                 </FormHelperText>
               </FormControl>

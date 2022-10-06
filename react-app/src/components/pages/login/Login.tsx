@@ -141,7 +141,7 @@ const LoginFields: FC<LoginFieldProps> = ({ setLoading }) => {
           className={classes.inputField}
           onChange={handleUsernameChange}
           id="input-with-icon-textfield"
-          label="Username"
+          label="Email"
           size="small"
           value={username}
           error={errorState.usernameError !== undefined}
