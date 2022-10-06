@@ -18,6 +18,8 @@ interface userRowProps {
 const UserRow: FC<userRowProps> = ({ user, editClicked, selected, handleSelect }) => {
   const theme: Theme = useTheme();
 
+  const created = user.created?.replace('T', ' ').replace('Z', '').split('.').at(0);
+
   return (
     <>
       <TableRow 
@@ -35,7 +37,7 @@ const UserRow: FC<userRowProps> = ({ user, editClicked, selected, handleSelect }
           {user.username}
         </TableCell>
         <TableCell>
-          {user.created}
+          {created}
         </TableCell>
         <TableCell align="right">
           <Button
