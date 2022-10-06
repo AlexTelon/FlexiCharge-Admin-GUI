@@ -81,17 +81,24 @@ interface LoginFieldProps {
 const LoginFields: FC<LoginFieldProps> = ({ setLoading }) => {
   const [selectedForm, setSelectedForm] = React.useState('forms');
   const classes = useStyles();
-  const [password, setPassword] = useState<string>();
-  const [username, setUserame] = useState<string>();
+  let [username, setUsername] = React.useState('');
+  let [password, setPassword] = React.useState('');
+  let [tempPassword, setTempPassword] = React.useState('');
+  let [newPassword, setNewPassword] = React.useState('');
+  let [verifyUsername, setVerifyUserame] = React.useState('');
   const [errorState, setErrorState] = useState<any>({});
 
   const toggleForm = () => {
     if(selectedForm === 'login'){
       setSelectedForm('verify');
+      resetTempPassword();
+      resetNewPassword();
+      resetVerifyUsername;
+
     } else {
       setSelectedForm('login')
     }
-    console.log(selectedForm)
+    console.log(password)
   };
 
   const [state, setState] = useState<any>({
@@ -105,13 +112,22 @@ const LoginFields: FC<LoginFieldProps> = ({ setLoading }) => {
     });
   }, []);
 
-  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPassword(e.target.value);
-  };  
-  const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setUserame(e.target.value);
-  };
-  const handleSubmitClicked = async () => {
+  const resetNewPassword = () => {
+    setNewPassword(() => {
+      return newPassword = ''
+    })
+  }
+  const resetTempPassword = () => {
+    setTempPassword(() => {
+      return tempPassword = ''
+    })
+  }
+  const resetVerifyUsername = () => {
+    setUsername(() => {
+      return verifyUsername = ''
+    })
+  }
+  const handleLoginClicked = async () => {
     if (username && password) {
       setLoading(true);
       const [wasSuccess, errors] = await authenticationProvider.login(username, password);
@@ -153,6 +169,19 @@ const LoginFields: FC<LoginFieldProps> = ({ setLoading }) => {
     }
   };
 
+  const handleVerifyClicked = async () => {
+    if (verifyUsername && tempPassword && newPassword) {
+      setLoading(true);
+      //TODO Force reset password
+      setLoading(false);
+    } else {
+      setErrorState({
+        usernameError: !username ? 'Required' : undefined,
+        passwordError: !password ? 'Required' : undefined
+      });
+    }
+  };
+
   if (localStorage.getItem('isAuthenticated')) {
     return (
       <Redirect to="/dashboard" />
@@ -174,7 +203,7 @@ const LoginFields: FC<LoginFieldProps> = ({ setLoading }) => {
         <>
           <TextField 
             className={classes.inputField}
-            onChange={handleUsernameChange}
+            onChange={(e) => setUsername(e.target.value)}
             label="Username"
             size="small"
             value={username}
@@ -189,7 +218,7 @@ const LoginFields: FC<LoginFieldProps> = ({ setLoading }) => {
             }} />
           <TextField
             className={classes.inputField}
-            onChange={handlePasswordChange}
+            onChange={(e) => setPassword(e.target.value)}
             label="Password"
             type="password"
             variant="standard"
@@ -204,7 +233,7 @@ const LoginFields: FC<LoginFieldProps> = ({ setLoading }) => {
                 </InputAdornment>
               )
             }} />
-          <Button onClick={handleSubmitClicked} className={classes.buttonStyle} variant="outlined">Login</Button>
+          <Button onClick={handleLoginClicked} className={classes.buttonStyle} variant="outlined">Login</Button>
           <Typography>
             First time signing in? Verify account
             <Link 
@@ -220,10 +249,11 @@ const LoginFields: FC<LoginFieldProps> = ({ setLoading }) => {
         <>
           <TextField 
             className={classes.inputField}
-            onChange={handleUsernameChange}
+            onChange={(e) => setVerifyUserame(e.target.value)}
             label="Username"
             size="small"
-            value={username}
+            autoComplete="new-password"
+            value={verifyUsername}
             error={errorState.usernameError !== undefined}
             helperText={errorState.usernameError}
             variant="standard" InputProps={{
@@ -235,12 +265,13 @@ const LoginFields: FC<LoginFieldProps> = ({ setLoading }) => {
             }} />
           <TextField
             className={classes.inputField}
-            onChange={handlePasswordChange}
+            onChange={(e) => setTempPassword(e.target.value)}
             label="Temporary password"
             type="password"
             variant="standard"
             size="small"
-            value={password}
+            autoComplete="new-password"
+            value={tempPassword}
             error={errorState.passwordError !== undefined}
             helperText={errorState.passwordError}
             InputProps={{
@@ -252,12 +283,13 @@ const LoginFields: FC<LoginFieldProps> = ({ setLoading }) => {
             }} />
             <TextField
             className={classes.inputField}
-            onChange={handlePasswordChange}
+            onChange={(e) => setNewPassword(e.target.value)}
             label="New password"
             type="password"
             variant="standard"
             size="small"
-            value={password}
+            autoComplete="new-password"
+            value={newPassword}
             error={errorState.passwordError !== undefined}
             helperText={errorState.passwordError}
             InputProps={{
@@ -267,7 +299,7 @@ const LoginFields: FC<LoginFieldProps> = ({ setLoading }) => {
                 </InputAdornment>
               )
             }} />
-          <Button onClick={handleSubmitClicked} className={classes.buttonStyle} variant="outlined">Login</Button>
+          <Button onClick={handleVerifyClicked} className={classes.buttonStyle} variant="outlined">Verify</Button>
           <Typography>
             Already verified? Sign in
             <Link 
