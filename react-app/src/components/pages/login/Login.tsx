@@ -172,14 +172,18 @@ const LoginFields: FC<LoginFieldProps> = ({ setLoading }) => {
   const handleVerifyClicked = async () => {
     if (verifyUsername && tempPassword && newPassword) {
       setLoading(true);
-      //TODO Force reset password
-      setLoading(false);
-    } else {
-      setErrorState({
-        usernameError: !username ? 'Required' : undefined,
-        passwordError: !password ? 'Required' : undefined
-      });
-    }
+      const wasSuccess = await authenticationProvider.getAdminSession(verifyUsername, tempPassword, newPassword);
+      if (wasSuccess) {
+        setErrorState({
+          alertError: 'Verified'
+        });
+      } else { 
+        setErrorState({
+          alertError: 'Invalid credentials'
+        });
+      }
+    } 
+    setLoading(false);
   };
 
   if (localStorage.getItem('isAuthenticated')) {
@@ -188,11 +192,6 @@ const LoginFields: FC<LoginFieldProps> = ({ setLoading }) => {
     );
   }
 
-  /* document.addEventListener('keydown', (e) => {
-    if (e.code === 'Enter') {
-      handleSubmitClicked();
-    }
-  }); */
   return (
     <>
       <form className="login-input-fields">
