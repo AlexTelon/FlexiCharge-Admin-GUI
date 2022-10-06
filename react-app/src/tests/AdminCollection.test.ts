@@ -1,3 +1,5 @@
+/* eslint-disable */
+/* eslint-disable react/jsx-no-undef */
 import {expect, test} from '@jest/globals';
 import { handleAdminsData } from '../remote-access/remote/business-logic'
 

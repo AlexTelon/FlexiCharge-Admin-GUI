@@ -13,6 +13,8 @@ interface adminRowProps {
 const AdminRow: FC<adminRowProps> = ({ admin, editClicked, selected, handleSelect }) => {
   const theme: Theme = useTheme();
 
+  const name = (admin.name) ? admin.name : admin.username; 
+
   return (
     <>
       <TableRow 
@@ -32,10 +34,10 @@ const AdminRow: FC<adminRowProps> = ({ admin, editClicked, selected, handleSelec
             <Typography
               color='textPrimary'
               variant='body1'
-              style={{ maxWidth: '15vw' }}
+              style={{ maxWidth: '30vw' }}
               noWrap
             >
-              {admin.name}
+              {name}
             </Typography>
           </Box>
         </TableCell>
