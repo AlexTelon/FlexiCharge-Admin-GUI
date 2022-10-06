@@ -217,7 +217,7 @@ const LoginFields: FC<LoginFieldProps> = ({ setLoading }) => {
           <TextField 
             className={classes.inputField}
             onChange={(e) => setUsername(e.target.value)}
-            label="Username"
+            label="Email"
             size="small"
             value={username}
             error={alertState.usernameError !== undefined}
@@ -263,7 +263,7 @@ const LoginFields: FC<LoginFieldProps> = ({ setLoading }) => {
           <TextField 
             className={classes.inputField}
             onChange={(e) => setVerifyUserame(e.target.value)}
-            label="Username"
+            label="Email"
             size="small"
             autoComplete="new-password"
             value={verifyUsername}
@@ -324,41 +324,6 @@ const LoginFields: FC<LoginFieldProps> = ({ setLoading }) => {
           </Typography>
           </>
         }
-        <TextField 
-          className={classes.inputField}
-          onChange={handleUsernameChange}
-          id="input-with-icon-textfield"
-          label="Email"
-          size="small"
-          value={username}
-          error={errorState.usernameError !== undefined}
-          helperText={errorState.usernameError}
-          variant="standard" InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <Person className={classes.inputIcon} />
-              </InputAdornment>
-            )
-          }} />
-        <TextField
-          className={classes.inputField}
-          onChange={handlePasswordChange}
-          id="input-with-icon-textfield"
-          label="Password"
-          type="password"
-          variant="standard"
-          size="small"
-          value={password}
-          error={errorState.passwordError !== undefined}
-          helperText={errorState.passwordError}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <Lock className={classes.inputIcon} />
-              </InputAdornment>
-            )
-          }} />
-        <Button onClick={handleSubmitClicked} className={classes.buttonStyle} variant="outlined">Login</Button>
       </form>
     </>
   );
