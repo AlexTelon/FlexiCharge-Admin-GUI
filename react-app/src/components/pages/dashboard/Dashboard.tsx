@@ -49,6 +49,9 @@ const DashboardHome = () => {
       container
     > 
       <Grid
+        onClick={() => {
+          history.push('/dashboard/users');
+        }}
         className={classes.BoxSpacing}
         item
         lg={3}
@@ -59,6 +62,9 @@ const DashboardHome = () => {
         <UsersDashboardComponent className={classes.hoverEffect} />
       </Grid>
       <Grid
+        onClick={() => {
+          history.push('/dashboard/users');
+        }}
         className={classes.BoxSpacing}
         item
         lg={3}
@@ -66,7 +72,7 @@ const DashboardHome = () => {
         xl={3}
         xs={12}
       >
-        <AdminsDashboardComponent />
+        <AdminsDashboardComponent className={classes.hoverEffect} />
       </Grid>
       <Grid
         onClick={() => {
