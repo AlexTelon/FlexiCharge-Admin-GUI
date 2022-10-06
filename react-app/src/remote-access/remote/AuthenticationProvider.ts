@@ -1,4 +1,5 @@
-/* eslint-disable @typescript-eslint/restrict-template-expressions */
+/* eslint-disable */
+/* eslint-disable react/jsx-no-undef */
 import { IAuthenticationProvider } from '../types/authentication-provider';
 import { FLEXICHARGE_API_URL } from '@/appConfig';
 import axios from 'axios';
@@ -43,8 +44,12 @@ export default class AuthenticationProvider implements IAuthenticationProvider {
 
       return [true, {}];
     } catch (error: any) {
-      switch (error.response.status) {
+      if(error.response.data['Session']){
+        return [this.isAuthenticated, { notVerified: true }]
+      } else {
+        switch (error.response.status) {
         case 400:
+          console.log(error.response.data)
           this.isAuthenticated = false;
           return [this.isAuthenticated, { invalidCredentials: true }];
         case 403:
@@ -54,6 +59,49 @@ export default class AuthenticationProvider implements IAuthenticationProvider {
           this.isAuthenticated = false;
           return [false, { unknownError: true }];
       } 
+      }
+      
+    }
+  }
+  
+  async getAdminSession(username: string, tempPassword: string, newPassword: string): Promise <Boolean> {
+    try {
+      const response = await axios({
+        url: `${FLEXICHARGE_API_URL}/admin/sign-in`,
+        method: 'post',
+        timeout: 3000,
+        data: {
+          username: username,
+          password: tempPassword
+        }
+      });
+      
+    } catch (error: any) {
+        const [verified, errors] = await this.verifyAdmin(username, newPassword, error.response.data['Session'])
+        if(verified){
+          return true
+        } else {
+          return false
+        }
+    }
+    return false
+  }
+  async verifyAdmin(username: string, newPassword: string, session: string): Promise<[boolean, any | null]> {
+    try {
+      const response = await axios({
+        url: `${FLEXICHARGE_API_URL}/admin/force-change-password`,
+        method: 'post',
+        timeout: 3000,
+        data: {
+          username: username,
+          password: newPassword,
+          session: session
+        }
+      });
+
+      return [true, {}];
+    } catch (error: any) {
+        return [this.isAuthenticated, { invalidCredentials: true }]
     }
   }
 }
