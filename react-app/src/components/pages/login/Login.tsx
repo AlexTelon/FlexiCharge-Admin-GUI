@@ -101,6 +101,11 @@ const LoginFields: FC<LoginFieldProps> = ({ setLoading }) => {
               alertError: 'User has unathorized access'
             });
             break;
+          case errors.notVerified: 
+            setErrorState({
+              alertError: 'User is not verified'
+            });
+            break;
           case errors.unknownError:
             setErrorState({
               alertError: 'An error occured, please try again later'

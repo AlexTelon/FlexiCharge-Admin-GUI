@@ -1,4 +1,5 @@
-/* eslint-disable @typescript-eslint/restrict-template-expressions */
+/* eslint-disable */
+/* eslint-disable react/jsx-no-undef */
 import { IAuthenticationProvider } from '../types/authentication-provider';
 import { FLEXICHARGE_API_URL } from '@/appConfig';
 import axios from 'axios';
@@ -43,8 +44,12 @@ export default class AuthenticationProvider implements IAuthenticationProvider {
 
       return [true, {}];
     } catch (error: any) {
-      switch (error.response.status) {
+      if(error.response.data['Session']){
+        return [this.isAuthenticated, { notVerified: true }]
+      } else {
+        switch (error.response.status) {
         case 400:
+          console.log(error.response.data)
           this.isAuthenticated = false;
           return [this.isAuthenticated, { invalidCredentials: true }];
         case 403:
@@ -54,6 +59,8 @@ export default class AuthenticationProvider implements IAuthenticationProvider {
           this.isAuthenticated = false;
           return [false, { unknownError: true }];
       } 
+      }
+      
     }
   }
 }
