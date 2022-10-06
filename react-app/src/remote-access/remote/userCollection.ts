@@ -4,7 +4,7 @@
 import { ManageUser, IManageUserCollection } from '../types';
 import { FLEXICHARGE_API_URL } from '../appConfig';
 import axios from 'axios';
-import { convertRemoteUserToLocal, toUserAttributes } from '../utility/remote-user-functions';
+import { convertRemoteUserToLocal, toUserAttributes, convertRemoteUsersToLocal } from '../utility/remote-user-functions';
 import { handleUsersData } from './business-logic';
 
 export default class UserCollection implements IManageUserCollection {
@@ -15,7 +15,9 @@ export default class UserCollection implements IManageUserCollection {
           Authorization: `Bearer ${localStorage.getItem('token')}`
         }
       });
+
       const users = handleUsersData(res.data.Users)
+      console.log(users);
       return [users, null];
     } catch (error: any) {
       return [null, error];
@@ -66,9 +68,8 @@ export default class UserCollection implements IManageUserCollection {
           Authorization: `Bearer ${localStorage.getItem('token')}`
         }
       });
+      const user = convertRemoteUsersToLocal(res.data);
       
-      const user = convertRemoteUserToLocal(res.data);
-
       return [user, null];
     } catch (error: any) {      
       return [null, error];

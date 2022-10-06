@@ -63,6 +63,7 @@ export default class ManageAdminCollection implements IManageAdminCollection {
           Authorization: `Bearer ${localStorage.getItem('token')}`
         }
       });
+
       return [res.data, null];
     } catch (error: any) {
       const errorObj: any = {};

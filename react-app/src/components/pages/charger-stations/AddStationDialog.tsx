@@ -47,7 +47,7 @@ const AddSingleStationDialog = ({ open, handleClose }: any) => {
       setLoading(true);
       const result = await chargerStationCollection.addChargerStation({
         name: fields.name,
-        location: [fields.longitude, fields.latitude],
+        location: [fields.latitude, fields.longitude],
         price: fields.price,
         klarnaReservationAmount: 50000
       });
@@ -154,22 +154,6 @@ const AddSingleStationDialog = ({ open, handleClose }: any) => {
                   }
                 </FormHelperText>
               </FormControl>
-              <FormControl style={{ marginTop: 12 }} fullWidth variant="outlined" error={errorState.longitude !== undefined}>
-                <InputLabel htmlFor="station-longitude-input">Longitude</InputLabel>
-                <Input
-                  id="station-longitude-input"
-                  aria-describedby="station-longitude-helper"
-                  type="number"
-                  onChange={(e) => { handleInputChange('longitude', Number(e.target.value)); }}
-                  value={fields.longitude}
-                />
-                <FormHelperText id="station-longitude-helper">
-                  {errorState.longitude
-                    ? `${errorState.longitude} | Geographic Coordinate`
-                    : 'Geographic Coordinate'
-                  }
-                </FormHelperText>
-              </FormControl>
               <FormControl style={{ marginTop: 12 }} fullWidth variant="outlined" error={errorState.latitude !== undefined}>
                 <InputLabel htmlFor="station-latitude-input">Latitude</InputLabel>
                 <Input
@@ -182,6 +166,22 @@ const AddSingleStationDialog = ({ open, handleClose }: any) => {
                 <FormHelperText id="station-latitude-helper">
                   {errorState.latitude
                     ? `${errorState.latitude} | Geographic Coordinate`
+                    : 'Geographic Coordinate'
+                  }
+                </FormHelperText>
+              </FormControl>
+              <FormControl style={{ marginTop: 12 }} fullWidth variant="outlined" error={errorState.longitude !== undefined}>
+                <InputLabel htmlFor="station-longitude-input">Longitude</InputLabel>
+                <Input
+                  id="station-longitude-input"
+                  aria-describedby="station-longitude-helper"
+                  type="number"
+                  onChange={(e) => { handleInputChange('longitude', Number(e.target.value)); }}
+                  value={fields.longitude}
+                />
+                <FormHelperText id="station-longitude-helper">
+                  {errorState.longitude
+                    ? `${errorState.longitude} | Geographic Coordinate`
                     : 'Geographic Coordinate'
                   }
                 </FormHelperText>

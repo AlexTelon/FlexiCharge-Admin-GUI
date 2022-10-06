@@ -108,7 +108,7 @@ const ChargerStationMap = (props: any) => {
                     <ListItem>
                       <ListItemText
                         primary={`${station.location[0]}, ${station.location[1]}`}
-                        secondary="Longitude, Latitude"
+                        secondary="Latitude, Longitude"
                       />
                     </ListItem>
                     <ListItem>
