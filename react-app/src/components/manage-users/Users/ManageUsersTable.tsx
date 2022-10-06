@@ -15,11 +15,6 @@ interface HeadCell {
 
 const headCells: HeadCell[] = [
   {
-    id: 'name',
-    label: 'Name',
-    alignRight: false
-  },
-  {
     id: 'Email',
     label: 'Email adress',
     alignRight: false

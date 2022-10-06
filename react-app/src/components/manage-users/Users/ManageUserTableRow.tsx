@@ -29,22 +29,6 @@ const UserRow: FC<userRowProps> = ({ user, editClicked, selected, handleSelect }
           <Checkbox color="primary" checked={selected} onChange={() => { handleSelect(user.username); } } />
         </TableCell>
         <TableCell>
-          <Box 
-            sx={{ 
-              alignItems: 'center', 
-              display: 'flex' 
-            }}>
-            <Typography
-              color='textPrimary'
-              variant='body1'
-              style={{ maxWidth: '15vw' }}
-              noWrap
-            >
-              {user.name}
-            </Typography>
-          </Box>
-        </TableCell>
-        <TableCell>
           {user.email}
         </TableCell>
         <TableCell>
