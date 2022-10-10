@@ -1,7 +1,10 @@
-import React, { FC, useState } from 'react';
+/* eslint-disable */
+/* eslint-disable react/jsx-no-undef */
+import React, { useEffect, FC, useState } from 'react';
 import {
   Paper, makeStyles, createStyles, Theme, AppBar, Toolbar,
-  Typography, InputAdornment, TextField, Button, LinearProgress
+  Typography, InputAdornment, TextField, Button, LinearProgress,
+  Link
 } from '@material-ui/core';
 import { Redirect } from 'react-router';
 import { Alert } from '@material-ui/lab';
@@ -41,6 +44,10 @@ const useStyles = makeStyles((theme: Theme) =>
       }
       
     },
+    link: {
+      color: theme.flexiCharge.accent.primary,
+      fontWeight: 'bold'
+    },
     appBar: {
       backgroundColor: theme.flexiCharge.accent.primary,
       color: theme.flexiCharge.primary.white,
@@ -72,37 +79,80 @@ interface LoginFieldProps {
 }
 
 const LoginFields: FC<LoginFieldProps> = ({ setLoading }) => {
+  const [selectedForm, setSelectedForm] = React.useState('forms');
   const classes = useStyles();
-  const [password, setPassword] = useState<string>();
-  const [username, setUserame] = useState<string>();
-  const [errorState, setErrorState] = useState<any>({});
-  
-  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPassword(e.target.value);
-  };  
-  const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setUserame(e.target.value);
+  let [username, setUsername] = React.useState('');
+  let [password, setPassword] = React.useState('');
+  let [tempPassword, setTempPassword] = React.useState('');
+  let [newPassword, setNewPassword] = React.useState('');
+  let [verifyUsername, setVerifyUserame] = React.useState('');
+  const [alertState, setAlertState] = useState<any>({});
+  //const [successState, setSuccessState] = useState<any>({});
+
+  const toggleForm = () => {
+    if(selectedForm === 'login'){
+      setSelectedForm('verify');
+      resetTempPassword();
+      resetNewPassword();
+      resetVerifyUsername;
+
+    } else {
+      setSelectedForm('login')
+    }
+    console.log(password)
   };
-  const handleSubmitClicked = async () => {
+
+  const [state, setState] = useState<any>({
+    loaded: true,
+  });
+  
+  useEffect(() => {
+    setSelectedForm('login');
+    setState({
+      ...state,
+    });
+  }, []);
+
+  const resetNewPassword = () => {
+    setNewPassword(() => {
+      return newPassword = ''
+    })
+  }
+  const resetTempPassword = () => {
+    setTempPassword(() => {
+      return tempPassword = ''
+    })
+  }
+  const resetVerifyUsername = () => {
+    setUsername(() => {
+      return verifyUsername = ''
+    })
+  }
+  const handleLoginClicked = async () => {
     if (username && password) {
       setLoading(true);
       const [wasSuccess, errors] = await authenticationProvider.login(username, password);
       if (wasSuccess) {
-        setErrorState({});
+        setAlertState({});
       } else { 
         switch (true) {
           case errors.invalidCredentials: 
-            setErrorState({
+            setAlertState({
               alertError: 'Invalid credentials'
             });
             break;
           case errors.unauthorized:
-            setErrorState({
+            setAlertState({
               alertError: 'User has unathorized access'
             });
             break;
+          case errors.notVerified: 
+            setAlertState({
+              alertError: 'User is not verified'
+            });
+            break;
           case errors.unknownError:
-            setErrorState({
+            setAlertState({
               alertError: 'An error occured, please try again later'
             });
             break;
@@ -113,65 +163,167 @@ const LoginFields: FC<LoginFieldProps> = ({ setLoading }) => {
       }
       setLoading(false);
     } else {
-      setErrorState({
+      setAlertState({
         usernameError: !username ? 'Required' : undefined,
         passwordError: !password ? 'Required' : undefined
       });
     }
   };
 
-  if (authenticationProvider.isAuthenticated) {
+  const handleVerifyClicked = async () => {
+    if (verifyUsername && tempPassword && newPassword) {
+      setLoading(true);
+      const wasSuccess = await authenticationProvider.getAdminSession(verifyUsername, tempPassword, newPassword);
+      if (wasSuccess) {
+        setAlertState({
+          alertVerifySuccess: 'Verified'
+        });
+      } else { 
+        setAlertState({
+          alertVerifyError: 'Invalid credentials'
+        });
+      }
+    } 
+    setLoading(false);
+  };
+
+  if (localStorage.getItem('isAuthenticated')) {
     return (
       <Redirect to="/dashboard" />
     );
   }
 
-  /* document.addEventListener('keydown', (e) => {
-    if (e.code === 'Enter') {
-      handleSubmitClicked();
-    }
-  }); */
   return (
     <>
       <form className="login-input-fields">
-        {errorState.alertError !== undefined &&
-          <Alert className={classes.alertBox} severity="warning">{errorState.alertError}</Alert>
+        
+        {selectedForm === 'login' && alertState.alertError !== undefined &&
+          <>
+          <Alert className={classes.alertBox} severity="warning">{alertState.alertError}</Alert>
+          </>
         }
-        <TextField 
-          className={classes.inputField}
-          onChange={handleUsernameChange}
-          id="input-with-icon-textfield"
-          label="Username"
-          size="small"
-          value={username}
-          error={errorState.usernameError !== undefined}
-          helperText={errorState.usernameError}
-          variant="standard" InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <Person className={classes.inputIcon} />
-              </InputAdornment>
-            )
-          }} />
-        <TextField
-          className={classes.inputField}
-          onChange={handlePasswordChange}
-          id="input-with-icon-textfield"
-          label="Password"
-          type="password"
-          variant="standard"
-          size="small"
-          value={password}
-          error={errorState.passwordError !== undefined}
-          helperText={errorState.passwordError}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <Lock className={classes.inputIcon} />
-              </InputAdornment>
-            )
-          }} />
-        <Button onClick={handleSubmitClicked} className={classes.buttonStyle} variant="outlined">Login</Button>
+        {selectedForm === 'verify' && alertState.alertVerifySuccess !== undefined &&
+          <>
+            <Alert className={classes.alertBox} severity="success">{alertState.alertVerifySuccess}</Alert>
+          </>
+        }
+        {selectedForm === 'verify' && alertState.alertVerifyError !== undefined &&
+          <>
+            <Alert className={classes.alertBox} severity="warning">{alertState.alertVerifyError}</Alert>
+          </>
+        }
+        {selectedForm === 'login' &&
+        <>
+          <TextField 
+            className={classes.inputField}
+            onChange={(e) => setUsername(e.target.value)}
+            label="Email"
+            size="small"
+            value={username}
+            error={alertState.usernameError !== undefined}
+            helperText={alertState.usernameError}
+            variant="standard" InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Person className={classes.inputIcon} />
+                </InputAdornment>
+              )
+            }} />
+          <TextField
+            className={classes.inputField}
+            onChange={(e) => setPassword(e.target.value)}
+            label="Password"
+            type="password"
+            variant="standard"
+            size="small"
+            value={password}
+            error={alertState.passwordError !== undefined}
+            helperText={alertState.passwordError}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Lock className={classes.inputIcon} />
+                </InputAdornment>
+              )
+            }} />
+          <Button onClick={handleLoginClicked} className={classes.buttonStyle} variant="outlined">Login</Button>
+          <Typography>
+            First time signing in? Verify account
+            <Link 
+            className={classes.link} 
+            underline='none'
+            href='#'
+            onClick={() => toggleForm()}
+            > Here</Link>
+          </Typography>
+          </>
+        }
+        {selectedForm === 'verify' &&
+        <>
+          <TextField 
+            className={classes.inputField}
+            onChange={(e) => setVerifyUserame(e.target.value)}
+            label="Email"
+            size="small"
+            autoComplete="new-password"
+            value={verifyUsername}
+            error={alertState.usernameError !== undefined}
+            helperText={alertState.usernameError}
+            variant="standard" InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Person className={classes.inputIcon} />
+                </InputAdornment>
+              )
+            }} />
+          <TextField
+            className={classes.inputField}
+            onChange={(e) => setTempPassword(e.target.value)}
+            label="Temporary password"
+            type="password"
+            variant="standard"
+            size="small"
+            autoComplete="new-password"
+            value={tempPassword}
+            error={alertState.passwordError !== undefined}
+            helperText={alertState.passwordError}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Lock className={classes.inputIcon} />
+                </InputAdornment>
+              )
+            }} />
+            <TextField
+            className={classes.inputField}
+            onChange={(e) => setNewPassword(e.target.value)}
+            label="New password"
+            type="password"
+            variant="standard"
+            size="small"
+            autoComplete="new-password"
+            value={newPassword}
+            error={alertState.passwordError !== undefined}
+            helperText={alertState.passwordError}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Lock className={classes.inputIcon} />
+                </InputAdornment>
+              )
+            }} />
+          <Button onClick={handleVerifyClicked} className={classes.buttonStyle} variant="outlined">Verify</Button>
+          <Typography>
+            Already verified? Sign in
+            <Link 
+            className={classes.link} 
+            underline='none'
+            href='#'
+            onClick={() => toggleForm()}
+            > Here</Link>
+          </Typography>
+          </>
+        }
       </form>
     </>
   );

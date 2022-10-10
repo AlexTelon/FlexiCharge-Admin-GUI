@@ -36,7 +36,7 @@ const AddSingleAdminDialog = ({ open, handleClose, setReload }: any) => {
   };
 
   const handleSubmitClicked = async () => {
-    if (fields.name && fields.email && fields.family_name && fields.username) {
+    if (fields.name && fields.family_name && fields.username) {
       setLoading(true);
       const result = await adminCollection.addAdmin(fields as ManageAdmin);
 
@@ -61,8 +61,7 @@ const AddSingleAdminDialog = ({ open, handleClose, setReload }: any) => {
       setErrorState({
         name: !fields.name ? 'Required' : undefined,
         username: !fields.username ? 'Required' : undefined,
-        family_name: !fields.family_name ? 'Required' : undefined,
-        email: !fields.email ? 'Required' : undefined
+        family_name: !fields.family_name ? 'Required' : undefined
       });
     }
   };
@@ -137,20 +136,11 @@ const AddSingleAdminDialog = ({ open, handleClose, setReload }: any) => {
                 }
               </FormControl>
               <FormControl style={{ marginTop: 16 }} fullWidth variant="outlined" error={errorState.username !== undefined}>
-                <InputLabel htmlFor="admin-family-name-input">Username</InputLabel>
-                <Input id="admin-family-name-input" aria-describedby="admin-family-name-helper" onChange={(e) => handleInputChange('username', e.target.value)} value={fields.username} />
-                {errorState.username &&
-                  <FormHelperText id="admin-family-name-helper">
-                    {errorState.username}
-                  </FormHelperText>
-                }
-              </FormControl>
-              <FormControl style={{ marginTop: 16 }} fullWidth variant="outlined" error={errorState.email !== undefined}>
                 <InputLabel htmlFor="admin-email-input">Email</InputLabel>
-                <Input id="admin-email-input" aria-describedby="admin-email-helper" onChange={(e) => handleInputChange('email', e.target.value)} value={fields.email} />
+                <Input id="admin-email-input" aria-describedby="admin-email-helper" onChange={(e) => handleInputChange('username', e.target.value)} value={fields.email} />
                 <FormHelperText id="admin-email-helper">
-                  {errorState.email
-                    ? `${errorState.email} | Email adress`
+                  {errorState.username
+                    ? `${errorState.username} | Email adress`
                     : 'Email adress'
                   }
                 </FormHelperText>

@@ -1,5 +1,6 @@
+/* eslint-disable */
 /* eslint-disable react/jsx-no-undef */
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import { AppBar, Box, Grid, Toolbar, Typography } from '@material-ui/core';
 import { Route, Redirect, useHistory } from 'react-router-dom';
@@ -10,11 +11,13 @@ import ChargerStation from './dashboardComponents/ChargerStation';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import Chargers from './dashboardComponents/Chargers';
 import ChargersPage from '../chargers';
+import InvoicesPage from '../invoices/InvoicesPage';
 import ManageUsers from '../manage-users/ManageUsers';
 import UsersDashboardComponent from './dashboardComponents/Users';
 import Sales from './dashboardComponents/Sales';
 import ChargerStationMap from './dashboardComponents/ChargerStationMap';
 import AdminsDashboardComponent from './dashboardComponents/Admins';
+import axios from 'axios';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -40,11 +43,15 @@ const useStyles = makeStyles((theme: Theme) =>
 const DashboardHome = () => {
   const history = useHistory();
   const classes = useStyles();
+
   return (
     <Grid 
       container
     > 
       <Grid
+        onClick={() => {
+          history.push('/dashboard/users');
+        }}
         className={classes.BoxSpacing}
         item
         lg={3}
@@ -55,6 +62,9 @@ const DashboardHome = () => {
         <UsersDashboardComponent className={classes.hoverEffect} />
       </Grid>
       <Grid
+        onClick={() => {
+          history.push('/dashboard/users');
+        }}
         className={classes.BoxSpacing}
         item
         lg={3}
@@ -62,7 +72,7 @@ const DashboardHome = () => {
         xl={3}
         xs={12}
       >
-        <AdminsDashboardComponent />
+        <AdminsDashboardComponent className={classes.hoverEffect} />
       </Grid>
       <Grid
         onClick={() => {
@@ -116,6 +126,7 @@ const DashboardHome = () => {
 
 const Dashboard = (props: any) => {
   const classes = useStyles();
+
   return (
     <>
       <Helmet>
@@ -135,6 +146,7 @@ const Dashboard = (props: any) => {
           <Route path="/dashboard/stations" exact render={() => (<ChargerStations />)} />
           <Route path="/dashboard/chargers" exact render={(props) => (<ChargersPage {...props} />)} />
           <Route path="/dashboard/chargers/:stationId" exact render={(props) => (<ChargersPage {...props} />)} />
+          <Route path="/dashboard/invoices" exact render={() => (<InvoicesPage />) } />
           <Route path="/dashboard/users" exact render={() => (<ManageUsers />) } />
         </Box>
         <Box component="main" sx={{ flexGrow: 1 }}>
@@ -147,7 +159,7 @@ const Dashboard = (props: any) => {
 export const DashboardRoute = ({ ...rest }) => {
   return (
     <Route {...rest} render={() => {
-      return authenticationProvider.isAuthenticated
+      return localStorage.getItem('isAuthenticated')
         ? <Dashboard />
         : <Redirect to='/login' />;
     }} />

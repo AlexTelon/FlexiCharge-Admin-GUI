@@ -1,17 +1,17 @@
-/* eslint-disable no-useless-escape */
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import appConfig from '@/appConfig';
+/* eslint-disable */
+/* eslint-disable react/jsx-no-undef */
+import { FLEXICHARGE_API_URL } from '@/appConfig';
 import axios from 'axios';
-import { authenticationProvider } from '..';
 import { ManageAdmin, IManageAdminCollection } from '../types';
 import { convertRemoteUserToLocal, toUserAttributes } from '../utility/remote-user-functions';
+import { handleAdminsData } from './business-logic';
 
 export default class ManageAdminCollection implements IManageAdminCollection {  
   async deleteAdmin(username: string): Promise<boolean> {
     try {
-      await axios.delete(`${appConfig.FLEXICHARGE_API_URL}/auth/admin/${username}`, {
+      await axios.delete(`${FLEXICHARGE_API_URL}/admin/${username}`, {
         headers: {
-          Authorization: `Bearer ${authenticationProvider.getToken()}`
+          Authorization: `Bearer ${localStorage.getItem('token')}`
         }
       });
 
@@ -26,18 +26,12 @@ export default class ManageAdminCollection implements IManageAdminCollection {
   
   async getAllAdmins(): Promise<[ManageAdmin[] | null, any | null]> {
     try {
-      const res = await axios.get(`${appConfig.FLEXICHARGE_API_URL}/auth/admin/`, {
+      const res = await axios.get(`${FLEXICHARGE_API_URL}/admin/`, {
         headers: {
-          Authorization: `Bearer ${authenticationProvider.getToken()}`
+          Authorization: `Bearer ${localStorage.getItem('token')}`
         }
       });
-
-      const admins: ManageAdmin[] = [];
-      for (const adminData of res.data.Users) {
-        const admin = convertRemoteUserToLocal(adminData) as ManageAdmin;
-        admins.push(admin);
-      }
-
+      const admins = handleAdminsData(res.data.Users)
       return [admins, null];
     } catch (error: any) {
       return [null, error];
@@ -46,9 +40,9 @@ export default class ManageAdminCollection implements IManageAdminCollection {
 
   async getAdminById(username: string): Promise<ManageAdmin | null> {
     try {
-      const res = await axios.get(`${appConfig.FLEXICHARGE_API_URL}/auth/admin/${username}`, {
+      const res = await axios.get(`${FLEXICHARGE_API_URL}/admin/${username}`, {
         headers: {
-          Authorization: `Bearer ${authenticationProvider.getToken()}`
+          Authorization: `Bearer ${localStorage.getItem('token')}`
         }
       });
       
@@ -62,13 +56,14 @@ export default class ManageAdminCollection implements IManageAdminCollection {
 
   async addAdmin(fields: Omit<ManageAdmin, 'id'>): Promise<[string | null, any | null]> {
     try {
-      const res = await axios.post(`${appConfig.FLEXICHARGE_API_URL}/auth/admin/`, {
+      const res = await axios.post(`${FLEXICHARGE_API_URL}/admin/`, {
         ...fields
       }, {
         headers: {
-          Authorization: `Bearer ${authenticationProvider.getToken()}`
+          Authorization: `Bearer ${localStorage.getItem('token')}`
         }
       });
+
       return [res.data, null];
     } catch (error: any) {
       const errorObj: any = {};
@@ -100,12 +95,12 @@ export default class ManageAdminCollection implements IManageAdminCollection {
   async updateAdmin(username: string, fields: Omit<ManageAdmin, 'username'>): Promise<[ManageAdmin | null, any | null]> {
     try {
       const userAttributes = toUserAttributes(fields);
-      const res = await axios.put(`${appConfig.FLEXICHARGE_API_URL}/auth/admin/${username}`, {
+      const res = await axios.put(`${FLEXICHARGE_API_URL}/admin/${username}`, {
         userAttributes
       },
       {
         headers: {
-          Authorization: `Bearer ${authenticationProvider.getToken()}`
+          Authorization: `Bearer ${localStorage.getItem('token')}`
         }
       });
       
@@ -137,4 +132,5 @@ export default class ManageAdminCollection implements IManageAdminCollection {
       return [null, errorObj];
     }
   }
+
 }

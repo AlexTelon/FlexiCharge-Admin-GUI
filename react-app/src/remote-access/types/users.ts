@@ -4,12 +4,17 @@ export interface ManageUser {
   emailVerified?: boolean
   name?: string
   family_name?: string
-  email?: string
+  email: string
   created?: string
   lastModified?: string
   enabled?: boolean
   password?: string
   userStatus?: 'UNCONFIRMED' | 'CONFIRMED' | 'FORCE_CHANGE_PASSWORD'
+}
+
+export interface TestManageUser {
+  username: string
+  name?: string
 }
 
 export interface IManageUserCollection {
@@ -18,6 +23,7 @@ export interface IManageUserCollection {
   addUser: (fields: Omit<ManageUser, 'id'>) => Promise<[ManageUser | null, any | null]>
   updateUser: (username: string, fields: Omit<ManageUser, 'username'>) => Promise<[ManageUser | null, any | null]>
   deleteUser: (username: string) => Promise<boolean>
+  resetUserPassword: (email: string) => Promise<[ManageUser | null, any | null]>
 }
 
 export interface ManageAdmin {

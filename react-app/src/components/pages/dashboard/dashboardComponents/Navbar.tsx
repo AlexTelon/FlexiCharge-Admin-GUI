@@ -16,6 +16,7 @@ import EvStationIcon from '@material-ui/icons/EvStation';
 import BatteryChargingFullIcon from '@material-ui/icons/BatteryChargingFull';
 import PeopleIcon from '@material-ui/icons/People';
 import { useHistory } from 'react-router';
+import { Receipt } from '@material-ui/icons';
 
 // import MenuIcon from '@material-ui/icons/Menu';
 
@@ -28,6 +29,7 @@ const categories = [
       { id: 'Dashboard', icon: <DashboardIcon />, location: '/Dashboard', active: false },
       { id: 'Charger Station', icon: <EvStationIcon />, location: '/Dashboard/stations' },
       { id: 'Chargers', icon: <BatteryChargingFullIcon />, location: '/Dashboard/chargers' },
+      { id: 'Invoices', icon: <Receipt />, location: '/Dashboard/invoices' },
       { id: 'Users', icon: <PeopleIcon />, location: '/Dashboard/users' }
     ]
   }
@@ -134,6 +136,13 @@ export default function MiniDrawer() {
     setMobileOpen(!mobileOpen);
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem('isAuthenticated');
+    localStorage.removeItem('token');
+    localStorage.removeItem('username');
+    window.location.reload();
+  };
+
   const history = useHistory();
 
   return (
@@ -205,7 +214,7 @@ export default function MiniDrawer() {
         <Divider />
         
         <List className={classes.navBotSection}>
-          <ListItem button onClick={() => { window.location.reload(); }}>
+          <ListItem button onClick={() => { handleLogout(); }}>
             <ListItemIcon>
               <Icon className={classes.itemIcon}>logout</Icon>
             </ListItemIcon>

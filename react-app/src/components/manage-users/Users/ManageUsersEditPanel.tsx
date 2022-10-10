@@ -1,6 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { AppBar, Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Divider, FormControl, Grid, IconButton, Input, InputLabel, LinearProgress, Paper, Theme, Toolbar, Typography, useMediaQuery } from '@material-ui/core';
-import { Close } from '@material-ui/icons';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable */
+/* eslint-disable react/jsx-no-undef */
+import { AppBar, Box, Button, Dialog, DialogContentText, DialogActions, DialogContent, DialogTitle, Divider, FormControl, Grid, IconButton, Input, InputLabel, LinearProgress, Paper, Theme, Toolbar, Typography, useMediaQuery } from '@material-ui/core';
+import { Close, LockOpen } from '@material-ui/icons';
 import { createStyles, makeStyles, useTheme } from '@material-ui/styles';
 import React, { FC, useEffect, useState } from 'react';
 import { userCollection } from '@/remote-access';
@@ -131,6 +134,7 @@ const ManageUsersEditPanel: FC<ManageUsersEditPanelProps> = ({ username, setActi
 
   const theme: Theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
+  const [open, setOpen] = React.useState(false);
 
   const handleDeleteDialogOpen = () => {
     setDeleteDialogOpen(true);
@@ -138,6 +142,31 @@ const ManageUsersEditPanel: FC<ManageUsersEditPanelProps> = ({ username, setActi
 
   const handleDeleteDialogClose = () => {
     setDeleteDialogOpen(false);
+  };
+
+  const handleResetUserPassword = () => {
+    userCollection.resetUserPassword(user?.email).then((wasSuccess) => {
+      if (wasSuccess) {
+        console.log('success');
+      } else {
+        console.log('failed');
+      }
+    }).catch((_: any) => {
+      console.log('error');
+    });
+  };
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleYesClicked = () => {
+    setOpen(false);
+    handleResetUserPassword();
+  };
+
+  const handleNoClicked = () => {
+    setOpen(false);
   };
 
   return (
@@ -168,7 +197,7 @@ const ManageUsersEditPanel: FC<ManageUsersEditPanelProps> = ({ username, setActi
             {errorState.alert &&
               <Alert severity="warning">{errorState.alert}</Alert>
             }
-            <Box sx={{ px: 4 }}>
+            <Box sx={{ px: 1 }}>
               <FormControl fullWidth variant="filled" error={errorState.name !== undefined}>
                 <InputLabel htmlFor="username-input">Name</InputLabel>
                 <Input 
@@ -189,13 +218,47 @@ const ManageUsersEditPanel: FC<ManageUsersEditPanelProps> = ({ username, setActi
                 Max 10 digits
               </FormControl>
               <Box display="flex" sx={{ flexDirection: 'row-reverse', py: 1 }}>
+              <Button
+                  startIcon={<LockOpen />}
+                  className={classes.saveButton}
+                  variant="contained"
+                  color="primary"
+                  onClick={() => handleClickOpen()}
+                >
+                Reset Password
+                </Button>
                 <Button variant ="contained" color="primary" className={classes.saveButton} onClick={handleSaveClick}>
                   Save
                 </Button>
                 <Button color="primary" onClick={handleCancelClick}>
                   Cancel
                 </Button>
-              </Box>
+              </Box>  
+              <div>
+              <Dialog
+                fullScreen={fullScreen}
+                open={open}
+                onClose={handleNoClicked}
+                aria-labelledby="responsive-dialog-title"
+              >
+                <DialogTitle id="responsive-dialog-title">
+                  {"Are you sure you want to reset this user's password?"}
+                </DialogTitle>
+                <DialogContent>
+                  <DialogContentText>
+                    The password for this user is about to be reset. Proceed?
+                  </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                  <Button autoFocus onClick={handleNoClicked}>
+                    No
+                  </Button>
+                  <Button onClick={handleYesClicked} autoFocus>
+                    Yes
+                  </Button>
+                </DialogActions>
+              </Dialog>
+              </div>
             </Box>
           </form>
           <Divider />

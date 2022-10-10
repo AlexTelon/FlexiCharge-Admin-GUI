@@ -32,11 +32,25 @@ export const convertRemoteUserToLocal = (remoteUser: any): ManageUser => {
   const attributes = fromUserAttributes(remoteUser.UserAttributes ?? remoteUser.Attributes);
   const localUser: ManageUser = {
     username: remoteUser.Username,
-    userStatus: remoteUser.UserStatus,
+    userStatus: remoteUser.userStatus,
     enabled: remoteUser.Enabled,
     created: remoteUser.UserCreateDate,
     lastModified: remoteUser.lastModified,
     ...attributes
+  };
+  return localUser;
+};
+
+export const convertRemoteUsersToLocal = (remoteUser: any): ManageUser => {
+  const localUser: ManageUser = {
+    email: remoteUser.Username,
+    userStatus: remoteUser.userStatus,
+    enabled: remoteUser.Enabled,
+    created: remoteUser.UserCreateDate,
+    lastModified: remoteUser.lastModified,
+    username: remoteUser.userId,
+    name: remoteUser.firstName,
+    family_name: remoteUser.lastName
   };
   return localUser;
 };

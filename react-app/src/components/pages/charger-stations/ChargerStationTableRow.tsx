@@ -102,7 +102,7 @@ const ChargerStationTableRow: FC<ChargerStationTableRowProps> = ({ station, edit
                 <Grid item xl={2}>
                   <ListItemText
                     primary={`${station.location[0]}, ${station.location[1]}`}
-                    secondary="Longitude, Latitude"
+                    secondary="Latitude, Longitude"
                   />
                 </Grid>
                 <Grid item xl={2}>

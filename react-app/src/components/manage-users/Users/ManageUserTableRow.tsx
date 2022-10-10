@@ -1,8 +1,12 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable */
+/* eslint-disable react/jsx-no-undef */
 import React, { FC } from 'react';
-import { Theme, useTheme, TableRow, TableCell, Checkbox, Box, Typography, Button } from '@material-ui/core';
-import { Edit } from '@material-ui/icons';
+import { Theme, useTheme, TableRow, TableCell, Checkbox, Box, Typography, Button, 
+  Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, useMediaQuery } from '@material-ui/core';
+import { Edit, LockOpen } from '@material-ui/icons';
 import { ManageUser } from '@/remote-access/types';
+import { userCollection } from '@/remote-access';
 
 interface userRowProps {
   user: ManageUser
@@ -14,6 +18,8 @@ interface userRowProps {
 const UserRow: FC<userRowProps> = ({ user, editClicked, selected, handleSelect }) => {
   const theme: Theme = useTheme();
 
+  const created = user.created?.replace('T', ' ').replace('Z', '').split('.').at(0);
+  
   return (
     <>
       <TableRow 
@@ -25,29 +31,13 @@ const UserRow: FC<userRowProps> = ({ user, editClicked, selected, handleSelect }
           <Checkbox color="primary" checked={selected} onChange={() => { handleSelect(user.username); } } />
         </TableCell>
         <TableCell>
-          <Box 
-            sx={{ 
-              alignItems: 'center', 
-              display: 'flex' 
-            }}>
-            <Typography
-              color='textPrimary'
-              variant='body1'
-              style={{ maxWidth: '15vw' }}
-              noWrap
-            >
-              {user.name}
-            </Typography>
-          </Box>
-        </TableCell>
-        <TableCell>
           {user.email}
         </TableCell>
         <TableCell>
           {user.username}
         </TableCell>
         <TableCell>
-          {user.created}
+          {created}
         </TableCell>
         <TableCell align="right">
           <Button
@@ -57,7 +47,6 @@ const UserRow: FC<userRowProps> = ({ user, editClicked, selected, handleSelect }
             color="primary"
             onClick={() => editClicked(user.username)}
           >
-            {console.log(editClicked)}
             Edit
           </Button>
         </TableCell>

@@ -1,14 +1,13 @@
 import { Charger, IChargerCollection } from '../types';
-import appConfig from '@/appConfig';
+import { FLEXICHARGE_API_URL } from '@/appConfig';
 import axios from 'axios';
-import { authenticationProvider } from '..';
 
 export default class ChargerCollection implements IChargerCollection {
   public async addCharger(fields: Omit<Charger, 'chargerID' | 'status'>): Promise<[Charger | null, any | null]> {
     try {
-      const res = await axios.post(`${appConfig.FLEXICHARGE_API_URL}/chargers/`, fields, {
+      const res = await axios.post(`${FLEXICHARGE_API_URL}/chargers/`, fields, {
         headers: {
-          Authorization: `Bearer ${authenticationProvider.getToken()}`
+          Authorization: `Bearer ${localStorage.getItem('token')}`
         }
       });
       return [res.data, null];
@@ -31,9 +30,9 @@ export default class ChargerCollection implements IChargerCollection {
 
   public async getAllChargers(chargePointID?: number): Promise<[Charger[] | null, any | null]> {
     try {
-      const res = await axios.get(`${appConfig.FLEXICHARGE_API_URL}/chargers`, {
+      const res = await axios.get(`${FLEXICHARGE_API_URL}/chargers`, {
         headers: {
-          Authorization: `Bearer ${authenticationProvider.getToken()}`
+          Authorization: `Bearer ${localStorage.getItem('token')}`
         }
       });
       const chargers = res.data as Charger[];
@@ -51,9 +50,9 @@ export default class ChargerCollection implements IChargerCollection {
 
   public async getAllAvailableChargers(): Promise<[Charger[] | null, any | null]> {
     try {
-      const res = await axios.get(`${appConfig.FLEXICHARGE_API_URL}/chargers/available`, {
+      const res = await axios.get(`${FLEXICHARGE_API_URL}/chargers/available`, {
         headers: {
-          Authorization: `Bearer ${authenticationProvider.getToken()}`
+          Authorization: `Bearer ${localStorage.getItem('token')}`
         }
       });
       return [res.data as Charger[], null];
@@ -64,9 +63,9 @@ export default class ChargerCollection implements IChargerCollection {
 
   public async getChargerById(chargerId: number): Promise<[Charger | null, any | null]> {
     try {
-      const res = await axios.get(`${appConfig.FLEXICHARGE_API_URL}/chargers/${chargerId}`, {
+      const res = await axios.get(`${FLEXICHARGE_API_URL}/chargers/${chargerId}`, {
         headers: {
-          Authorization: `Bearer ${authenticationProvider.getToken()}`
+          Authorization: `Bearer ${localStorage.getItem('token')}`
         }
       });
       return [res.data as Charger, null];
@@ -77,9 +76,9 @@ export default class ChargerCollection implements IChargerCollection {
 
   public async updateChargerById(chargerId: number, fields: Omit<Charger, 'chargerID'>): Promise<[Charger | null, any | null]> {
     try {
-      const res = await axios.put(`${appConfig.FLEXICHARGE_API_URL}/chargers/${chargerId}`, fields, {
+      const res = await axios.put(`${FLEXICHARGE_API_URL}/chargers/${chargerId}`, fields, {
         headers: {
-          Authorization: `Bearer ${authenticationProvider.getToken()}`
+          Authorization: `Bearer ${localStorage.getItem('token')}`
         }
       });
       return [res.data, null];
@@ -90,9 +89,9 @@ export default class ChargerCollection implements IChargerCollection {
   
   public async deleteChargerById(chargerId: number): Promise<any> {
     try {
-      const res = await axios.delete(`${appConfig.FLEXICHARGE_API_URL}/chargers/${chargerId}`, {
+      const res = await axios.delete(`${FLEXICHARGE_API_URL}/chargers/${chargerId}`, {
         headers: {
-          Authorization: `Bearer ${authenticationProvider.getToken()}`
+          Authorization: `Bearer ${localStorage.getItem('token')}`
         }
       });
       return [res.data, null];

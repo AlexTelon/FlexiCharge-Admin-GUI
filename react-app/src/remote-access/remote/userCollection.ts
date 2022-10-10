@@ -1,24 +1,23 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
+/* eslint-disable */
+/* eslint-disable react/jsx-no-undef */
 import { ManageUser, IManageUserCollection } from '../types';
-import { authenticationProvider } from '..';
-import appConfig from '../appConfig';
+import { FLEXICHARGE_API_URL } from '../appConfig';
 import axios from 'axios';
-import { convertRemoteUserToLocal, toUserAttributes } from '../utility/remote-user-functions';
+import { convertRemoteUserToLocal, toUserAttributes, convertRemoteUsersToLocal } from '../utility/remote-user-functions';
+import { handleUsersData } from './business-logic';
 
 export default class UserCollection implements IManageUserCollection {
   public async getAllUsers(): Promise<[ManageUser[] | null, any | null]> {
     try {
-      const res = await axios.get(`${appConfig.FLEXICHARGE_API_URL}/auth/admin/users`, {
+      const res = await axios.get(`${FLEXICHARGE_API_URL}/admin/users`, {
         headers: {
-          Authorization: `Bearer ${authenticationProvider.getToken()}`
+          Authorization: `Bearer ${localStorage.getItem('token')}`
         }
       });
-      
-      const users: ManageUser[] = [];
-      for (const userData of res.data.Users) {
-        const user = convertRemoteUserToLocal(userData);
-        users.push(user);
-      }
+
+      const users = handleUsersData(res.data.Users)
+      console.log(users);
       return [users, null];
     } catch (error: any) {
       return [null, error];
@@ -27,11 +26,11 @@ export default class UserCollection implements IManageUserCollection {
   
   public async addUser(fields: Omit<ManageUser, 'id'>): Promise<[ManageUser | null, any | null]> {
     try {
-      const res = await axios.post(`${appConfig.FLEXICHARGE_API_URL}/auth/admin/users`, {
+      const res = await axios.post(`${FLEXICHARGE_API_URL}/admin/users`, {
         ...fields
       }, {
         headers: {
-          Authorization: `Bearer ${authenticationProvider.getToken()}`
+          Authorization: `Bearer ${localStorage.getItem('token')}`
         }
       });
       return [res.data, null];
@@ -64,13 +63,12 @@ export default class UserCollection implements IManageUserCollection {
 
   public async getUserById(username: string): Promise<[ManageUser | null, any | null]> {
     try {
-      const res = await axios.get(`${appConfig.FLEXICHARGE_API_URL}/auth/admin/users/${username}`, {
+      const res = await axios.get(`${FLEXICHARGE_API_URL}/admin/users/${username}`, {
         headers: {
-          Authorization: `Bearer ${authenticationProvider.getToken()}`
+          Authorization: `Bearer ${localStorage.getItem('token')}`
         }
       });
-      
-      const user = convertRemoteUserToLocal(res.data);
+      const user = convertRemoteUsersToLocal(res.data);
       
       return [user, null];
     } catch (error: any) {      
@@ -78,15 +76,29 @@ export default class UserCollection implements IManageUserCollection {
     }
   }
 
+  public async resetUserPassword(username: string): Promise<[ManageUser | null, any | null]> {
+    try {
+      const res = await axios({
+        method: 'post',
+        url: `${FLEXICHARGE_API_URL}/admin/reset-user-password/${username}`,
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+      });
+
+      return [res.data, null];
+    } catch (error: any) {
+      return [null, error];
+    }
+  }
+
   public async updateUser(username: string, fields: Omit<ManageUser, 'username'>): Promise<[ManageUser | null, any | null]> {
     try {
       const userAttributes = toUserAttributes(fields);
-      const res = await axios.put(`${appConfig.FLEXICHARGE_API_URL}/auth/admin/users/${username}`, {
+      const res = await axios.put(`${FLEXICHARGE_API_URL}/admin/users/${username}`, {
         userAttributes
       },
       {
         headers: {
-          Authorization: `Bearer ${authenticationProvider.getToken()}`
+          Authorization: `Bearer ${localStorage.getItem('token')}`
         }
       });
       
@@ -121,9 +133,9 @@ export default class UserCollection implements IManageUserCollection {
 
   public async deleteUser (username: string): Promise<boolean> {
     try {
-      await axios.delete(`${appConfig.FLEXICHARGE_API_URL}/auth/admin/users/${username}`, {
+      await axios.delete(`${FLEXICHARGE_API_URL}/admin/users/${username}`, {
         headers: {
-          Authorization: `Bearer ${authenticationProvider.getToken()}`
+          Authorization: `Bearer ${localStorage.getItem('token')}`
         }
       });
 
