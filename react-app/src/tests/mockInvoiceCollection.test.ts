@@ -52,4 +52,4 @@ describe("Fetching mock invoice collection by user email tests",() =>{
         const [invoices, error] = await manageInvoiceCollection.getInvoiceByUserId(validUserEmail);
         expect(invoices!.length).toEqual(0)    
     });
-});
+}); 
