@@ -32,8 +32,6 @@ export default class ManageInvoiceCollection implements IManageInvoiceCollection
 
       setTimeout(() => {
         const arr = this.invoices.filter((object) => object.date === fullDateFormat)
-
-        console.log('after filter ', arr);
         resolve([arr, null]);
       }, 1000);
     });
