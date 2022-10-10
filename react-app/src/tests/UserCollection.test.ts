@@ -22,7 +22,7 @@ const testUnhandledUsers = [
 			}
 		],
 		UserCreateDate: '2022-09-22T16:34:03.922Z',
-		UserLastModifiedDate: '2022-09-22T16:34:03.922Z',
+		lastModified: '2022-09-22T16:34:03.922Z',
 		Enabled: true,
 		userStatus: 'CONFIRMED'
 	},
@@ -43,25 +43,35 @@ const testUnhandledUsers = [
 			}
 		],
 		UserCreateDate: '2022-09-22T16:34:03.922Z',
-		UserLastModifiedDate: '2022-09-22T16:34:03.922Z',
+		lastModified: '2022-09-22T16:34:03.922Z',
 		Enabled: true,
 		userStatus: 'CONFIRMED'
 	}
 ]
 
-test("User Collection", () => {
-    const handledTestUsers = handleUsersData(testUnhandledUsers)
+
+describe("Handling fetched users correctly tests", () =>{
+	const handledTestUsers = handleUsersData(testUnhandledUsers)
 	const handledTestUser = handledTestUsers[0]
+	test("Placing user data in correct object properties", () => {
+		expect(handledTestUser).toHaveProperty('username')
+		expect(handledTestUser).toHaveProperty('userStatus')
+		expect(handledTestUser).toHaveProperty('enabled')
+		expect(handledTestUser).toHaveProperty('created')
+		expect(handledTestUser).toHaveProperty('lastModified')
+		expect(handledTestUser).toHaveProperty('sub')
+		expect(handledTestUser).toHaveProperty('email')
+	});
 
-    expect(handledTestUsers.length).toEqual(2)
-
-    expect(handledTestUser).toHaveProperty('username')
-    expect(handledTestUser).toHaveProperty('userStatus')
-    expect(handledTestUser).toHaveProperty('enabled')
-    expect(handledTestUser).toHaveProperty('created')
-    expect(handledTestUser).toHaveProperty('lastModified')
-    expect(handledTestUser).toHaveProperty('sub')
-    expect(handledTestUser).toHaveProperty('emailVerified')
-    expect(handledTestUser).toHaveProperty('email')
+	test("Properties contain the correct datatype", () => {
+		expect(typeof handledTestUser.username === 'string').toBeTruthy()
+		expect(typeof handledTestUser.userStatus === 'string').toBeTruthy()
+		expect(typeof handledTestUser.enabled === 'boolean').toBeTruthy()
+		expect(typeof handledTestUser.created === 'string').toBeTruthy()
+		expect(typeof handledTestUser.lastModified === 'string').toBeTruthy()
+		expect(typeof handledTestUser.sub === 'string').toBeTruthy()
+		expect(typeof handledTestUser.email === 'string').toBeTruthy()
+	});
 });
+
  
