@@ -2,7 +2,7 @@ import {
   Paper, AppBar, Toolbar, Typography,
   IconButton, Divider, Box, Button, Theme, FormControl, InputLabel,
   Input, FormHelperText, Grid, useMediaQuery, Dialog, DialogTitle,
-  DialogContent, DialogActions, LinearProgress
+  DialogContent, DialogActions, LinearProgress, InputAdornment
 } from '@material-ui/core';
 import { ChevronRight, Close } from '@material-ui/icons';
 import { createStyles, makeStyles, useTheme } from '@material-ui/styles';
@@ -67,7 +67,7 @@ const ChargerStationEditPanel: FC<ChargerStationEditPanelProps> = ({ stationId, 
           name: chargerStation.name,
           longitude: chargerStation.location[1],
           latitude: chargerStation.location[0],
-          price: chargerStation.price
+          price: chargerStation.price / 100
         });
         setStation(chargerStation);
       });
@@ -80,7 +80,7 @@ const ChargerStationEditPanel: FC<ChargerStationEditPanelProps> = ({ stationId, 
       const result = await chargerStationCollection.updateChargerStation(stationId, {
         name: fields.name,
         location: [Number(fields.latitude), Number(fields.longitude)],
-        price: Number(fields.price),
+        price: Number(fields.price * 100),
         klarnaReservationAmount: 500
       });
       if (result[1] !== null) {
@@ -180,7 +180,7 @@ const ChargerStationEditPanel: FC<ChargerStationEditPanelProps> = ({ stationId, 
                   onChange={(e) => { handleInputChange('name', e.target.value); }}
                 />
               </FormControl>
-              <FormControl fullWidth variant="filled" error={errorState.price !== undefined}>
+              <FormControl style={{ marginTop: 12 }} fullWidth variant="filled" error={errorState.price !== undefined}>
                 <InputLabel htmlFor="station-price-input">Price</InputLabel>
                 <Input
                   id="station-price-input"
@@ -188,10 +188,11 @@ const ChargerStationEditPanel: FC<ChargerStationEditPanelProps> = ({ stationId, 
                   value={fields.price}
                   type="number"
                   onChange={(e) => { handleInputChange('price', e.target.value); }}
+                  startAdornment={ <InputAdornment position="end" style={{ marginRight: 10 }}>SEK</InputAdornment> }
                 />
                 <FormHelperText id="station-price-helper">Station Price</FormHelperText>
               </FormControl>
-              <FormControl fullWidth variant="filled" error={errorState.latitude !== undefined}>
+              <FormControl style={{ marginTop: 12 }} fullWidth variant="filled" error={errorState.latitude !== undefined}>
                 <InputLabel htmlFor="station-latitude-input">Latitude</InputLabel>
                 <Input
                   id="station-latitude-input"
@@ -202,7 +203,7 @@ const ChargerStationEditPanel: FC<ChargerStationEditPanelProps> = ({ stationId, 
                 />
                 <FormHelperText id="station-latitude-helper">Geographic Coordinate</FormHelperText>
               </FormControl>
-              <FormControl fullWidth variant="filled" error={errorState.longitude !== undefined}>
+              <FormControl style={{ marginTop: 12 }} fullWidth variant="filled" error={errorState.longitude !== undefined}>
                 <InputLabel htmlFor="station-longitude-input">Longitude</InputLabel>
                 <Input
                   id="station-longitude-input"
