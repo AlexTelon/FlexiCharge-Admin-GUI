@@ -1,9 +1,12 @@
-/* eslint-disable @typescript-eslint/restrict-template-expressions */
+/* eslint-disable */
+/* eslint-disable react/jsx-no-undef */
 import React, { useState } from 'react';
 import {
   Theme, useTheme, useMediaQuery, Dialog,
   DialogTitle, IconButton, DialogContent, Box,
-  FormControl, InputLabel, Input, FormHelperText, DialogActions, Button, makeStyles, createStyles, LinearProgress, Fade
+  FormControl, InputLabel, Input, FormHelperText, 
+  DialogActions, Button, makeStyles, createStyles, 
+  LinearProgress, Fade, InputAdornment
 } from '@material-ui/core';
 import { CheckCircle, Close } from '@material-ui/icons';
 import { chargerStationCollection } from '@/remote-access';
@@ -48,7 +51,7 @@ const AddSingleStationDialog = ({ open, handleClose }: any) => {
       const result = await chargerStationCollection.addChargerStation({
         name: fields.name,
         location: [fields.latitude, fields.longitude],
-        price: fields.price,
+        price: fields.price * 100,
         klarnaReservationAmount: 50000
       });
       
@@ -146,6 +149,7 @@ const AddSingleStationDialog = ({ open, handleClose }: any) => {
                   type="number"
                   onChange={(e) => { handleInputChange('price', Number(e.target.value)); }}
                   value={fields.price}
+                  startAdornment={ <InputAdornment position="start">SEK</InputAdornment> }
                 />
                 <FormHelperText id="station-price-helper">
                   {errorState.price
