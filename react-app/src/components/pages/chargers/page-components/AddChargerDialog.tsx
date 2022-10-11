@@ -117,6 +117,11 @@ const AddChargerDialog: FC<AddChargerDialogProps> = ({ open, handleClose, statio
                 secondary="Price in SEK"
               />
             </ListItem>
+            <ListItem>
+              <ListItemText>
+                The status of this charger will be set to <b>Available</b> by default.
+              </ListItemText>
+            </ListItem>
           </List>
         </DialogContentText>
         <form>
