@@ -51,6 +51,11 @@ Note: The flag --build only needs to be present on the first time build.
 3. Functions (TypeScript/JavaScript code).
 4. React code with HTML syntax in order to display what should be shown on the web.
 
+### Testing
+* The Admin GUI has a couple of unit tests for the business logic parts and the goal is to cover all testable functionality that exists **within**.
+* Tests are performed with the package ```jest``` and can be run from the terminal. To run the tests, stand inside the react-app folder and run the command ```yarn test```
+* To define that a file is meant for testing, put .test. in between the file name and the filetype. For example ```fileName.test.ts```
+
 ## Unusual pitfalls
 * There have, during the previous years, instances of an recurring error when attempting to run ```docker compose up --build```. The error displays an error with the ```Collection.parse``` in the ```cracorc.js``` file. If this happens to you, switch to the main branch, run a new docker compose up --build command from there, then switch back to your desired branch. You should never run the  --build flag more than once. Keep an eye out for running it more times than necessary.
 * Numerous unsuccessful attempts at resolving this issue has been made. Hopefully the next squad can identify this error and remedy it. If fixed, please consider editing this documentation file for future squads.
