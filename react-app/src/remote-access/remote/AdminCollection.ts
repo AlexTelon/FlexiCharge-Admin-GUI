@@ -3,7 +3,7 @@
 import { FLEXICHARGE_API_URL } from '@/appConfig';
 import axios from 'axios';
 import { ManageAdmin, IManageAdminCollection } from '../types';
-import { convertRemoteUserToLocal, toUserAttributes } from '../utility/remote-user-functions';
+import { convertRemoteUsersToLocal, toUserAttributes } from '../utility/remote-user-functions';
 import { handleAdminsData } from './business-logic';
 
 export default class ManageAdminCollection implements IManageAdminCollection {  
@@ -46,7 +46,7 @@ export default class ManageAdminCollection implements IManageAdminCollection {
         }
       });
       
-      const admin = convertRemoteUserToLocal(res.data) as ManageAdmin;
+      const admin = convertRemoteUsersToLocal(res.data) as ManageAdmin;
       
       return admin;
     } catch (error: any) {      
@@ -104,7 +104,7 @@ export default class ManageAdminCollection implements IManageAdminCollection {
         }
       });
       
-      const admin = convertRemoteUserToLocal(res.data) as ManageAdmin;
+      const admin = convertRemoteUsersToLocal(res.data) as ManageAdmin;
       return [admin, null];
     } catch (error: any) {
       const errorObj: any = {};
