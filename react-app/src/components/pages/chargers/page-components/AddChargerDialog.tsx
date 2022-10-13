@@ -108,7 +108,7 @@ const AddChargerDialog: FC<AddChargerDialogProps> = ({ open, handleClose, statio
             <ListItem>
               <ListItemText
                 primary={`${station.location[0]}, ${station.location[1]}`}
-                secondary="Longitude, Latitude"
+                secondary="Latitude, Longitude"
               />
             </ListItem>
             <ListItem>
@@ -116,6 +116,11 @@ const AddChargerDialog: FC<AddChargerDialogProps> = ({ open, handleClose, statio
                 primary={station.price / 100}
                 secondary="Price in SEK"
               />
+            </ListItem>
+            <ListItem>
+              <ListItemText>
+                The status of this charger will be set to <b>Available</b> by default.
+              </ListItemText>
             </ListItem>
           </List>
         </DialogContentText>

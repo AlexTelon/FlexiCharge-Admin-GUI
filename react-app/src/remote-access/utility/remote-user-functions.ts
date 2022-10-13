@@ -28,7 +28,7 @@ export const fromUserAttributes = (userAttributes: any[]): Partial<ManageUser> =
   return user;
 };
 
-export const convertRemoteUserToLocal = (remoteUser: any): ManageUser => {
+export const convertRemoteUsersToLocal = (remoteUser: any): ManageUser => {
   const attributes = fromUserAttributes(remoteUser.UserAttributes ?? remoteUser.Attributes);
   const localUser: ManageUser = {
     username: remoteUser.Username,
@@ -41,9 +41,9 @@ export const convertRemoteUserToLocal = (remoteUser: any): ManageUser => {
   return localUser;
 };
 
-export const convertRemoteUsersToLocal = (remoteUser: any): ManageUser => {
+export const convertRemoteUserToLocal = (remoteUser: any): ManageUser => {
   const localUser: ManageUser = {
-    email: remoteUser.Username,
+    email: remoteUser.username,
     userStatus: remoteUser.userStatus,
     enabled: remoteUser.Enabled,
     created: remoteUser.UserCreateDate,

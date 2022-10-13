@@ -99,7 +99,6 @@ const LoginFields: FC<LoginFieldProps> = ({ setLoading }) => {
     } else {
       setSelectedForm('login')
     }
-    console.log(password)
   };
 
   const [state, setState] = useState<any>({

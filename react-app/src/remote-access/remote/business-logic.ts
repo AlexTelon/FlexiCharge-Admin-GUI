@@ -1,13 +1,13 @@
 /* eslint-disable */
 /* eslint-disable react/jsx-no-undef */
 import { ManageUser, ManageAdmin } from '../types';
-import { convertRemoteUserToLocal, toUserAttributes } from '../utility/remote-user-functions';
+import { convertRemoteUsersToLocal, toUserAttributes } from '../utility/remote-user-functions';
 
 
 export function handleUsersData(usersData: any){
     const users: ManageUser[] = [];
       for (const userData of usersData) {
-        const user = convertRemoteUserToLocal(userData);
+        const user = convertRemoteUsersToLocal(userData);
         users.push(user);
       }
       return users
@@ -16,7 +16,7 @@ export function handleUsersData(usersData: any){
 export function handleAdminsData(adminsData: any){
     const admins: ManageAdmin[] = [];
     for (const adminData of adminsData) {
-      const admin = convertRemoteUserToLocal(adminData) as ManageAdmin;
+      const admin = convertRemoteUsersToLocal(adminData) as ManageAdmin;
       admins.push(admin);
     }
     return admins;
