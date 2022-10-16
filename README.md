@@ -56,13 +56,13 @@ Note: The flag --build only needs to be present on the first time build.
 * Tests are performed with the package ```jest``` and can be run from the terminal. To run the tests, stand inside the react-app folder and run the command ```yarn test```
 * To define that a file is meant for testing, put .test. in between the file name and the filetype. For example ```fileName.test.ts```
 
-### Technical debt & where the project left off
-## Unusual pitfalls
+## Technical debt & where the project left off
+### Unusual pitfalls
 * There have, during the previous years, been instances of an recurring error when attempting to run ```docker compose up --build```. The error displays an error with the ```Collection.parse``` in the ```cracorc.js``` file. If this happens to you, switch to the main branch, run a new docker compose up --build command from there, then switch back to your desired branch. You should never run the  --build flag more than once. Keep an eye out for running it more times than necessary.
 * Numerous unsuccessful attempts at resolving this issue has been made. Hopefully the next squad can identify this error and remedy it. If fixed, please consider editing this documentation file for future squads.
 * If none of the above helps, save, commit and push your changes and remove the whole project, re-clone the whole project again.
 * If the problem still exists, create a new branch from main and start over.
-## Continuation point
+### Continuation point
 * The future contributors of this repository should continue the work from where the previous year's contributor left off (if the team at KnowIT has not decided anything else). This includes work with:
 1. ```Generating invoices for several users```
 2. ```Generating user specific invoices```
@@ -72,8 +72,8 @@ Note: The flag --build only needs to be present on the first time build.
 * The list now displaying invoices for a specific year and month does not show anything unless the admin filters after year and month first. The list should display the current year and month's invoices. The admin should be able to filter by from there if desired. Note: Keep close contact and a dialog with the HTTP and Database squad.
 * When searching for a specific user and their invoices, the whole email has to be entered correctly in order to trigger a successful search for that user. This should not be the case. It should be enough to only enter a fragment of a user's email to trigger a search meaning if the first the letters of a user's email is correct and this person does in fact have active invoices, a successful search should be triggered and the user should be displayed on the page.
 
-### Web URL and deployment
-## Web URL
+## Web URL and deployment
+### Web URL
 * http://flexicharge-admin-gui.s3-website-eu-west-1.amazonaws.com/login
-## How to deploy the latest version of the program
+### How to deploy the latest version of the program
 * .....
