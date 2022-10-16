@@ -8,17 +8,17 @@
 * Make sure you have Docker installed on your device
 * If installed simply launch it and leave it as is. Do not do anything with it!
 * Clone or fork the GitHub repository into a directory of choice on your device.
-* If you decided to clone the project, clone it into your directory of choice using git clone.
+* If you decided to clone the project, clone it into your directory of choice using ```git clone```.
 * Open the project in your IDE (Integrated Development Environment) of choice.
-* Create a .env file in the root of the project. The .env file should contain the following information:
+* Create a ```.env``` file in the root of the project. The ```.env``` file should contain the following information:
     
 * Upon successful cloning of the project, change directory to the react-app folder.
-* Standing inside said folder, run ```yarn install```. Do not run npm install anywhere in the project since yarn install does this for you. This may hurt the whole project and cause problems with all the installed packages.
+* Standing inside said folder, run ```yarn install```. Do not run ```npm install``` anywhere in the project since ```yarn install``` does this for you. This may hurt the whole project and cause problems with all the installed packages.
 * After the above, run ```docker compose up --build```.
-(Note: If you are using an older version of docker you may need to run docker-compose up --build).
-Note: The flag --build only needs to be present on the first time build.
+(Note: If you are using an older version of docker you may need to run ```docker-compose up --build```).
+Note: The flag ```--build``` only needs to be present on the first time build.
 * This build may take some time and you may feel like something went wrong. Be patient and wait it out.
-* After you have run docker compose up --build the first time you only need to run docker compose up (or ```docker-compose``` up depending on the Docker version) henceforth.
+* After you have run docker compose up ```--build``` the first time you only need to run ```docker compose up``` (or ```docker-compose``` up depending on the Docker version) henceforth.
 * The Admin GUI for FlexiCharge should now be running on port ```localhost:8080```.
 
 ## For development
@@ -26,7 +26,7 @@ Note: The flag --build only needs to be present on the first time build.
 1. NodeJS stable
 2. Yarn
 3. Docker version 18.09 or later
-4. .env file in root of project
+4. ```.env``` file in root of project
 5. Git
 * Since the Admin GUI is dependent on the implementations of several other squads, its data-fetching structure is constructed in such a way that the program can fetch both ```remote data``` (dynamic data from the HTTP squad) or ```mock data``` that we created and that exist within the Admin GUI program.
 * During the initial state and early development of this product many squads will not have their dynamic data and requests ready for the Admin squad. Since the Admin squad is dependent on provided requests from other squads it may be a good idea to work with mock data in order to get an idea of how the Admin GUI works.
@@ -54,11 +54,11 @@ Note: The flag --build only needs to be present on the first time build.
 ### Testing
 * The Admin GUI has a couple of unit tests for the business logic parts and the goal is to cover all testable functionality that exists **within**.
 * Tests are performed with the package ```jest``` and can be run from the terminal. To run the tests, stand inside the react-app folder and run the command ```yarn test```
-* To define that a file is meant for testing, put .test. in between the file name and the filetype. For example ```fileName.test.ts```
+* To define that a file is meant for testing, put ```.test.``` in between the file name and the filetype. For example ```fileName.test.ts```
 
 ## Technical debt & where the project left off
 ### Unusual pitfalls
-* There have, during the previous years, been instances of an recurring error when attempting to run ```docker compose up --build```. The error displays an error with the ```Collection.parse``` in the ```cracorc.js``` file. If this happens to you, switch to the main branch, run a new docker compose up --build command from there, then switch back to your desired branch. You should never run the  --build flag more than once. Keep an eye out for running it more times than necessary.
+* There have, during the previous years, been instances of an recurring error when attempting to run ```docker compose up --build```. The error displays an error with the ```Collection.parse``` in the ```cracorc.js``` file. If this happens to you, switch to the ```main``` branch, run a new ```docker compose up --build``` command from there, then switch back to your desired branch. You should never run the ```--build``` flag more than once. Keep an eye out for running it more times than necessary.
 * Numerous unsuccessful attempts at resolving this issue has been made. Hopefully the next squad can identify this error and remedy it. If fixed, please consider editing this documentation file for future squads.
 * If none of the above helps, save, commit and push your changes and remove the whole project, re-clone the whole project again.
 * If the problem still exists, create a new branch from main and start over.
@@ -103,12 +103,10 @@ Note: The flag --build only needs to be present on the first time build.
  ```
 
 #### Deploying a release
-* Start off by navigating to the react-app folder. In a terminal, type ```yarn build```. You should now have a ```build folder``` inside the react-app folder
-* Still standing in the react-app folder, write ```aws s3 sync build/ s3://*BUCKETNAME*```
+* Start off by navigating to the ```react-app folder```. In a terminal, type ```yarn build```. You should now have a ```build folder``` inside the react-app folder
+* Still standing in the ```react-app folder```, write ```aws s3 sync build/ s3://*BUCKETNAME*```
 * Your files in the build folder should at this point be in the AWS ```bucket```. To open the deployed release, go once again to the ```properties``` header in your ```bucket``` and at the bottom there should be a link that takes you to it!
 
 ##### Common issues
-* your build of the program cannot get global variables from your .env files. Instead you are left with ```undefined``` variables. Avoid this by putting global variables directly in the ```appConfig.ts``` files instead, where they can be read.
+* Your build of the program cannot get global variables from your ```.env``` files. Instead you are left with ```undefined``` variables. Avoid this by putting global variables directly in the ```appConfig.ts``` files instead, where they can be read.
 * After having done an inital release, your next releases may act weirdly or not work at all as intended. This is most of the time fixed by ```clearing your browser cache``` and redeploying the project.
-
-
