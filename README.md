@@ -23,11 +23,11 @@ Note: The flag ```--build``` only needs to be present on the first time build.
 
 ## For development
 * The following is needed for the development process:
-    1. NodeJS stable
-    2. Yarn
-    3. Docker version 18.09 or later
-    4. ```.env``` file in root of project
-    5. Git
+1. NodeJS stable
+2. Yarn
+3. Docker version 18.09 or later
+4. ```.env``` file in root of project
+5. Git
 * Since the Admin GUI is dependent on the implementations of several other squads, its data-fetching structure is constructed in such a way that the program can fetch both ```remote data``` (dynamic data from the HTTP squad) or ```mock data``` that we created and that exist within the Admin GUI program.
 * During the initial state and early development of this product many squads will not have their dynamic data and requests ready for the Admin squad. Since the Admin squad is dependent on provided requests from other squads it may be a good idea to work with mock data in order to get an idea of how the Admin GUI works.
 * To swiftly ```toggle``` between mock and dynamic, visit the ```dependencyContainer.ts``` file. From there toggle between mockdata or remote.
