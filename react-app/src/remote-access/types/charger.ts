@@ -1,9 +1,10 @@
 export interface Charger {
   chargerID: number
   serialNumber?: string
-  location: [number, number]
+  location: string
   chargePointID: number
-  status: string
+  coordinates: string
+  status: number
 }
 
 export interface IChargerCollection {
