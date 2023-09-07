@@ -23,7 +23,9 @@ settings: {
   react: {
     version: detect
   }
-}  
+}
+ignorePatterns:
+  - cypress/**/*  
 rules: {
   'semi': 'off',
   'indent': 'off',

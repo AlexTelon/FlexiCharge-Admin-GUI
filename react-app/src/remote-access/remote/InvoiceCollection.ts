@@ -7,7 +7,6 @@ import axios from 'axios';
 import { authenticationProvider } from '..';
 
 export default class ManageInvoiceCollection implements IManageInvoiceCollection {
-
   public async getInvoiceByUserId(id: any, status: string): Promise<[ManageInvoice[] | null, any | null]> {
     try {
       const res = await axios.get(`${FLEXICHARGE_API_URL}/invoices/${id}`, {
@@ -17,7 +16,7 @@ export default class ManageInvoiceCollection implements IManageInvoiceCollection
       });
       return [res.data, null];
     } catch (error: any) {
-      return [null ,error];
+      return [null, error];
     }
   }
 
@@ -30,7 +29,7 @@ export default class ManageInvoiceCollection implements IManageInvoiceCollection
       });
       return [res.data, null];
     } catch (error: any) {
-      return [null ,error];
+      return [null, error];
     }
   }
 }
