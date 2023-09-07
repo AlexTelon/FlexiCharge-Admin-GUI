@@ -8,7 +8,7 @@ import ManageTransactionCollection from './remote-access/mock/ManageTransactionC
 import ManageInvoiceCollection from './remote-access/mock/ManageInvoiceCollection';
 //
 import AuthenticationProvider from './remote-access/mock/AuthenticationProvider';
-import ChargerStationCollection from './remote-access/mock/ChargerStationCollection';
+import ChargerStationCollection from './remote-access/remote/ChargerStationCollection';
 import UserCollection from './remote-access/remote/userCollection';
 import ChargerCollection from './remote-access/remote/ChargerCollection';
 import AdminCollection from './remote-access/remote/AdminCollection';

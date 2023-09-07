@@ -49,7 +49,6 @@ const AddSingleUserDialog = ({ open, handleClose }: any) => {
       });
 
       if (result[1] !== null) {
-        
         setErrorState({
           ...result[1]
         });

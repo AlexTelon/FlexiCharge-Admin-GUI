@@ -75,7 +75,6 @@ const ManageUsersEditPanel: FC<ManageUsersEditPanelProps> = ({ userId }) => {
       setLoading(true);
       const result = await manageUserCollection.updateUser(userId, { name, email });
       if (result[1] !== null) {
-        
         setErrorState({
           ...result[0]
         });
