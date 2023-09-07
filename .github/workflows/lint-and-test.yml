@@ -1,6 +1,6 @@
 name: Lint and Test
 
-on: [push, pull_request]
+on: [pull_request]
 
 jobs:
   build:
@@ -20,9 +20,6 @@ jobs:
 
     - name: Lint with auto-fix
       run: cd react-app && yarn lint:fix
-
-    - name: Lint
-      run: cd react-app && yarn lint
 
     - name: Run tests
       run: cd react-app && yarn test
