@@ -16,13 +16,13 @@ jobs:
         node-version: '16'
 
     - name: Install dependencies
-      run: yarn install
+      run: cd react-app && yarn install
 
     - name: Lint with auto-fix
-      run: yarn run lint --fix
+      run: cd react-app && yarn run lint --fix
 
     - name: Lint
-      run: yarn eslint . --ignore-path .gitignore --ext .ts,.tsx
+      run: cd react-app && yarn eslint . --ignore-path .gitignore --ext .ts,.tsx
 
     - name: Run tests
-      run: yarn test
+      run: cd react-app && yarn test
