@@ -27,7 +27,7 @@
     "build": "craco build",
     "test": "craco test",
     "eject": "react-scripts eject",
-    "lint": "yarn eslint . --ignore-path .gitignore --ext .ts,.tsx && echo ✅ Pass || (echo ❌ Fail && exit 1)",
+    "lint": "yarn eslint . --ignore-path .gitignore --ext .ts,.tsx",
     "lint:fix": "yarn run lint --fix"
   },
   "eslintConfig": {
