@@ -11,6 +11,12 @@
 * If you decided to clone the project, clone it into your directory of choice using ```git clone```.
 * Open the project in your IDE (Integrated Development Environment) of choice.
 * Create a ```.env``` file in the root of the project. The ```.env``` file should contain the following information:
+```
+    APP_NAME=name_of_app
+    REACT_APP_DEV_PORT=port_number
+    REACT_APP_FLEXICHARGE_API_URL=api_url
+```
+* You have to get the api_url from the backend team.
     
 * Upon successful cloning of the project, change directory to the react-app folder.
 * Standing inside said folder, run ```yarn install```. Do not run ```npm install``` anywhere in the project since ```yarn install``` does this for you. This may hurt the whole project and cause problems with all the installed packages.
