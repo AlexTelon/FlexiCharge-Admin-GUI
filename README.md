@@ -11,6 +11,12 @@
 * If you decided to clone the project, clone it into your directory of choice using ```git clone```.
 * Open the project in your IDE (Integrated Development Environment) of choice.
 * Create a ```.env``` file in the root of the project. The ```.env``` file should contain the following information:
+```
+    APP_NAME=name_of_app
+    REACT_APP_DEV_PORT=port_number
+    REACT_APP_FLEXICHARGE_API_URL=api_url
+```
+* You have to get the api_url from the backend team.
     
 * Upon successful cloning of the project, change directory to the react-app folder.
 * Standing inside said folder, run ```yarn install```. Do not run ```npm install``` anywhere in the project since ```yarn install``` does this for you. This may hurt the whole project and cause problems with all the installed packages.
@@ -36,6 +42,16 @@ Note: The flag ```--build``` only needs to be present on the first time build.
 * Contact the program manager for the login credentials!
 * Later on the HTTP squad should have created an admin account for the Admin squad to make use of. The username and password will of course be set to something else depending on what the HTTP squad decided of course. You ought to keep close contact with the HTTP squad regarding this matter.
 * Note that there exists mock data for almost everything in the Admin GUI; all the different ```Collections``` (collections of data) can be switched out for mock (mockdata) instead of remote if all the remote requests are not yet implemented/malfunctioning. This is a good way to maintain a continuous development despite having to wait for other squads implementations.
+
+## Working with Git branches
+* The Admin GUI has a ```main``` branch and a ```dev``` branch. The ```main``` branch is the branch that is deployed to the web and the ```dev``` branch is the branch that is used for development.
+* There is a ```feature``` branch. This branch is used for development of new features. When a feature is done, it is merged into the ```dev``` branch.
+* There is a ```bugfix``` branch. This branch is used for fixing bugs. When a bug is fixed, it is merged into the ```dev``` branch.
+
+* When pull requests are made, they need to be reviewed by at least one other person before they can be merged into the ```dev``` branch.
+* The pull request triggers a ```GitHub Action``` that runs the unit tests and lint. If the unit tests fail, the pull request cannot be merged into the ```dev``` branch.
+* The developer who made the pull request is responsible for fixing any merge conflicts that may occur. If they need help, they need to comment on the pull request and ask for help.
+
 
 ### Code base and code structure
 * The Admin GUI is constructed of so-called ```Components```. Each main page throughout the application has a ```Parent Component``` which holds ```Child Components```. These Child Components can then hold their own “children”.
