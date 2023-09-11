@@ -1,4 +1,8 @@
 # FlexiCharge-Admin-GUI
+[![My Skills](https://skillicons.dev/icons?i=ts)](https://www.typescriptlang.org)
+[![My Skills](https://skillicons.dev/icons?i=nodejs)](https://nodejs.org)
+[![My Skills](https://skillicons.dev/icons?i=react)](https://react.dev)
+[![My Skills](https://skillicons.dev/icons?i=docker)](https://www.docker.com)
 
 ## Introduction
 FlexiCharge AB is a (imaginary) corporate entity that wishes to deploy its own network of EV charges.
