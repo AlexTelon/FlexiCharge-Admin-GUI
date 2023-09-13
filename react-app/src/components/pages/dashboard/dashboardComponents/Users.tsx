@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Card, CardContent, Grid, LinearProgress, Theme, Typography } from '@material-ui/core';
 import { makeStyles, createStyles } from '@material-ui/styles';
-import { userCollection } from '@/remote-access';
+import { userCollection, manageUserCollection } from '@/remote-access';
 import { People } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -18,14 +18,27 @@ const UsersDashboardComponent = (props: any) => {
   const [numUsers, setNumUsers] = useState<string>();
 
   useEffect(() => {
-    userCollection.getAllUsers().then((result) => {
-      if (result[1] || result[0] === null) {
-        setNumUsers('N/A');
-        return;
+    const fetchMockData = async () => {
+      const [mockUsers, mockError] = await manageUserCollection.getAllUsers();
+
+      if (mockError || mockUsers === null) {
+        const [remoteUsers, remoteError] = await userCollection.getAllUsers();
+
+        if (remoteError || remoteUsers === null) {
+          setNumUsers('N/A');
+          setLoaded(true);
+          return;
+        }
+
+        setNumUsers(`${remoteUsers.length}`);
+        setLoaded(true);
+      } else {
+        setNumUsers(`${mockUsers.length}`);
+        setLoaded(true);
       }
-      setNumUsers(`${result[0].length}`);
-      setLoaded(true);
-    });
+    };
+  
+    fetchMockData();
   }, []);
 
   return (
