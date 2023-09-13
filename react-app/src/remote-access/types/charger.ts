@@ -1,9 +1,8 @@
 export interface Charger {
   chargerID: number
   serialNumber?: string
-  location: string
+  location: [number, number]
   chargePointID: number
-  coordinates: string
   status: number
 }
 

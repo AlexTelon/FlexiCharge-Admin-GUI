@@ -1,5 +1,5 @@
 export interface ManageUser {
-  username: string
+  username?: string
   sub?: string
   emailVerified?: boolean
   name?: string
@@ -9,6 +9,7 @@ export interface ManageUser {
   lastModified?: string
   enabled?: boolean
   password?: string
+  phoneNumber?: string
   userStatus?: 'UNCONFIRMED' | 'CONFIRMED' | 'FORCE_CHANGE_PASSWORD'
 }
 

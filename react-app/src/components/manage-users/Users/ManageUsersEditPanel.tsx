@@ -75,11 +75,12 @@ const ManageUsersEditPanel: FC<ManageUsersEditPanelProps> = ({ username, setActi
   }, [username]);
 
   const handleSaveClick = async () => {
-    if (username && fields.name && fields.family_name) {
+    if (username && fields.name && fields.family_name && fields.email) {
       setLoading(true);
       const result = await userCollection.updateUser(username, {
         name: fields.name,
-        family_name: fields.family_name 
+        family_name: fields.family_name, 
+        email: fields.email
       });
 
       if (result[1] !== null) {
@@ -145,7 +146,8 @@ const ManageUsersEditPanel: FC<ManageUsersEditPanelProps> = ({ username, setActi
   };
 
   const handleResetUserPassword = () => {
-    userCollection.resetUserPassword(user?.email).then((wasSuccess) => {
+    if (!user) return; // temporary solution
+    userCollection.resetUserPassword(user.email).then((wasSuccess) => {
       if (wasSuccess) {
         console.log('success');
       } else {

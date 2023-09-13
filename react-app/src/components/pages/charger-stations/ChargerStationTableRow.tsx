@@ -1,9 +1,10 @@
 import React, { FC, useRef, useState } from 'react';
 import {
   Theme, useTheme, TableRow, TableCell,
-  Checkbox, Box, Typography, Hidden, Button,
+  Checkbox, Box, Typography, Button,
   Collapse, Grid, ListItemText
 } from '@material-ui/core';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { Edit } from '@material-ui/icons';
 import { ChargerStation } from '@/remote-access/types';
 import { Link } from 'react-router-dom';
@@ -19,6 +20,7 @@ const ChargerStationTableRow: FC<ChargerStationTableRowProps> = ({ station, edit
   const stationRow = useRef(null);
 
   const theme: Theme = useTheme();
+  const matches = useMediaQuery((theme: Theme) => theme.breakpoints.down('xs'));
   return (
     <>
       <TableRow
@@ -57,7 +59,7 @@ const ChargerStationTableRow: FC<ChargerStationTableRowProps> = ({ station, edit
           SEK {station.price / 100}
         </TableCell>
         <TableCell align="right">
-          <Hidden xsDown>
+          {!matches && (
             <Button
               component={Link}
               to={`/dashboard/chargers/${station.chargePointID}`}
@@ -65,7 +67,7 @@ const ChargerStationTableRow: FC<ChargerStationTableRowProps> = ({ station, edit
               color="primary">
                 Manage Chargers
             </Button>
-          </Hidden>
+          )}
           <Button
             startIcon={<Edit />}
             style={{ color: theme.flexiCharge.primary.white }}

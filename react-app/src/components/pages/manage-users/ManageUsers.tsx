@@ -207,9 +207,9 @@ const ManageUsers = () => {
   const handleSearch = (searchText: string) => {
     if (searchText !== '') {
       setSearch(searchText);
-
       if (selectedTab === 'users') {
-        const users = state.users.filter((user: ManageUser) => {        
+        const users = state.users.filter((user: ManageUser) => {    
+          if (!user.username) return null; // temporary fix for missing username    
           return user.name?.toLowerCase().includes(searchText.toLowerCase())
             // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
             || user.username.toLowerCase().includes(searchText.toLowerCase())
