@@ -16,6 +16,15 @@ export default class ManageInvoiceCollection implements IManageInvoiceCollection
     }, 100);
   });
   */
+
+  async getAllInvoices(): Promise<[Invoice[] | null, any | null]> {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve([this.invoices, null]);
+      }, 1000);
+    });
+  }
+
   async getInvoiceByUserId(userID: string): Promise<[Invoice[] | null, any | null]> {
     return new Promise((resolve, reject) => {
       setTimeout(() => {

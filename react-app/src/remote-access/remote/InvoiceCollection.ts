@@ -7,6 +7,19 @@ import axios from 'axios';
 import { authenticationProvider } from '..';
 
 export default class ManageInvoiceCollection implements IManageInvoiceCollection {
+  public async getAllInvoices(): Promise<[ManageInvoice[] | null, any | null]> {
+    try {
+      const res = await axios.get(`${FLEXICHARGE_API_URL}/invoices/users`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+      });
+      return [res.data, null];
+    } catch (error) {
+      return [null, error];
+    }
+  }
+
   public async getInvoiceByUserId(id: any, status: string): Promise<[ManageInvoice[] | null, any | null]> {
     try {
       const res = await axios.get(`${FLEXICHARGE_API_URL}/invoices/${id}`, {

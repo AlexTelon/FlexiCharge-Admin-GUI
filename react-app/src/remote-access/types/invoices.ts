@@ -16,4 +16,5 @@ export interface ManageInvoice {
 export interface IManageInvoiceCollection {
   getInvoiceByUserId: (userId: string, status: string) => any
   getInvoiceByDate: (year: string, month: string, status: string) => any
+  getAllInvoices: () => any
 }

@@ -136,15 +136,34 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 const RenderInvoices = () => {
   const theme: Theme = useTheme();
   const classes = useStyles();
-  const [selectedTab, setSelectedTab] = React.useState('users');
+  const [selectedTab, setSelectedTab] = React.useState('view-all-invoices');
   let [selectedYear, setYear] = React.useState('2000');
   let [selectedMonth, setMonth] = React.useState('00');
   let [searchValue, setSearchValue] = React.useState('')
 
-  const handleTabChange = (event: any, newTab: string) => {
-    resetYear()
-    resetMonth()
-    handleDateFilter()
+  const handleTabChange = async (event: any, newTab: string) => {
+    if (newTab === 'view-all-invoices') {
+      const [allInvoices, error] = await manageInvoiceCollection.getAllInvoices();
+      if (allInvoices) {
+        setState({
+          ...state,
+          invoices: allInvoices,
+          loaded: true,
+        });
+      } else if (error) {
+        setState({
+          ...state,
+          error: true,
+          errorMessage: 'Failed to fetch invoices'
+        });
+      }
+    } else if (newTab === 'view-invoices-by-date') {
+      resetYear();
+      resetMonth();
+      if (selectedYear != '2000' && selectedMonth != '00') {
+        handleDateFilter();
+      }
+    }
     setSelectedTab(newTab);
   };
 
@@ -152,6 +171,7 @@ const RenderInvoices = () => {
   const person = (params as any).person;
   const [state, setState] = useState<any>({
     loaded: true,
+    invoices: [],
   });
 
   useEffect(() => {
@@ -245,7 +265,8 @@ const RenderInvoices = () => {
                     <Typography className={classes.contentTitle} variant="h6">
                       <TabContext value={selectedTab}>
                         <TabList onChange={handleTabChange} indicatorColor="primary">
-                          <Tab label="View All Invoices" value="view-all-invoices" />
+                          <Tab label="View All Invoices" value="view-all-invoices" /> 
+                          <Tab label="View Invoices By Date" value="view-invoices-by-date" />
                           <Tab label="Search Specific Invoice" value="search-specific-invoice" />
                         </TabList>
                       </TabContext>
@@ -253,7 +274,7 @@ const RenderInvoices = () => {
                   </Toolbar>
                 </AppBar>
                 <Divider />
-                {selectedTab === 'view-all-invoices' &&
+                {selectedTab === 'view-invoices-by-date' &&
                   <>
                     <Box sx={{ width: '100%', marginTop: '15pt' }}>
                       <AppBar position="static" className={classes.contentAppBar} elevation={1}>
@@ -368,9 +389,24 @@ const RenderInvoices = () => {
                     </Paper>
                   </>
                 }
+                {selectedTab === 'view-all-invoices' &&
+                  <>
+                    <Paper elevation={2}>
+                      <PersonTable
+                        classes={classes}
+                        invoices={state.invoices}
+                        loaded={state.loaded}
+                      />
+                    </Paper>
+                  </>
+                }
                 <Paper elevation={2}>
                   <TabContext value={selectedTab}>
-                    <TabPanel style={{ padding: 0 }} value="all-invoices">
+                    <TabPanel style={{ padding: 0 }} value="view-all-invoices">
+                      <>
+                      </>
+                    </TabPanel>
+                    <TabPanel style={{ padding: 0 }} value="view-invoices-by-date">
                       <>
                       </>
                     </TabPanel>
