@@ -2,11 +2,11 @@
 /* eslint-disable react/jsx-no-undef */
 import { FLEXICHARGE_API_URL } from '@/appConfig';
 import axios from 'axios';
-import { ManageAdmin, IManageAdminCollection } from '../types';
+import { Admin, IAdmin } from '../types';
 import { convertRemoteUsersToLocal, toUserAttributes } from '../utility/remote-user-functions';
 import { handleAdminsData } from './business-logic';
 
-export default class ManageAdminCollection implements IManageAdminCollection {  
+export default class ManageAdmin implements IAdmin {  
   async deleteAdmin(username: string): Promise<boolean> {
     try {
       await axios.delete(`${FLEXICHARGE_API_URL}/admin/${username}`, {
@@ -24,7 +24,7 @@ export default class ManageAdminCollection implements IManageAdminCollection {
     }
   }
   
-  async getAllAdmins(): Promise<[ManageAdmin[] | null, any | null]> {
+  async getAllAdmins(): Promise<[Admin[] | null, any | null]> {
     try {
       const res = await axios.get(`${FLEXICHARGE_API_URL}/admin/`, {
         headers: {
@@ -38,7 +38,7 @@ export default class ManageAdminCollection implements IManageAdminCollection {
     }
   }
 
-  async getAdminById(username: string): Promise<ManageAdmin | null> {
+  async getAdminById(username: string): Promise<Admin | null> {
     try {
       const res = await axios.get(`${FLEXICHARGE_API_URL}/admin/${username}`, {
         headers: {
@@ -46,7 +46,7 @@ export default class ManageAdminCollection implements IManageAdminCollection {
         }
       });
       
-      const admin = convertRemoteUsersToLocal(res.data) as ManageAdmin;
+      const admin = convertRemoteUsersToLocal(res.data) as Admin;
       
       return admin;
     } catch (error: any) {      
@@ -54,7 +54,7 @@ export default class ManageAdminCollection implements IManageAdminCollection {
     }
   }
 
-  async addAdmin(fields: Omit<ManageAdmin, 'id'>): Promise<[string | null, any | null]> {
+  async addAdmin(fields: Omit<Admin, 'id'>): Promise<[string | null, any | null]> {
     try {
       const res = await axios.post(`${FLEXICHARGE_API_URL}/admin/`, {
         ...fields
@@ -92,7 +92,7 @@ export default class ManageAdminCollection implements IManageAdminCollection {
     };
   }
 
-  async updateAdmin(username: string, fields: Omit<ManageAdmin, 'username'>): Promise<[ManageAdmin | null, any | null]> {
+  async updateAdmin(username: string, fields: Omit<Admin, 'username'>): Promise<[Admin | null, any | null]> {
     try {
       const userAttributes = toUserAttributes(fields);
       const res = await axios.put(`${FLEXICHARGE_API_URL}/admin/${username}`, {
@@ -104,7 +104,7 @@ export default class ManageAdminCollection implements IManageAdminCollection {
         }
       });
       
-      const admin = convertRemoteUsersToLocal(res.data) as ManageAdmin;
+      const admin = convertRemoteUsersToLocal(res.data) as Admin;
       return [admin, null];
     } catch (error: any) {
       const errorObj: any = {};

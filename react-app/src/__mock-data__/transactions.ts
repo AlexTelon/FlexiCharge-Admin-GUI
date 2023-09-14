@@ -1,8 +1,8 @@
 /* eslint-disable */
 /* eslint-disable react/jsx-no-undef */
-import { ManageTransaction } from '../remote-access/types';
+import { Transaction } from '../remote-access/types';
 
-export const manageTransactions: ManageTransaction[] = [
+export const mockTransactions: Transaction[] = [
   {
     transactionID: 5,
     isKlarnaPayment: true,

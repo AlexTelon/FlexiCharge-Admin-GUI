@@ -7,7 +7,7 @@ import {
 import { ChevronRight, Close } from '@material-ui/icons';
 import { createStyles, makeStyles, useTheme } from '@material-ui/styles';
 import React, { FC, useEffect, useState } from 'react';
-import { chargerStationCollection } from '@/remote-access';
+import { manageChargerStation } from '@/remote-access';
 import { ChargerStation } from '@/remote-access/types';
 import { Alert } from '@material-ui/lab';
 import { Link } from 'react-router-dom';
@@ -61,7 +61,7 @@ const ChargerStationEditPanel: FC<ChargerStationEditPanelProps> = ({ stationId, 
 
   useEffect(() => {
     if (stationId) {
-      chargerStationCollection.getChargerStationById(stationId).then((chargerStation) => {
+      manageChargerStation.getChargerStationById(stationId).then((chargerStation) => {
         if (chargerStation === null) return;
         setFields({
           name: chargerStation.name,
@@ -77,7 +77,7 @@ const ChargerStationEditPanel: FC<ChargerStationEditPanelProps> = ({ stationId, 
   const handleSaveClick = async () => {
     if (fields.name && fields.price && fields.longitude && fields.latitude && stationId) {
       setLoading(true);
-      const result = await chargerStationCollection.updateChargerStation(stationId, {
+      const result = await manageChargerStation.updateChargerStation(stationId, {
         name: fields.name,
         location: [Number(fields.latitude), Number(fields.longitude)],
         price: Number(fields.price * 100),
@@ -128,7 +128,7 @@ const ChargerStationEditPanel: FC<ChargerStationEditPanelProps> = ({ stationId, 
   const handleDelete = async () => {
     if (stationId) {
       setLoading(true);
-      const wasSuccess = await chargerStationCollection.deleteChargerStation(stationId);
+      const wasSuccess = await manageChargerStation.deleteChargerStation(stationId);
       setLoading(false);
       if (!wasSuccess) {
         setErrorState({

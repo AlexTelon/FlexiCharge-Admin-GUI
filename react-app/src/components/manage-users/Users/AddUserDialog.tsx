@@ -6,9 +6,9 @@ import {
   FormControl, InputLabel, Input, FormHelperText, DialogActions, Button, makeStyles, createStyles, LinearProgress, Fade
 } from '@material-ui/core';
 import { CheckCircle, Close } from '@material-ui/icons';
-import { userCollection } from '@/remote-access';
+import { manageUser } from '@/remote-access';
 import { Alert } from '@material-ui/lab';
-import { ManageUser } from '@/remote-access/types';
+import { User } from '@/remote-access/types';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -26,7 +26,7 @@ const AddSingleUserDialog = ({ open, handleClose, setReload }: any) => {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [errorState, setErrorState] = useState<any>({});
-  const [fields, setFields] = useState<Partial<ManageUser>>({});
+  const [fields, setFields] = useState<Partial<User>>({});
 
   const handleInputChange = (property: string, value: any) => {
     setFields({
@@ -38,7 +38,7 @@ const AddSingleUserDialog = ({ open, handleClose, setReload }: any) => {
   const handleSubmitClicked = async () => {
     if (fields.name && fields.family_name && fields.username && fields.password) {
       setLoading(true);
-      const result = await userCollection.addUser((fields as ManageUser));
+      const result = await manageUser.addUser((fields as User));
 
       if (result[1] !== null) {
         setErrorState({

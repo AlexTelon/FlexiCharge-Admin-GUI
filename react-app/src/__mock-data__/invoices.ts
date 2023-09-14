@@ -2,7 +2,7 @@
 /* eslint-disable react/jsx-no-undef */
 import { Invoice } from '../remote-access/types';
 
-export const manageInvoice: Invoice[] = [
+export const mockInvoices: Invoice[] = [
   {
     invoiceID: 3,
     email: 'kyrollos@gmail.com',

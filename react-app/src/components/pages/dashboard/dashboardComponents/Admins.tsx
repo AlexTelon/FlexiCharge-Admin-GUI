@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Card, CardContent, Grid, LinearProgress, Theme, Typography } from '@material-ui/core';
 import { makeStyles, createStyles } from '@material-ui/styles';
-import { adminCollection } from '@/remote-access';
+import { manageAdmin } from '@/remote-access';
 import { People } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -18,7 +18,7 @@ const AdminsDashboardComponent = (props: any) => {
   const [numUsers, setNumUsers] = useState<string>();
 
   useEffect(() => {
-    adminCollection.getAllAdmins().then((result) => {
+    manageAdmin.getAllAdmins().then((result) => {
       if (result[1] || result[0] === null) {
         setNumUsers('N/A');
         return;

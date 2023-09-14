@@ -6,7 +6,7 @@ export interface ChargerStation {
   klarnaReservationAmount: number | null
 }
 
-export interface IChargerStationCollection {
+export interface IChargerStation {
   getAllChargerStations: () => Promise<ChargerStation[]>
   getChargerStationById: (stationId: number) => Promise<ChargerStation | null>
   addChargerStation: (fields: Omit<ChargerStation, 'chargePointID'>) => Promise<[number | null, any | null]>

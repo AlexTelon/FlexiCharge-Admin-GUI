@@ -14,7 +14,7 @@ import { Helmet } from 'react-helmet';
 import { Replay } from '@material-ui/icons';
 import ChargerStationsTable from './ChargerStationTable';
 import ChargerStationsSettingsAccordian from './ChargerStationsSettingsAccordian';
-import { chargerStationCollection } from '@/remote-access';
+import { manageChargerStation } from '@/remote-access';
 import { ChargerStation } from '@/remote-access/types';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -137,7 +137,7 @@ const ChargerStations = () => {
       ...state,
       loaded: false
     });
-    chargerStationCollection.getAllChargerStations().then((stations) => {
+    manageChargerStation.getAllChargerStations().then((stations) => {
       setState({
         loaded: true,
         stations

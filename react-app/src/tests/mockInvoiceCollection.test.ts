@@ -1,9 +1,9 @@
 /* eslint-disable */
 /* eslint-disable react/jsx-no-undef */
 import {expect, test} from '@jest/globals';
-import ManageInvoiceCollection from '../remote-access/mock/ManageInvoiceCollection';
+import ManageInvoice from '../remote-access/mock/ManageInvoice';
 
-const manageInvoiceCollection = new ManageInvoiceCollection
+const manageInvoiceCollection = new ManageInvoice
 describe("Fetching mock invoice collection by date tests",() =>{
     test("Fetching existing invoices by date correctly", async () => {
         const validSelectedDate = {

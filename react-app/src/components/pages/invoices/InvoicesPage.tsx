@@ -15,7 +15,7 @@ import { TabContext, TabList, TabPanel } from '@material-ui/lab';
 import PersonTable from '@/components/pages/invoices/PersonTable';
 import PersonTableIndividualInvoice from '@/components/pages/invoices/PersonTableIndividualInvoice';
 import { useParams } from 'react-router-dom';
-import { manageInvoiceCollection } from '@/remote-access';
+import { manageInvoice } from '@/remote-access';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -167,7 +167,7 @@ const RenderInvoices = () => {
         ...state,
         loaded: false
       });
-      const [individualInvoices, error] = await manageInvoiceCollection.getInvoiceByUserId(searchText, 'paid')
+      const [individualInvoices, error] = await manageInvoice.getInvoiceByUserId(searchText, 'paid')
       if(individualInvoices){
         setState({
         ...state,
@@ -214,7 +214,7 @@ const RenderInvoices = () => {
       ...state,
       loaded: false
     });
-    const [invoices, error] = await manageInvoiceCollection.getInvoiceByDate(selectedYear, selectedMonth, 'PAID');
+    const [invoices, error] = await manageInvoice.getInvoiceByDate(selectedYear, selectedMonth, 'PAID');
     
     if (invoices) {
       setState({

@@ -1,5 +1,5 @@
 /* eslint-disable react/react-in-jsx-scope */
-import { chargerCollection } from '@/remote-access';
+import { manageCharger } from '@/remote-access';
 import {
   Card,
   CardContent,
@@ -28,7 +28,7 @@ const ChargingComp = (props: any) => {
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
-    chargerCollection.getAllChargers().then((result) => {
+    manageCharger.getAllChargers().then((result) => {
       if (result[0]) {
         setNumChargers(result[0].length);
       }

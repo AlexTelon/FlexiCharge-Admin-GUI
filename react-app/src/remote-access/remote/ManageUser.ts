@@ -1,14 +1,14 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable */
 /* eslint-disable react/jsx-no-undef */
-import { ManageUser, IManageUserCollection } from '../types';
+import { User, IUser } from '../types';
 import { FLEXICHARGE_API_URL } from '../appConfig';
 import axios from 'axios';
 import { convertRemoteUsersToLocal, toUserAttributes, convertRemoteUserToLocal } from '../utility/remote-user-functions';
 import { handleUsersData } from './business-logic';
 
-export default class UserCollection implements IManageUserCollection {
-  public async getAllUsers(): Promise<[ManageUser[] | null, any | null]> {
+export default class ManageUser implements IUser {
+  public async getAllUsers(): Promise<[User[] | null, any | null]> {
     try {
       const res = await axios.get(`${FLEXICHARGE_API_URL}/admin/users`, {
         headers: {
@@ -24,7 +24,7 @@ export default class UserCollection implements IManageUserCollection {
     }
   }
   
-  public async addUser(fields: Omit<ManageUser, 'id'>): Promise<[ManageUser | null, any | null]> {
+  public async addUser(fields: Omit<User, 'id'>): Promise<[User | null, any | null]> {
     try {
       const res = await axios.post(`${FLEXICHARGE_API_URL}/admin/users`, {
         ...fields
@@ -61,7 +61,7 @@ export default class UserCollection implements IManageUserCollection {
     };
   }
 
-  public async getUserById(username: string): Promise<[ManageUser | null, any | null]> {
+  public async getUserById(username: string): Promise<[User | null, any | null]> {
     try {
       const res = await axios.get(`${FLEXICHARGE_API_URL}/admin/users/${username}`, {
         headers: {
@@ -76,7 +76,7 @@ export default class UserCollection implements IManageUserCollection {
     }
   }
 
-  public async resetUserPassword(username: string): Promise<[ManageUser | null, any | null]> {
+  public async resetUserPassword(username: string): Promise<[User | null, any | null]> {
     try {
       const res = await axios({
         method: 'post',
@@ -90,7 +90,7 @@ export default class UserCollection implements IManageUserCollection {
     }
   }
 
-  public async updateUser(username: string, fields: Omit<ManageUser, 'username'>): Promise<[ManageUser | null, any | null]> {
+  public async updateUser(username: string, fields: Omit<User, 'username'>): Promise<[User | null, any | null]> {
     try {
       const userAttributes = toUserAttributes(fields);
       const res = await axios.put(`${FLEXICHARGE_API_URL}/admin/users/${username}`, {

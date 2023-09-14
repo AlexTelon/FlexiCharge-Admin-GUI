@@ -1,8 +1,8 @@
-import { Charger, IChargerCollection } from '../types';
+import { Charger, ICharger } from '../types';
 import { FLEXICHARGE_API_URL } from '@/appConfig';
 import axios from 'axios';
 
-export default class ChargerCollection implements IChargerCollection {
+export default class ManageCharger implements ICharger {
   public async addCharger(fields: Omit<Charger, 'chargerID' | 'status'>): Promise<[Charger | null, any | null]> {
     try {
       const res = await axios.post(`${FLEXICHARGE_API_URL}/chargers/`, fields, {

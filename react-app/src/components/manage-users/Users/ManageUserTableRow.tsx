@@ -5,11 +5,11 @@ import React, { FC } from 'react';
 import { Theme, useTheme, TableRow, TableCell, Checkbox, Box, Typography, Button, 
   Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, useMediaQuery } from '@material-ui/core';
 import { Edit, LockOpen } from '@material-ui/icons';
-import { ManageUser } from '@/remote-access/types';
-import { userCollection } from '@/remote-access';
+import { User } from '@/remote-access/types';
+import { manageUser } from '@/remote-access';
 
 interface userRowProps {
-  user: ManageUser
+  user: User
   editClicked: (username: string) => void
   selected: boolean
   handleSelect: (username: string) => void

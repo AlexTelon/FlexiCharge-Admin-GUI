@@ -7,7 +7,7 @@ export interface Charger {
   status: number
 }
 
-export interface IChargerCollection {
+export interface ICharger {
   addCharger: (fields: Omit<Charger, 'chargerID' | 'status'>) => Promise<[Charger | null, any | null]>
   getAllChargers: (chargePointID?: number) => Promise<[Charger[] | null, any | null]>
   getAllAvailableChargers: () => Promise<[Charger[] | null, any | null]>

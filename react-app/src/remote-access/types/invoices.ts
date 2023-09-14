@@ -8,12 +8,12 @@ export interface Invoice {
   date: string
 }
 
-export interface ManageInvoice {
+export interface InvoiceCollection {
   email: string
   invoices: Invoice[]
 }
    
-export interface IManageInvoiceCollection {
+export interface IInvoice {
   getInvoiceByUserId: (userId: string, status: string) => any
   getInvoiceByDate: (year: string, month: string, status: string) => any
 }

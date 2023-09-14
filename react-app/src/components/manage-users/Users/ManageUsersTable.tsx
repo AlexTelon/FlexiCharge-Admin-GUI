@@ -3,8 +3,8 @@
 import { Theme, useMediaQuery, TableProps, TableContainer, LinearProgress, Table, TableHead, TableRow, TableCell, Checkbox, TableBody, TablePagination, useTheme } from '@material-ui/core';
 import React, { useState, useEffect } from 'react';
 // import { manageUserCollection } from '../../../remote-access';
-import { ManageUser } from '@/remote-access/types';
-import { userCollection } from '@/remote-access';
+import { User } from '@/remote-access/types';
+import { manageUser } from '@/remote-access';
 import UserRow from './ManageUserTableRow';
 
 interface HeadCell {
@@ -75,7 +75,7 @@ const ManageUserTableHead = (props: ManageUsersTableHeadProps) => {
 
 interface UserTableState {
   loaded?: boolean
-  users?: ManageUser[]
+  users?: User[]
   error?: boolean
   errorMessage?: string
 }
