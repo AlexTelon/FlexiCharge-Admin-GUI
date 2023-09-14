@@ -92,7 +92,7 @@ export default class ManageAdminCollection implements IManageAdminCollection {
     };
   }
 
-  async updateAdmin(username: string, fields: Omit<ManageAdmin, 'username'>): Promise<[ManageAdmin | null, any | null]> {
+  async updateAdmin(username: string, fields: Omit<ManageAdmin, "username">): Promise<[ManageAdmin | null, any | null]> {
     try {
       const userAttributes = toUserAttributes(fields);
       const res = await axios.put(`${FLEXICHARGE_API_URL}/admin/${username}`, {

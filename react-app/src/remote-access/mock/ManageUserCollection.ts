@@ -6,6 +6,7 @@ import { manageUsers } from '../../__mock-data__/users';
 import { ManageUser, IManageUserCollection } from '../types';
 
 export default class ManageUserCollection implements IManageUserCollection {
+  resetUserPassword!: (email: string) => Promise<[ManageUser | null, any]>;
   users = manageUsers;
 
   async getAllUsers(): Promise<[ManageUser[], any | null]> {
