@@ -323,7 +323,6 @@ const RenderInvoices = () => {
                               <Select
                                 labelId="demo-simple-select-label"
                                 id="demo-simple-select"
-                                value={selectedStatus}
                                 onChange={upDateSelectedStatus}
                                 label="Status"
                               >
@@ -405,7 +404,7 @@ const RenderInvoices = () => {
                 }
                 <Paper elevation={2}>
                   <TabContext value={selectedTab}>
-                    <TabPanel style={{ padding: 0 }} value="view-invoices-by-date">
+                    <TabPanel style={{ padding: 0 }} value="invoices-by-date">
                       <>
                       </>
                     </TabPanel>
@@ -417,7 +416,7 @@ const RenderInvoices = () => {
                 </Paper>
               </Grid>
               <Grid item xs={12} md={4} lg={3}>
-                {selectedTab === 'view-invoices-by-date' &&
+                {selectedTab === 'invoices-by-date' &&
                   <h6>Invoices By Date</h6>
                 }
                 {selectedTab === 'individual-invoices' &&
