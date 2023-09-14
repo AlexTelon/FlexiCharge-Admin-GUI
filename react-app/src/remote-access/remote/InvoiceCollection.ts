@@ -7,19 +7,6 @@ import axios from 'axios';
 import { authenticationProvider } from '..';
 
 export default class ManageInvoiceCollection implements IManageInvoiceCollection {
-  public async getAllInvoices(): Promise<[ManageInvoice[] | null, any | null]> {
-    try {
-      const res = await axios.get(`${FLEXICHARGE_API_URL}/invoices/users`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`
-        }
-      });
-      return [res.data, null];
-    } catch (error) {
-      return [null, error];
-    }
-  }
-
   public async getInvoiceByUserId(id: any, status: string): Promise<[ManageInvoice[] | null, any | null]> {
     try {
       const res = await axios.get(`${FLEXICHARGE_API_URL}/invoices/${id}`, {
@@ -33,12 +20,18 @@ export default class ManageInvoiceCollection implements IManageInvoiceCollection
     }
   }
 
-  public async getInvoiceByDate(year: string, month: string, status: string): Promise<[ManageInvoice[] | null, any | null]> {
+  public async getInvoiceByDate(year?: string, month?: string, status?: string): Promise<[ManageInvoice[] | null, any | null]> {
     try {
+      const params: any = {};
+      if (year) params.year = year;
+      if (month) params.month = month;
+      if (status) params.status = status;
+
       const res = await axios.get(`${FLEXICHARGE_API_URL}/invoices/`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`
-        }
+        },
+        params: params
       });
       return [res.data, null];
     } catch (error: any) {

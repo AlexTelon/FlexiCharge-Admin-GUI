@@ -17,14 +17,6 @@ export default class ManageInvoiceCollection implements IManageInvoiceCollection
   });
   */
 
-  async getAllInvoices(): Promise<[Invoice[] | null, any | null]> {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        resolve([this.invoices, null]);
-      }, 1000);
-    });
-  }
-
   async getInvoiceByUserId(userID: string): Promise<[Invoice[] | null, any | null]> {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
@@ -34,14 +26,22 @@ export default class ManageInvoiceCollection implements IManageInvoiceCollection
       }, 1000);
     });
   }
-  async getInvoiceByDate(year: string, month: string, status: string): Promise<[Invoice[] | null, any | null]> {
+  async getInvoiceByDate(year?: string, month?: string, status?: string): Promise<[Invoice[] | null, any | null]> {
     return new Promise((resolve, reject) => {
+
+      let filteredInvoices = this.invoices
+
+      if (year && month) {
+        const fullDateFormat = `${year}-${month}`
+        filteredInvoices = filteredInvoices.filter((invoice: Invoice) => invoice.date === fullDateFormat)
+      }
       
-      const fullDateFormat = `${year}-${month}`      
+      if (status) {
+        filteredInvoices = filteredInvoices.filter((invoice: Invoice) => invoice.status === status)
+      }
 
       setTimeout(() => {
-        const arr = this.invoices.filter((object) => object.date === fullDateFormat)
-        resolve([arr, null]);
+        resolve([filteredInvoices, null]);
       }, 1000);
     });
   }
