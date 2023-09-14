@@ -18,27 +18,22 @@ const UsersDashboardComponent = (props: any) => {
   const [numUsers, setNumUsers] = useState<string>();
 
   useEffect(() => {
-    const fetchMockData = async () => {
-      const [mockUsers, mockError] = await manageUserCollection.getAllUsers();
-
-      if (mockError || mockUsers === null) {
-        const [remoteUsers, remoteError] = await userCollection.getAllUsers();
-
-        if (remoteError || remoteUsers === null) {
-          setNumUsers('N/A');
+    userCollection.getAllUsers().then((result) => {
+      if (result[1] || result[0] === null) {
+        setNumUsers('N/A');
+        manageUserCollection.getAllUsers().then((mockResult) => {
+          if (mockResult[1] || mockResult[0] === null) {
+            setNumUsers('N/A');
+          } else {
+            setNumUsers(`${mockResult[0].length}`);
+          }
           setLoaded(true);
-          return;
-        }
-
-        setNumUsers(`${remoteUsers.length}`);
-        setLoaded(true);
+        });
       } else {
-        setNumUsers(`${mockUsers.length}`);
+        setNumUsers(`${result[0].length}`);
         setLoaded(true);
       }
-    };
-  
-    fetchMockData();
+    });
   }, []);
 
   return (
