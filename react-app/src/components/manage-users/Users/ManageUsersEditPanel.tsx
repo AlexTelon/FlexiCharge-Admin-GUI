@@ -6,8 +6,8 @@ import { AppBar, Box, Button, Dialog, DialogContentText, DialogActions, DialogCo
 import { Close, LockOpen } from '@material-ui/icons';
 import { createStyles, makeStyles, useTheme } from '@material-ui/styles';
 import React, { FC, useEffect, useState } from 'react';
-import { userCollection } from '@/remote-access';
-import { ManageUser } from '@/remote-access/types';
+import { manageUser } from '@/remote-access';
+import { User } from '@/remote-access/types';
 import { Alert } from '@material-ui/lab';
 
 const useStyle = makeStyles((theme: Theme) => 
@@ -42,8 +42,8 @@ interface ManageUsersEditPanelProps {
 
 const ManageUsersEditPanel: FC<ManageUsersEditPanelProps> = ({ username, setActiveUser }) => {
   const classes = useStyle();
-  const [user, setUser] = useState<ManageUser>();
-  const [fields, setFields] = useState<Partial<ManageUser>>({});
+  const [user, setUser] = useState<User>();
+  const [fields, setFields] = useState<Partial<User>>({});
   const [errorState, setErrorState] = useState<any>({});
   const [loading, setLoading] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState<boolean>(false);
@@ -57,7 +57,7 @@ const ManageUsersEditPanel: FC<ManageUsersEditPanelProps> = ({ username, setActi
 
   useEffect(() => {
     if (username) {
-      userCollection.getUserById(username).then((result) => {
+      manageUser.getUserById(username).then((result) => {
         if (result[0] === null) {
           console.log(result[1]);
           
@@ -77,7 +77,7 @@ const ManageUsersEditPanel: FC<ManageUsersEditPanelProps> = ({ username, setActi
   const handleSaveClick = async () => {
     if (username && fields.name && fields.family_name) {
       setLoading(true);
-      const result = await userCollection.updateUser(username, {
+      const result = await manageUser.updateUser(username, {
         name: fields.name,
         family_name: fields.family_name 
       });
@@ -113,7 +113,7 @@ const ManageUsersEditPanel: FC<ManageUsersEditPanelProps> = ({ username, setActi
 
   const handleDeletClick = () => {
     if (!user) return;
-    userCollection.deleteUser(user?.username).then((wasSuccess) => {
+    manageUser.deleteUser(user?.username).then((wasSuccess) => {
       if (wasSuccess) {
         setActiveUser(undefined);
       } else {
@@ -145,7 +145,7 @@ const ManageUsersEditPanel: FC<ManageUsersEditPanelProps> = ({ username, setActi
   };
 
   const handleResetUserPassword = () => {
-    userCollection.resetUserPassword(user?.email).then((wasSuccess) => {
+    manageUser.resetUserPassword(user?.email).then((wasSuccess) => {
       if (wasSuccess) {
         console.log('success');
       } else {

@@ -9,8 +9,8 @@ import { Close } from '@material-ui/icons';
 import { Alert } from '@material-ui/lab';
 import { createStyles, makeStyles, useTheme } from '@material-ui/styles';
 import React, { FC, useEffect, useState } from 'react';
-import { adminCollection } from '../../../remote-access';
-import { ManageAdmin } from '../../../remote-access/types';
+import { manageAdmin } from '../../../remote-access';
+import { Admin } from '../../../remote-access/types';
 
 const useStyle = makeStyles((theme: Theme) => 
 
@@ -44,7 +44,7 @@ interface ManageAdminsEditPanelProps {
 
 const ManageAdminsEditPanel: FC<ManageAdminsEditPanelProps> = ({ username, setActiveUser }) => {
   const classes = useStyle();
-  const [admin, setAdmin] = useState<ManageAdmin>();
+  const [admin, setAdmin] = useState<Admin>();
   const [fields, setFields] = useState<any>({});
   const [errorState, setErrorState] = useState<any>({});
   const [loading, setLoading] = useState(false);
@@ -52,7 +52,7 @@ const ManageAdminsEditPanel: FC<ManageAdminsEditPanelProps> = ({ username, setAc
 
   useEffect(() => {
     if (username) {
-      adminCollection.getAdminById(username).then((admin) => {
+      manageAdmin.getAdminById(username).then((admin) => {
         if (admin === null) return;
         setFields({
           ...admin
@@ -65,7 +65,7 @@ const ManageAdminsEditPanel: FC<ManageAdminsEditPanelProps> = ({ username, setAc
   const handleSaveClick = async () => {
     if (fields.name && fields.email && username) {
       setLoading(true);
-      const result = await adminCollection.updateAdmin(username, {
+      const result = await manageAdmin.updateAdmin(username, {
         name: fields.name,
         email: fields.email
       });
@@ -116,7 +116,7 @@ const ManageAdminsEditPanel: FC<ManageAdminsEditPanelProps> = ({ username, setAc
 
   const handleDeleteClick = async () => {
     if (!admin) return;
-    const wasSuccess = await adminCollection.deleteAdmin(admin?.username);
+    const wasSuccess = await manageAdmin.deleteAdmin(admin?.username);
     if (wasSuccess) {
       setActiveUser(undefined);
     } else {

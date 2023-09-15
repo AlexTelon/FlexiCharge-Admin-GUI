@@ -1,10 +1,10 @@
 import React, { FC } from 'react';
 import { Theme, useTheme, TableRow, TableCell, Checkbox, Box, Typography, Button } from '@material-ui/core';
 import { Edit } from '@material-ui/icons';
-import { ManageAdmin } from '../../../remote-access/types';
+import { Admin } from '../../../remote-access/types';
 
 interface adminRowProps {
-  admin: ManageAdmin
+  admin: Admin
   editClicked: (adminId: string) => void
   selected: boolean
   handleSelect: (adminId: string) => void

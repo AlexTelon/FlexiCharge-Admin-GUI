@@ -1,16 +1,16 @@
 /* eslint-disable no-useless-escape */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { manageAdmins } from '../../__mock-data__/admins';
-import { ManageAdmin, IManageAdminCollection } from '../types';
+import { mockAdmins } from '../../__mock-data__/admins';
+import { Admin, IAdmin } from '../types';
 
-export default class ManageAdminCollection implements IManageAdminCollection {
-  admins = manageAdmins;
+export default class ManageAdmin implements IAdmin {
+  admins = mockAdmins;
 
   async deleteAdmin(username: string): Promise<boolean> {
     return true;
   }
 
-  async getAllAdmins(): Promise<[ManageAdmin[] | null, any | null]> {
+  async getAllAdmins(): Promise<[Admin[] | null, any | null]> {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         resolve([this.admins, null]);
@@ -18,7 +18,7 @@ export default class ManageAdminCollection implements IManageAdminCollection {
     });
   }
 
-  async getAdminById(adminId: string): Promise<ManageAdmin | null> {
+  async getAdminById(adminId: string): Promise<Admin | null> {
     return new Promise((resolve, reject) => {
       // Look up in local
       // If not found then try remote
@@ -29,13 +29,13 @@ export default class ManageAdminCollection implements IManageAdminCollection {
     });
   }
 
-  async addAdmin(fields: Omit<ManageAdmin, 'id'>): Promise<[string | null, any | null]> {
+  async addAdmin(fields: Omit<Admin, 'id'>): Promise<[string | null, any | null]> {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         const errorObj = this.validateFields(fields);
         if (Object.keys(errorObj).length > 0) resolve([null, errorObj]);
         
-        const manageAdmin: ManageAdmin = {
+        const manageAdmin: Admin = {
           ...fields,
           username: `${this.admins.length + 1}`
         };
@@ -45,7 +45,7 @@ export default class ManageAdminCollection implements IManageAdminCollection {
     });
   }
 
-  async updateAdmin(adminId: string, fields: Omit<ManageAdmin, 'username'>): Promise<[ManageAdmin | null, any | null]> {
+  async updateAdmin(adminId: string, fields: Omit<Admin, 'username'>): Promise<[Admin | null, any | null]> {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         const adminIndex = this.admins.findIndex((admins) => admins.username === adminId);
@@ -72,7 +72,7 @@ export default class ManageAdminCollection implements IManageAdminCollection {
     return false;
   }
 
-  private validateFields(fields: Omit<ManageAdmin, 'username'>): any | null {
+  private validateFields(fields: Omit<Admin, 'username'>): any | null {
     const errorObj: any = {};
     if (fields.name && this.isNametaken(fields.name)) errorObj.name = 'Name is taken';
     return errorObj;

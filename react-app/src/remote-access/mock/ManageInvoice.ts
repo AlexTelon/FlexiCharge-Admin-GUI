@@ -1,10 +1,10 @@
 /* eslint-disable */
 /* eslint-disable react/jsx-no-undef */
-import { manageInvoice } from '../../__mock-data__/invoices';
-import { Invoice, IManageInvoiceCollection } from '../types';
+import { mockInvoices } from '../../__mock-data__/invoices';
+import { Invoice, IInvoice } from '../types';
 
-export default class ManageInvoiceCollection implements IManageInvoiceCollection {
-  invoices = manageInvoice;
+export default class ManageInvoice implements IInvoice {
+  invoices = mockInvoices;
 
   /*
   return new Promise((resolve, reject) => {

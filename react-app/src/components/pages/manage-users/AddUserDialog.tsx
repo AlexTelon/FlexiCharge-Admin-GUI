@@ -6,7 +6,7 @@ import {
   FormControl, InputLabel, Input, FormHelperText, DialogActions, Button, makeStyles, createStyles, LinearProgress, Fade
 } from '@material-ui/core';
 import { CheckCircle, Close } from '@material-ui/icons';
-import { manageUserCollection } from '@/remote-access';
+import { manageUser } from '@/remote-access';
 import { Alert } from '@material-ui/lab';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -42,7 +42,7 @@ const AddSingleUserDialog = ({ open, handleClose }: any) => {
   const handleSubmitClicked = async () => {
     if (name && email && phoneNumber) {
       setLoading(true);
-      const result = await manageUserCollection.addUser({
+      const result = await manageUser.addUser({
         name,
         email,
         phoneNumber

@@ -1,4 +1,4 @@
-export interface ManageTransaction {
+export interface Transaction {
   transactionID: number
   isKlarnaPayment: boolean
   kwhTransfered: number
@@ -14,6 +14,6 @@ export interface ManageTransaction {
   chargerID: number
 }
   
-export interface IManageTransactionCollection {
+export interface ITransaction {
   getTransactionsByUserId: (username: any) => any
 }

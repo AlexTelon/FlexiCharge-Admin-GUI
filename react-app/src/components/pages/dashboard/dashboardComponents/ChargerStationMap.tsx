@@ -1,5 +1,5 @@
 import { TileLayer, Popup, MapContainer, Marker } from 'react-leaflet';
-import { chargerStationCollection } from '@/remote-access';
+import { manageChargerStation } from '@/remote-access';
 import { ChargerStation } from '@/remote-access/types';
 import React, { useState, useEffect } from 'react';
 import {
@@ -29,7 +29,7 @@ const ChargerStationMap = (props: any) => {
       ...state,
       loaded: false
     });
-    chargerStationCollection.getAllChargerStations().then((stations) => {
+    manageChargerStation.getAllChargerStations().then((stations) => {
       setState({
         loaded: true,
         stations

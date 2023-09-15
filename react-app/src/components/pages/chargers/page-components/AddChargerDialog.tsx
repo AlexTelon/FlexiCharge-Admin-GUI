@@ -1,4 +1,4 @@
-import { chargerCollection } from '@/remote-access';
+import { manageCharger } from '@/remote-access';
 import { ChargerStation } from '@/remote-access/types';
 import { Button, Collapse, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControl, FormHelperText, Input, InputLabel, LinearProgress, List, ListItem, ListItemText, Theme } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
@@ -43,7 +43,7 @@ const AddChargerDialog: FC<AddChargerDialogProps> = ({ open, handleClose, statio
         loading: true
       });
 
-      chargerCollection.addCharger({
+      manageCharger.addCharger({
         serialNumber: state.serialNumber,
         location: station.location,
         chargePointID: station.chargePointID
