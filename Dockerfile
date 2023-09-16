@@ -5,6 +5,6 @@ WORKDIR /react-app
 COPY . ./
 
 RUN npm i yarn -g --force
-RUN yarn install
+RUN yarn
 
 CMD ["yarn", "run", "start"]

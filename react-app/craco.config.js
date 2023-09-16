@@ -3,8 +3,13 @@ const path = require('path');
 
 module.exports = {
   webpack: {
-    alias: {
-      "@": path.resolve(__dirname, 'src')
+    configure: {
+      entry: './src'
+    }
+  },
+  configure: {
+    output: {
+      publicPath: './react-app/public'
     }
   },
   devServer: {
