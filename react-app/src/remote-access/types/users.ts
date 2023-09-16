@@ -23,7 +23,7 @@ export interface IUser {
   addUser: (fields: Omit<User, 'id'>) => Promise<[User | null, any | null]>
   updateUser: (username: string, fields: Omit<User, 'username'>) => Promise<[User | null, any | null]>
   deleteUser: (username: string) => Promise<boolean>
-  resetUserPassword: (username: string) => Promise<[User | null, any | null]>
+  resetUserPassword: (email: string) => Promise<[User | null, any | null]>
 }
 
 export interface Admin {
