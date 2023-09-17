@@ -6,7 +6,8 @@ import {
   AppBar, Toolbar, Typography, Container, Grid,
   IconButton, Paper, Tab, alpha, InputBase, styled,
   Divider, Select, FormControl, InputLabel, MenuItem,
-  Button, TableCell, useTheme
+  Button, TableCell, useTheme, Dialog, DialogContent,
+  DialogTitle
 } from '@material-ui/core';
 import { Helmet } from 'react-helmet';
 import { ControlPoint, Search } from '@material-ui/icons';
@@ -140,6 +141,16 @@ const RenderInvoices = () => {
   let [selectedYear, setYear] = React.useState('2000');
   let [selectedMonth, setMonth] = React.useState('00');
   let [searchValue, setSearchValue] = React.useState('')
+
+  const [open, setOpen] = useState(false);
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   const handleTabChange = (event: any, newTab: string) => {
     resetYear()
@@ -299,16 +310,27 @@ const RenderInvoices = () => {
                             </FormControl>
                           </Box>
                           <TableCell className={classes.buttonPosition}>
+                          <div>
                             <Button
                               startIcon={<ControlPoint />}
                               style={{ color: theme.flexiCharge.primary.white }}
                               variant="contained"
                               color="primary"
-                              onClick={() => console.log('btn pressed!')}
-                              disabled
+                              onClick={handleOpen}
                             >
                               Generate Invoices
                             </Button>
+                            <Dialog
+                              open={open}
+                              onClose={handleClose}
+                            >
+                              <DialogTitle>Test Popup</DialogTitle>
+                              <DialogContent>
+                                <p>Here we will add the form for creating an invoice.</p>
+                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Officia eaque quis, mollitia ratione ad blanditiis nemo, ab, eius dolor sint facere alias harum qui? Itaque veritatis quas eaque culpa aliquam.</p>
+                              </DialogContent>
+                            </Dialog>
+                          </div>
                           </TableCell>
                         </Toolbar>
                       </AppBar>
