@@ -7,7 +7,7 @@ import {
   IconButton, Paper, Tab, alpha, InputBase, styled,
   Divider, Select, FormControl, InputLabel, MenuItem,
   Button, TableCell, useTheme, Dialog, DialogContent,
-  DialogTitle
+  DialogTitle, TextField
 } from '@material-ui/core';
 import { Helmet } from 'react-helmet';
 import { ControlPoint, Search } from '@material-ui/icons';
@@ -141,6 +141,21 @@ const RenderInvoices = () => {
   let [selectedYear, setYear] = React.useState('2000');
   let [selectedMonth, setMonth] = React.useState('00');
   let [searchValue, setSearchValue] = React.useState('')
+
+  //Create Invoice
+  const [invoice, setInvoice] = useState({
+    email: '',
+    totalSum: 1,
+    status: 'NOT-PAID',
+  });
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setInvoice({
+      ...invoice,
+      [name]: value,
+    });
+  };
 
   const [open, setOpen] = useState(false);
 
@@ -324,10 +339,41 @@ const RenderInvoices = () => {
                               open={open}
                               onClose={handleClose}
                             >
-                              <DialogTitle>Test Popup</DialogTitle>
+                              <DialogTitle>Create Invoice</DialogTitle>
                               <DialogContent>
-                                <p>Here we will add the form for creating an invoice.</p>
-                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Officia eaque quis, mollitia ratione ad blanditiis nemo, ab, eius dolor sint facere alias harum qui? Itaque veritatis quas eaque culpa aliquam.</p>
+                                <form>
+                                  <TextField
+                                    label="Email"
+                                    name="email"
+                                    value={invoice.email}
+                                    onChange={handleChange}
+                                    fullWidth
+                                    required
+                                  />
+                                  <TextField
+                                    label="Total Sum"
+                                    name="totalSum"
+                                    type="number"
+                                    value={invoice.totalSum}
+                                    onChange={handleChange}
+                                    fullWidth
+                                    required
+                                    inputProps={{ min: 1, max: 1000 }}
+                                  />
+                                  <FormControl fullWidth>
+                                    <InputLabel>Status</InputLabel>
+                                    <Select
+                                      name="status"
+                                      value={invoice.status}
+                                      onChange={handleChange}
+                                      required
+                                    >
+                                      <MenuItem value="PAID">PAID</MenuItem>
+                                      <MenuItem value="NOT-PAID">NOT-PAID</MenuItem>
+                                      <MenuItem value="ALL">ALL</MenuItem>
+                                    </Select>
+                                  </FormControl>
+                                </form>
                               </DialogContent>
                             </Dialog>
                           </div>
