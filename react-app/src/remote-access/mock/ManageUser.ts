@@ -88,4 +88,24 @@ export default class ManageUser implements IUser {
       });
     });
   }
+
+  async resetUserPassword(username: string): Promise<[User | null, any]> {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        const userIndex = this.users.findIndex((users) => users.username === username);
+        if (userIndex === -1) {
+          const error = { errorMessage: 'Could not find the User' };
+          resolve([null, error]);
+          return;
+        }
+
+        const manageUser = {
+          ...this.users[userIndex],
+          password: 'temp_password'
+        };
+        this.users[userIndex] = manageUser;
+        resolve([manageUser, null]);
+      });
+    });
+  }
 }
