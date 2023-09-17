@@ -65,7 +65,7 @@ const PersonTable: FC<PersonTableProps> = ({ loaded, invoices, selectedYear, sel
                 .map((invoice: Invoice) => {
                   return (
                     <PersonRow
-                      key={invoices.invoiceID}
+                      key={invoice.invoiceID}
                       invoice={invoice}
                       {...props}
                       classes={props.classes}

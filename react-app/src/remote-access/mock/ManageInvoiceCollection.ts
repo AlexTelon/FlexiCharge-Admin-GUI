@@ -31,13 +31,15 @@ export default class ManageInvoiceCollection implements IManageInvoiceCollection
 
       let filteredInvoices = this.invoices
 
-      if (year && month) {
-        const fullDateFormat = `${year}-${month}`
-        filteredInvoices = filteredInvoices.filter((invoice: Invoice) => invoice.date === fullDateFormat)
+      if (year) {
+        filteredInvoices = filteredInvoices.filter((invoice: Invoice) => invoice.date.startsWith(year));
       }
-      
-      if (status) {
-        filteredInvoices = filteredInvoices.filter((invoice: Invoice) => invoice.status === status)
+      if (month) {
+        filteredInvoices = filteredInvoices.filter((invoice: Invoice) => invoice.date.endsWith(`-${month}`));
+      }
+
+      if (status && status !== 'ALL') {
+        filteredInvoices = filteredInvoices.filter((invoice: Invoice) => invoice.status === status);
       }
 
       setTimeout(() => {

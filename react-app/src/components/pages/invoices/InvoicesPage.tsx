@@ -6,7 +6,7 @@ import {
   AppBar, Toolbar, Typography, Container, Grid,
   IconButton, Paper, Tab, alpha, InputBase, styled,
   Divider, Select, FormControl, InputLabel, MenuItem,
-  Button, TableCell, useTheme
+  Button, TableCell, useTheme, Menu
 } from '@material-ui/core';
 import { Helmet } from 'react-helmet';
 import { ControlPoint, Search } from '@material-ui/icons';
@@ -139,7 +139,7 @@ const RenderInvoices = () => {
   const [selectedTab, setSelectedTab] = React.useState('view-invoices-by-date');
   let [selectedYear, setYear] = React.useState('2000');
   let [selectedMonth, setMonth] = React.useState('00');
-  let [selectedStatus, setSelectedStatus] = React.useState('All');
+  let [selectedStatus, setSelectedStatus] = React.useState('ALL');
   let [searchValue, setSearchValue] = React.useState('')
 
   const handleTabChange = async (event: any, newTab: string) => {
@@ -158,12 +158,8 @@ const RenderInvoices = () => {
   });
 
   useEffect(() => {
-    setSelectedTab('view-invoices-by-date');
     handleDateFilter();
-    setState({
-      ...state,
-    });
-  }, []);
+  }, [selectedYear, selectedMonth, selectedStatus]);
 
   const handleSearch = async (searchText: string) => {
     if (searchText !== '') {
@@ -200,26 +196,20 @@ const RenderInvoices = () => {
   }
   const resetStatus = () => {
     setSelectedStatus(() => {
-      return selectedStatus = 'All'
+      return selectedStatus = 'ALL'
     })
   }
 
   const updateSelectedYear = async (event: any) => {
-    setYear(() => {
-      return selectedYear = event?.target.value
-    });
+    setYear(event?.target.value);
     await handleDateFilter(); 
   } 
   const updateSelectedMonth = async (event: any) => {
-    setMonth(() => {
-      return selectedMonth = event?.target.value
-    });
+    setMonth(event?.target.value);
     await handleDateFilter(); 
   }
   const upDateSelectedStatus = async (event: any) => {
-    setSelectedStatus(() => {
-      return selectedStatus = event?.target.value
-    });
+    setSelectedStatus(event?.target.value);
     await handleDateFilter(); 
   }
 
@@ -231,7 +221,7 @@ const RenderInvoices = () => {
 
     const yearFilter = selectedYear !== '2000' ? selectedYear : '';
     const monthFilter = selectedMonth !== '00' ? selectedMonth : '';
-    const statusFilter = selectedStatus !== 'All' ? selectedStatus : '';
+    const statusFilter = selectedStatus !== 'ALL' ? selectedStatus : '';
 
     const [invoices, error] = await manageInvoiceCollection.getInvoiceByDate(yearFilter, monthFilter, statusFilter);
     
@@ -286,6 +276,7 @@ const RenderInvoices = () => {
                                 onChange={updateSelectedYear}
                                 label="Year"
                               >
+                                <MenuItem value={'2000'}>All</MenuItem>
                                 <MenuItem value={'2019'}>2019</MenuItem>
                                 <MenuItem value={'2020'}>2020</MenuItem>
                                 <MenuItem value={'2021'}>2021</MenuItem>
@@ -302,6 +293,7 @@ const RenderInvoices = () => {
                                 onChange={updateSelectedMonth}
                                 label="Month"
                               >
+                                <MenuItem value={'00'}>All</MenuItem>
                                 <MenuItem value={'01'}>January</MenuItem>
                                 <MenuItem value={'02'}>Feburary</MenuItem>
                                 <MenuItem value={'03'}>Mars</MenuItem>
@@ -327,7 +319,7 @@ const RenderInvoices = () => {
                                 label="Status"
                               >
                                 <MenuItem value={'PAID'}>Paid</MenuItem>
-                                <MenuItem value={'UNPAID'}>Unpaid</MenuItem>
+                                <MenuItem value={'NOT-PAID'}>Not paid</MenuItem>
                                 <MenuItem value={'ALL'}>All</MenuItem>
                               </Select>
                             </FormControl>

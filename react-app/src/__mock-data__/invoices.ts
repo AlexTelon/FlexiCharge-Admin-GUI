@@ -72,7 +72,7 @@ export const manageInvoice: Invoice[] = [
     createdAt: 1654264615,
     totalSum: 250,
     invoiceURL: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
-    status: 'PAID',
+    status: 'NOT-PAID',
     date: '2022-08'
   },
   {
@@ -117,8 +117,8 @@ export const manageInvoice: Invoice[] = [
     createdAt: 1664279981,
     totalSum: 300,
     invoiceURL: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
-    status: 'PAID',
-    date: '2022-01'
+    status: 'NOT-PAID',
+    date: '2020-01'
   },
   {
     invoiceID: 16,
