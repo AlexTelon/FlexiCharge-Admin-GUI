@@ -284,7 +284,7 @@ const RenderInvoices = () => {
                               </Select>
                             </FormControl>
                           </Box>
-                          <Box sx={{ width: '15%', height: '40pt' }}>
+                          <Box sx={{ width: '15%', marginRight: '10pt', height: '40pt' }}>
                             <FormControl fullWidth>
                               <InputLabel id="demo-simple-select-label">Month</InputLabel>
                               <Select
