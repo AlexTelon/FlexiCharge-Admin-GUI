@@ -10,7 +10,7 @@ import {
   DialogTitle, TextField
 } from '@material-ui/core';
 import { Helmet } from 'react-helmet';
-import { ControlPoint, Search } from '@material-ui/icons';
+import { ControlPoint, Search, Add as AddIcon, Add  } from '@material-ui/icons';
 
 import { TabContext, TabList, TabPanel } from '@material-ui/lab';
 import PersonTable from '@/components/pages/invoices/PersonTable';
@@ -87,7 +87,7 @@ const useStyles = makeStyles((theme: Theme) =>
       marginLeft: 'auto',
     },
     dialogContent: {
-      maxWidth: '400px',
+      maxWidth: '350px',
     }
   })
 );
@@ -149,7 +149,7 @@ const RenderInvoices = () => {
   const [invoice, setInvoice] = useState({
     email: '',
     totalSum: 1,
-    status: 'NOT-PAID',
+    status: '',
   });
 
   const handleChange = (event) => {
@@ -348,7 +348,7 @@ const RenderInvoices = () => {
                               onClose={handleClose}
                             >
                               <DialogTitle>Generate New Invoice</DialogTitle>
-                              <DialogContent>
+                              <DialogContent className={classes.dialogContent}>
                                 <form>
                                   <TextField
                                     label="Email"
@@ -383,14 +383,14 @@ const RenderInvoices = () => {
                                   </FormControl>
                                 </form>
                               </DialogContent>
-                              <div>
+                              <div style={{ textAlign: 'center', marginBottom: '10px' }}>
                                 <Button
-                                  //startIcon={<SaveIcon />}
+                                  startIcon={<AddIcon/>}
                                   variant="contained"
                                   color="primary"
                                   onClick={handleSave}
                                 >
-                                  Save
+                                  Generate
                                 </Button>
                               </div>
                             </Dialog>
