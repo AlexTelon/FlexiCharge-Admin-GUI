@@ -45,7 +45,7 @@ const PersonTable: FC<PersonTableProps> = ({ loaded, invoices, selectedYear, sel
 
   return (
     <>
-      <TableContainer className={props.classes.tableContainer}>
+      <TableContainer data-cy="all-invoices" className={props.classes.tableContainer}>
         {!loaded &&
           <LinearProgress />
         }

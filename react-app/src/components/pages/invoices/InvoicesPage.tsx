@@ -161,6 +161,12 @@ const RenderInvoices = () => {
     handleDateFilter();
   }, [selectedYear, selectedMonth, selectedStatus]);
 
+  useEffect(() => {
+    setYear('2000');
+    setMonth('00');
+    setSelectedStatus('ALL');
+  }, []);  
+
   const handleSearch = async (searchText: string) => {
     if (searchText !== '') {
       setState({
