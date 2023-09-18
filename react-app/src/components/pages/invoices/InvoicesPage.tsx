@@ -85,6 +85,9 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     buttonPosition: {
       marginLeft: 'auto',
+    },
+    dialogContent: {
+      maxWidth: '400px',
     }
   })
 );
@@ -142,7 +145,7 @@ const RenderInvoices = () => {
   let [selectedMonth, setMonth] = React.useState('00');
   let [searchValue, setSearchValue] = React.useState('')
 
-  //Create Invoice
+  //Generate Invoice
   const [invoice, setInvoice] = useState({
     email: '',
     totalSum: 1,
@@ -165,6 +168,11 @@ const RenderInvoices = () => {
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const handleSave = () => {
+    console.log('Invoice Data:', invoice);
+    handleClose();
   };
 
   const handleTabChange = (event: any, newTab: string) => {
@@ -339,7 +347,7 @@ const RenderInvoices = () => {
                               open={open}
                               onClose={handleClose}
                             >
-                              <DialogTitle>Create Invoice</DialogTitle>
+                              <DialogTitle>Generate New Invoice</DialogTitle>
                               <DialogContent>
                                 <form>
                                   <TextField
@@ -375,6 +383,16 @@ const RenderInvoices = () => {
                                   </FormControl>
                                 </form>
                               </DialogContent>
+                              <div>
+                                <Button
+                                  //startIcon={<SaveIcon />}
+                                  variant="contained"
+                                  color="primary"
+                                  onClick={handleSave}
+                                >
+                                  Save
+                                </Button>
+                              </div>
                             </Dialog>
                           </div>
                           </TableCell>
