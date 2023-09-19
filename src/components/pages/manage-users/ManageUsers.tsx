@@ -9,12 +9,12 @@ import { Helmet } from 'react-helmet';
 import { Replay } from '@material-ui/icons';
 import { ManageAdmin, ManageUser } from '@/remote-access/types';
 import { adminCollection, userCollection } from '@/remote-access';
-import ManageUsersEditPanel from '@/components/manage-users/Users/ManageUsersEditPanel';
-import ManageAdminsEditPanel from '@/components/manage-users/Admins/ManageAdminEditPanel';
-import AdminSettingsAccordian from '@/components/manage-users/Admins/ManageAdminsSettingsAccordian';
-import AdminTable from '@/components/manage-users/Admins/ManageAdminsTable';
-import UserSettingsAccordian from '@/components/manage-users/Users/ManageUsersSettingsAccordian';
-import UserTable from '@/components/manage-users/Users/ManageUsersTable';
+import ManageUsersEditPanel from 'components/manage-users/Users/ManageUsersEditPanel';
+import ManageAdminsEditPanel from 'components/manage-users/Admins/ManageAdminEditPanel';
+import AdminSettingsAccordian from 'components/manage-users/Admins/ManageAdminsSettingsAccordian';
+import AdminTable from 'components/manage-users/Admins/ManageAdminsTable';
+import UserSettingsAccordian from 'components/manage-users/Users/ManageUsersSettingsAccordian';
+import UserTable from 'components/manage-users/Users/ManageUsersTable';
 import { TabContext, TabList, TabPanel } from '@material-ui/lab';
 
 const useStyles = makeStyles((theme: Theme) => 

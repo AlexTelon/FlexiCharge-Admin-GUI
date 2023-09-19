@@ -4,7 +4,7 @@
 import { ManageTransaction, IManageTransactionCollection } from '../types';
 import { FLEXICHARGE_API_URL } from '@/appConfig';
 import axios from 'axios';
-import { authenticationProvider } from '..';
+import { authenticationProvider } from '../index';
 
 export default class ManageTransactionCollection implements IManageTransactionCollection {
 

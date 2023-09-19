@@ -38,7 +38,7 @@ const AddSingleUserDialog = ({ open, handleClose, setReload }: any) => {
   const handleSubmitClicked = async () => {
     if (fields.name && fields.family_name && fields.username && fields.password) {
       setLoading(true);
-      const result = await userCollection.addUser((fields as ManageUser));
+      const result = await userCollection.addUser(fields);
 
       if (result[1] !== null) {
         setErrorState({

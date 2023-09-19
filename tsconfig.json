@@ -25,11 +25,11 @@
     "jsx": "react-jsx",
     "types": [
       "cypress"
-    ]
+    ],
   },
   "include": [
     "cypress/**/*.{ts, tsx}",
     "src/**/*.ts",
     "src/**/*.tsx"
-  ]
+  ],
 }

@@ -7,8 +7,8 @@ import {
 import { ChevronRight, Close } from '@material-ui/icons';
 import { createStyles, makeStyles, useTheme } from '@material-ui/styles';
 import React, { FC, useEffect, useState } from 'react';
-import { chargerStationCollection } from '@/remote-access';
-import { ChargerStation } from '@/remote-access/types';
+import { chargerStationCollection } from '@remote-access';
+import { ChargerStation } from '@remote-access/types';
 import { Alert } from '@material-ui/lab';
 import { Link } from 'react-router-dom';
 

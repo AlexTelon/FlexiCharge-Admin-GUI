@@ -4,7 +4,7 @@ import { ThemeProvider } from '@material-ui/styles';
 import { BrowserRouter as Router } from 'react-router-dom';
 import App from './components/App';
 import reportWebVitals from './reportWebVitals';
-import flexiChargeTheme from './components/theme';
+import flexiChargeTheme from 'components/theme';
 import { CssBaseline } from '@material-ui/core';
 
 ReactDOM.render(

@@ -5,11 +5,12 @@ module.exports = {
   webpack: {
     configure: {
       entry: './src'
-    }
-  },
-  configure: {
-    output: {
-      publicPath: './react-app/public'
+    },
+    alias: {
+      "@": path.resolve(__dirname, 'src'),
+      "components": path.resolve(__dirname, 'src/components'),
+      "types": path.resolve(__dirname, 'src/types'),
+      "@remote-access": path.resolve(__dirname, 'src/remote-access')
     }
   },
   devServer: {

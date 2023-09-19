@@ -12,8 +12,8 @@ import { Helmet } from 'react-helmet';
 import { ControlPoint, Search } from '@material-ui/icons';
 
 import { TabContext, TabList, TabPanel } from '@material-ui/lab';
-import PersonTable from '@/components/pages/invoices/PersonTable';
-import PersonTableIndividualInvoice from '@/components/pages/invoices/PersonTableIndividualInvoice';
+import PersonTable from 'components/pages/invoices/PersonTable';
+import PersonTableIndividualInvoice from 'components/pages/invoices/PersonTableIndividualInvoice';
 import { useParams } from 'react-router-dom';
 import { manageInvoiceCollection } from '@/remote-access';
 
