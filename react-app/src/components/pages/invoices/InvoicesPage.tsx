@@ -146,13 +146,18 @@ const RenderInvoices = () => {
   let [searchValue, setSearchValue] = React.useState('')
 
   const createdAtTimestamp = Math.floor(new Date().getTime() / 1000);
+  const currentDate = new Date();
+  const year = currentDate.getFullYear();
+  const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+  const formattedDate = `${year}-${month}`;
 
   //Generate Invoice
   const [invoice, setInvoice] = useState({
     email: '',
     createdAt: createdAtTimestamp,
     totalSum: 1,
-    status: '',
+    status: 'NOT-PAID',
+    date: formattedDate
   });
 
   const handleChange = (event) => {
