@@ -145,9 +145,12 @@ const RenderInvoices = () => {
   let [selectedMonth, setMonth] = React.useState('00');
   let [searchValue, setSearchValue] = React.useState('')
 
+  const createdAtTimestamp = Math.floor(new Date().getTime() / 1000);
+
   //Generate Invoice
   const [invoice, setInvoice] = useState({
     email: '',
+    createdAt: createdAtTimestamp,
     totalSum: 1,
     status: '',
   });
@@ -353,6 +356,7 @@ const RenderInvoices = () => {
                                   <TextField
                                     label="Email"
                                     name="email"
+                                    type="text"
                                     value={invoice.email}
                                     onChange={handleChange}
                                     fullWidth
