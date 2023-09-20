@@ -29,7 +29,7 @@
     "eject": "react-scripts eject",
     "lint": "yarn eslint react-app --ignore-path .gitignore --ext .ts,.tsx",
     "lint:fix": "yarn run lint --fix",
-    "production": "docker build -t react-app . && sudo docker run -p 8080 --rm -it react-app"
+    "production": "docker build -t react-app . && sudo docker run -p 3000:3000 --rm -it -d react-app"
   },
   "eslintConfig": {
     "extends": [
