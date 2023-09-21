@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/prefer-optional-chain */
 import { Theme, useMediaQuery, TableProps, TableContainer, LinearProgress, Table, TableHead, TableRow, TableCell, Checkbox, TableBody, TablePagination, useTheme } from '@material-ui/core';
 import React, { useState, useEffect } from 'react';
-import { ManageAdmin } from '../../../remote-access/types';
+import { Admin } from '../../../remote-access/types';
 import AdminRow from './ManageAdminTableRow';
 
 interface HeadCell {
@@ -67,7 +67,7 @@ const ManageAdminTableHead = (props: ManageAdminsTableHeadProps) => {
 
 interface AdminTableState {
   loaded?: boolean
-  admins?: ManageAdmin[]
+  admins?: Admin[]
   error?: boolean
   errorMessage?: string
 }

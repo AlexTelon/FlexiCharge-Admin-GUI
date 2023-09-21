@@ -9,7 +9,7 @@ import {
   LinearProgress, Fade, InputAdornment
 } from '@material-ui/core';
 import { CheckCircle, Close } from '@material-ui/icons';
-import { chargerStationCollection } from '@/remote-access';
+import { manageChargerStation } from '@/remote-access';
 import { Alert } from '@material-ui/lab';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -48,7 +48,7 @@ const AddSingleStationDialog = ({ open, handleClose }: any) => {
   const handleSubmitClicked = async () => {
     if (fields.name && fields.price && fields.longitude && fields.latitude) {
       setLoading(true);
-      const result = await chargerStationCollection.addChargerStation({
+      const result = await manageChargerStation.addChargerStation({
         name: fields.name,
         location: [fields.latitude, fields.longitude],
         price: fields.price * 100,

@@ -1,4 +1,4 @@
-export interface ManageUser {
+export interface User {
   username: string
   sub?: string
   emailVerified?: boolean
@@ -12,21 +12,21 @@ export interface ManageUser {
   userStatus?: 'UNCONFIRMED' | 'CONFIRMED' | 'FORCE_CHANGE_PASSWORD'
 }
 
-export interface TestManageUser {
+export interface TestUser {
   username: string
   name?: string
 }
 
-export interface IManageUserCollection {
-  getAllUsers: () => Promise<[ManageUser[] | null, any | null]>
-  getUserById: (username: string) => Promise<ManageUser | null | any | null>
-  addUser: (fields: Omit<ManageUser, 'id'>) => Promise<[ManageUser | null, any | null]>
-  updateUser: (username: string, fields: Omit<ManageUser, 'username'>) => Promise<[ManageUser | null, any | null]>
+export interface IUser {
+  getAllUsers: () => Promise<[User[] | null, any | null]>
+  getUserById: (username: string) => Promise<User | null | any | null>
+  addUser: (fields: Omit<User, 'id'>) => Promise<[User | null, any | null]>
+  updateUser: (username: string, fields: Omit<User, 'username'>) => Promise<[User | null, any | null]>
   deleteUser: (username: string) => Promise<boolean>
-  resetUserPassword: (email: string) => Promise<[ManageUser | null, any | null]>
+  resetUserPassword: (username: string) => Promise<[User | null, any | null]>
 }
 
-export interface ManageAdmin {
+export interface Admin {
   username: string
   sub?: string
   emailVerified?: boolean
@@ -40,10 +40,10 @@ export interface ManageAdmin {
   userStatus?: 'UNCONFIRMED' | 'CONFIRMED' | 'FORCE_CHANGE_PASSWORD'
 }
 
-export interface IManageAdminCollection {
-  getAllAdmins: () => Promise<[ManageAdmin[] | null, any | null]>
-  getAdminById: (username: string) => Promise<ManageAdmin | null>
-  addAdmin: (fields: Omit<ManageAdmin, 'id'>) => Promise<[string | null, any | null]>
-  updateAdmin: (username: string, fields: Omit<ManageAdmin, 'username'>) => Promise<[ManageAdmin | null, any | null]>
+export interface IAdmin {
+  getAllAdmins: () => Promise<[Admin[] | null, any | null]>
+  getAdminById: (username: string) => Promise<Admin | null>
+  addAdmin: (fields: Omit<Admin, 'id'>) => Promise<[string | null, any | null]>
+  updateAdmin: (username: string, fields: Omit<Admin, 'username'>) => Promise<[Admin | null, any | null]>
   deleteAdmin: (username: string) => Promise<boolean>
 }

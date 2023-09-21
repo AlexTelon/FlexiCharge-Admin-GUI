@@ -3,8 +3,8 @@ import { AppBar, Box, Button, Dialog, DialogActions, DialogContent, DialogTitle,
 import { Close } from '@material-ui/icons';
 import { createStyles, makeStyles, useTheme } from '@material-ui/styles';
 import React, { FC, useEffect, useState } from 'react';
-import { manageUserCollection } from '../../../remote-access';
-import { ManageUser } from '@/remote-access/types';
+import { manageUser } from '../../../remote-access';
+import { User } from '@/remote-access/types';
 
 const useStyle = makeStyles((theme: Theme) => 
 
@@ -37,7 +37,7 @@ interface ManageUsersEditPanelProps {
 
 const ManageUsersEditPanel: FC<ManageUsersEditPanelProps> = ({ userId }) => {
   const classes = useStyle();
-  const [user, setUser] = useState<ManageUser>();
+  const [user, setUser] = useState<User>();
   const [name, setName] = useState<string>();
   const [email, setEmail] = useState<string>();
   const [phoneNumber, setPhoneNumber] = useState<string>();
@@ -60,7 +60,7 @@ const ManageUsersEditPanel: FC<ManageUsersEditPanelProps> = ({ userId }) => {
 
   useEffect(() => {
     if (userId) {
-      manageUserCollection.getUserById(userId).then((manageUsers) => {
+      manageUser.getUserById(userId).then((manageUsers) => {
         if (manageUsers === null) return;
         setName(manageUsers.name);
         setEmail(manageUsers.email);
@@ -73,7 +73,7 @@ const ManageUsersEditPanel: FC<ManageUsersEditPanelProps> = ({ userId }) => {
   const handleSaveClick = async () => {
     if (name && email && phoneNumber && userId) {
       setLoading(true);
-      const result = await manageUserCollection.updateUser(userId, { name, email });
+      const result = await manageUser.updateUser(userId, { name, email });
       if (result[1] !== null) {
         setErrorState({
           ...result[0]

@@ -6,9 +6,9 @@ import {
   FormControl, InputLabel, Input, FormHelperText, DialogActions, Button, makeStyles, createStyles, LinearProgress, Fade
 } from '@material-ui/core';
 import { CheckCircle, Close } from '@material-ui/icons';
-import { adminCollection } from '../../../remote-access';
+import { manageAdmin } from '../../../remote-access';
 import { Alert } from '@material-ui/lab';
-import { ManageAdmin } from '@/remote-access/types';
+import { Admin } from '@/remote-access/types';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -38,7 +38,7 @@ const AddSingleAdminDialog = ({ open, handleClose, setReload }: any) => {
   const handleSubmitClicked = async () => {
     if (fields.name && fields.family_name && fields.username) {
       setLoading(true);
-      const result = await adminCollection.addAdmin(fields as ManageAdmin);
+      const result = await manageAdmin.addAdmin(fields as Admin);
 
       if (result[1] !== null) {        
         setErrorState({
