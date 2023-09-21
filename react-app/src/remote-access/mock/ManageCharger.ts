@@ -29,7 +29,7 @@ export default class ManageCharger implements ICharger {
   public async getAllAvailableChargers(): Promise<[Charger[] | null, any | null]> {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
-        resolve([this.chargers.filter(charger => charger.status.toString() === 'available'), null]);
+        resolve([this.chargers.filter(charger => charger.status === 0), null]);
       }, 1000);
     });
   }
