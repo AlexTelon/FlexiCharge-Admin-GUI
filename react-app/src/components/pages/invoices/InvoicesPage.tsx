@@ -7,7 +7,7 @@ import {
   IconButton, Paper, Tab, alpha, InputBase, styled,
   Divider, Select, FormControl, InputLabel, MenuItem,
   Button, TableCell, useTheme, Dialog, DialogContent,
-  DialogTitle, TextField
+  DialogTitle, TextField, DialogContentText
 } from '@material-ui/core';
 import { Helmet } from 'react-helmet';
 import { ControlPoint, Search, Add as AddIcon, Add  } from '@material-ui/icons';
@@ -87,7 +87,7 @@ const useStyles = makeStyles((theme: Theme) =>
       marginLeft: 'auto',
     },
     dialogContent: {
-      maxWidth: '350px',
+      maxWidth: '100%',
     }
   })
 );
@@ -153,18 +153,18 @@ const RenderInvoices = () => {
 
   //Generate Invoice
   const [invoice, setInvoice] = useState({
-    email: '',
+    email: 'test',
     createdAt: createdAtTimestamp,
     totalSum: 1,
     status: 'NOT-PAID',
     date: formattedDate
   });
 
-  const handleChange = (event) => {
+  const handleChange = (event: React.ChangeEvent<{ name?: string; value: unknown }>) => {
     const { name, value } = event.target;
     setInvoice({
       ...invoice,
-      [name]: value,
+      [name || '']: value,
     });
   };
 
@@ -357,11 +357,16 @@ const RenderInvoices = () => {
                             >
                               <DialogTitle>Generate New Invoice</DialogTitle>
                               <DialogContent className={classes.dialogContent}>
-                                <form>
+                              <DialogContentText>
+                                To generate a new invoice, please enter your email address, total sum and the status of the invoice.
+                                
+                              </DialogContentText>
                                   <TextField
-                                    label="Email"
+                                    autoFocus
+                                    margin="dense"
+                                    label="Email Address"
                                     name="email"
-                                    type="text"
+                                    type="email"
                                     value={invoice.email}
                                     onChange={handleChange}
                                     fullWidth
@@ -390,7 +395,6 @@ const RenderInvoices = () => {
                                       <MenuItem value="ALL">ALL</MenuItem>
                                     </Select>
                                   </FormControl>
-                                </form>
                               </DialogContent>
                               <div style={{ textAlign: 'center', marginBottom: '10px' }}>
                                 <Button
