@@ -30,6 +30,7 @@
   "include": [
     "cypress/**/*.{ts, tsx}",
     "src/**/*.ts",
-    "src/**/*.tsx"
+    "src/**/*.tsx",
+    "jest.config.js"
   ]
 }
