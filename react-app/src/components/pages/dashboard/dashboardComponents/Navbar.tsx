@@ -17,7 +17,6 @@ import BatteryChargingFullIcon from '@material-ui/icons/BatteryChargingFull';
 import PeopleIcon from '@material-ui/icons/People';
 import { useHistory } from 'react-router';
 import { Receipt } from '@material-ui/icons';
-import { Alert } from 'react-alert'
 
 // import MenuIcon from '@material-ui/icons/Menu';
 
@@ -138,11 +137,11 @@ export default function MiniDrawer() {
   };
 
   const handleLogout = () => {
+    confirm('Do you want to logout?\n  otherways click on exit');
     localStorage.removeItem('isAuthenticated');
     localStorage.removeItem('token');
     localStorage.removeItem('username');
     window.location.reload();
-    alert("Do you want to logout")
   };
 
   const history = useHistory();
