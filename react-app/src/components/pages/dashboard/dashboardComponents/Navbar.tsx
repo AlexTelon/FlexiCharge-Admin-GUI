@@ -186,6 +186,7 @@ export default function MiniDrawer() {
                 onClick={() => {
                   history.push(pathLocation);
                 }}
+                data-cy={`${childId}-btn`}
               >
                 <ListItemIcon color='primary' className={classes.itemIcon}>{icon}</ListItemIcon>
                 <ListItemText classes={{ primary: classes.itemText }}>

@@ -8,6 +8,7 @@
       "esnext"
     ],
     "sourceRoot": "./src",
+    "sourceMap": true,
     "outDir": "./dist/",
     "noImplicitAny": true,
     "allowJs": false,
@@ -30,6 +31,7 @@
   "include": [
     "cypress/**/*.{ts, tsx}",
     "src/**/*.ts",
-    "src/**/*.tsx"
+    "src/**/*.tsx",
+    "cypress.config.ts"
   ]
 }
