@@ -137,7 +137,7 @@ export default function MiniDrawer() {
   };
 
   const handleLogout = () => {
-    confirm('Do you want to logout?\n  otherways click on exit');
+    // confirm('Do you want to logout?\n  otherways click on exit');
     localStorage.removeItem('isAuthenticated');
     localStorage.removeItem('token');
     localStorage.removeItem('username');
@@ -215,7 +215,14 @@ export default function MiniDrawer() {
         <Divider />
         
         <List className={classes.navBotSection}>
-          <ListItem button onClick={() => { handleLogout(); }}>
+          <ListItem button onClick={() => { 
+            const confirmBox = window.confirm(
+              'Do you want to logout? \n   click on Ok   \n   otherways click on exit'
+            );
+            if (confirmBox) {
+              handleLogout(); 
+            }  
+          }}>
             <ListItemIcon>
               <Icon className={classes.itemIcon}>logout</Icon>
             </ListItemIcon>
@@ -225,7 +232,7 @@ export default function MiniDrawer() {
           <ListItem
             button
 
-            onClick={() => {
+            onClick={() => {          
               !open ? handleDrawerOpen() : handleDrawerClose();
             }}
             className={classes.openDrawButton}
