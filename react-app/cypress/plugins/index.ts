@@ -16,7 +16,7 @@
 /**
  * @type {Cypress.PluginConfig}
  */
-export default (on: any, config: any): void => {
+export function pluginConfig (on: any, config: any): void {
   // `on` is used to hook into various events Cypress emits
   // `config` is the resolved Cypress config
   on('task', {
