@@ -15,10 +15,6 @@ parserOptions:
 plugins:
   - react
   - '@typescript-eslint'
-globals: {
-  cy: true,
-  Cypress: true
-}
 settings: {
   react: {
     version: detect
