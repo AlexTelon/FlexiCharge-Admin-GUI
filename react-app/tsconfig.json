@@ -32,6 +32,7 @@
     "cypress/**/*.{ts, tsx}",
     "src/**/*.ts",
     "src/**/*.tsx",
-    "cypress.config.ts"
+    "cypress.config.ts",
+    "jest.config.ts"
   ]
 }

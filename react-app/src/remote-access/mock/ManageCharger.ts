@@ -1,5 +1,5 @@
 import { Charger, ICharger } from '../types';
-import { mockChargers } from '@/__mock-data__';
+import { mockChargers } from '../../__mock-data__/chargers';
 
 export default class ManageCharger implements ICharger {
   chargers = mockChargers;

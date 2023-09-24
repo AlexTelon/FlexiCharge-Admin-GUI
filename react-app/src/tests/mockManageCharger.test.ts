@@ -1,3 +1,5 @@
+/* eslint-disable */
+/* eslint-disable react/jsx-no-undef */
 import { expect, test } from '@jest/globals';
 import ManageCharger from '../remote-access/mock/ManageCharger';
 import { mockChargers } from '../__mock-data__/chargers';
@@ -24,9 +26,8 @@ describe('manage charger test', () => {
     const newCharger = {
       chargerID: 5,
       status: 0,
-      location: 'Some location',
-      chargePointID: 1,
-      coordinates: '123 456'
+      location: ['Some', 'location'] as [string, string],
+      chargePointID: 1
     };
     const [addedCharger, error] = await manageCharger.addCharger(newCharger);
     expect(addedCharger).toEqual(newCharger);
@@ -49,9 +50,8 @@ describe('manage charger test', () => {
     const chargerId = 1;
     const updatedFields = {
       status: 1,
-      location: 'Some location',
-      chargePointID: 1,
-      coordinates: '555 333'
+      location: ['Some', 'location'] as [string, string],
+      chargePointID: 1
     };
     const [updatedCharger, error] = await manageCharger.updateChargerById(chargerId, updatedFields);
     expect(updatedCharger).toEqual({ ...chargers.find(charger => charger.chargerID === chargerId), ...updatedFields });
