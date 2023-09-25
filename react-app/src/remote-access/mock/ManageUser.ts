@@ -1,6 +1,5 @@
 /* eslint-disable no-useless-escape */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { resolve } from 'cypress/types/bluebird';
 import { promises } from 'dns';
 import { mockUsers } from '../../__mock-data__/users';
 import { User, IUser } from '../types';

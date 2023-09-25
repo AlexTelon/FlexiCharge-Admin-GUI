@@ -16,6 +16,7 @@ export default class ManageInvoice implements IInvoice {
     }, 100);
   });
   */
+
   async getInvoiceByUserId(userID: string): Promise<[Invoice[] | null, any | null]> {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
@@ -25,14 +26,24 @@ export default class ManageInvoice implements IInvoice {
       }, 1000);
     });
   }
-  async getInvoiceByDate(year: string, month: string, status: string): Promise<[Invoice[] | null, any | null]> {
+  async getInvoiceByDate(year?: string, month?: string, status?: string): Promise<[Invoice[] | null, any | null]> {
     return new Promise((resolve, reject) => {
-      
-      const fullDateFormat = `${year}-${month}`      
+
+      let filteredInvoices = this.invoices
+
+      if (year) {
+        filteredInvoices = filteredInvoices.filter((invoice: Invoice) => invoice.date.startsWith(year));
+      }
+      if (month) {
+        filteredInvoices = filteredInvoices.filter((invoice: Invoice) => invoice.date.endsWith(`-${month}`));
+      }
+
+      if (status && status !== 'ALL') {
+        filteredInvoices = filteredInvoices.filter((invoice: Invoice) => invoice.status === status);
+      }
 
       setTimeout(() => {
-        const arr = this.invoices.filter((object) => object.date === fullDateFormat)
-        resolve([arr, null]);
+        resolve([filteredInvoices, null]);
       }, 1000);
     });
   }

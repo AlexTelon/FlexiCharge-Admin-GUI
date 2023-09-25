@@ -7,7 +7,7 @@ import { createContainer, asClass, Lifetime, InjectionMode } from 'awilix';
 import ManageUser from './remote-access/remote/ManageUser';
 import ManageAdmin from './remote-access/remote/ManageAdmin';
 import ManageTransaction from './remote-access/remote/ManageTransaction';
-import ManageInvoice from './remote-access/remote/ManageInvoice';
+import ManageInvoice from './remote-access/mock/ManageInvoice';
 import ManageChargerStation from './remote-access/remote/ManageChargerStation';
 import ManageCharger from './remote-access/remote/ManageCharger'; */
 

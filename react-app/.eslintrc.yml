@@ -15,17 +15,11 @@ parserOptions:
 plugins:
   - react
   - '@typescript-eslint'
-globals: {
-  cy: true,
-  Cypress: true
-}
 settings: {
   react: {
     version: detect
   }
-}
-ignorePatterns:
-  - cypress/**/*  
+}  
 rules: {
   'semi': 'off',
   'indent': 'off',
