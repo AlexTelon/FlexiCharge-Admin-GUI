@@ -4,7 +4,7 @@ import { expect, test } from '@jest/globals';
 import ManageUser from '../remote-access/mock/ManageUser';
 import { mockUsers } from '../__mock-data__/users';
 
-/* test('getAllUsers should return all users', async () => {
+test('getAllUsers should return all users', async () => {
   const manageUser = new ManageUser();
   const [users, error] = await manageUser.getAllUsers();
 
@@ -24,7 +24,7 @@ test('addUser should add a new user to the list', async () => {
   const manageUser = new ManageUser();
   const newUser = {
     name: 'John Doe',
-    username: 'johndoe',
+    username: (manageUser.users.length + 1).toString(),
     email: 'johndoe@example.com',
     password: 'password123'
   };
@@ -36,19 +36,19 @@ test('addUser should add a new user to the list', async () => {
 
 test('updateUser should update the user with the specified username', async () => {
   const manageUser = new ManageUser();
-  const username = 'johndoe';
+  const user = mockUsers[0];
   const updatedFields = {
     name: 'John Doe Jr.',
     email: 'johndoejr@example.com'
   };
   const [updatedUser, error] = await manageUser.updateUser(
-    username,
+    user.username,
     updatedFields
   );
 
   expect(updatedUser).toEqual(
     expect.objectContaining({
-      ...mockUsers.find((u) => u.username === username),
+      ...mockUsers.find((u) => u.username === user.username),
       ...updatedFields
     })
   );
@@ -57,12 +57,12 @@ test('updateUser should update the user with the specified username', async () =
 
 test('deleteUser should remove the user with the specified username', async () => {
   const manageUser = new ManageUser();
-  const username = 'johndoe';
-  const success = await manageUser.deleteUser(username);
+  const user = mockUsers[0];
+  const success = await manageUser.deleteUser(user.username);
 
   expect(success).toBe(true);
-  expect(manageUser.users.find((u) => u.username === username)).toBeUndefined();
-}); */
+  expect(manageUser.users.find((u) => u.username === user.username)).toBeUndefined();
+});
 
 describe('reset user password test', () => {
   const manageUser = new ManageUser();

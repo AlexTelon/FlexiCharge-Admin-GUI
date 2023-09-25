@@ -81,10 +81,15 @@ export default class ManageUser implements IUser {
   async deleteUser(username: string): Promise<boolean> {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
-        const userIndex = this.users.findIndex((users) => users.username === username);
-        if (userIndex === -1) return [null, { errorMessage: 'Could not find the requested Manage User' }];
+        const userIndex = this.users.findIndex(u => u.username === username);
 
-        this.users = this.users.filter((user) => user !== this.users[userIndex]);
+        if (userIndex === -1) {
+          reject('User not found');
+        }
+
+        this.users.splice(userIndex, 1);
+
+        resolve(true);
       });
     });
   }
