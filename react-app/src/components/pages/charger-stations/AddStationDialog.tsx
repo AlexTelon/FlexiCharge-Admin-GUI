@@ -37,6 +37,15 @@ const AddSingleStationDialog = ({ open, handleClose }: any) => {
     });
   };
 
+  const handleCoordinateChange = (property: string, value: any) => {
+    if (/^\d{1,}(\.\d{0,10})?$/.test(value) || value === '') {
+      setFields({
+        ...fields,
+        [property]: value,
+      });
+    }
+  };
+
   const cleanClose = () => {
     setFields({});
     setLoading(false);
@@ -163,8 +172,8 @@ const AddSingleStationDialog = ({ open, handleClose }: any) => {
                 <Input
                   id="station-latitude-input"
                   aria-describedby="station-latitude-helper"
-                  type="number"
-                  onChange={(e) => { handleInputChange('latitude', Number(e.target.value)); }}
+                  type="text"
+                  onChange={(e) => handleCoordinateChange('latitude', e.target.value)}
                   value={fields.latitude}
                 />
                 <FormHelperText id="station-latitude-helper">
@@ -179,8 +188,8 @@ const AddSingleStationDialog = ({ open, handleClose }: any) => {
                 <Input
                   id="station-longitude-input"
                   aria-describedby="station-longitude-helper"
-                  type="number"
-                  onChange={(e) => { handleInputChange('longitude', Number(e.target.value)); }}
+                  type="text"
+                  onChange={(e) => handleCoordinateChange('longitude', e.target.value)}
                   value={fields.longitude}
                 />
                 <FormHelperText id="station-longitude-helper">
