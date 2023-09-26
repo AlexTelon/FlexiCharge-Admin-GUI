@@ -14,8 +14,10 @@ In the web-app you have the ability to set prices, enable/disable and monitor ch
 1. [Development setup](./documentation/dev-setup.md)
 2. [Project standards](./documentation/project-standards.md)
 3. [Deployment](./documentation/deployment.md)
-4. [Architecture](./documentation/architecture.md)
-5. [Project future](./documentation/project-future.md)
+4. [Site Map](./documentation/Site_Map_original.pdf)
+5. [User Stories](./documentation/user_stories.md)
+6. [Architecture](./documentation/architecture.md)
+7. [Project future](./documentation/project-future.md)
 
 
 
