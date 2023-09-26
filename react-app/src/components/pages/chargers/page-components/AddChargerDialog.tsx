@@ -45,7 +45,7 @@ const AddChargerDialog: FC<AddChargerDialogProps> = ({ open, handleClose, statio
 
       manageCharger.addCharger({
         serialNumber: state.serialNumber,
-        location: [station.location[0].toString(), station.location[1].toString()],
+        location: station.location,
         chargePointID: station.chargePointID
       }).then((result) => {
         if (result[1] !== null) {

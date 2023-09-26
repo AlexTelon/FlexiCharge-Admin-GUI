@@ -26,7 +26,7 @@ describe('manage charger test', () => {
     const newCharger = {
       chargerID: 5,
       status: 0,
-      location: ['Some', 'location'] as [string, string],
+      location: [34.3456, 67.3465] as [number, number],
       chargePointID: 1
     };
     const [addedCharger, error] = await manageCharger.addCharger(newCharger);
@@ -50,7 +50,7 @@ describe('manage charger test', () => {
     const chargerId = 1;
     const updatedFields = {
       status: 1,
-      location: ['Some', 'location'] as [string, string],
+      location: [56.40568, 23.0948] as [number, number],
       chargePointID: 1
     };
     const [updatedCharger, error] = await manageCharger.updateChargerById(chargerId, updatedFields);
