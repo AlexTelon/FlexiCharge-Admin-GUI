@@ -1,6 +1,7 @@
 /* eslint-disable */
 /* eslint-disable react/jsx-no-undef */
 import React, { useEffect, FC, useState } from 'react';
+import {loginInfo } from '@/__mock-data__/login' ;
 import {
   Paper, makeStyles, createStyles, Theme, AppBar, Toolbar,
   Typography, InputAdornment, TextField, Button, LinearProgress,
@@ -86,6 +87,8 @@ const LoginFields: FC<LoginFieldProps> = ({ setLoading }) => {
   let [tempPassword, setTempPassword] = React.useState('');
   let [newPassword, setNewPassword] = React.useState('');
   let [verifyUsername, setVerifyUserame] = React.useState('');
+  let [username1, setUsername1] = React.useState(loginInfo.username);
+  let [password1, setPassword1] = React.useState(loginInfo.password);
   const [alertState, setAlertState] = useState<any>({});
   //const [successState, setSuccessState] = useState<any>({});
 
@@ -103,9 +106,9 @@ const LoginFields: FC<LoginFieldProps> = ({ setLoading }) => {
   const toggleForm1 = () => {
     if(selectedForm === 'login'){
       setSelectedForm('repassword');
-      resetTempPassword();
-      resetNewPassword();
-      resetVerifyUsername;
+      showPassword();
+      showPassword2();
+      VerifyUsername;
 
     } else {
       setSelectedForm('login')
@@ -136,6 +139,21 @@ const LoginFields: FC<LoginFieldProps> = ({ setLoading }) => {
   const resetVerifyUsername = () => {
     setUsername(() => {
       return verifyUsername = ''
+    })
+  }
+  const showPassword = () => {
+    setPassword1(() => {
+      return password1 
+    })
+  }
+  const showPassword2 = () => {
+    setPassword1(() => {
+      return password1 
+    }) 
+  }
+  const VerifyUsername = () => {
+    setUsername1(() => {
+      return username1 
     })
   }
   const handleLoginClicked = async () => {
@@ -202,9 +220,9 @@ const LoginFields: FC<LoginFieldProps> = ({ setLoading }) => {
   };
 
   const handleRepasswordClicked = async () => {
-    if (username && tempPassword && newPassword) {
+    if (username1 && password1 && password1) {
       setLoading(true);
-      const wasSuccess = await authenticationProvider.getAdminSession(username,tempPassword, newPassword);
+      const wasSuccess = await authenticationProvider.getAdminSession(username1, password1, password1);
       if (wasSuccess) {
         setAlertState({
           alertRepasswordSuccess: 'Repassword'
@@ -300,7 +318,7 @@ const LoginFields: FC<LoginFieldProps> = ({ setLoading }) => {
             > Here</Link>
           </Typography>
           <Typography>
-            Have you forgot your password? Repassword
+            Have you forgot your password? Showpassword
             <Link 
             className={classes.link} 
             underline='none'
@@ -384,7 +402,7 @@ const LoginFields: FC<LoginFieldProps> = ({ setLoading }) => {
             label="Email"
             size="small"
             data-cy="username-input"
-            value={username}
+            value={username1}
             error={alertState.usernameError !== undefined}
             helperText={alertState.usernameError}
             variant="standard" InputProps={{
@@ -394,52 +412,29 @@ const LoginFields: FC<LoginFieldProps> = ({ setLoading }) => {
                 </InputAdornment>
               )
             }} />
-          <TextField
-            className={classes.inputField}
-            onChange={(e) => setTempPassword(e.target.value)}
-            label="Temporary password"
+           <TextField
+            label="Password"
             type="password"
             variant="standard"
             size="small"
-            autoComplete="new-password"
-            value={tempPassword}
-            error={alertState.passwordError !== undefined}
-            helperText={alertState.passwordError}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <Lock className={classes.inputIcon} />
-                </InputAdornment>
-              )
-            }} />
+            value={password1}
+            />
             <TextField
-            className={classes.inputField}
-            onChange={(e) => setNewPassword(e.target.value)}
-            label="New password"
-            type="password"
+            label="Password"
             variant="standard"
             size="small"
-            autoComplete="new-password"
-            value={newPassword}
-            error={alertState.passwordError !== undefined}
-            helperText={alertState.passwordError}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <Lock className={classes.inputIcon} />
-                </InputAdornment>
-              )
-            }} />
-          <Button onClick={handleRepasswordClicked} className={classes.buttonStyle} variant="outlined">Repassword</Button>
-          <Typography>
-            Remember it? Sign in
-            <Link 
-            className={classes.link} 
-            underline='none'
-            href='#'
-            onClick={() => toggleForm1()}
-            > Here</Link>
-          </Typography>
+            value={password1}
+            />
+             <Button onClick={handleRepasswordClicked} className={classes.buttonStyle} variant="outlined">Repassword</Button>
+              <Typography>
+                Remember it? Sign in
+                <Link 
+                className={classes.link} 
+                underline='none'
+                href='#'
+                onClick={() => toggleForm1()}
+                > Here</Link>
+              </Typography>
           </>
         }
       </form>
