@@ -100,6 +100,17 @@ const LoginFields: FC<LoginFieldProps> = ({ setLoading }) => {
       setSelectedForm('login')
     }
   };
+  const toggleForm1 = () => {
+    if(selectedForm === 'login'){
+      setSelectedForm('repassword');
+      resetTempPassword();
+      resetNewPassword();
+      resetVerifyUsername;
+
+    } else {
+      setSelectedForm('login')
+    }
+  };
 
   const [state, setState] = useState<any>({
     loaded: true,
@@ -190,6 +201,23 @@ const LoginFields: FC<LoginFieldProps> = ({ setLoading }) => {
     setLoading(false);
   };
 
+  const handleRepasswordClicked = async () => {
+    if (username && tempPassword && newPassword) {
+      setLoading(true);
+      const wasSuccess = await authenticationProvider.getAdminSession(username,tempPassword, newPassword);
+      if (wasSuccess) {
+        setAlertState({
+          alertRepasswordSuccess: 'Repassword'
+        });
+      } else { 
+        setAlertState({
+          alertRepasswordError: 'Invalid credentials'
+        });
+      }
+    } 
+    setLoading(false);
+  };
+
   if (localStorage.getItem('isAuthenticated')) {
     return (
       <Redirect to="/dashboard" />
@@ -213,6 +241,16 @@ const LoginFields: FC<LoginFieldProps> = ({ setLoading }) => {
         {selectedForm === 'verify' && alertState.alertVerifyError !== undefined &&
           <>
             <Alert className={classes.alertBox} severity="warning">{alertState.alertVerifyError}</Alert>
+          </>
+        }
+        {selectedForm === 'repassword' && alertState.alertRepasswordSuccess !== undefined &&
+          <>
+            <Alert className={classes.alertBox} severity="success">{alertState.alertRepasswordSuccess}</Alert>
+          </>
+        }
+        {selectedForm === 'repassword' && alertState.alertRepasswordError !== undefined &&
+          <>
+            <Alert className={classes.alertBox} severity="warning">{alertState.alertRepasswordError}</Alert>
           </>
         }
         {selectedForm === 'login' &&
@@ -259,6 +297,15 @@ const LoginFields: FC<LoginFieldProps> = ({ setLoading }) => {
             underline='none'
             href='#'
             onClick={() => toggleForm()}
+            > Here</Link>
+          </Typography>
+          <Typography>
+            Have you forgot your password? Repassword
+            <Link 
+            className={classes.link} 
+            underline='none'
+            href='#'
+            onClick={() => toggleForm1()}
             > Here</Link>
           </Typography>
           </>
@@ -325,6 +372,72 @@ const LoginFields: FC<LoginFieldProps> = ({ setLoading }) => {
             underline='none'
             href='#'
             onClick={() => toggleForm()}
+            > Here</Link>
+          </Typography>
+          </>
+        }
+        {selectedForm === 'repassword' &&
+        <>
+           <TextField 
+            className={classes.inputField}
+            onChange={(e) => setUsername(e.target.value)}
+            label="Email"
+            size="small"
+            data-cy="username-input"
+            value={username}
+            error={alertState.usernameError !== undefined}
+            helperText={alertState.usernameError}
+            variant="standard" InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Person className={classes.inputIcon} />
+                </InputAdornment>
+              )
+            }} />
+          <TextField
+            className={classes.inputField}
+            onChange={(e) => setTempPassword(e.target.value)}
+            label="Temporary password"
+            type="password"
+            variant="standard"
+            size="small"
+            autoComplete="new-password"
+            value={tempPassword}
+            error={alertState.passwordError !== undefined}
+            helperText={alertState.passwordError}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Lock className={classes.inputIcon} />
+                </InputAdornment>
+              )
+            }} />
+            <TextField
+            className={classes.inputField}
+            onChange={(e) => setNewPassword(e.target.value)}
+            label="New password"
+            type="password"
+            variant="standard"
+            size="small"
+            autoComplete="new-password"
+            value={newPassword}
+            error={alertState.passwordError !== undefined}
+            helperText={alertState.passwordError}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Lock className={classes.inputIcon} />
+                </InputAdornment>
+              )
+            }} />
+          <Button onClick={handleRepasswordClicked} className={classes.buttonStyle} variant="outlined">Repassword</Button>
+          <Typography>
+            Remember it? Sign in
+            <Link 
+            className={classes.link} 
+            underline='none'
+            href='#'
+            onClick={() => toggleForm1()}
             > Here</Link>
           </Typography>
           </>
