@@ -17,6 +17,7 @@ import PersonTable from '@/components/pages/invoices/PersonTable';
 import PersonTableIndividualInvoice from '@/components/pages/invoices/PersonTableIndividualInvoice';
 import { useParams } from 'react-router-dom';
 import { manageInvoice } from '@/remote-access';
+import AddSingleInvoiceDialog from './AddInvoiceDialog';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -152,21 +153,21 @@ const RenderInvoices = () => {
   const formattedDate = `${year}-${month}`;
 
   //Generate Invoice
-  const [invoice, setInvoice] = useState({
-    email: '',
-    createdAt: createdAtTimestamp,
-    totalSum: 1,
-    status: 'NOT-PAID',
-    date: formattedDate
-  });
+  // const [invoice, setInvoice] = useState({
+  //   email: '',
+  //   createdAt: createdAtTimestamp,
+  //   totalSum: 1,
+  //   status: 'NOT-PAID',
+  //   date: formattedDate
+  // });
 
-  const handleChange = (event: React.ChangeEvent<{ name?: string; value: unknown }>) => {
-    const { name, value } = event.target;
-    setInvoice({
-      ...invoice,
-      [name || '']: value,
-    });
-  };
+  // const handleChange = (event: React.ChangeEvent<{ name?: string; value: unknown }>) => {
+  //   const { name, value } = event.target;
+  //   setInvoice({
+  //     ...invoice,
+  //     [name || '']: value,
+  //   });
+  // };
 
   const [open, setOpen] = useState(false);
 
@@ -178,9 +179,8 @@ const RenderInvoices = () => {
     setOpen(false);
   };
 
-  const handleSave = () => {
-    console.log('Invoice Data:', invoice);
-    handleClose();
+  const handleSave = (invoiceData: any) => {
+    console.log('Invoice Data:', invoiceData);
   };
 
   const handleTabChange = (event: any, newTab: string) => {
@@ -344,69 +344,13 @@ const RenderInvoices = () => {
                           <div>
                             <Button
                               startIcon={<ControlPoint />}
-                              style={{ color: theme.flexiCharge.primary.white }}
                               variant="contained"
                               color="primary"
                               onClick={handleOpen}
                             >
                               Generate Invoices
                             </Button>
-                            <Dialog
-                              open={open}
-                              onClose={handleClose}
-                            >
-                              <DialogTitle>Generate New Invoice</DialogTitle>
-                              <DialogContent className={classes.dialogContent}>
-                              <DialogContentText>
-                                To generate a new invoice, please enter your email address, total sum and the status of the invoice.
-                                
-                              </DialogContentText>
-                                  <TextField
-                                    autoFocus
-                                    margin="dense"
-                                    label="Email Address"
-                                    name="email"
-                                    type="email"
-                                    value={invoice.email}
-                                    onChange={handleChange}
-                                    fullWidth
-                                    required
-                                  />
-                                  <TextField
-                                    label="Total Sum"
-                                    name="totalSum"
-                                    type="number"
-                                    value={invoice.totalSum}
-                                    onChange={handleChange}
-                                    fullWidth
-                                    required
-                                    inputProps={{ min: 1, max: 1000 }}
-                                  />
-                                  <FormControl fullWidth>
-                                    <InputLabel>Status</InputLabel>
-                                    <Select
-                                      name="status"
-                                      value={invoice.status}
-                                      onChange={handleChange}
-                                      required
-                                    >
-                                      <MenuItem value="PAID">PAID</MenuItem>
-                                      <MenuItem value="NOT-PAID">NOT-PAID</MenuItem>
-                                      <MenuItem value="ALL">ALL</MenuItem>
-                                    </Select>
-                                  </FormControl>
-                              </DialogContent>
-                              <div style={{ textAlign: 'center', marginBottom: '10px' }}>
-                                <Button
-                                  startIcon={<AddIcon/>}
-                                  variant="contained"
-                                  color="primary"
-                                  onClick={handleSave}
-                                >
-                                  Generate
-                                </Button>
-                              </div>
-                            </Dialog>
+                            <AddSingleInvoiceDialog open={open} handleClose={handleClose} handleSave={handleSave} />
                           </div>
                           </TableCell>
                         </Toolbar>

@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const GenerateSingleInvoiceDialog = ({ open, handleClose }: any ) => {
+const AddSingleInvoiceDialog = ({ open, handleClose, handleSave }: any ) => {
   const classes = useStyles();
   const theme: Theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
@@ -41,7 +41,7 @@ const GenerateSingleInvoiceDialog = ({ open, handleClose }: any ) => {
   const month = String(currentDate.getMonth() + 1).padStart(2, '0');
   const formattedDate = `${year}-${month}`;
 
-  //Generate Invoice
+  //Add Invoice
   const [invoice, setInvoice] = useState({
     email: '',
     createdAt: createdAtTimestamp,
@@ -124,4 +124,4 @@ const GenerateSingleInvoiceDialog = ({ open, handleClose }: any ) => {
   );
 };
 
-export default GenerateSingleInvoiceDialog;
+export default AddSingleInvoiceDialog;
