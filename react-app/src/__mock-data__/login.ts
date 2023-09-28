@@ -1,6 +1,6 @@
 export const loginInfo = {
   username: 'admin',
-  password: 'admin'
+  password: 'admin123'
 };
 
 export const accessToken = 'string';

@@ -225,7 +225,7 @@ const LoginFields: FC<LoginFieldProps> = ({ setLoading }) => {
       const wasSuccess = await authenticationProvider.getAdminSession(username1, password1, password1);
       if (wasSuccess) {
         setAlertState({
-          alertRepasswordSuccess: 'Repassword'
+          alertRepasswordSuccess: 'confirmed'
         });
       } else { 
         setAlertState({
@@ -398,7 +398,7 @@ const LoginFields: FC<LoginFieldProps> = ({ setLoading }) => {
         <>
            <TextField 
             className={classes.inputField}
-            onChange={(e) => setUsername(e.target.value)}
+            onChange={(e) => setUsername1(e.target.value)}
             label="Email"
             size="small"
             data-cy="username-input"
@@ -412,6 +412,7 @@ const LoginFields: FC<LoginFieldProps> = ({ setLoading }) => {
                 </InputAdornment>
               )
             }} />
+            <Button onClick={handleRepasswordClicked} className={classes.buttonStyle} variant="outlined">confirm</Button>
            <TextField
             label="Password"
             type="password"
@@ -425,7 +426,6 @@ const LoginFields: FC<LoginFieldProps> = ({ setLoading }) => {
             size="small"
             value={password1}
             />
-             <Button onClick={handleRepasswordClicked} className={classes.buttonStyle} variant="outlined">Repassword</Button>
               <Typography>
                 Remember it? Sign in
                 <Link 
