@@ -153,7 +153,7 @@ const RenderInvoices = () => {
 
   //Generate Invoice
   const [invoice, setInvoice] = useState({
-    email: 'test',
+    email: '',
     createdAt: createdAtTimestamp,
     totalSum: 1,
     status: 'NOT-PAID',
