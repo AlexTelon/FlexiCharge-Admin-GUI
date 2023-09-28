@@ -1,6 +1,6 @@
-import { ManageUser } from '@/remote-access/types';
+import { User } from '@/remote-access/types';
 
-export const manageUsers: ManageUser[] = [
+export const mockUsers: User[] = [
   { username: '1', name: 'Jonas Doe', email: 'user1@flexicharge.com' },
   { username: '2', name: 'Johan Svensson', email: 'user2@flexicharge.com' },
   { username: '3', name: 'Erik Granlund', email: 'user3@flexicharge.com' },

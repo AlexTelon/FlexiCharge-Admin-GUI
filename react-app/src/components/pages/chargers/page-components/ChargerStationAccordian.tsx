@@ -1,4 +1,4 @@
-import { chargerStationCollection } from '@/remote-access';
+import { manageChargerStation } from '@/remote-access';
 import { ChargerStation } from '@/remote-access/types';
 import {
   Accordion, AccordionActions, AccordionDetails,
@@ -29,7 +29,7 @@ const ChargerStationAccordian: FC<ChargerStationAccordionProps> = ({ stationId, 
 
   const loadStation = () => {
     if (stationId) {
-      chargerStationCollection.getChargerStationById(stationId).then((chargerStation) => {
+      manageChargerStation.getChargerStationById(stationId).then((chargerStation) => {
         if (chargerStation === null) return;
         setState({
           ...state,

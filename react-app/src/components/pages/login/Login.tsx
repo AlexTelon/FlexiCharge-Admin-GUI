@@ -128,11 +128,15 @@ const LoginFields: FC<LoginFieldProps> = ({ setLoading }) => {
     })
   }
   const handleLoginClicked = async () => {
+    console.log('login clicked');
     if (username && password) {
+      console.log(`username: ${username}, password: ${password}`)
       setLoading(true);
       const [wasSuccess, errors] = await authenticationProvider.login(username, password);
       if (wasSuccess) {
+        console.log('success');
         setAlertState({});
+        console.log(setAlertState);
       } else { 
         switch (true) {
           case errors.invalidCredentials: 
@@ -218,6 +222,7 @@ const LoginFields: FC<LoginFieldProps> = ({ setLoading }) => {
             onChange={(e) => setUsername(e.target.value)}
             label="Email"
             size="small"
+            data-cy="username-input"
             value={username}
             error={alertState.usernameError !== undefined}
             helperText={alertState.usernameError}
@@ -235,6 +240,7 @@ const LoginFields: FC<LoginFieldProps> = ({ setLoading }) => {
             type="password"
             variant="standard"
             size="small"
+            data-cy="password-input"
             value={password}
             error={alertState.passwordError !== undefined}
             helperText={alertState.passwordError}
@@ -245,7 +251,7 @@ const LoginFields: FC<LoginFieldProps> = ({ setLoading }) => {
                 </InputAdornment>
               )
             }} />
-          <Button onClick={handleLoginClicked} className={classes.buttonStyle} variant="outlined">Login</Button>
+          <Button onClick={handleLoginClicked} data-cy="login-btn" className={classes.buttonStyle} variant="outlined">Login</Button>
           <Typography>
             First time signing in? Verify account
             <Link 

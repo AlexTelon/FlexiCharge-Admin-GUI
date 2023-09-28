@@ -6,7 +6,7 @@ import ChargerTable from './page-components/ChargerTable';
 import ChargerEditPanel from './page-components/ChargerEditPanel';
 import { useParams } from 'react-router-dom';
 import ChargerStationAccordian from './page-components/ChargerStationAccordian';
-import { chargerCollection } from '@/remote-access';
+import { manageCharger } from '@/remote-access';
 import { Charger } from '@/remote-access/types';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -135,7 +135,7 @@ const ChargersPage = (props: any) => {
       ...state,
       loaded: false
     });
-    const [chargers, error] = await chargerCollection.getAllChargers(Number(stationId));
+    const [chargers, error] = await manageCharger.getAllChargers(Number(stationId));
     if (chargers) {
       setState({
         loaded: true,

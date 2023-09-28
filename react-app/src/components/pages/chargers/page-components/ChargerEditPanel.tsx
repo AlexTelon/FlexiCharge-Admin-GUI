@@ -1,7 +1,7 @@
 import { Charger } from '@/remote-access/types';
 import { AppBar, Box, Button, Dialog, DialogActions, DialogTitle, Divider, Grid, IconButton, LinearProgress, List, ListItem, ListItemText, Paper, Theme, Toolbar, Typography } from '@material-ui/core';
 import React, { FC, FormEvent, useEffect, useState } from 'react';
-import { chargerCollection } from '@/remote-access';
+import { manageCharger } from '@/remote-access';
 import { useTheme } from '@material-ui/styles';
 import { Close, Delete } from '@material-ui/icons';
 import { Alert } from '@material-ui/lab';
@@ -19,7 +19,7 @@ const ChargerEditPanel: FC<ChargerEditPanelProps> = ({ chargerID, setActiveCharg
   const [errorState, setErrorState] = useState<any>({});
 
   const loadCharger = async () => {
-    const [charger, error] = await chargerCollection.getChargerById(chargerID);
+    const [charger, error] = await manageCharger.getChargerById(chargerID);
     if (error) {
       setErrorState({
         alert: 'lmao'
@@ -45,7 +45,7 @@ const ChargerEditPanel: FC<ChargerEditPanelProps> = ({ chargerID, setActiveCharg
 
   const onDeleteCharger = async (event: FormEvent<HTMLFormElement>, chargerId: number) => {
     event.preventDefault();
-    await chargerCollection.deleteChargerById(chargerId);
+    await manageCharger.deleteChargerById(chargerId);
     setActiveChargerID(undefined);
     reload();
   };

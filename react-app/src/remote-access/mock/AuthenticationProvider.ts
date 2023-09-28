@@ -13,10 +13,25 @@ export default class AuthenticationProvider implements IAuthenticationProvider {
       setTimeout(() => {
         if (username === loginInfo.username && password === loginInfo.password) {
           this.isAuthenticated = true;
+          localStorage.setItem('isAuthenticated', 'true');
           resolve([true, {}]);
         } else {
           this.isAuthenticated = false;
           resolve([this.isAuthenticated, { invalidCredentials: true }]);
+        }
+      }, 3000);
+    });
+  }
+
+  async getAdminSession(username: string, tempPassword: string, newPassword: string): Promise<Boolean> {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        if (username === loginInfo.username && tempPassword === loginInfo.password) {
+          this.isAuthenticated = true;
+          resolve(true);
+        } else {
+          this.isAuthenticated = false;
+          resolve(false);
         }
       }, 3000);
     });

@@ -1,6 +1,6 @@
-import { ManageUser } from '../types';
+import { User } from '../types';
 
-export const toUserAttributes = (fields: Omit<ManageUser, 'username'>): any[] => {
+export const toUserAttributes = (fields: Omit<User, 'username'>): any[] => {
   const userAttributes = [];
   for (const [key, value] of Object.entries(fields)) {
     userAttributes.push({
@@ -11,7 +11,7 @@ export const toUserAttributes = (fields: Omit<ManageUser, 'username'>): any[] =>
   return userAttributes;
 };
 
-export const fromUserAttributes = (userAttributes: any[]): Partial<ManageUser> => {
+export const fromUserAttributes = (userAttributes: any[]): Partial<User> => {
   const user: any = {};
   for (const attribute of userAttributes) {
     let { Name: key, Value: value } = attribute;
@@ -28,9 +28,9 @@ export const fromUserAttributes = (userAttributes: any[]): Partial<ManageUser> =
   return user;
 };
 
-export const convertRemoteUsersToLocal = (remoteUser: any): ManageUser => {
+export const convertRemoteUsersToLocal = (remoteUser: any): User => {
   const attributes = fromUserAttributes(remoteUser.UserAttributes ?? remoteUser.Attributes);
-  const localUser: ManageUser = {
+  const localUser: User = {
     username: remoteUser.Username,
     userStatus: remoteUser.userStatus,
     enabled: remoteUser.Enabled,
@@ -41,8 +41,8 @@ export const convertRemoteUsersToLocal = (remoteUser: any): ManageUser => {
   return localUser;
 };
 
-export const convertRemoteUserToLocal = (remoteUser: any): ManageUser => {
-  const localUser: ManageUser = {
+export const convertRemoteUserToLocal = (remoteUser: any): User => {
+  const localUser: User = {
     email: remoteUser.username,
     userStatus: remoteUser.userStatus,
     enabled: remoteUser.Enabled,

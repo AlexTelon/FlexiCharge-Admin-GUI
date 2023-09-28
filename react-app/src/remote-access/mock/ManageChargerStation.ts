@@ -1,8 +1,8 @@
-import { chargerStations } from '@/__mock-data__';
-import { ChargerStation, IChargerStationCollection } from '../types';
+import { mockChargerStations } from '@/__mock-data__';
+import { ChargerStation, IChargerStation } from '../types';
 
-export default class ChargerStationCollection implements IChargerStationCollection {
-  stations = chargerStations;
+export default class ManageChargerStation implements IChargerStation {
+  stations = mockChargerStations;
 
   async getAllChargerStations(): Promise<ChargerStation[]> {
     return new Promise((resolve, reject) => {

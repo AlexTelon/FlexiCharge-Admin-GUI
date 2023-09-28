@@ -1,0 +1,25 @@
+name: Lint and Test
+
+on: [pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Use Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '16'
+
+    - name: Install dependencies
+      run: cd react-app && yarn install
+
+    - name: Lint with auto-fix
+      run: cd react-app && yarn lint:fix
+
+    - name: Run tests
+      run: cd react-app && yarn test

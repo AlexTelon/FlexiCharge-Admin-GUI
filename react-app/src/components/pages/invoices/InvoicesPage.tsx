@@ -6,7 +6,7 @@ import {
   AppBar, Toolbar, Typography, Container, Grid,
   IconButton, Paper, Tab, alpha, InputBase, styled,
   Divider, Select, FormControl, InputLabel, MenuItem,
-  Button, TableCell, useTheme
+  Button, TableCell, useTheme, Menu
 } from '@material-ui/core';
 import { Helmet } from 'react-helmet';
 import { ControlPoint, Search } from '@material-ui/icons';
@@ -15,7 +15,7 @@ import { TabContext, TabList, TabPanel } from '@material-ui/lab';
 import PersonTable from '@/components/pages/invoices/PersonTable';
 import PersonTableIndividualInvoice from '@/components/pages/invoices/PersonTableIndividualInvoice';
 import { useParams } from 'react-router-dom';
-import { manageInvoiceCollection } from '@/remote-access';
+import { manageInvoice } from '@/remote-access';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -136,30 +136,36 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 const RenderInvoices = () => {
   const theme: Theme = useTheme();
   const classes = useStyles();
-  const [selectedTab, setSelectedTab] = React.useState('users');
+  const [selectedTab, setSelectedTab] = React.useState('view-invoices-by-date');
   let [selectedYear, setYear] = React.useState('2000');
   let [selectedMonth, setMonth] = React.useState('00');
+  let [selectedStatus, setSelectedStatus] = React.useState('ALL');
   let [searchValue, setSearchValue] = React.useState('')
 
-  const handleTabChange = (event: any, newTab: string) => {
-    resetYear()
-    resetMonth()
-    handleDateFilter()
-    setSelectedTab(newTab);
+  const handleTabChange = async (event: any, newTab: string) => {
+      resetYear();
+      resetMonth();
+      resetStatus();
+      handleDateFilter();
+      setSelectedTab(newTab);
   };
 
   const params = useParams();
   const person = (params as any).person;
   const [state, setState] = useState<any>({
     loaded: true,
+    invoices: [],
   });
 
   useEffect(() => {
-    setSelectedTab('view-all-invoices');
-    setState({
-      ...state,
-    });
-  }, []);
+    handleDateFilter();
+  }, [selectedYear, selectedMonth, selectedStatus]);
+
+  useEffect(() => {
+    setYear('2000');
+    setMonth('00');
+    setSelectedStatus('ALL');
+  }, []);  
 
   const handleSearch = async (searchText: string) => {
     if (searchText !== '') {
@@ -167,7 +173,7 @@ const RenderInvoices = () => {
         ...state,
         loaded: false
       });
-      const [individualInvoices, error] = await manageInvoiceCollection.getInvoiceByUserId(searchText, 'paid')
+      const [individualInvoices, error] = await manageInvoice.getInvoiceByUserId(searchText, 'paid')
       if(individualInvoices){
         setState({
         ...state,
@@ -194,27 +200,36 @@ const RenderInvoices = () => {
       return selectedMonth = '00'
     })
   }
+  const resetStatus = () => {
+    setSelectedStatus(() => {
+      return selectedStatus = 'ALL'
+    })
+  }
 
   const updateSelectedYear = async (event: any) => {
-    setYear(() => {
-      return selectedYear = event?.target.value
-    });
+    setYear(event?.target.value);
     await handleDateFilter(); 
   } 
   const updateSelectedMonth = async (event: any) => {
-    setMonth(() => {
-      return selectedMonth = event?.target.value
-    });
+    setMonth(event?.target.value);
+    await handleDateFilter(); 
+  }
+  const upDateSelectedStatus = async (event: any) => {
+    setSelectedStatus(event?.target.value);
     await handleDateFilter(); 
   }
 
   const handleDateFilter = async () => {
-    if(selectedYear != '2000' && selectedMonth != '00')
     setState({
       ...state,
       loaded: false
     });
-    const [invoices, error] = await manageInvoiceCollection.getInvoiceByDate(selectedYear, selectedMonth, 'PAID');
+
+    const yearFilter = selectedYear !== '2000' ? selectedYear : '';
+    const monthFilter = selectedMonth !== '00' ? selectedMonth : '';
+    const statusFilter = selectedStatus !== 'ALL' ? selectedStatus : '';
+
+    const [invoices, error] = await manageInvoice.getInvoiceByDate(yearFilter, monthFilter, statusFilter);
     
     if (invoices) {
       setState({
@@ -245,7 +260,7 @@ const RenderInvoices = () => {
                     <Typography className={classes.contentTitle} variant="h6">
                       <TabContext value={selectedTab}>
                         <TabList onChange={handleTabChange} indicatorColor="primary">
-                          <Tab label="View All Invoices" value="view-all-invoices" />
+                          <Tab label="View Invoices By Date" value="view-invoices-by-date" />
                           <Tab label="Search Specific Invoice" value="search-specific-invoice" />
                         </TabList>
                       </TabContext>
@@ -253,7 +268,7 @@ const RenderInvoices = () => {
                   </Toolbar>
                 </AppBar>
                 <Divider />
-                {selectedTab === 'view-all-invoices' &&
+                {selectedTab === 'view-invoices-by-date' &&
                   <>
                     <Box sx={{ width: '100%', marginTop: '15pt' }}>
                       <AppBar position="static" className={classes.contentAppBar} elevation={1}>
@@ -267,6 +282,7 @@ const RenderInvoices = () => {
                                 onChange={updateSelectedYear}
                                 label="Year"
                               >
+                                <MenuItem value={'2000'}>All</MenuItem>
                                 <MenuItem value={'2019'}>2019</MenuItem>
                                 <MenuItem value={'2020'}>2020</MenuItem>
                                 <MenuItem value={'2021'}>2021</MenuItem>
@@ -274,7 +290,7 @@ const RenderInvoices = () => {
                               </Select>
                             </FormControl>
                           </Box>
-                          <Box sx={{ width: '15%', height: '40pt' }}>
+                          <Box sx={{ width: '15%', marginRight: '10pt', height: '40pt' }}>
                             <FormControl fullWidth>
                               <InputLabel id="demo-simple-select-label">Month</InputLabel>
                               <Select
@@ -283,6 +299,7 @@ const RenderInvoices = () => {
                                 onChange={updateSelectedMonth}
                                 label="Month"
                               >
+                                <MenuItem value={'00'}>All</MenuItem>
                                 <MenuItem value={'01'}>January</MenuItem>
                                 <MenuItem value={'02'}>Feburary</MenuItem>
                                 <MenuItem value={'03'}>Mars</MenuItem>
@@ -295,6 +312,21 @@ const RenderInvoices = () => {
                                 <MenuItem value={'10'}>October</MenuItem>
                                 <MenuItem value={'11'}>November</MenuItem>
                                 <MenuItem value={'12'}>December</MenuItem>
+                              </Select>
+                            </FormControl>
+                          </Box>
+                          <Box sx={{ width: '15%', height: '40pt' }}>
+                            <FormControl fullWidth>
+                              <InputLabel id="demo-simple-select-label">Status</InputLabel>
+                              <Select
+                                labelId="demo-simple-select-label"
+                                id="demo-simple-select"
+                                onChange={upDateSelectedStatus}
+                                label="Status"
+                              >
+                                <MenuItem value={'PAID'}>Paid</MenuItem>
+                                <MenuItem value={'NOT-PAID'}>Not paid</MenuItem>
+                                <MenuItem value={'ALL'}>All</MenuItem>
                               </Select>
                             </FormControl>
                           </Box>
@@ -370,7 +402,7 @@ const RenderInvoices = () => {
                 }
                 <Paper elevation={2}>
                   <TabContext value={selectedTab}>
-                    <TabPanel style={{ padding: 0 }} value="all-invoices">
+                    <TabPanel style={{ padding: 0 }} value="invoices-by-date">
                       <>
                       </>
                     </TabPanel>
@@ -382,8 +414,8 @@ const RenderInvoices = () => {
                 </Paper>
               </Grid>
               <Grid item xs={12} md={4} lg={3}>
-                {selectedTab === 'all-invoices' &&
-                  <h6>All Invoices</h6>
+                {selectedTab === 'invoices-by-date' &&
+                  <h6>Invoices By Date</h6>
                 }
                 {selectedTab === 'individual-invoices' &&
                   <h6>Individual Invoices</h6>

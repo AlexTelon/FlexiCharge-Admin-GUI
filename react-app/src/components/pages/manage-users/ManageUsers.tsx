@@ -7,8 +7,8 @@ import {
 } from '@material-ui/core';
 import { Helmet } from 'react-helmet';
 import { Replay } from '@material-ui/icons';
-import { ManageAdmin, ManageUser } from '@/remote-access/types';
-import { adminCollection, userCollection } from '@/remote-access';
+import { Admin, User } from '@/remote-access/types';
+import { manageAdmin, manageUser } from '@/remote-access';
 import ManageUsersEditPanel from '@/components/manage-users/Users/ManageUsersEditPanel';
 import ManageAdminsEditPanel from '@/components/manage-users/Admins/ManageAdminEditPanel';
 import AdminSettingsAccordian from '@/components/manage-users/Admins/ManageAdminsSettingsAccordian';
@@ -136,8 +136,8 @@ const ManageUsers = () => {
     loaded: false
   });
   const [reload, setReload] = useState<boolean>(false);
-  const [searchedUsers, setSearchUsers] = useState<ManageUser[]>([]);
-  const [searchedAdmins, setSearchAdmins] = useState<ManageAdmin[]>([]);
+  const [searchedUsers, setSearchUsers] = useState<User[]>([]);
+  const [searchedAdmins, setSearchAdmins] = useState<Admin[]>([]);
   const [search, setSearch] = useState<string>();
   const [activeUser, setActiveUser] = useState<string | undefined>();
   const [selectedAdmins, setSelectedAdmins] = useState<readonly string[]>([]);
@@ -162,7 +162,7 @@ const ManageUsers = () => {
       loaded: false
     });
 
-    const [users, error] = await userCollection.getAllUsers();
+    const [users, error] = await manageUser.getAllUsers();
 
     if (users) {
       setState({
@@ -186,7 +186,7 @@ const ManageUsers = () => {
       loaded: false
     });
 
-    const [admins, error] = await adminCollection.getAllAdmins();
+    const [admins, error] = await manageAdmin.getAllAdmins();
 
     if (admins) {
       setState({
@@ -209,7 +209,7 @@ const ManageUsers = () => {
       setSearch(searchText);
 
       if (selectedTab === 'users') {
-        const users = state.users.filter((user: ManageUser) => {        
+        const users = state.users.filter((user: User) => {        
           return user.name?.toLowerCase().includes(searchText.toLowerCase())
             // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
             || user.username.toLowerCase().includes(searchText.toLowerCase())
@@ -217,7 +217,7 @@ const ManageUsers = () => {
         });
         setSearchUsers(users);  
       } else {
-        const admins = state.admins.filter((admin: ManageAdmin) => {
+        const admins = state.admins.filter((admin: Admin) => {
           return admin.name?.toLowerCase().includes(searchText.toLowerCase())
             // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
             || admin.username.toLowerCase().includes(searchText.toLowerCase())

@@ -1,10 +1,10 @@
 import { FLEXICHARGE_API_URL } from '@/appConfig';
-import { chargerStations } from '@/__mock-data__';
+import { mockChargerStations } from '@/__mock-data__';
 import axios from 'axios';
-import { ChargerStation, IChargerStationCollection } from '../types';
+import { ChargerStation, IChargerStation } from '../types';
 
-export default class ChargerStationCollection implements IChargerStationCollection {
-  stations = chargerStations;
+export default class ManageChargerStation implements IChargerStation {
+  stations = mockChargerStations;
 
   async getAllChargerStations(): Promise<ChargerStation[]> {
     const response = await axios.get(`${FLEXICHARGE_API_URL}/chargePoints`, {

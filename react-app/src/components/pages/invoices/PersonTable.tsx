@@ -45,7 +45,7 @@ const PersonTable: FC<PersonTableProps> = ({ loaded, invoices, selectedYear, sel
 
   return (
     <>
-      <TableContainer className={props.classes.tableContainer}>
+      <TableContainer data-cy="all-invoices" className={props.classes.tableContainer}>
         {!loaded &&
           <LinearProgress />
         }
@@ -65,7 +65,7 @@ const PersonTable: FC<PersonTableProps> = ({ loaded, invoices, selectedYear, sel
                 .map((invoice: Invoice) => {
                   return (
                     <PersonRow
-                      key={invoices.invoiceID}
+                      key={invoice.invoiceID}
                       invoice={invoice}
                       {...props}
                       classes={props.classes}

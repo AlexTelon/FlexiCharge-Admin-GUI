@@ -1,5 +1,5 @@
 /* eslint-disable react/react-in-jsx-scope */
-import { chargerStationCollection } from '@/remote-access';
+import { manageChargerStation } from '@/remote-access';
 import {
   Card,
   CardContent,
@@ -28,7 +28,7 @@ const chargingStationComp = (props: any) => {
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
-    chargerStationCollection.getAllChargerStations().then((stations) => {
+    manageChargerStation.getAllChargerStations().then((stations) => {
       setNumStations(stations.length);
       setLoaded(true);
     });

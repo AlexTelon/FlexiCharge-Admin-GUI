@@ -1,14 +1,10 @@
 import container from '../dependencyContainer';
-import { IAuthenticationProvider, IChargerCollection, IChargerStationCollection, IManageUserCollection, IManageAdminCollection, IManageTransactionCollection, IManageInvoiceCollection } from './types';
+import { IAuthenticationProvider, ICharger, IChargerStation, IUser, IAdmin, ITransaction, IInvoice } from './types';
 
 export const authenticationProvider = container.resolve<IAuthenticationProvider>('authenticationProvider');
-export const chargerStationCollection = container.resolve<IChargerStationCollection>('chargerStationCollection');
-export const manageUserCollection = container.resolve<IManageUserCollection>('manageUserCollection');
-export const manageAdminCollection = container.resolve<IManageAdminCollection>('manageAdminCollection');
-export const adminCollection = container.resolve<IManageAdminCollection>('adminCollection');
-export const userCollection = container.resolve<IManageUserCollection>('userCollection');
-export const chargerCollection = container.resolve<IChargerCollection>('chargerCollection');
-export const manageTransactionCollection = container.resolve<IManageTransactionCollection>('manageTransactionCollection');
-export const transactionCollection = container.resolve<IManageTransactionCollection>('transactionCollection');
-export const manageInvoiceCollection = container.resolve<IManageInvoiceCollection>('manageInvoiceCollection');
-// export const invoiceCollection = container.resolve<IManageInvoiceCollection>('invoiceCollection');
+export const manageChargerStation = container.resolve<IChargerStation>('manageChargerStation');
+export const manageUser = container.resolve<IUser>('manageUser');
+export const manageAdmin = container.resolve<IAdmin>('manageAdmin');
+export const manageCharger = container.resolve<ICharger>('manageCharger');
+export const manageTransaction = container.resolve<ITransaction>('manageTransaction');
+export const manageInvoice = container.resolve<IInvoice>('manageInvoice');

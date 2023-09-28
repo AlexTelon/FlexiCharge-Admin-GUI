@@ -1,14 +1,13 @@
 /* eslint-disable no-useless-escape */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { resolve } from 'cypress/types/bluebird';
 import { promises } from 'dns';
-import { manageUsers } from '../../__mock-data__/users';
-import { ManageUser, IManageUserCollection } from '../types';
+import { mockUsers } from '../../__mock-data__/users';
+import { User, IUser } from '../types';
 
-export default class ManageUserCollection implements IManageUserCollection {
-  users = manageUsers;
+export default class ManageUser implements IUser {
+  users = mockUsers;
 
-  async getAllUsers(): Promise<[ManageUser[], any | null]> {
+  async getAllUsers(): Promise<[User[], any | null]> {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         console.log([this.users, null]);
@@ -17,7 +16,7 @@ export default class ManageUserCollection implements IManageUserCollection {
     });
   }
 
-  async getUserById(userId: string): Promise<ManageUser | null> {
+  async getUserById(userId: string): Promise<User | null> {
     return new Promise((resolve, reject) => {
       // Look up in local
       // If not found then try remote
@@ -28,13 +27,13 @@ export default class ManageUserCollection implements IManageUserCollection {
     });
   }
 
-  async addUser(fields: Omit<ManageUser, 'id'>): Promise<[ManageUser | null, any | null]> {
+  async addUser(fields: Omit<User, 'id'>): Promise<[User | null, any | null]> {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         const errorObj = this.validateFields(fields);
         if (Object.keys(errorObj).length > 0) resolve([null, errorObj]);
         
-        const manageUser: ManageUser = {
+        const manageUser: User = {
           ...fields,
           username: `${this.users.length + 1}`
         };
@@ -44,7 +43,7 @@ export default class ManageUserCollection implements IManageUserCollection {
     });
   }
 
-  async updateUser(username: string, fields: Omit<ManageUser, 'username'>): Promise<[ManageUser | null, any | null]> {
+  async updateUser(username: string, fields: Omit<User, 'username'>): Promise<[User | null, any | null]> {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         const userIndex = this.users.findIndex((users) => users.username === username);
@@ -72,7 +71,7 @@ export default class ManageUserCollection implements IManageUserCollection {
     return false;
   }
 
-  private validateFields(fields: Omit<ManageUser, 'id'>): any | null {
+  private validateFields(fields: Omit<User, 'id'>): any | null {
     const errorObj: any = {};
     if (fields.name && this.isNametaken(fields.name)) errorObj.name = 'Name is taken';
     return errorObj;
@@ -85,6 +84,26 @@ export default class ManageUserCollection implements IManageUserCollection {
         if (userIndex === -1) return [null, { errorMessage: 'Could not find the requested Manage User' }];
 
         this.users = this.users.filter((user) => user !== this.users[userIndex]);
+      });
+    });
+  }
+
+  async resetUserPassword(username: string): Promise<[User | null, any]> {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        const userIndex = this.users.findIndex((users) => users.username === username);
+        if (userIndex === -1) {
+          const error = { errorMessage: 'Could not find the User' };
+          resolve([null, error]);
+          return;
+        }
+
+        const manageUser = {
+          ...this.users[userIndex],
+          password: 'temp_password'
+        };
+        this.users[userIndex] = manageUser;
+        resolve([manageUser, null]);
       });
     });
   }
