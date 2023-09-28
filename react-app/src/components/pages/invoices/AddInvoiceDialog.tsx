@@ -64,7 +64,12 @@ const GenerateSingleInvoiceDialog = ({ open, handleClose }: any ) => {
   }
 
   return (
-    <Dialog open={open} onClose={handleClose} aria-labelledby="add-invoice-dialog-title">
+    <Dialog 
+    open={open} 
+    onClose={handleClose} 
+    aria-labelledby="add-invoice-dialog-title"
+    id="add-invoice-dialog"
+    >
       <DialogTitle id="add-invoice-dialog-title">Generate New Invoice</DialogTitle>
       <DialogContent className={classes.dialogContent}>
         <TextField
