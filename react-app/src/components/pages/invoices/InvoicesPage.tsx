@@ -146,29 +146,6 @@ const RenderInvoices = () => {
   let [selectedMonth, setMonth] = React.useState('00');
   let [searchValue, setSearchValue] = React.useState('')
 
-  const createdAtTimestamp = Math.floor(new Date().getTime() / 1000);
-  const currentDate = new Date();
-  const year = currentDate.getFullYear();
-  const month = String(currentDate.getMonth() + 1).padStart(2, '0');
-  const formattedDate = `${year}-${month}`;
-
-  //Generate Invoice
-  // const [invoice, setInvoice] = useState({
-  //   email: '',
-  //   createdAt: createdAtTimestamp,
-  //   totalSum: 1,
-  //   status: 'NOT-PAID',
-  //   date: formattedDate
-  // });
-
-  // const handleChange = (event: React.ChangeEvent<{ name?: string; value: unknown }>) => {
-  //   const { name, value } = event.target;
-  //   setInvoice({
-  //     ...invoice,
-  //     [name || '']: value,
-  //   });
-  // };
-
   const [open, setOpen] = useState(false);
 
   const handleOpen = () => {
@@ -179,6 +156,7 @@ const RenderInvoices = () => {
     setOpen(false);
   };
 
+  //Save invoice.
   const handleSave = (invoiceData: any) => {
     console.log('Invoice Data:', invoiceData);
   };

@@ -41,7 +41,6 @@ const AddSingleInvoiceDialog = ({ open, handleClose, handleSave }: any ) => {
   const month = String(currentDate.getMonth() + 1).padStart(2, '0');
   const formattedDate = `${year}-${month}`;
 
-  //Add Invoice
   const [invoice, setInvoice] = useState({
     email: '',
     createdAt: createdAtTimestamp,
@@ -58,10 +57,6 @@ const AddSingleInvoiceDialog = ({ open, handleClose, handleSave }: any ) => {
       [name || '']: value,
     });
   };
-
-  const handleSubmitClicked = async () => {
-
-  }
 
   return (
     <Dialog 
