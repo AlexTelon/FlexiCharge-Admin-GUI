@@ -4,8 +4,8 @@ import React, { useState } from 'react';
 import {
   Theme, useTheme, useMediaQuery, Dialog,
   DialogTitle, IconButton, DialogContent, Box,
-  FormControl, InputLabel, Input, FormHelperText, 
-  DialogActions, Button, makeStyles, createStyles, 
+  FormControl, InputLabel, Input, FormHelperText,
+  DialogActions, Button, makeStyles, createStyles,
   LinearProgress, Fade, InputAdornment, Select,
   AppBar, Toolbar, Typography, Container, Grid,
   Paper, Tab, alpha, InputBase, styled,
@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const AddSingleInvoiceDialog = ({ open, handleClose, handleSave }: any ) => {
+const AddSingleInvoiceDialog = ({ open, handleClose, handleSave }: any) => {
   const classes = useStyles();
   const theme: Theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
@@ -58,63 +58,85 @@ const AddSingleInvoiceDialog = ({ open, handleClose, handleSave }: any ) => {
     });
   };
 
+  const cleanClose = () => {
+    invoice.email = '';
+    invoice.totalSum = 1;
+    invoice.status = 'NOT-PAID'
+    handleClose();
+  };
+
   return (
-    <Dialog 
-    open={open} 
-    onClose={handleClose} 
-    aria-labelledby="add-invoice-dialog-title"
-    id="add-invoice-dialog"
+    <Dialog
+      open={open}
+      onClose={handleClose}
+      aria-labelledby="add-invoice-dialog-title"
+      id="add-invoice-dialog"
+      PaperProps={{
+        style: {
+          width: "100%"
+        },
+      }}
     >
-      <DialogTitle id="add-invoice-dialog-title">Generate New Invoice</DialogTitle>
+      <DialogTitle id="add-invoice-dialog-title">
+        Generate an New Invoice
+      </DialogTitle>
       <DialogContent className={classes.dialogContent}>
-        <TextField
-          autoFocus
-          margin="dense"
-          label="Email Address"
-          name="email"
-          type="email"
-          value={invoice.email}
-          onChange={handleChange}
-          fullWidth
-          required
-        />
-        <TextField
-          label="Total Sum"
-          name="totalSum"
-          type="number"
-          value={invoice.totalSum}
-          onChange={handleChange}
-          fullWidth
-          required
-          inputProps={{ min: 1, max: 1000 }}
-        />
-        <FormControl fullWidth>
-          <InputLabel>Status</InputLabel>
-          <Select
-            name="status"
-            value={invoice.status}
+        <form>
+          <InputLabel htmlFor="email-address-input">Email Address</InputLabel>
+          <TextField
+            autoFocus
+            margin="dense"
+            label="Email Address"
+            id="email-address-input"
+            name="email"
+            type="email"
+            value={invoice.email}
             onChange={handleChange}
+            fullWidth
             required
-          >
-            <MenuItem value="PAID">PAID</MenuItem>
-            <MenuItem value="NOT-PAID">NOT-PAID</MenuItem>
-            <MenuItem value="ALL">ALL</MenuItem>
-          </Select>
-        </FormControl>
+          />
+          <TextField
+            label="Total Sum"
+            name="totalSum"
+            type="number"
+            value={invoice.totalSum}
+            onChange={handleChange}
+            fullWidth
+            required
+            inputProps={{ min: 1, max: 1000 }}
+          />
+          <FormControl fullWidth>
+            <InputLabel>Status</InputLabel>
+            <Select
+              name="status"
+              value={invoice.status}
+              onChange={handleChange}
+              required
+            >
+              <MenuItem value="PAID">PAID</MenuItem>
+              <MenuItem value="NOT-PAID">NOT-PAID</MenuItem>
+              <MenuItem value="ALL">ALL</MenuItem>
+            </Select>
+          </FormControl>
+        </form>
       </DialogContent>
-      <div style={{ textAlign: 'center', marginBottom: '10px' }}>
+      <DialogActions>
+        <Button onClick={cleanClose} color="primary">
+          Cancel
+        </Button>
         <Button
-          startIcon={<AddIcon />}
-          variant="contained"
-          color="primary"
+          autoFocus
+          style={{ color: 'white' }}
           onClick={() => {
             handleSave(invoice);
             handleClose();
           }}
+          variant="contained"
+          color="primary"
         >
           Generate
         </Button>
-      </div>
+      </DialogActions>
     </Dialog>
   );
 };

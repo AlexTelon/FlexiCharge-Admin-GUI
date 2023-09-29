@@ -321,8 +321,8 @@ const RenderInvoices = () => {
                           <TableCell className={classes.buttonPosition}>
                           <div>
                             <Button
-                              startIcon={<ControlPoint />}
                               variant="contained"
+                              style={{ color: 'white' }}
                               color="primary"
                               onClick={handleOpen}
                             >
