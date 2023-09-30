@@ -10,7 +10,6 @@ export default class ManageUser implements IUser {
   async getAllUsers(): Promise<[User[], any | null]> {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
-        console.log([this.users, null]);
         resolve([this.users, null]);
       }, 1000);
     });
