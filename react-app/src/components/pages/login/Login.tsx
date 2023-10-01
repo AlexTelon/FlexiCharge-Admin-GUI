@@ -153,7 +153,7 @@ const LoginFields: FC<LoginFieldProps> = ({ setLoading }) => {
   }
   const VerifyUsername = () => {
     setUsername1(() => {
-      return username1 
+      return username1 = '' 
     })
   }
   const handleLoginClicked = async () => {
@@ -220,12 +220,12 @@ const LoginFields: FC<LoginFieldProps> = ({ setLoading }) => {
   };
 
   const handleRepasswordClicked = async () => {
-    if (username1 && password1 && password1) {
+    if (username) {
       setLoading(true);
-      const wasSuccess = await authenticationProvider.getAdminSession(username1, password1, password1);
-      if (wasSuccess) {
+      if (username == loginInfo.username) {
         setAlertState({
-          alertRepasswordSuccess: 'confirmed'
+          alertRepasswordSuccess:'Confirmed' + '  '+
+            'Password: ' + loginInfo.password
         });
       } else { 
         setAlertState({
@@ -318,7 +318,7 @@ const LoginFields: FC<LoginFieldProps> = ({ setLoading }) => {
             > Here</Link>
           </Typography>
           <Typography>
-            Have you forgot your password? Showpassword
+            Have you forgot your password? Show password
             <Link 
             className={classes.link} 
             underline='none'
@@ -398,11 +398,11 @@ const LoginFields: FC<LoginFieldProps> = ({ setLoading }) => {
         <>
            <TextField 
             className={classes.inputField}
-            onChange={(e) => setUsername1(e.target.value)}
+            onChange={(e) => setUsername(e.target.value)}
             label="Email"
             size="small"
             data-cy="username-input"
-            value={username1}
+            value={username}
             error={alertState.usernameError !== undefined}
             helperText={alertState.usernameError}
             variant="standard" InputProps={{
@@ -413,21 +413,8 @@ const LoginFields: FC<LoginFieldProps> = ({ setLoading }) => {
               )
             }} />
             <Button onClick={handleRepasswordClicked} className={classes.buttonStyle} variant="outlined">confirm</Button>
-           <TextField
-            label="Password"
-            type="password"
-            variant="standard"
-            size="small"
-            value={password1}
-            />
-            <TextField
-            label="Password"
-            variant="standard"
-            size="small"
-            value={password1}
-            />
               <Typography>
-                Remember it? Sign in
+                Sign in
                 <Link 
                 className={classes.link} 
                 underline='none'
