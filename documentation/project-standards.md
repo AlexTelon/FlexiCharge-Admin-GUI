@@ -1,5 +1,24 @@
 # Project Standards
 
+## Naming conventions
+* **Variables**: camelCase.
+* **Functions**: camelCase.
+* **Classes**: PascalCase.
+* **Types**: PascalCase.
+* **Files**: kebab-case with type notation.
+
+| Entity     | Convention                    | Example                |
+|------------|-------------------------------|------------------------|
+| Variables  | camelCase                     | let userData           |
+| Functions  | camelCase                     | function userData      |
+| Classes    | PascalCase                    | class UserData         |
+| interfaces | PascalCase                    | interface UserData     |
+| Types      | PascalCase                    | type UserData          |
+| Files      | kebab-case with type notation | user-data.interface.ts |
+
+## File structure
+Todo!
+
 ## Code base and code structure
 * The Admin GUI is constructed of so-called ```Components```. Each main page throughout the application has a ```Parent Component``` which holds ```Child Components```. These Child Components can then hold their own “children”.
 * This whole construct can be compared to a “tree” or a “pyramid”.

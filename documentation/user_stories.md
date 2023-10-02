@@ -68,8 +68,13 @@ Because he does not want to trick customers to chargers that no longer exists.
 The charger charging johns EV short-circuited and gave him an outrageous invoice.
 Steve wants to help him be fairly billed.
 Therefor Steve sets the charging price for the bad session to 0 sek.
-* Steve needs to have the ability to change customer charging costs for a session.
-* Steve needs to send out a new updated invoice and invalidate the old one.
+* Change customer charging costs for a session.
+* Invalidate a invoice.
+
+### New Invoice
+Steve has deleted an invoice and wants to add a new one.
+So that we can get paid even in exceptional cases.
+* Create a new invoice from a selection of charging sessions.
 
 ***
 ## User Management
