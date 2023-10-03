@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import clsx from 'clsx';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
@@ -17,6 +17,8 @@ import BatteryChargingFullIcon from '@material-ui/icons/BatteryChargingFull';
 import PeopleIcon from '@material-ui/icons/People';
 import { useHistory } from 'react-router';
 import { Receipt } from '@material-ui/icons';
+
+import LogoutConfirmationDialog from './LogoutConfirmationDialog';
 
 // import MenuIcon from '@material-ui/icons/Menu';
 
@@ -123,6 +125,7 @@ export default function MiniDrawer() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [logoutDialogOpen, setLogoutDialogOpen] = useState(false);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -137,11 +140,18 @@ export default function MiniDrawer() {
   };
 
   const handleLogout = () => {
-    // confirm('Do you want to logout?\n  otherways click on exit');
     localStorage.removeItem('isAuthenticated');
     localStorage.removeItem('token');
     localStorage.removeItem('username');
     window.location.reload();
+  };
+
+  const handleCloseLogoutDialog = () => {
+    setLogoutDialogOpen(false);
+  };
+
+  const handleOpenLogoutDialog = () => {
+    setLogoutDialogOpen(true);
   };
 
   const history = useHistory();
@@ -167,8 +177,8 @@ export default function MiniDrawer() {
         <List className={classes.categoryHeader}>
           <Title />
         </List> */}
-        
-        {categories.map(({ id, children }) => 
+
+        {categories.map(({ id, children }) =>
 
           <React.Fragment key={id}>
             <ListItem className={classes.categoryHeader}>
@@ -183,7 +193,7 @@ export default function MiniDrawer() {
                 key={childId}
                 button
                 color="primary"
-                className= {clsx(classes.item)}
+                className={clsx(classes.item)}
                 onClick={() => {
                   history.push(pathLocation);
                 }}
@@ -195,7 +205,7 @@ export default function MiniDrawer() {
               </ListItem>
             ))}
           </React.Fragment>
-        
+
         )}
         {/* 
         <Divider />
@@ -211,28 +221,24 @@ export default function MiniDrawer() {
             <MenuIcon />
           </IconButton>
         </List> */}
-              
+
         <Divider />
-        
+
         <List className={classes.navBotSection}>
-          <ListItem button onClick={() => { 
-            const confirmBox = window.confirm(
-              'Do you want to logout? \n   click on Ok   \n   otherways click on exit'
-            );
-            if (confirmBox) {
-              handleLogout(); 
-            }  
-          }}>
+          <ListItem button onClick={handleOpenLogoutDialog}>
             <ListItemIcon>
               <Icon className={classes.itemIcon}>logout</Icon>
             </ListItemIcon>
             <ListItemText>Sign out</ListItemText>
           </ListItem>
+          <LogoutConfirmationDialog
+            open={logoutDialogOpen}
+            handleLogout={handleLogout}
+            handleClose={handleCloseLogoutDialog}
+          />
           <Divider />
           <ListItem
-            button
-
-            onClick={() => {          
+            button onClick={() => {
               !open ? handleDrawerOpen() : handleDrawerClose();
             }}
             className={classes.openDrawButton}
