@@ -17,10 +17,18 @@ import BatteryChargingFullIcon from '@material-ui/icons/BatteryChargingFull';
 import PeopleIcon from '@material-ui/icons/People';
 import { useHistory } from 'react-router';
 import { Receipt } from '@material-ui/icons';
+import theme from '@/components/theme';
 
 // import MenuIcon from '@material-ui/icons/Menu';
 
-const drawerWidth = 240;
+const styles = {
+  drawerWidth: {
+    width: '15%',
+    [theme.breakpoints.up('sm')]: {
+      width: '9%'
+    }
+  }
+};
 
 const categories = [
   {
@@ -42,37 +50,32 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     drawer: {
       [theme.breakpoints.up('sm')]: {
-        width: drawerWidth,
+        width: styles.drawerWidth,
         flexShrink: 0,
         whiteSpace: 'nowrap',
         color: theme.flexiCharge.primary.white
       }
     },
     drawerOpen: {
-      width: drawerWidth,
       transition: theme.transitions.create('width', {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.enteringScreen
-      })
-    },
-    drawerClose: {
-      transition: theme.transitions.create('width', {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.leavingScreen
       }),
       overflowX: 'hidden',
-      width: theme.spacing(7) + 1,
+      width: styles.drawerWidth.width,
       [theme.breakpoints.up('sm')]: {
         width: theme.spacing(9) + 1
       }
     },
+    drawerClose: {
+      width: styles.drawerWidth.width,
+      transition: theme.transitions.create('width', {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.leavingScreen
+      })
+    },
     content: {
       flexGrow: 1
-    },
-    openDrawButton: {
-      float: 'right',
-      display: 'flex',
-      justifyContent: 'flex-end'
     },
     navBotSection: {
       bottom: 0,
@@ -96,7 +99,13 @@ const useStyles = makeStyles((theme: Theme) =>
       paddingBottom: theme.spacing(2),
       color: 'rgba(255, 255, 255, 0.7)',
       '&:hover,&:focus': {
-        backgroundColor: theme.flexiCharge.primary.lightGrey
+        background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
+        border: 0,
+        borderRadius: 3,
+        boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
+        color: 'white',
+        height: 48,
+        padding: '0 30px'
       }
     },
     itemIcon: {
@@ -228,7 +237,6 @@ export default function MiniDrawer() {
             onClick={() => {
               !open ? handleDrawerOpen() : handleDrawerClose();
             }}
-            className={classes.openDrawButton}
           >
             {!open ? <ChevronRightIcon color="inherit" /> : <ChevronLeftIcon />}
           </ListItem>
