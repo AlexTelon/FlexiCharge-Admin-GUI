@@ -11,7 +11,7 @@ export default class ManageInvoice implements IInvoice {
     try {
       const res = await axios.get(`${FLEXICHARGE_API_URL}/invoices/${id}`, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`
+          Authorization: `Bearer ${sessionStorage.getItem('token')}`
         }
       });
       return [res.data, null];
@@ -29,7 +29,7 @@ export default class ManageInvoice implements IInvoice {
 
       const res = await axios.get(`${FLEXICHARGE_API_URL}/invoices/`, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`
+          Authorization: `Bearer ${sessionStorage.getItem('token')}`
         },
         params: params
       });

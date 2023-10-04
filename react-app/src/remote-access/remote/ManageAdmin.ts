@@ -11,7 +11,7 @@ export default class ManageAdmin implements IAdmin {
     try {
       await axios.delete(`${FLEXICHARGE_API_URL}/admin/${username}`, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`
+          Authorization: `Bearer ${sessionStorage.getItem('token')}`
         }
       });
 
@@ -28,7 +28,7 @@ export default class ManageAdmin implements IAdmin {
     try {
       const res = await axios.get(`${FLEXICHARGE_API_URL}/admin/`, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`
+          Authorization: `Bearer ${sessionStorage.getItem('token')}`
         }
       });
       const admins = handleAdminsData(res.data.Users)
@@ -42,7 +42,7 @@ export default class ManageAdmin implements IAdmin {
     try {
       const res = await axios.get(`${FLEXICHARGE_API_URL}/admin/${username}`, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`
+          Authorization: `Bearer ${sessionStorage.getItem('token')}`
         }
       });
       
@@ -60,7 +60,7 @@ export default class ManageAdmin implements IAdmin {
         ...fields
       }, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`
+          Authorization: `Bearer ${sessionStorage.getItem('token')}`
         }
       });
 
@@ -100,7 +100,7 @@ export default class ManageAdmin implements IAdmin {
       },
       {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`
+          Authorization: `Bearer ${sessionStorage.getItem('token')}`
         }
       });
       

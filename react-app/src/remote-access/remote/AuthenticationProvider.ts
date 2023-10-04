@@ -10,9 +10,9 @@ export default class AuthenticationProvider implements IAuthenticationProvider {
   private username: string | null = null;
   
   getToken(): string | null {
-    axios.get(`${FLEXICHARGE_API_URL}/admin/${localStorage.getItem('username')}`, {
+    axios.get(`${FLEXICHARGE_API_URL}/admin/${sessionStorage.getItem('username')}`, {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`
+        Authorization: `Bearer ${sessionStorage.getItem('token')}`
       }
     }).catch((error) => {
       if (error.response && error.response.status === 401) {
@@ -38,9 +38,9 @@ export default class AuthenticationProvider implements IAuthenticationProvider {
       this.username = response.data.username;
       this.isAuthenticated = true;
 
-      localStorage.setItem('token', `${this.token}`);
-      localStorage.setItem('isAuthenticated', `${this.isAuthenticated}`);
-      localStorage.setItem('username', `${this.username}`);
+      sessionStorage.setItem('token', `${this.token}`);
+      sessionStorage.setItem('isAuthenticated', `${this.isAuthenticated}`);
+      sessionStorage.setItem('username', `${this.username}`);
 
       return [true, {}];
     } catch (error: any) {

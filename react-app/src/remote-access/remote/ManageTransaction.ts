@@ -12,7 +12,7 @@ export default class ManageTransaction implements ITransaction {
     try {
       const res = await axios.get(`${FLEXICHARGE_API_URL}/transactions/userTransactions/${username}`, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`
+          Authorization: `Bearer ${sessionStorage.getItem('token')}`
         }
       });
       return [res.data, null];

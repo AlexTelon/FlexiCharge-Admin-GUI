@@ -137,9 +137,7 @@ export default function MiniDrawer() {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('isAuthenticated');
-    localStorage.removeItem('token');
-    localStorage.removeItem('username');
+    sessionStorage.clear();
     window.location.reload();
   };
 

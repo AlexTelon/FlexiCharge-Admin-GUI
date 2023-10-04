@@ -9,7 +9,7 @@ export default class ManageChargerStation implements IChargerStation {
   async getAllChargerStations(): Promise<ChargerStation[]> {
     const response = await axios.get(`${FLEXICHARGE_API_URL}/chargePoints`, {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`
+        Authorization: `Bearer ${sessionStorage.getItem('token')}`
       }
     });
 
@@ -21,7 +21,7 @@ export default class ManageChargerStation implements IChargerStation {
     try {
       const reponse = await axios.get(`${FLEXICHARGE_API_URL}/chargePoints/${stationId}`, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`
+          Authorization: `Bearer ${sessionStorage.getItem('token')}`
         }
       });
 
@@ -44,7 +44,7 @@ export default class ManageChargerStation implements IChargerStation {
         ...fields
       }, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`
+          Authorization: `Bearer ${sessionStorage.getItem('token')}`
         }
       });
 
@@ -74,7 +74,7 @@ export default class ManageChargerStation implements IChargerStation {
     try {
       const response = await axios.delete(`${FLEXICHARGE_API_URL}/chargePoints/${stationId}`, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`
+          Authorization: `Bearer ${sessionStorage.getItem('token')}`
         }
       });
       if (response.status === 204) {
@@ -98,7 +98,7 @@ export default class ManageChargerStation implements IChargerStation {
         ...fields
       }, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`
+          Authorization: `Bearer ${sessionStorage.getItem('token')}`
         }
       });
 

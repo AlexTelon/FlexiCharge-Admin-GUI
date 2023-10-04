@@ -7,7 +7,7 @@ export default class ManageCharger implements ICharger {
     try {
       const res = await axios.post(`${FLEXICHARGE_API_URL}/chargers/`, fields, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`
+          Authorization: `Bearer ${sessionStorage.getItem('token')}`
         }
       });
       return [res.data, null];
@@ -32,7 +32,7 @@ export default class ManageCharger implements ICharger {
     try {
       const res = await axios.get(`${FLEXICHARGE_API_URL}/chargers`, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`
+          Authorization: `Bearer ${sessionStorage.getItem('token')}`
         }
       });
       const chargers = res.data as Charger[];
@@ -52,7 +52,7 @@ export default class ManageCharger implements ICharger {
     try {
       const res = await axios.get(`${FLEXICHARGE_API_URL}/chargers/available`, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`
+          Authorization: `Bearer ${sessionStorage.getItem('token')}`
         }
       });
       return [res.data as Charger[], null];
@@ -65,7 +65,7 @@ export default class ManageCharger implements ICharger {
     try {
       const res = await axios.get(`${FLEXICHARGE_API_URL}/chargers/${chargerId}`, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`
+          Authorization: `Bearer ${sessionStorage.getItem('token')}`
         }
       });
       return [res.data as Charger, null];
@@ -78,7 +78,7 @@ export default class ManageCharger implements ICharger {
     try {
       const res = await axios.put(`${FLEXICHARGE_API_URL}/chargers/${chargerId}`, fields, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`
+          Authorization: `Bearer ${sessionStorage.getItem('token')}`
         }
       });
       return [res.data, null];
@@ -91,7 +91,7 @@ export default class ManageCharger implements ICharger {
     try {
       const res = await axios.delete(`${FLEXICHARGE_API_URL}/chargers/${chargerId}`, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`
+          Authorization: `Bearer ${sessionStorage.getItem('token')}`
         }
       });
       return [res.data, null];

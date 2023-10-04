@@ -159,7 +159,7 @@ const Dashboard = (props: any) => {
 export const DashboardRoute = ({ ...rest }) => {
   return (
     <Route {...rest} render={() => {
-      return localStorage.getItem('isAuthenticated')
+      return sessionStorage.getItem('isAuthenticated')
         ? <Dashboard />
         : <Redirect to='/login' />;
     }} />

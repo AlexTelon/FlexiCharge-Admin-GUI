@@ -12,7 +12,7 @@ export default class ManageUser implements IUser {
     try {
       const res = await axios.get(`${FLEXICHARGE_API_URL}/admin/users`, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`
+          Authorization: `Bearer ${sessionStorage.getItem('token')}`
         }
       });
 
@@ -30,7 +30,7 @@ export default class ManageUser implements IUser {
         ...fields
       }, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`
+          Authorization: `Bearer ${sessionStorage.getItem('token')}`
         }
       });
       return [res.data, null];
@@ -65,7 +65,7 @@ export default class ManageUser implements IUser {
     try {
       const res = await axios.get(`${FLEXICHARGE_API_URL}/admin/users/${username}`, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`
+          Authorization: `Bearer ${sessionStorage.getItem('token')}`
         }
       });
       const user = convertRemoteUserToLocal(res.data);
@@ -81,7 +81,7 @@ export default class ManageUser implements IUser {
       const res = await axios({
         method: 'post',
         url: `${FLEXICHARGE_API_URL}/admin/reset-user-password/${username}`,
-        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+        headers: { Authorization: `Bearer ${sessionStorage.getItem('token')}` }
       });
 
       return [res.data, null];
@@ -98,7 +98,7 @@ export default class ManageUser implements IUser {
       },
       {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`
+          Authorization: `Bearer ${sessionStorage.getItem('token')}`
         }
       });
       
@@ -135,7 +135,7 @@ export default class ManageUser implements IUser {
     try {
       await axios.delete(`${FLEXICHARGE_API_URL}/admin/users/${username}`, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`
+          Authorization: `Bearer ${sessionStorage.getItem('token')}`
         }
       });
 
