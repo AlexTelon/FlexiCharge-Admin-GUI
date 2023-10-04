@@ -9,6 +9,7 @@ import {
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { ChevronRight } from '@material-ui/icons';
+import { Map } from 'leaflet';
 
 interface ChargerStationMapState {
   loaded?: boolean
@@ -17,37 +18,45 @@ interface ChargerStationMapState {
   errorMessage?: string
 }
 
-const ChargerStationMap = (props: any) => {
+interface ChargerStationMapProps {
+  fetchStations?: boolean
+  enableAddMarker?: boolean
+  onMapClick?: (lat: number, lon: number) => void
+}
+
+const ChargerStationMap = ({ fetchStations = true, enableAddMarker = true, onMapClick, ...rest }: ChargerStationMapProps) => {
   const [state, setState] = useState<ChargerStationMapState>({
     loaded: false,
     stations: []
   });
   const [reloaded, setReload] = useState<boolean>(false);
+  const [clickedMarker, setClickedMarker] = useState<[number, number] | null>(null);
 
-  const loadStations = () => {
-    setState({
-      ...state,
-      loaded: false
-    });
-    manageChargerStation.getAllChargerStations().then((stations) => {
+  const loadStations = async () => {
+    setState(prevState => ({ ...prevState, loaded: false }));
+    try {
+      const stations = await manageChargerStation.getAllChargerStations();
       setState({
         loaded: true,
-        stations
+        stations,
+        error: false,
+        errorMessage: ''
       });
-      setReload(false);
-    }).catch((_) => {
+    } catch (error) {
       setState({
         loaded: true,
+        stations: [],
         error: true,
-        errorMessage: 'Failed to load',
-        stations: []
+        errorMessage: 'Failed to load'
       });
-      setReload(false);
-    });
+    }
+    setReload(false);
   };
 
   useEffect(() => {
-    loadStations();
+    if (fetchStations) {
+      loadStations();
+    }
 
     // Leaflet style overrides
     const mapStyle = document.createElement('style');
@@ -56,9 +65,21 @@ const ChargerStationMap = (props: any) => {
         margin: 0;
       }
     `;
-
     document.head.appendChild(mapStyle);
+
+    return () => {
+      document.head.removeChild(mapStyle);
+    };
   }, [reloaded]);
+
+  const handleMapClick = (e: any) => {
+    if (enableAddMarker) {
+      const { lat, lng } = e.latlng;
+      setClickedMarker([lat, lng]);
+      console.log(`Marker added at latitude: ${lat}, longitude: ${lng}`);
+      onMapClick?.(lat, lng);
+    }
+  };
 
   return (
     <>
@@ -70,7 +91,7 @@ const ChargerStationMap = (props: any) => {
         />
       </Helmet>
       <Card
-        {...props}
+        {...rest}
       >
         {!state.loaded &&
         <LinearProgress />
@@ -81,7 +102,11 @@ const ChargerStationMap = (props: any) => {
             id="charger-station-map"
             center={[57.78088050269488, 14.161473514345374]} 
             zoom={13} 
-            style={{ height: 510, width: '100%' }}>
+            style={{ height: 510, width: '100%' }}
+            whenCreated={(mapInstance: Map) => {
+              console.log('Map instance created!');
+              mapInstance.on('click', handleMapClick);
+            }}>
             <TileLayer
               attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -132,6 +157,7 @@ const ChargerStationMap = (props: any) => {
                 </Popup>
               </Marker>
             ))}
+            {enableAddMarker && clickedMarker && <Marker position={clickedMarker} />}
           </MapContainer>
         </CardContent>
       </Card>

@@ -11,11 +11,16 @@ import {
 import { CheckCircle, Close } from '@material-ui/icons';
 import { manageChargerStation } from '@/remote-access';
 import { Alert } from '@material-ui/lab';
+import ChargerStationMap from '../dashboard/dashboardComponents/ChargerStationMap';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     dialogClose: {
       float: 'right'
+    },
+    smallMap: {
+      width: '100%',
+      height: '350px',
     }
   })
 );
@@ -29,6 +34,12 @@ const AddSingleStationDialog = ({ open, handleClose }: any) => {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [errorState, setErrorState] = useState<any>({});
+  const [showMap, setShowMap] = useState(false);
+  const [inputMode, setInputMode] = useState('manual');
+
+  const handleShowMap = () => {
+    setShowMap(true);
+  };
 
   const handleInputChange = (property: string, value: any) => {
     setFields({
@@ -37,10 +48,19 @@ const AddSingleStationDialog = ({ open, handleClose }: any) => {
     });
   };
 
+  const handleMapClick = (lat: number, lon: number) => {
+    setFields((prevFields: any) => ({ 
+      ...prevFields, 
+      latitude: lat, 
+      longitude: lon 
+    }));
+  };
+
   const cleanClose = () => {
     setFields({});
     setLoading(false);
     setSuccess(false);
+    setShowMap(false);
     setErrorState({});
     handleClose();
   };
@@ -81,7 +101,7 @@ const AddSingleStationDialog = ({ open, handleClose }: any) => {
       <Dialog
         fullScreen={fullScreen}
         open={open}
-        onClose={handleClose}
+        onClose={cleanClose}
         aria-labelledby="add-station-dialog-title"
         id="add-station-dialog"
       >
@@ -111,7 +131,7 @@ const AddSingleStationDialog = ({ open, handleClose }: any) => {
         <DialogTitle id="add-station-dialog-title">
           Add a Charger Station
           <IconButton
-            onClick={handleClose}
+            onClick={cleanClose}
             className={classes.dialogClose}
             edge="end"
             aria-label="add station dialog close"
@@ -158,42 +178,66 @@ const AddSingleStationDialog = ({ open, handleClose }: any) => {
                   }
                 </FormHelperText>
               </FormControl>
-              <FormControl style={{ marginTop: 12 }} fullWidth variant="outlined" error={errorState.latitude !== undefined}>
-                <InputLabel htmlFor="station-latitude-input">Latitude</InputLabel>
-                <Input
-                  id="station-latitude-input"
-                  aria-describedby="station-latitude-helper"
-                  type="number"
-                  onChange={(e) => { handleInputChange('latitude', Number(e.target.value)); }}
-                  value={fields.latitude}
-                />
-                <FormHelperText id="station-latitude-helper">
-                  {errorState.latitude
-                    ? `${errorState.latitude} | Geographic Coordinate`
-                    : 'Geographic Coordinate'
-                  }
-                </FormHelperText>
-              </FormControl>
-              <FormControl style={{ marginTop: 12 }} fullWidth variant="outlined" error={errorState.longitude !== undefined}>
-                <InputLabel htmlFor="station-longitude-input">Longitude</InputLabel>
-                <Input
-                  id="station-longitude-input"
-                  aria-describedby="station-longitude-helper"
-                  type="number"
-                  onChange={(e) => { handleInputChange('longitude', Number(e.target.value)); }}
-                  value={fields.longitude}
-                />
-                <FormHelperText id="station-longitude-helper">
-                  {errorState.longitude
-                    ? `${errorState.longitude} | Geographic Coordinate`
-                    : 'Geographic Coordinate'
-                  }
-                </FormHelperText>
-              </FormControl>
+              {inputMode === 'manual' ? (
+                <>
+                  <FormControl style={{ marginTop: 12 }} fullWidth variant="outlined" error={errorState.latitude !== undefined}>
+                    <InputLabel htmlFor="station-latitude-input">Latitude</InputLabel>
+                    <Input
+                      id="station-latitude-input"
+                      aria-describedby="station-latitude-helper"
+                      type="number"
+                      onChange={(e) => { handleInputChange('latitude', Number(e.target.value)); }}
+                      value={fields.latitude}
+                    />
+                    <FormHelperText id="station-latitude-helper">
+                      {errorState.latitude
+                        ? `${errorState.latitude} | Geographic Coordinate`
+                        : 'Geographic Coordinate'
+                      }
+                    </FormHelperText>
+                  </FormControl>
+                  <FormControl style={{ marginTop: 12 }} fullWidth variant="outlined" error={errorState.longitude !== undefined}>
+                    <InputLabel htmlFor="station-longitude-input">Longitude</InputLabel>
+                    <Input
+                      id="station-longitude-input"
+                      aria-describedby="station-longitude-helper"
+                      type="number"
+                      onChange={(e) => { handleInputChange('longitude', Number(e.target.value)); }}
+                      value={fields.longitude}
+                    />
+                    <FormHelperText id="station-longitude-helper">
+                      {errorState.longitude
+                        ? `${errorState.longitude} | Geographic Coordinate`
+                        : 'Geographic Coordinate'
+                      }
+                    </FormHelperText>
+                  </FormControl>
+                </>
+              ) : (
+                <ChargerStationMap onMapClick={handleMapClick} enableAddMarker={true} fetchStations={false} className={classes.smallMap} />
+              )}
             </Box>
           </form>
         </DialogContent>
         <DialogActions>
+          <Button 
+            autoFocus
+            style={{ color: 'white' }}
+            onClick={() => setInputMode('manual')} 
+            variant="contained" 
+            color={inputMode === 'manual' ? "primary" : "default"}
+          >
+            Manual Input
+          </Button>
+          <Button 
+            autoFocus
+            style={{ color: 'white' }}
+            onClick={() => setInputMode('map')} 
+            variant="contained" 
+            color={inputMode === 'map' ? "primary" : "default"}
+          >
+            Use Map
+          </Button>
           <Button onClick={cleanClose} color="primary">
             Cancel
           </Button>

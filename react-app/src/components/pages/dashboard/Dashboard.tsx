@@ -118,7 +118,7 @@ const DashboardHome = () => {
         lg={5}
         xl={4}
       >
-        <ChargerStationMap />
+        <ChargerStationMap fetchStations={true} enableAddMarker={false} />
       </Grid>
     </Grid>
   );
