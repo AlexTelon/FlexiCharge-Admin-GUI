@@ -76,6 +76,11 @@ const AddSingleStationDialog = ({ open, handleClose }: any) => {
       });
     }
   };
+
+  const handleChooseOnMap = () => {
+    alert('Map functionality will be added here.');
+  };
+
   return (
     <>
       <Dialog
@@ -190,6 +195,15 @@ const AddSingleStationDialog = ({ open, handleClose }: any) => {
                   }
                 </FormHelperText>
               </FormControl>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleChooseOnMap}
+                fullWidth
+                style={{ marginTop: 12, color: 'white' }}
+              >
+                Choose on Map
+              </Button>
             </Box>
           </form>
         </DialogContent>
