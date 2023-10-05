@@ -173,10 +173,6 @@ export default function MiniDrawer() {
           })
         }}
       >
-        {/* <Divider />
-        <List className={classes.categoryHeader}>
-          <Title />
-        </List> */}
 
         {categories.map(({ id, children }) =>
 
@@ -208,20 +204,6 @@ export default function MiniDrawer() {
           </React.Fragment>
 
         )}
-        {/* 
-        <Divider />
-  
-        <List>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            edge="start"
-            onClick={handleDrawerToogle}
-            className={classes.MenuButton}
-          >
-            <MenuIcon />
-          </IconButton>
-        </List> */}
 
         <Divider />
 
