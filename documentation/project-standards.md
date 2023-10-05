@@ -1,11 +1,6 @@
-# Project Standards
+# Coding Guidelines
 
 ## Naming conventions
-* **Variables**: camelCase.
-* **Functions**: camelCase.
-* **Classes**: PascalCase.
-* **Types**: PascalCase.
-* **Files**: kebab-case with type notation.
 
 | Entity     | Convention                    | Example                |
 |------------|-------------------------------|------------------------|
