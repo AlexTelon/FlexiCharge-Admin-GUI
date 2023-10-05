@@ -1,4 +1,9 @@
 # Design Guideline
+
+### Themes file!
+One of the most important takeaway from this document is that you should utilize the [theme.ts](..%2Freact-app%2Fsrc%2Fcomponents%2Ftheme.ts) file as much as possible.
+As it is the central design file to help make everything look similar.
+
 ## colours
 The following colour values are sourced from [mobile_design_guideline.pdf](FlexiCharge_design_guideline.pdf)
 ### Primary
@@ -16,15 +21,33 @@ the primary colours should comprise a majority of each page.
 3. ![#5e5eb7](https://placehold.co/75x20/5e5eb7/5e5eb7.png) `#5e5eb7` - Highlighting colour
 4. ![#ef6048](https://placehold.co/75x20/ef6048/ef6048.png) `#ef6048` - Danger colour, as an example applies on `Delete account` button
 
+### Gradient
+* stop 0 ![#f0c200](https://placehold.co/75x20/f0c200/f0c200.png) `#f0c200`
+* stop 77 ![#76bd76](https://placehold.co/75x20/76bd76/76bd76.png) `#76bd76`
+* stop 100 ![#409c68](https://placehold.co/75x20/409c68/409c68.png) `#409c68`
+
+## Logos
+
+### Gradient
+
+![logo-gradient.svg](..%2Freact-app%2Fsrc%2Fassets%2Flogo-gradient.svg)<br/>
+![title-gradient.svg](..%2Freact-app%2Fsrc%2Fassets%2Ftitle-gradient.svg)
+
+### Off-white
+
+![logo-off-white.svg](..%2Freact-app%2Fsrc%2Fassets%2Flogo-off-white.svg)<br/>
+![title-off-white.svg](..%2Freact-app%2Fsrc%2Fassets%2Ftitle-off-white.svg)
+
+### Dark
+
+![logo-dark.svg](..%2Freact-app%2Fsrc%2Fassets%2Flogo-dark.svg)<br/>
+![title-dark.svg](..%2Freact-app%2Fsrc%2Fassets%2Ftitle-dark.svg)
+
 ## Fonts
 
 The following fonts comes from [mobile_design_guideline.pdf](FlexiCharge_design_guideline.pdf)
 * Heading font: [Avant Grande](https://www.fontreach.com/avant-garde-font-free-download/)
-* Display font: [Lato](https://fonts.google.com/specimen/Lato?query=lato) 
-
-## Logos
-
-Todo!
+* Display font: [Lato](https://fonts.google.com/specimen/Lato?query=lato)
 
 ## Template
 

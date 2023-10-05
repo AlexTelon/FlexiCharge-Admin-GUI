@@ -9,7 +9,7 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-// import { ReactComponent as Title } from '../../assets/title.svg';
+// import { ReactComponent as Title } from '../../assets/title-dark.svg';
 import { Icon } from '@material-ui/core';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import EvStationIcon from '@material-ui/icons/EvStation';
