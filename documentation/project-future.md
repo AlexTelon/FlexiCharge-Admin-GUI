@@ -3,7 +3,10 @@
 
 * Right now nobody knows what purpose the charger serialNumber value has, so we have put a UUID in it simply ensure uniqueness.
 * The product manager said that all prices should be derived form a "global value" aka charging at a charger should cost the same everywhere. We removed the input for setting prices on the charge-points but now we need to await an endpoint to set the global one.
+## Invoices and transactions
 * There have been a discussion over how invoices should work, so those endpoints will be remade... next year... assuming backend have kept good documentation.
+* There are endpoints for viewing transactions so what you could do is attach links to every user in the user table (user view) that brings you to a transaction page for that user.
+* The plan is that you should be able to create a new invoice from unpaid transactions that are not already attached to a valid invoice. (preferentially with some ability to pick and choose transactions)
 
 # From 2022 squad
 ## Technical debt & where the project left off
