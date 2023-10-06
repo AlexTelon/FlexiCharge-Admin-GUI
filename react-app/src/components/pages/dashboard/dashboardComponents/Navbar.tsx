@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import clsx from 'clsx';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import { createStyles, makeStyles, Theme, useTheme, ThemeProvider } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+// import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+// import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -17,6 +17,8 @@ import BatteryChargingFullIcon from '@material-ui/icons/BatteryChargingFull';
 import PeopleIcon from '@material-ui/icons/People';
 import { useHistory } from 'react-router';
 import { Receipt } from '@material-ui/icons';
+
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 import LogoutConfirmationDialog from './LogoutConfirmationDialog';
 
@@ -135,17 +137,19 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export default function MiniDrawer() {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
+  const theme = useTheme();
+  const isDesktop = useMediaQuery(theme.breakpoints.up('md'));
+  const [open] = React.useState(isDesktop);
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [logoutDialogOpen, setLogoutDialogOpen] = useState(false);
 
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
+  // const handleDrawerOpen = () => {
+  //   setOpen(true);
+  // };
 
-  const handleDrawerClose = () => {
-    setOpen(false);
-  };
+  // const handleDrawerClose = () => {
+  //   setOpen(false);
+  // };
 
   const handleDrawerToogle = () => {
     setMobileOpen(!mobileOpen);
@@ -242,15 +246,15 @@ export default function MiniDrawer() {
             handleLogout={handleLogout}
             handleClose={handleCloseLogoutDialog}
           />
-          <Divider />
-          <ListItem
+          {/* <Divider /> */}
+          {/* <ListItem
             button onClick={() => {
               !open ? handleDrawerOpen() : handleDrawerClose();
             }}
             className={classes.openDrawButton}
           >
             {!open ? <ChevronRightIcon color="inherit" /> : <ChevronLeftIcon />}
-          </ListItem>
+          </ListItem> */}
         </List>
       </Drawer>
     </>
