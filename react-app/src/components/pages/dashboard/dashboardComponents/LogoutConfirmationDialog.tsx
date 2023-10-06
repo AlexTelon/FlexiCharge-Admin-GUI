@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  Theme, useTheme, useMediaQuery, Dialog,
+  type Theme, useTheme, useMediaQuery, Dialog,
   DialogTitle, DialogContent,
   DialogActions, Button
 } from '@material-ui/core';
