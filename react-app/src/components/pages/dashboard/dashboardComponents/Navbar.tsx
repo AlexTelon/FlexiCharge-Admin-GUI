@@ -9,7 +9,7 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-// import { ReactComponent as Title } from '../../assets/title.svg';
+import FlexichargeLogo from '@/assets/logo.svg';
 import { Icon } from '@material-ui/core';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import EvStationIcon from '@material-ui/icons/EvStation';
@@ -19,8 +19,6 @@ import { useHistory } from 'react-router';
 import { Receipt } from '@material-ui/icons';
 
 import LogoutConfirmationDialog from './LogoutConfirmationDialog';
-
-// import MenuIcon from '@material-ui/icons/Menu';
 
 const drawerWidth = 240;
 
@@ -81,6 +79,12 @@ const useStyles = makeStyles((theme: Theme) =>
       marginTop: 'auto',
       paddingLeft: theme.spacing(1)
     },
+    navTopSection: {
+      top: 0,
+      marginBottom: 'auto',
+      paddingLeft: theme.spacing(1),
+      backgroundColor: theme.flexiCharge.accent.primary
+    },
     categoryHeader: {
       paddingTop: theme.spacing(3),
       paddingLeft: theme.spacing(3),
@@ -106,6 +110,14 @@ const useStyles = makeStyles((theme: Theme) =>
       marginRight: theme.spacing(1),
       color: theme.flexiCharge.primary.darkGrey,
       paddingTop: theme.spacing(0)
+    },
+    itemLogo: {
+      minWidth: 'auto',
+      marginRight: theme.spacing(1),
+      color: theme.flexiCharge.primary.darkGrey,
+      paddingTop: theme.spacing(0),
+      width: '32px',
+      height: '32px'
     },
     itemText: {
       fontSize: 'inherit',
@@ -173,6 +185,17 @@ export default function MiniDrawer() {
           })
         }}
       >
+
+        <List className={classes.navTopSection}>
+          <ListItem
+            button
+            onClick={() => {
+              history.push('/dashboard');
+            }}>
+            <img className={classes.itemLogo} src={FlexichargeLogo} alt="logo" />
+            <ListItemText style={{ color: 'white' }}>Flexicharge</ListItemText>
+          </ListItem>
+        </List>
 
         {categories.map(({ id, children }) =>
 
