@@ -57,7 +57,7 @@ const ChargerStationTableRow: FC<ChargerStationTableRowProps> = ({ station, edit
           SEK {station.price / 100}
         </TableCell>
         <TableCell align="right">
-          <Box sx={{ display: { xl: 'none', xs: 'block' } }}>
+          <Box component={Button} sx={{ display: { xl: 'none', xs: 'block' } }}>
             <Button
               component={Link}
               to={`/dashboard/chargers/${station.chargePointID}`}
