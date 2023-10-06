@@ -162,6 +162,7 @@ export const DashboardRoute = ({ ...rest }) => {
       return localStorage.getItem('isAuthenticated')
         ? <Dashboard />
         : <Redirect to='/login' />;
+        
     }} />
   );
 };

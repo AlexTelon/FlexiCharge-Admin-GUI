@@ -5,7 +5,7 @@ import {
 } from '@material-ui/core';
 import ChargerRow from './ChargerRow';
 import { type Charger } from '@/remote-access/types';
-import React, { type FC, useState } from 'react';
+import React, { type FC, useState, useEffect } from 'react';
 
 interface ChargerTableProps {
   chargers: Charger[]
@@ -23,6 +23,13 @@ const ChargerTable: FC<ChargerTableProps> = ({ loaded, chargers, ...props }: any
     page: 0,
     rowsPerPage: 5
   });
+
+  useEffect(() => {
+    setState((prevState) => ({
+      ...prevState,
+      page: 0
+    }));
+  }, [chargers]);
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setState({

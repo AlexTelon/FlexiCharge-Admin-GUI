@@ -106,8 +106,8 @@ const ChargerStationsTable = (props: any) => {
   }, []); */
 
   useEffect(() => {
-    props.setSelectedStations(selected);
-  }, [selected]);
+    setPage(0); // Reset the page to 0 when stations change
+  }, [props.stations]);
 
   const isSmallScreen = useMediaQuery((theme: Theme) => theme.breakpoints.down('xs'));
   const tableProps: TableProps = {
