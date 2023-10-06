@@ -9,7 +9,7 @@ import {
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { ChevronRight } from '@material-ui/icons';
-import { Map } from 'leaflet';
+import { LeafletMouseEvent, Map } from 'leaflet';
 
 interface ChargerStationMapState {
   loaded?: boolean
@@ -72,7 +72,7 @@ const ChargerStationMap = ({ fetchStations = true, enableAddMarker = true, onMap
     };
   }, [reloaded]);
 
-  const handleMapClick = (e: any) => {
+  const handleMapClick = (e: LeafletMouseEvent) => {
     if (enableAddMarker) {
       const { lat, lng } = e.latlng;
       setClickedMarker([lat, lng]);
@@ -102,6 +102,9 @@ const ChargerStationMap = ({ fetchStations = true, enableAddMarker = true, onMap
             id="charger-station-map"
             center={[57.78088050269488, 14.161473514345374]} 
             zoom={13} 
+            minZoom={5}
+            maxZoom={25}
+            maxBounds={[[-90, -180], [90, 180]]}
             style={{ height: 510, width: '100%' }}
             whenCreated={(mapInstance: Map) => {
               console.log('Map instance created!');

@@ -1,6 +1,6 @@
 /* eslint-disable */
 /* eslint-disable react/jsx-no-undef */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Theme, useTheme, useMediaQuery, Dialog,
   DialogTitle, IconButton, DialogContent, Box,
@@ -34,12 +34,7 @@ const AddSingleStationDialog = ({ open, handleClose }: any) => {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [errorState, setErrorState] = useState<any>({});
-  const [showMap, setShowMap] = useState(false);
   const [inputMode, setInputMode] = useState('manual');
-
-  const handleShowMap = () => {
-    setShowMap(true);
-  };
 
   const handleInputChange = (property: string, value: any) => {
     setFields({
@@ -50,22 +45,27 @@ const AddSingleStationDialog = ({ open, handleClose }: any) => {
 
   const handleMapClick = (lat: number, lon: number) => {
     setFields((prevFields: any) => ({ 
-      ...prevFields, 
+      ...prevFields,
       latitude: lat, 
       longitude: lon 
     }));
+    console.log(lat, lon);
   };
 
   const cleanClose = () => {
     setFields({});
     setLoading(false);
     setSuccess(false);
-    setShowMap(false);
     setErrorState({});
     handleClose();
   };
 
+  useEffect(() => {
+    console.log(`fields: ${JSON.stringify(fields)}`)
+  }, [fields]);
+
   const handleSubmitClicked = async () => {
+    console.log("submit clicked");
     if (fields.name && fields.price && fields.longitude && fields.latitude) {
       setLoading(true);
       const result = await manageChargerStation.addChargerStation({
@@ -214,7 +214,12 @@ const AddSingleStationDialog = ({ open, handleClose }: any) => {
                   </FormControl>
                 </>
               ) : (
-                <ChargerStationMap onMapClick={handleMapClick} enableAddMarker={true} fetchStations={false} className={classes.smallMap} />
+                <ChargerStationMap 
+                  onMapClick={handleMapClick} 
+                  enableAddMarker={true} 
+                  fetchStations={false} 
+                  className={classes.smallMap} 
+                />
               )}
             </Box>
           </form>
