@@ -51,4 +51,13 @@ The following fonts comes from [mobile_design_guideline.pdf](FlexiCharge_design_
 
 ## Template
 
-Todo!
+The following mockups are based on a agreed design with my-pages ([Design-meeting board](Designmeeting%20board.JPG)).<br/>
+Mockup src: https://www.figma.com/file/zUllMvjNNKqVRWAXHDdKqE/Flexicharge-Admin-Gui?type=design&node-id=0%3A1&mode=design&t=XngIHANmkddyVPwN-1
+
+### PC
+
+![pc-mockups.png](pc-mockups.png)
+
+### Phone
+
+![phone-mockupspng.png](phone-mockupspng.png)
