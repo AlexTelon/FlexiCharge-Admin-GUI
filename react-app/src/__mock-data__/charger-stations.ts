@@ -1,4 +1,4 @@
-import { ChargerStation } from '../remote-access/types';
+import { type ChargerStation } from '../remote-access/types';
 
 export const mockChargerStations: ChargerStation[] = [
   { chargePointID: 1, name: 'University Station', location: [57.7788187, 14.1621992], price: 20, klarnaReservationAmount: 800 },

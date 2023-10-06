@@ -1,9 +1,9 @@
 import { manageCharger } from '@/remote-access';
-import { ChargerStation } from '@/remote-access/types';
-import { Button, Collapse, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControl, FormHelperText, Input, InputLabel, LinearProgress, List, ListItem, ListItemText, Theme } from '@material-ui/core';
+import { type ChargerStation } from '@/remote-access/types';
+import { Button, Collapse, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControl, FormHelperText, Input, InputLabel, LinearProgress, List, ListItem, ListItemText, type Theme } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 import { useTheme } from '@material-ui/styles';
-import React, { FC, useState } from 'react';
+import React, { type FC, useState } from 'react';
 
 interface AddChargerDialogProps {
   open: boolean
@@ -131,7 +131,7 @@ const AddChargerDialog: FC<AddChargerDialogProps> = ({ open, handleClose, statio
               id="charger-serial-number"
               aria-describedby="charger-serial-number-helper"
               value={state.serialNumber}
-              onChange={(e) => handleSerialNumberChange(e.target.value)}
+              onChange={(e) => { handleSerialNumberChange(e.target.value); }}
             />
             <FormHelperText id="charger-serial-number-helper">
               {state.errorState.serialNumber
@@ -156,7 +156,7 @@ const AddChargerDialog: FC<AddChargerDialogProps> = ({ open, handleClose, statio
             backgroundColor: theme.flexiCharge.accent.primary,
             color: theme.flexiCharge.primary.white
           }}
-          onClick={() => handleAddClick()}
+          onClick={() => { handleAddClick(); }}
         >Add Charger</Button>
       </DialogActions>
     </Dialog>

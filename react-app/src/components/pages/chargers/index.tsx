@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
-import { AppBar, Box, createStyles, makeStyles, Theme, Toolbar, Typography, Container, Grid, IconButton, Paper, alpha, InputBase, styled } from '@material-ui/core';
+import { AppBar, Box, createStyles, makeStyles, type Theme, Toolbar, Typography, Container, Grid, IconButton, Paper, alpha, InputBase, styled } from '@material-ui/core';
 import { Replay } from '@material-ui/icons';
 import ChargerTable from './page-components/ChargerTable';
 import ChargerEditPanel from './page-components/ChargerEditPanel';
 import { useParams } from 'react-router-dom';
 import ChargerStationAccordian from './page-components/ChargerStationAccordian';
 import { manageCharger } from '@/remote-access';
-import { Charger } from '@/remote-access/types';
+import { type Charger } from '@/remote-access/types';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

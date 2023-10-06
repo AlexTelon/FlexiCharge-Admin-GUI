@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/prefer-optional-chain */
-import { Theme, useMediaQuery, TableProps, TableContainer, LinearProgress, Table, TableHead, TableRow, TableCell, Checkbox, TableBody, TablePagination, useTheme } from '@material-ui/core';
+import { type Theme, useMediaQuery, type TableProps, TableContainer, LinearProgress, Table, TableHead, TableRow, TableCell, Checkbox, TableBody, TablePagination, useTheme } from '@material-ui/core';
 import React, { useState, useEffect } from 'react';
 // import { manageUserCollection } from '../../../remote-access';
-import { User } from '@/remote-access/types';
+import { type User } from '@/remote-access/types';
 import { manageUser } from '@/remote-access';
 import UserRow from './ManageUserTableRow';
 

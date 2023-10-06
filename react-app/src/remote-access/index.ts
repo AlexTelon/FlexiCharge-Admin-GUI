@@ -1,5 +1,5 @@
 import container from '../dependencyContainer';
-import { IAuthenticationProvider, ICharger, IChargerStation, IUser, IAdmin, ITransaction, IInvoice } from './types';
+import { type IAuthenticationProvider, type ICharger, type IChargerStation, type IUser, type IAdmin, type ITransaction, type IInvoice } from './types';
 
 export const authenticationProvider = container.resolve<IAuthenticationProvider>('authenticationProvider');
 export const manageChargerStation = container.resolve<IChargerStation>('manageChargerStation');

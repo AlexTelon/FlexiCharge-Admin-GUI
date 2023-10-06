@@ -1,6 +1,6 @@
 /* eslint-disable */
 /* eslint-disable react/jsx-no-undef */
-import { IAuthenticationProvider } from '../types/authentication-provider';
+import { IAuthenticationProvider } from '@/remote-access/types';
 import { FLEXICHARGE_API_URL } from '@/appConfig';
 import axios from 'axios';
 
@@ -64,7 +64,7 @@ export default class AuthenticationProvider implements IAuthenticationProvider {
     }
   }
   
-  async getAdminSession(username: string, tempPassword: string, newPassword: string): Promise <Boolean> {
+  async getAdminSession(username: string, tempPassword: string, newPassword: string): Promise <boolean> {
     try {
       const response = await axios({
         url: `${FLEXICHARGE_API_URL}/admin/sign-in`,

@@ -8,7 +8,7 @@ import {
   Typography,
   createStyles,
   makeStyles,
-  Theme,
+  type Theme,
   LinearProgress
 } from '@material-ui/core';
 import BatteryChargingFullIcon from '@material-ui/icons/BatteryChargingFull';

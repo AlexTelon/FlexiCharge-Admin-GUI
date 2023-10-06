@@ -1,6 +1,6 @@
-import { Charger } from '@/remote-access/types';
-import { AppBar, Box, Button, Dialog, DialogActions, DialogTitle, Divider, Grid, IconButton, LinearProgress, List, ListItem, ListItemText, Paper, Theme, Toolbar, Typography } from '@material-ui/core';
-import React, { FC, FormEvent, useEffect, useState } from 'react';
+import { type Charger } from '@/remote-access/types';
+import { AppBar, Box, Button, Dialog, DialogActions, DialogTitle, Divider, Grid, IconButton, LinearProgress, List, ListItem, ListItemText, Paper, type Theme, Toolbar, Typography } from '@material-ui/core';
+import React, { type FC, type FormEvent, useEffect, useState } from 'react';
 import { manageCharger } from '@/remote-access';
 import { useTheme } from '@material-ui/styles';
 import { Close, Delete } from '@material-ui/icons';
@@ -74,7 +74,7 @@ const ChargerEditPanel: FC<ChargerEditPanelProps> = ({ chargerID, setActiveCharg
                   aria-label="deselect charger"
                   aria-controls="charger-info"
                   color="inherit"
-                  onClick={() => setActiveChargerID(undefined)}
+                  onClick={() => { setActiveChargerID(undefined); }}
                 >
                   <Close />
                 </IconButton>
@@ -131,7 +131,7 @@ const ChargerEditPanel: FC<ChargerEditPanelProps> = ({ chargerID, setActiveCharg
                       backgroundColor: theme.flexiCharge.accent.error,
                       color: theme.flexiCharge.primary.white
                     }}
-                    onClick={() => handleDeleteClicked()}
+                    onClick={() => { handleDeleteClicked(); }}
                   >
                     Delete
                   </Button>

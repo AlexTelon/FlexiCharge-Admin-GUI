@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { promises } from 'dns';
 import { mockUsers } from '../../__mock-data__/users';
-import { User, IUser } from '../types';
+import { type User, type IUser } from '../types';
 
 export default class ManageUser implements IUser {
   users = mockUsers;

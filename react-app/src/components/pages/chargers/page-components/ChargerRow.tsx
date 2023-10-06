@@ -1,10 +1,10 @@
-import { Charger } from '@/remote-access/types';
+import { type Charger } from '@/remote-access/types';
 import {
-  Theme, useTheme, TableRow, TableCell, Box, Typography,
+  type Theme, useTheme, TableRow, TableCell, Box, Typography,
   Button
 } from '@material-ui/core';
 import { Edit } from '@material-ui/icons';
-import React, { FC } from 'react';
+import React, { type FC } from 'react';
 
 interface ChargerRowProps {
   editClicked: (chargerID: number) => void
@@ -57,7 +57,7 @@ const ChargerRow: FC<ChargerRowProps> = ({ charger, classes, editClicked, delete
             style={{ color: theme.flexiCharge.primary.white }}
             variant="contained"
             color="primary"
-            onClick={() => editClicked(charger.chargerID)}
+            onClick={() => { editClicked(charger.chargerID); }}
           >
             Edit
           </Button>

@@ -1,4 +1,4 @@
-import { Charger, ICharger } from '../types';
+import { type Charger, type ICharger } from '../types';
 import { FLEXICHARGE_API_URL } from '@/appConfig';
 import axios from 'axios';
 

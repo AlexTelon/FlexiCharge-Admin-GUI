@@ -1,6 +1,6 @@
 import { TileLayer, Popup, MapContainer, Marker } from 'react-leaflet';
 import { manageChargerStation } from '@/remote-access';
-import { ChargerStation } from '@/remote-access/types';
+import { type ChargerStation } from '@/remote-access/types';
 import React, { useState, useEffect } from 'react';
 import {
   Typography, Card, CardContent, List, ListItem,

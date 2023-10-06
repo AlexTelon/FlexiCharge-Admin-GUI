@@ -1,5 +1,5 @@
 import { mockChargerStations } from '@/__mock-data__';
-import { ChargerStation, IChargerStation } from '../types';
+import { type ChargerStation, type IChargerStation } from '../types';
 
 export default class ManageChargerStation implements IChargerStation {
   stations = mockChargerStations;

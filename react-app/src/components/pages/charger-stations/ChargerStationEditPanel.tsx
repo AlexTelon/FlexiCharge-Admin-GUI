@@ -1,14 +1,14 @@
 import {
   Paper, AppBar, Toolbar, Typography,
-  IconButton, Divider, Box, Button, Theme, FormControl, InputLabel,
+  IconButton, Divider, Box, Button, type Theme, FormControl, InputLabel,
   Input, FormHelperText, Grid, useMediaQuery, Dialog, DialogTitle,
   DialogContent, DialogActions, LinearProgress, InputAdornment
 } from '@material-ui/core';
 import { ChevronRight, Close } from '@material-ui/icons';
 import { createStyles, makeStyles, useTheme } from '@material-ui/styles';
-import React, { FC, useEffect, useState } from 'react';
+import React, { type FC, useEffect, useState } from 'react';
 import { manageChargerStation } from '@/remote-access';
-import { ChargerStation } from '@/remote-access/types';
+import { type ChargerStation } from '@/remote-access/types';
 import { Alert } from '@material-ui/lab';
 import { Link } from 'react-router-dom';
 

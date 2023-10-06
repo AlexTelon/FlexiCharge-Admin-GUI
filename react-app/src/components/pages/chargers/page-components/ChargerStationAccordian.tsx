@@ -1,12 +1,12 @@
 import { manageChargerStation } from '@/remote-access';
-import { ChargerStation } from '@/remote-access/types';
+import { type ChargerStation } from '@/remote-access/types';
 import {
   Accordion, AccordionActions, AccordionDetails,
   AccordionSummary, Button, Divider, Grid, ListItemText,
-  Theme, Typography, useTheme
+  type Theme, Typography, useTheme
 } from '@material-ui/core';
 import { ExpandMore } from '@material-ui/icons';
-import React, { FC, useEffect, useState } from 'react';
+import React, { type FC, useEffect, useState } from 'react';
 import AddChargerDialog from './AddChargerDialog';
 
 interface ChargerStationAccordionProps {
@@ -112,7 +112,7 @@ const ChargerStationAccordian: FC<ChargerStationAccordionProps> = ({ stationId, 
               variant="contained"
               color="primary"
               style={{ color: theme.flexiCharge.primary.white }}
-              onClick={() => handleOpenAddStationDialog()}
+              onClick={() => { handleOpenAddStationDialog(); }}
             >
                 Add Chargers
             </Button>

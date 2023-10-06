@@ -1,4 +1,4 @@
-import { IAuthenticationProvider } from '../types';
+import { type IAuthenticationProvider } from '../types';
 import { loginInfo } from '../../__mock-data__';
 
 export default class AuthenticationProvider implements IAuthenticationProvider {
@@ -23,7 +23,7 @@ export default class AuthenticationProvider implements IAuthenticationProvider {
     });
   }
 
-  async getAdminSession(username: string, tempPassword: string, newPassword: string): Promise<Boolean> {
+  async getAdminSession(username: string, tempPassword: string, newPassword: string): Promise<boolean> {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         if (username === loginInfo.username && tempPassword === loginInfo.password) {

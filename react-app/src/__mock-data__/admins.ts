@@ -1,4 +1,4 @@
-import { Admin } from '../remote-access/types';
+import { type Admin } from '../remote-access/types';
 
 export const mockAdmins: Admin[] = [
   { username: '1', email: 'henj123@email.com', name: 'Jonas Doe' },

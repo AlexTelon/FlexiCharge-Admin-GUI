@@ -13,7 +13,7 @@ parserOptions:
   sourceType: module
   project: ./tsconfig.json
 plugins:
-  - react
+  - 'react'
   - '@typescript-eslint'
 settings: {
   react: {
@@ -26,6 +26,12 @@ rules: {
   'eol-last': ['error', 'never'],
   '@typescript-eslint/semi': ['error', 'always'],
   '@typescript-eslint/indent': ['error', 2],
+  "@typescript-eslint/no-misused-promises": [
+    "error",
+    {
+      "checksVoidReturn": false
+    }
+  ],
   '@typescript-eslint/no-floating-promises': 0,
   '@typescript-eslint/strict-boolean-expressions': 0,
   '@typescript-eslint/triple-slash-reference': 0,

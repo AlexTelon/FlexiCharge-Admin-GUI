@@ -1,10 +1,10 @@
 import {
-  Theme, Accordion, AccordionSummary, Grid, Typography,
+  type Theme, Accordion, AccordionSummary, Grid, Typography,
   AccordionDetails, Divider, AccordionActions, Button
 } from '@material-ui/core';
 import { ExpandMore } from '@material-ui/icons';
 import { useTheme } from '@material-ui/styles';
-import React, { FC, useState } from 'react';
+import React, { type FC, useState } from 'react';
 import AddSingleStationDialog from './AddStationDialog';
 
 interface ChargerStationSettingsAccordianProps {

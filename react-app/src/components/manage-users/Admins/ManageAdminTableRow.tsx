@@ -1,7 +1,7 @@
-import React, { FC } from 'react';
-import { Theme, useTheme, TableRow, TableCell, Checkbox, Box, Typography, Button } from '@material-ui/core';
+import React, { type FC } from 'react';
+import { type Theme, useTheme, TableRow, TableCell, Checkbox, Box, Typography, Button } from '@material-ui/core';
 import { Edit } from '@material-ui/icons';
-import { Admin } from '../../../remote-access/types';
+import { type Admin } from '../../../remote-access/types';
 
 interface adminRowProps {
   admin: Admin
@@ -50,7 +50,7 @@ const AdminRow: FC<adminRowProps> = ({ admin, editClicked, selected, handleSelec
             style={{ color: theme.flexiCharge.primary.white }}
             variant="contained"
             color="primary"
-            onClick={() => editClicked(admin.username)}
+            onClick={() => { editClicked(admin.username); }}
           >
             Edit
           </Button>

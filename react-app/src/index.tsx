@@ -7,6 +7,7 @@ import reportWebVitals from './reportWebVitals';
 import flexiChargeTheme from './components/theme';
 import { CssBaseline } from '@material-ui/core';
 
+// eslint-disable-next-line react/no-deprecated
 ReactDOM.render(
   <React.StrictMode>
     <Router>
