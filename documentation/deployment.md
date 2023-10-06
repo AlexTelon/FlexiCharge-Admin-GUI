@@ -1,6 +1,6 @@
 # Deployment
 
-## Web URL and deployment
+## AWS Deployment
 ### Web URL
 * http://flexicharge-admin-gui.s3-website-eu-west-1.amazonaws.com/login
 ### How to deploy the latest version of the program

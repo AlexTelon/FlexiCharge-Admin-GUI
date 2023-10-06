@@ -12,7 +12,7 @@ In the web-app you have the ability to set prices, enable/disable and monitor ch
 
 ## Recources
 1. [Development setup](./documentation/dev-setup.md)
-2. [Project standards](./documentation/project-standards.md)
+2. [Code Guidelines](./documentation/code-guideline.md)
 3. [Design Guidelines](documentation%2Fdesign.md)
 4. [Deployment](./documentation/deployment.md)
 5. [Site Map](./documentation/Site_Map_original.pdf)
