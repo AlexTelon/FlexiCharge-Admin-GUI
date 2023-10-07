@@ -180,17 +180,6 @@ export default function MiniDrawer() {
         }}
       >
 
-        {/* <List>
-          <ListItem
-            button
-            onClick={() => {
-              history.push('/Dashboard');
-            }}>
-            <img className={classes.itemLogo} src={FlexichargeLogo} alt="logo" />
-            <ListItemText style={{ color: 'white' }}>Flexicharge</ListItemText>
-          </ListItem>
-        </List> */}
-
         {categories.map(({ id, children }) =>
 
           <React.Fragment key={id}>
