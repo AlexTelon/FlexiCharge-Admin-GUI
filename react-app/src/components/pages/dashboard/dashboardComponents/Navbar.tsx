@@ -68,12 +68,6 @@ const useStyles = makeStyles((theme: Theme) =>
       marginTop: 'auto',
       paddingLeft: theme.spacing(1)
     },
-    navTopSection: {
-      top: 0,
-      marginBottom: 'auto',
-      paddingLeft: theme.spacing(1),
-      backgroundColor: theme.flexiCharge.accent.primary
-    },
     categoryHeader: {
       paddingTop: theme.spacing(3),
       paddingLeft: theme.spacing(3),
@@ -101,9 +95,6 @@ const useStyles = makeStyles((theme: Theme) =>
       paddingTop: theme.spacing(0)
     },
     itemLogo: {
-      minWidth: 'auto',
-      color: theme.flexiCharge.primary.darkGrey,
-      paddingTop: theme.spacing(0),
       width: '25px',
       height: '25px'
     },
@@ -116,6 +107,12 @@ const useStyles = makeStyles((theme: Theme) =>
       marginRight: theme.spacing(2),
       [theme.breakpoints.up('sm')]: {
         display: 'none'
+      }
+    },
+    flexichargeLogo: {
+      backgroundColor: theme.flexiCharge.accent.primary,
+      '&:hover,&:focus': {
+        backgroundColor: theme.flexiCharge.accent.secondary
       }
     }
   })
@@ -196,7 +193,9 @@ export default function MiniDrawer() {
                 key={childId}
                 button
                 color="primary"
-                className={clsx(classes.item)}
+                className={clsx(classes.item, {
+                  [classes.flexichargeLogo]: childId === 'Flexicharge'
+                })}
                 onClick={() => {
                   history.push(pathLocation);
                 }}
