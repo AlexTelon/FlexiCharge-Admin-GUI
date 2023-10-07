@@ -110,7 +110,7 @@ const useStyles = makeStyles((theme: Theme) =>
       }
     },
     flexichargeLogo: {
-      backgroundColor: theme.flexiCharge.accent.primary,
+      background: 'linear-gradient(90deg, #f0c200 0%, #76bd76 77%, #409c68 100%)',
       '&:hover,&:focus': {
         backgroundColor: theme.flexiCharge.accent.secondary
       }
