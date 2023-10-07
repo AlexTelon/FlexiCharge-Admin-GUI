@@ -69,7 +69,7 @@ const useStyles = makeStyles((theme: Theme) =>
       paddingLeft: theme.spacing(1)
     },
     categoryHeader: {
-      paddingTop: theme.spacing(3),
+      paddingTop: 0,
       paddingLeft: theme.spacing(3),
       display: 'flex'
     },
@@ -178,9 +178,10 @@ export default function MiniDrawer() {
       >
 
         {categories.map(({ id, children }) =>
-
           <React.Fragment key={id}>
-            <ListItem className={classes.categoryHeader}>
+            <ListItem
+              style={{ marginTop: '-16px' }}
+              className={clsx(classes.categoryHeader)}>
               <ListItemText classes={{
                 primary: classes.itemText
               }}>
