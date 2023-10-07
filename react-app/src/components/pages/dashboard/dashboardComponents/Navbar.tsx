@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import clsx from 'clsx';
-import { createStyles, makeStyles, Theme, useTheme, ThemeProvider } from '@material-ui/core/styles';
+import { createStyles, makeStyles, Theme, useTheme } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
@@ -139,9 +139,13 @@ export default function MiniDrawer() {
   const classes = useStyles();
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up('md'));
-  const [open] = React.useState(isDesktop);
+  const [open, setOpen] = React.useState(isDesktop);
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [logoutDialogOpen, setLogoutDialogOpen] = useState(false);
+
+  useEffect(() => {
+    setOpen(isDesktop);
+  }, [isDesktop]);
 
   // const handleDrawerOpen = () => {
   //   setOpen(true);
@@ -176,7 +180,7 @@ export default function MiniDrawer() {
     <>
       <Drawer
         variant="permanent"
-        open={mobileOpen}
+        open={open}
         onClose={handleDrawerToogle}
         className={clsx(classes.drawer, {
           [classes.drawerOpen]: open,
@@ -190,11 +194,11 @@ export default function MiniDrawer() {
         }}
       >
 
-        <List className={classes.navTopSection}>
+        <List>
           <ListItem
             button
             onClick={() => {
-              history.push('/dashboard');
+              history.push('/Dashboard');
             }}>
             <img className={classes.itemLogo} src={FlexichargeLogo} alt="logo" />
             <ListItemText style={{ color: 'white' }}>Flexicharge</ListItemText>
