@@ -24,20 +24,6 @@ import LogoutConfirmationDialog from './LogoutConfirmationDialog';
 
 const drawerWidth = 240;
 
-const categories = [
-  {
-    id: '',
-    children: [
-      { id: 'Flexicharge', icon: <img src={FlexichargeLogo} alt="logo" />, location: '/Dashboard', active: false },
-      { id: 'Dashboard', icon: <DashboardIcon />, location: '/Dashboard', active: false },
-      { id: 'Charger Station', icon: <EvStationIcon />, location: '/Dashboard/stations' },
-      { id: 'Chargers', icon: <BatteryChargingFullIcon />, location: '/Dashboard/chargers' },
-      { id: 'Invoices', icon: <Receipt />, location: '/Dashboard/invoices' },
-      { id: 'Users', icon: <PeopleIcon />, location: '/Dashboard/users' }
-    ]
-  }
-];
-
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     hide: {
@@ -116,11 +102,10 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     itemLogo: {
       minWidth: 'auto',
-      marginRight: theme.spacing(1),
       color: theme.flexiCharge.primary.darkGrey,
       paddingTop: theme.spacing(0),
-      width: '32px',
-      height: '32px'
+      width: '25px',
+      height: '25px'
     },
     itemText: {
       fontSize: 'inherit',
@@ -142,6 +127,20 @@ export default function MiniDrawer() {
   const isDesktop = useMediaQuery(theme.breakpoints.up('md'));
   const [open, setOpen] = React.useState(isDesktop);
   const [logoutDialogOpen, setLogoutDialogOpen] = useState(false);
+
+  const categories = [
+    {
+      id: '',
+      children: [
+        { id: 'Flexicharge', icon: <img className={classes.itemLogo} src={FlexichargeLogo} alt="logo" />, location: '/Dashboard', active: false },
+        { id: 'Dashboard', icon: <DashboardIcon />, location: '/Dashboard', active: false },
+        { id: 'Charger Station', icon: <EvStationIcon />, location: '/Dashboard/stations' },
+        { id: 'Chargers', icon: <BatteryChargingFullIcon />, location: '/Dashboard/chargers' },
+        { id: 'Invoices', icon: <Receipt />, location: '/Dashboard/invoices' },
+        { id: 'Users', icon: <PeopleIcon />, location: '/Dashboard/users' }
+      ]
+    }
+  ];
 
   useEffect(() => {
     setOpen(isDesktop);
