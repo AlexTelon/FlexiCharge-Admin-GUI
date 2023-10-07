@@ -28,6 +28,7 @@ const categories = [
   {
     id: '',
     children: [
+      { id: 'Flexicharge', icon: <img src={FlexichargeLogo} alt="logo" />, location: '/Dashboard', active: false },
       { id: 'Dashboard', icon: <DashboardIcon />, location: '/Dashboard', active: false },
       { id: 'Charger Station', icon: <EvStationIcon />, location: '/Dashboard/stations' },
       { id: 'Chargers', icon: <BatteryChargingFullIcon />, location: '/Dashboard/chargers' },
@@ -140,24 +141,11 @@ export default function MiniDrawer() {
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up('md'));
   const [open, setOpen] = React.useState(isDesktop);
-  const [mobileOpen, setMobileOpen] = React.useState(false);
   const [logoutDialogOpen, setLogoutDialogOpen] = useState(false);
 
   useEffect(() => {
     setOpen(isDesktop);
   }, [isDesktop]);
-
-  // const handleDrawerOpen = () => {
-  //   setOpen(true);
-  // };
-
-  // const handleDrawerClose = () => {
-  //   setOpen(false);
-  // };
-
-  const handleDrawerToogle = () => {
-    setMobileOpen(!mobileOpen);
-  };
 
   const handleLogout = () => {
     localStorage.removeItem('isAuthenticated');
@@ -181,7 +169,6 @@ export default function MiniDrawer() {
       <Drawer
         variant="permanent"
         open={open}
-        onClose={handleDrawerToogle}
         className={clsx(classes.drawer, {
           [classes.drawerOpen]: open,
           [classes.drawerClose]: !open
@@ -194,7 +181,7 @@ export default function MiniDrawer() {
         }}
       >
 
-        <List>
+        {/* <List>
           <ListItem
             button
             onClick={() => {
@@ -203,7 +190,7 @@ export default function MiniDrawer() {
             <img className={classes.itemLogo} src={FlexichargeLogo} alt="logo" />
             <ListItemText style={{ color: 'white' }}>Flexicharge</ListItemText>
           </ListItem>
-        </List>
+        </List> */}
 
         {categories.map(({ id, children }) =>
 
@@ -215,6 +202,7 @@ export default function MiniDrawer() {
                 {id}
               </ListItemText>
             </ListItem>
+
             {children.map(({ id: childId, icon, location: pathLocation }) => (
               <ListItem
                 key={childId}
