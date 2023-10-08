@@ -22,9 +22,10 @@ interface ChargerStationMapProps {
   fetchStations?: boolean
   enableAddMarker?: boolean
   onMapClick?: (lat: number, lon: number) => void
+  hideTitleAndLoading?: boolean
 }
 
-const ChargerStationMap = ({ fetchStations = true, enableAddMarker = true, onMapClick, ...rest }: ChargerStationMapProps) => {
+const ChargerStationMap = ({ fetchStations = true, enableAddMarker = true, onMapClick, hideTitleAndLoading = false, ...rest }: ChargerStationMapProps) => {
   const [state, setState] = useState<ChargerStationMapState>({
     loaded: false,
     stations: []
@@ -90,14 +91,14 @@ const ChargerStationMap = ({ fetchStations = true, enableAddMarker = true, onMap
           crossOrigin="" 
         />
       </Helmet>
-      <Card
-        {...rest}
-      >
-        {!state.loaded &&
-        <LinearProgress />
+      <Card {...rest}>
+        {!hideTitleAndLoading && !state.loaded &&
+          <LinearProgress />
         }
         <CardContent>
-          <Typography variant="h6" gutterBottom>Charger Stations Map</Typography>
+          {!hideTitleAndLoading && (
+            <Typography variant="h6" gutterBottom>Charger Stations Map</Typography>
+          )}
           <MapContainer 
             id="charger-station-map"
             center={[57.78088050269488, 14.161473514345374]} 

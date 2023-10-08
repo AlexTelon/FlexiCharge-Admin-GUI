@@ -148,21 +148,26 @@ const AddSingleStationDialog = ({ open, handleClose }: any) => {
           <form>
             <Box sx={{ px: 2 }}>
               <FormControl style={{ marginTop: 12 }} fullWidth variant="outlined" error={errorState.name !== undefined}>
-                <InputLabel htmlFor="station-name-input">Name</InputLabel>
+                <FormHelperText id="station-name-helper">
+                  {errorState.name 
+                    ? `${errorState.name} | Station Name` 
+                    : 'Station Name'
+                  }
+                </FormHelperText>
                 <Input
                   id="station-name-input"
                   aria-describedby="station-name-helper"
                   onChange={(e) => { handleInputChange('name', e.target.value); }}
                   value={fields.name}
                 />
-                {errorState.name &&
-                  <FormHelperText id="station-price-helper">
-                    {errorState.name}
-                  </FormHelperText>
-                }
               </FormControl>
-              <FormControl style={{ marginTop: 12 }} fullWidth variant="outlined" error={errorState.price !== undefined}>
-                <InputLabel htmlFor="station-price-input">Price</InputLabel>
+              <FormControl style={{ marginTop: 12, marginBottom: 18 }} fullWidth variant="outlined" error={errorState.price !== undefined}>
+                <FormHelperText id="station-price-helper">
+                  {errorState.price
+                    ? `${errorState.price} | Station Price`
+                    : 'Station Price'
+                  }
+                </FormHelperText>
                 <Input
                   id="station-price-input"
                   aria-describedby="station-price-helper"
@@ -171,78 +176,48 @@ const AddSingleStationDialog = ({ open, handleClose }: any) => {
                   value={fields.price}
                   startAdornment={ <InputAdornment position="start">SEK</InputAdornment> }
                 />
-                <FormHelperText id="station-price-helper">
-                  {errorState.price
-                    ? `${errorState.price} | Station Price`
-                    : 'Station Price'
+              </FormControl>
+              <ChargerStationMap 
+                onMapClick={handleMapClick} 
+                enableAddMarker={true} 
+                fetchStations={false} 
+                hideTitleAndLoading={true}
+                className={classes.smallMap} 
+              />
+              <FormControl style={{ marginTop: 12 }} fullWidth variant="outlined" error={errorState.latitude !== undefined}>
+                <FormHelperText id="station-latitude-helper">
+                  {errorState.latitude
+                    ? `${errorState.latitude} | Geographic Coordinate`
+                    : 'Latitude'
                   }
                 </FormHelperText>
-              </FormControl>
-              {inputMode === 'manual' ? (
-                <>
-                  <FormControl style={{ marginTop: 12 }} fullWidth variant="outlined" error={errorState.latitude !== undefined}>
-                    <InputLabel htmlFor="station-latitude-input">Latitude</InputLabel>
-                    <Input
-                      id="station-latitude-input"
-                      aria-describedby="station-latitude-helper"
-                      type="number"
-                      onChange={(e) => { handleInputChange('latitude', Number(e.target.value)); }}
-                      value={fields.latitude}
-                    />
-                    <FormHelperText id="station-latitude-helper">
-                      {errorState.latitude
-                        ? `${errorState.latitude} | Geographic Coordinate`
-                        : 'Geographic Coordinate'
-                      }
-                    </FormHelperText>
-                  </FormControl>
-                  <FormControl style={{ marginTop: 12 }} fullWidth variant="outlined" error={errorState.longitude !== undefined}>
-                    <InputLabel htmlFor="station-longitude-input">Longitude</InputLabel>
-                    <Input
-                      id="station-longitude-input"
-                      aria-describedby="station-longitude-helper"
-                      type="number"
-                      onChange={(e) => { handleInputChange('longitude', Number(e.target.value)); }}
-                      value={fields.longitude}
-                    />
-                    <FormHelperText id="station-longitude-helper">
-                      {errorState.longitude
-                        ? `${errorState.longitude} | Geographic Coordinate`
-                        : 'Geographic Coordinate'
-                      }
-                    </FormHelperText>
-                  </FormControl>
-                </>
-              ) : (
-                <ChargerStationMap 
-                  onMapClick={handleMapClick} 
-                  enableAddMarker={true} 
-                  fetchStations={false} 
-                  className={classes.smallMap} 
+                <Input
+                  id="station-latitude-input"
+                  aria-describedby="station-latitude-helper"
+                  type="number"
+                  onChange={(e) => handleInputChange('latitude', Number(e.target.value))}
+                  value={fields.latitude}
                 />
-              )}
+              </FormControl>
+              <FormControl style={{ marginTop: 12 }} fullWidth variant="outlined" error={errorState.longitude !== undefined}>
+                <FormHelperText id="station-longitude-helper">
+                  {errorState.longitude
+                    ? `${errorState.longitude} | Geographic Coordinate`
+                    : 'Longitude'
+                  }
+                </FormHelperText>
+                <Input
+                  id="station-longitude-input"
+                  aria-describedby="station-longitude-helper"
+                  type="number"
+                  onChange={(e) => handleInputChange('longitude', Number(e.target.value))}
+                  value={fields.longitude}
+                />
+              </FormControl>
             </Box>
           </form>
         </DialogContent>
         <DialogActions>
-          <Button 
-            autoFocus
-            style={{ color: 'white' }}
-            onClick={() => setInputMode('manual')} 
-            variant="contained" 
-            color={inputMode === 'manual' ? "primary" : "default"}
-          >
-            Manual Input
-          </Button>
-          <Button 
-            autoFocus
-            style={{ color: 'white' }}
-            onClick={() => setInputMode('map')} 
-            variant="contained" 
-            color={inputMode === 'map' ? "primary" : "default"}
-          >
-            Use Map
-          </Button>
           <Button onClick={cleanClose} color="primary">
             Cancel
           </Button>
