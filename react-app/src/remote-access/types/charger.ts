@@ -1,9 +1,8 @@
 export interface Charger {
   chargerID: number
+  location: [number, number]
   serialNumber?: string
-  location: string
   chargePointID: number
-  coordinates: string
   status: number
 }
 
@@ -14,4 +13,10 @@ export interface ICharger {
   getChargerById: (chargerId: number) => Promise<[Charger | null, any | null]>
   updateChargerById: (chargerId: number, fields: Omit<Charger, 'chargerID'>) => Promise<[Charger | null, any | null]>
   deleteChargerById: (chargerId: number) => Promise<any>
+}
+
+export interface ChargerValidationError {
+  latitude?: string
+  longitude?: string
+  serialNumber?: string
 }
