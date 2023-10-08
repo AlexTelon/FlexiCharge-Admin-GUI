@@ -3,14 +3,14 @@
 /* eslint-disable react/jsx-no-undef */
 import { User, IUser } from '../types';
 import { FLEXICHARGE_API_URL } from '../appConfig';
-import axios from 'axios';
 import { convertRemoteUsersToLocal, toUserAttributes, convertRemoteUserToLocal } from '../utility/remote-user-functions';
 import { handleUsersData } from './business-logic';
+import axiosInstance from '../utility/axios-instance';
 
 export default class ManageUser implements IUser {
   public async getAllUsers(): Promise<[User[] | null, any | null]> {
     try {
-      const res = await axios.get(`${FLEXICHARGE_API_URL}/admin/users`, {
+      const res = await axiosInstance.get(`${FLEXICHARGE_API_URL}/admin/users`, {
         headers: {
           Authorization: `Bearer ${sessionStorage.getItem('token')}`
         }
@@ -26,7 +26,7 @@ export default class ManageUser implements IUser {
   
   public async addUser(fields: Omit<User, 'id'>): Promise<[User | null, any | null]> {
     try {
-      const res = await axios.post(`${FLEXICHARGE_API_URL}/admin/users`, {
+      const res = await axiosInstance.post(`${FLEXICHARGE_API_URL}/admin/users`, {
         ...fields
       }, {
         headers: {
@@ -63,7 +63,7 @@ export default class ManageUser implements IUser {
 
   public async getUserById(username: string): Promise<[User | null, any | null]> {
     try {
-      const res = await axios.get(`${FLEXICHARGE_API_URL}/admin/users/${username}`, {
+      const res = await axiosInstance.get(`${FLEXICHARGE_API_URL}/admin/users/${username}`, {
         headers: {
           Authorization: `Bearer ${sessionStorage.getItem('token')}`
         }
@@ -78,7 +78,7 @@ export default class ManageUser implements IUser {
 
   public async resetUserPassword(username: string): Promise<[User | null, any | null]> {
     try {
-      const res = await axios({
+      const res = await axiosInstance({
         method: 'post',
         url: `${FLEXICHARGE_API_URL}/admin/reset-user-password/${username}`,
         headers: { Authorization: `Bearer ${sessionStorage.getItem('token')}` }
@@ -93,7 +93,7 @@ export default class ManageUser implements IUser {
   public async updateUser(username: string, fields: Omit<User, 'username'>): Promise<[User | null, any | null]> {
     try {
       const userAttributes = toUserAttributes(fields);
-      const res = await axios.put(`${FLEXICHARGE_API_URL}/admin/users/${username}`, {
+      const res = await axiosInstance.put(`${FLEXICHARGE_API_URL}/admin/users/${username}`, {
         userAttributes
       },
       {
@@ -133,7 +133,7 @@ export default class ManageUser implements IUser {
 
   public async deleteUser (username: string): Promise<boolean> {
     try {
-      await axios.delete(`${FLEXICHARGE_API_URL}/admin/users/${username}`, {
+      await axiosInstance.delete(`${FLEXICHARGE_API_URL}/admin/users/${username}`, {
         headers: {
           Authorization: `Bearer ${sessionStorage.getItem('token')}`
         }

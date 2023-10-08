@@ -1,7 +1,7 @@
 /* eslint-disable */
 /* eslint-disable react/jsx-no-undef */
 import { FLEXICHARGE_API_URL } from '@/appConfig';
-import axios from 'axios';
+import axiosInstance from '../utility/axios-instance';
 import { Admin, IAdmin } from '../types';
 import { convertRemoteUsersToLocal, toUserAttributes } from '../utility/remote-user-functions';
 import { handleAdminsData } from './business-logic';
@@ -9,7 +9,7 @@ import { handleAdminsData } from './business-logic';
 export default class ManageAdmin implements IAdmin {  
   async deleteAdmin(username: string): Promise<boolean> {
     try {
-      await axios.delete(`${FLEXICHARGE_API_URL}/admin/${username}`, {
+      await axiosInstance.delete(`${FLEXICHARGE_API_URL}/admin/${username}`, {
         headers: {
           Authorization: `Bearer ${sessionStorage.getItem('token')}`
         }
@@ -26,7 +26,7 @@ export default class ManageAdmin implements IAdmin {
   
   async getAllAdmins(): Promise<[Admin[] | null, any | null]> {
     try {
-      const res = await axios.get(`${FLEXICHARGE_API_URL}/admin/`, {
+      const res = await axiosInstance.get(`${FLEXICHARGE_API_URL}/admin/`, {
         headers: {
           Authorization: `Bearer ${sessionStorage.getItem('token')}`
         }
@@ -40,7 +40,7 @@ export default class ManageAdmin implements IAdmin {
 
   async getAdminById(username: string): Promise<Admin | null> {
     try {
-      const res = await axios.get(`${FLEXICHARGE_API_URL}/admin/${username}`, {
+      const res = await axiosInstance.get(`${FLEXICHARGE_API_URL}/admin/${username}`, {
         headers: {
           Authorization: `Bearer ${sessionStorage.getItem('token')}`
         }
@@ -56,7 +56,7 @@ export default class ManageAdmin implements IAdmin {
 
   async addAdmin(fields: Omit<Admin, 'id'>): Promise<[string | null, any | null]> {
     try {
-      const res = await axios.post(`${FLEXICHARGE_API_URL}/admin/`, {
+      const res = await axiosInstance.post(`${FLEXICHARGE_API_URL}/admin/`, {
         ...fields
       }, {
         headers: {
@@ -95,7 +95,7 @@ export default class ManageAdmin implements IAdmin {
   async updateAdmin(username: string, fields: Omit<Admin, 'username'>): Promise<[Admin | null, any | null]> {
     try {
       const userAttributes = toUserAttributes(fields);
-      const res = await axios.put(`${FLEXICHARGE_API_URL}/admin/${username}`, {
+      const res = await axiosInstance.put(`${FLEXICHARGE_API_URL}/admin/${username}`, {
         userAttributes
       },
       {

@@ -1,13 +1,13 @@
 import { FLEXICHARGE_API_URL } from '@/appConfig';
 import { mockChargerStations } from '@/__mock-data__';
-import axios from 'axios';
+import axiosInstance from '../utility/axios-instance';
 import { ChargerStation, IChargerStation } from '../types';
 
 export default class ManageChargerStation implements IChargerStation {
   stations = mockChargerStations;
 
   async getAllChargerStations(): Promise<ChargerStation[]> {
-    const response = await axios.get(`${FLEXICHARGE_API_URL}/chargePoints`, {
+    const response = await axiosInstance.get(`${FLEXICHARGE_API_URL}/chargePoints`, {
       headers: {
         Authorization: `Bearer ${sessionStorage.getItem('token')}`
       }
@@ -19,7 +19,7 @@ export default class ManageChargerStation implements IChargerStation {
 
   async getChargerStationById(stationId: number): Promise<ChargerStation | null> {
     try {
-      const reponse = await axios.get(`${FLEXICHARGE_API_URL}/chargePoints/${stationId}`, {
+      const reponse = await axiosInstance.get(`${FLEXICHARGE_API_URL}/chargePoints/${stationId}`, {
         headers: {
           Authorization: `Bearer ${sessionStorage.getItem('token')}`
         }
@@ -40,7 +40,7 @@ export default class ManageChargerStation implements IChargerStation {
       const errorObj = this.validateFields(fields);
       if (Object.keys(errorObj).length > 0) return [null, errorObj];
 
-      const response = await axios.post(`${FLEXICHARGE_API_URL}/chargePoints`, {
+      const response = await axiosInstance.post(`${FLEXICHARGE_API_URL}/chargePoints`, {
         ...fields
       }, {
         headers: {
@@ -72,7 +72,7 @@ export default class ManageChargerStation implements IChargerStation {
 
   async deleteChargerStation(stationId: number): Promise<boolean> {
     try {
-      const response = await axios.delete(`${FLEXICHARGE_API_URL}/chargePoints/${stationId}`, {
+      const response = await axiosInstance.delete(`${FLEXICHARGE_API_URL}/chargePoints/${stationId}`, {
         headers: {
           Authorization: `Bearer ${sessionStorage.getItem('token')}`
         }
@@ -94,7 +94,7 @@ export default class ManageChargerStation implements IChargerStation {
       const errorObj = this.validateFields(fields);
       if (Object.keys(errorObj).length > 0) return [null, errorObj];
 
-      const response = await axios.put(`${FLEXICHARGE_API_URL}/chargePoints/${stationId}`, {
+      const response = await axiosInstance.put(`${FLEXICHARGE_API_URL}/chargePoints/${stationId}`, {
         ...fields
       }, {
         headers: {
