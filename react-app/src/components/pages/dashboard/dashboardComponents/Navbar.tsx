@@ -243,15 +243,6 @@ export default function MiniDrawer() {
             handleLogout={handleLogout}
             handleClose={handleCloseLogoutDialog}
           />
-          {/* <Divider /> */}
-          {/* <ListItem
-            button onClick={() => {
-              !open ? handleDrawerOpen() : handleDrawerClose();
-            }}
-            className={classes.openDrawButton}
-          >
-            {!open ? <ChevronRightIcon color="inherit" /> : <ChevronLeftIcon />}
-          </ListItem> */}
         </List>
       </Drawer>
     </>
