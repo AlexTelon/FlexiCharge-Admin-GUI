@@ -9,7 +9,8 @@ import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import FlexichargeLogo from '@/assets/logo.svg';
+import FlexichargeLogoDark from '@/assets/logo-dark.svg';
+import FlexichargeTitleDark from '@/assets/title-dark.svg';
 import { Icon } from '@material-ui/core';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import EvStationIcon from '@material-ui/icons/EvStation';
@@ -114,6 +115,12 @@ const useStyles = makeStyles((theme: Theme) =>
       '&:hover,&:focus': {
         backgroundColor: theme.flexiCharge.accent.secondary
       }
+    },
+    flexichargeTitle: {
+      paddingLeft: theme.spacing(2),
+      paddingRight: theme.spacing(2),
+      paddingTop: theme.spacing(1),
+      width: '150px'
     }
   })
 );
@@ -129,7 +136,7 @@ export default function MiniDrawer() {
     {
       id: '',
       children: [
-        { id: 'Flexicharge', icon: <img className={classes.itemLogo} src={FlexichargeLogo} alt="logo" />, location: '/Dashboard', active: false },
+        { id: 'Flexicharge', icon: <img className={classes.itemLogo} src={FlexichargeLogoDark} alt="logo" />, location: '/Dashboard', active: false },
         { id: 'Dashboard', icon: <DashboardIcon />, location: '/Dashboard', active: false },
         { id: 'Charger Station', icon: <EvStationIcon />, location: '/Dashboard/stations' },
         { id: 'Chargers', icon: <BatteryChargingFullIcon />, location: '/Dashboard/chargers' },
@@ -203,9 +210,19 @@ export default function MiniDrawer() {
                 data-cy={`${childId}-btn`}
               >
                 <ListItemIcon color='primary' className={classes.itemIcon}>{icon}</ListItemIcon>
-                <ListItemText classes={{ primary: classes.itemText }}>
-                  {childId}
-                </ListItemText>
+                {childId === 'Flexicharge' ?
+                  (
+                    <ListItemIcon className={classes.itemIcon}>
+                      <img className={classes.flexichargeTitle} src={FlexichargeTitleDark} alt="title" />
+                    </ListItemIcon>
+                  )
+                  :
+                  (
+                    <ListItemText classes={{ primary: classes.itemText }}>
+                      {childId}
+                    </ListItemText>
+                  )
+                }
               </ListItem>
             ))}
           </React.Fragment>
