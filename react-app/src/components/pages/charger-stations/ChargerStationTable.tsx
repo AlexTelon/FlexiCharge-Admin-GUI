@@ -17,11 +17,6 @@ const headCells: HeadCell[] = [
     alignRight: false
   },
   {
-    id: 'price',
-    label: 'Price',
-    alignRight: false
-  },
-  {
     id: 'actions',
     label: 'Actions',
     alignRight: true

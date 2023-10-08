@@ -53,9 +53,6 @@ const ChargerStationTableRow: FC<ChargerStationTableRowProps> = ({ station, edit
             </Typography>
           </Box>
         </TableCell>
-        <TableCell>
-          SEK {station.price / 100}
-        </TableCell>
         <TableCell align="right">
           <Hidden xsDown>
             <Button
@@ -103,12 +100,6 @@ const ChargerStationTableRow: FC<ChargerStationTableRowProps> = ({ station, edit
                   <ListItemText
                     primary={`${station.location[0]}, ${station.location[1]}`}
                     secondary="Latitude, Longitude"
-                  />
-                </Grid>
-                <Grid item xl={2}>
-                  <ListItemText
-                    primary={`SEK ${station.price / 100}`}
-                    secondary="Price"
                   />
                 </Grid>
                 <Grid item xl={2}>

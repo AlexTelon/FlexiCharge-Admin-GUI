@@ -46,12 +46,11 @@ const AddSingleStationDialog = ({ open, handleClose }: any) => {
   };
 
   const handleSubmitClicked = async () => {
-    if (fields.name && fields.price && fields.longitude && fields.latitude) {
+    if (fields.name && fields.longitude && fields.latitude) {
       setLoading(true);
       const result = await manageChargerStation.addChargerStation({
         name: fields.name,
         location: [fields.latitude, fields.longitude],
-        price: fields.price * 100,
         klarnaReservationAmount: 50000
       });
       
@@ -70,7 +69,6 @@ const AddSingleStationDialog = ({ open, handleClose }: any) => {
     } else {
       setErrorState({
         name: !fields.name ? 'Required' : undefined,
-        price: !fields.price ? 'Required' : undefined,
         latitude: !fields.latitude ? 'Required' : undefined,
         longitude: !fields.longitude ? 'Required' : undefined
       });
@@ -140,23 +138,6 @@ const AddSingleStationDialog = ({ open, handleClose }: any) => {
                     {errorState.name}
                   </FormHelperText>
                 }
-              </FormControl>
-              <FormControl style={{ marginTop: 12 }} fullWidth variant="outlined" error={errorState.price !== undefined}>
-                <InputLabel htmlFor="station-price-input">Price</InputLabel>
-                <Input
-                  id="station-price-input"
-                  aria-describedby="station-price-helper"
-                  type="number"
-                  onChange={(e) => { handleInputChange('price', Number(e.target.value)); }}
-                  value={fields.price}
-                  startAdornment={ <InputAdornment position="start">SEK</InputAdornment> }
-                />
-                <FormHelperText id="station-price-helper">
-                  {errorState.price
-                    ? `${errorState.price} | Station Price`
-                    : 'Station Price'
-                  }
-                </FormHelperText>
               </FormControl>
               <FormControl style={{ marginTop: 12 }} fullWidth variant="outlined" error={errorState.latitude !== undefined}>
                 <InputLabel htmlFor="station-latitude-input">Latitude</InputLabel>
