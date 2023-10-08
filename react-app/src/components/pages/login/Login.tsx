@@ -130,7 +130,6 @@ const LoginFields: FC<LoginFieldProps> = ({ setLoading }) => {
   const handleLoginClicked = async () => {
     console.log('login clicked');
     if (username && password) {
-      console.log(`username: ${username}, password: ${password}`)
       setLoading(true);
       const [wasSuccess, errors] = await authenticationProvider.login(username, password);
       if (wasSuccess) {
