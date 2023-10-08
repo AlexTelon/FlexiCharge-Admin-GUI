@@ -1,6 +1,5 @@
 /* eslint-disable no-useless-escape */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { promises } from 'dns';
 import { mockUsers } from '../../__mock-data__/users';
 import { User, IUser } from '../types';
 
@@ -79,10 +78,11 @@ export default class ManageUser implements IUser {
   async deleteUser(username: string): Promise<boolean> {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
-        const userIndex = this.users.findIndex(u => u.username === username);
+        const userIndex = this.users.findIndex((users) => users.username === username);
+        if (userIndex === -1) return [null, { errorMessage: 'Could not find the requested Manage User' }];
 
         if (userIndex === -1) {
-          reject('User not found');
+          return reject(new Error('User not found'));
         }
 
         this.users.splice(userIndex, 1);
