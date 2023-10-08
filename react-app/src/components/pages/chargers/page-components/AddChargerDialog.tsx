@@ -1,9 +1,10 @@
 import { manageCharger } from '@/remote-access';
 import { ChargerStation } from '@/remote-access/types';
-import { Button, Collapse, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, LinearProgress, List, ListItem, ListItemText, Theme } from '@material-ui/core';
+import { Button, Collapse, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControl, FormHelperText, Input, InputLabel, LinearProgress, List, ListItem, ListItemText, Theme } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 import { useTheme } from '@material-ui/styles';
 import React, { FC, useEffect, useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 
 interface AddChargerDialogProps {
   open: boolean
@@ -22,21 +23,11 @@ interface AddChargerDialogState {
   }
 }
 
-const generateRandomSerialNumber = () => {
-  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-  let serial = '';
-  for (let i = 0; i < 12; i++) {
-    const randomIndex = Math.floor(Math.random() * chars.length);
-    serial += chars[randomIndex];
-  }
-  return serial;
-};
-
 const AddChargerDialog: FC<AddChargerDialogProps> = ({ open, handleClose, station, reload }) => {
   const theme: Theme = useTheme();
   const [state, setState] = useState<AddChargerDialogState>({
     loading: false,
-    serialNumber: generateRandomSerialNumber(),
+    serialNumber: uuidv4(),
     errorState: {}
   });
 
@@ -49,7 +40,7 @@ const AddChargerDialog: FC<AddChargerDialogProps> = ({ open, handleClose, statio
 
   useEffect(() => {
     if (open) {
-      handleSerialNumberChange(generateRandomSerialNumber());
+      handleSerialNumberChange(uuidv4());
     }
   }, [open]);
 
@@ -147,6 +138,23 @@ const AddChargerDialog: FC<AddChargerDialogProps> = ({ open, handleClose, statio
             </ListItem>
           </List>
         </DialogContentText>
+        <form>
+          <FormControl fullWidth variant="outlined" error={state.errorState.serialNumber !== undefined}>
+            <InputLabel htmlFor="charger-serial-number">Charger Serial Number</InputLabel>
+            <Input
+              id="charger-serial-number"
+              aria-describedby="charger-serial-number-helper"
+              value={state.serialNumber}
+              onChange={(e) => handleSerialNumberChange(e.target.value)}
+            />
+            <FormHelperText id="charger-serial-number-helper">
+              {state.errorState.serialNumber
+                ? `${state.errorState.serialNumber}`
+                : 'Serial Number displayed on the Charger'
+              }
+            </FormHelperText>
+          </FormControl>
+        </form>
       </DialogContent>
       <DialogActions>
         <Button
