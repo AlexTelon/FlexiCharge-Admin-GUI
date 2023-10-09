@@ -189,6 +189,12 @@ const AddSingleStationDialog = ({ open, handleClose }: any) => {
                   id="station-latitude-input"
                   aria-describedby="station-latitude-helper"
                   type="text"
+                  onKeyPress={(e) => {
+                    const validChars = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '.'];
+                    if (!validChars.includes(e.key)) {
+                      e.preventDefault();
+                    }
+                  }}
                   onChange={(e) => handleCoordinateChange('latitude', e.target.value)}
                   value={fields.latitude}
                 />
@@ -205,6 +211,12 @@ const AddSingleStationDialog = ({ open, handleClose }: any) => {
                   id="station-longitude-input"
                   aria-describedby="station-longitude-helper"
                   type="text"
+                  onKeyPress={(e) => {
+                    const validChars = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '.'];
+                    if (!validChars.includes(e.key)) {
+                      e.preventDefault();
+                    }
+                  }}
                   onChange={(e) => handleCoordinateChange('longitude', e.target.value)}
                   value={fields.longitude}
                 />
