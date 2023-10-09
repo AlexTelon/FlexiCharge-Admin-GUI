@@ -37,8 +37,8 @@ const AddSingleStationDialog = ({ open, handleClose }: any) => {
     });
   };
 
-  const handleCoordinateChange = (property: string, value: any) => {
-    if (/^\d{1,}(\.\d{0,10})?$/.test(value) || value === '') {
+  const handleCoordinateChange = (property: string, value: string) => {
+    if (/^\d*\.?\d{0,10}$/.test(value) || value === '') {
       setFields({
         ...fields,
         [property]: value,
@@ -55,15 +55,31 @@ const AddSingleStationDialog = ({ open, handleClose }: any) => {
   };
 
   const handleSubmitClicked = async () => {
-    if (fields.name && fields.price && fields.longitude && fields.latitude) {
-      setLoading(true);
+    const latitude = parseFloat(fields.latitude);
+    const longitude = parseFloat(fields.longitude);
+  
+    const newErrorState = {
+      name: !fields.name ? 'Required' : undefined,
+      price: !fields.price ? 'Required' : undefined,
+      latitude: !fields.latitude || isNaN(latitude) ? 'Required or Invalid' : undefined,
+      longitude: !fields.longitude || isNaN(longitude) ? 'Required or Invalid' : undefined,
+    };
+  
+    if (newErrorState.name || newErrorState.price || newErrorState.latitude || newErrorState.longitude) {
+      setErrorState(newErrorState);
+      return;
+    }
+  
+    setLoading(true);
+  
+    try {
       const result = await manageChargerStation.addChargerStation({
         name: fields.name,
-        location: [fields.latitude, fields.longitude],
+        location: [latitude, longitude],
         price: fields.price * 100,
-        klarnaReservationAmount: 50000
+        klarnaReservationAmount: 50000,
       });
-      
+  
       if (result[1] !== null) {
         setErrorState({
           ...result[1]
@@ -75,16 +91,16 @@ const AddSingleStationDialog = ({ open, handleClose }: any) => {
         setTimeout(() => {
           cleanClose();
         }, 450);
-      }     
-    } else {
+      }
+    } catch (error) {
+      console.error("Error while adding station: ", error);
       setErrorState({
-        name: !fields.name ? 'Required' : undefined,
-        price: !fields.price ? 'Required' : undefined,
-        latitude: !fields.latitude ? 'Required' : undefined,
-        longitude: !fields.longitude ? 'Required' : undefined
+        alert: "An unexpected error occurred while adding the station. Please try again later."
       });
+      setLoading(false);
     }
   };
+  
   return (
     <>
       <Dialog
