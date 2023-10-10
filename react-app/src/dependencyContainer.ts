@@ -10,15 +10,14 @@ import ManageTransaction from './remote-access/remote/ManageTransaction';
 import ManageInvoice from './remote-access/remote/ManageInvoice';
 import ManageChargerStation from './remote-access/remote/ManageChargerStation';
 import ManageCharger from './remote-access/remote/ManageCharger';
-
 /*
 import AuthenticationProvider from './remote-access/mock/AuthenticationProvider';
 import ManageUser from './remote-access/mock/ManageUser';
 import ManageAdmin from './remote-access/mock/ManageAdmin';
 import ManageTransaction from './remote-access/mock/ManageTransaction';
 import ManageInvoice from './remote-access/mock/ManageInvoice';
-import ManageChargerStation from './remote-access/remote/ManageChargerStation';
-import ManageCharger from './remote-access/remote/ManageCharger';
+import ManageChargerStation from './remote-access/mock/ManageChargerStation';
+import ManageCharger from './remote-access/mock/ManageCharger';
 */
 
 const container = createContainer({
