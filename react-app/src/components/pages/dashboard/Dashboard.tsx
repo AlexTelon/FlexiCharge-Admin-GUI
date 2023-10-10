@@ -5,9 +5,9 @@ import { Helmet } from 'react-helmet';
 import { AppBar, Box, Grid, Toolbar, Typography } from '@material-ui/core';
 import { Route, Redirect, useHistory } from 'react-router-dom';
 import { authenticationProvider } from '@/remote-access';
-import ChargerStations from '../charger-stations/ChargerStations';
+import ChargerPoints from '../charger-points/ChargerPoints';
 import Navbar from './dashboardComponents/Navbar';
-import ChargerStation from './dashboardComponents/ChargerStation';
+import ChargerPoint from './dashboardComponents/ChargerPoint';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import Chargers from './dashboardComponents/Chargers';
 import ChargersPage from '../chargers';
@@ -15,7 +15,7 @@ import InvoicesPage from '../invoices/InvoicesPage';
 import ManageUsers from '../manage-users/ManageUsers';
 import UsersDashboardComponent from './dashboardComponents/Users';
 import Sales from './dashboardComponents/Sales';
-import ChargerStationMap from './dashboardComponents/ChargerStationMap';
+import ChargerPointMap from './dashboardComponents/ChargerPointMap';
 import AdminsDashboardComponent from './dashboardComponents/Admins';
 import axios from 'axios';
 
@@ -89,7 +89,7 @@ const DashboardHome = () => {
       </Grid>
       <Grid
         onClick={() => {
-          history.push('/dashboard/stations');
+          history.push('/dashboard/chargerpoints');
         }}
         className={classes.BoxSpacing}
         item
@@ -98,7 +98,7 @@ const DashboardHome = () => {
         xl={3}
         xs={12}
       >
-        <ChargerStation className={classes.hoverEffect} />
+        <ChargerPoint className={classes.hoverEffect} />
       </Grid>
       <Grid
         className={classes.BoxSpacing}
@@ -118,7 +118,7 @@ const DashboardHome = () => {
         lg={5}
         xl={4}
       >
-        <ChargerStationMap fetchStations={true} enableAddMarker={false} />
+        <ChargerPointMap fetchStations={true} enableAddMarker={false} />
       </Grid>
     </Grid>
   );
@@ -143,9 +143,9 @@ const Dashboard = (props: any) => {
             </Toolbar>
           </AppBar> */}
           <Route path="/dashboard" exact render={() => (<DashboardHome />)} />
-          <Route path="/dashboard/stations" exact render={() => (<ChargerStations />)} />
+          <Route path="/dashboard/chargerpoints" exact render={() => (<ChargerPoints />)} />
           <Route path="/dashboard/chargers" exact render={(props) => (<ChargersPage {...props} />)} />
-          <Route path="/dashboard/chargers/:stationId" exact render={(props) => (<ChargersPage {...props} />)} />
+          <Route path="/dashboard/chargers/:chargerPointId" exact render={(props) => (<ChargersPage {...props} />)} />
           <Route path="/dashboard/invoices" exact render={() => (<InvoicesPage />) } />
           <Route path="/dashboard/users" exact render={() => (<ManageUsers />) } />
         </Box>

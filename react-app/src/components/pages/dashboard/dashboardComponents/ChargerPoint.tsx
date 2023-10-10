@@ -1,5 +1,5 @@
 /* eslint-disable react/react-in-jsx-scope */
-import { manageChargerStation } from '@/remote-access';
+import { manageChargerPoint } from '@/remote-access';
 import {
   Card,
   CardContent,
@@ -28,7 +28,7 @@ const chargingStationComp = (props: any) => {
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
-    manageChargerStation.getAllChargerStations().then((stations) => {
+    manageChargerPoint.getAllChargerPoints().then((stations) => {
       setNumStations(stations.length);
       setLoaded(true);
     });
@@ -53,7 +53,7 @@ const chargingStationComp = (props: any) => {
               gutterBottom
               variant="h6"
             >
-              Active Charger Stations
+              Active Charger Points
             </Typography>
             <Typography
               color="textPrimary"

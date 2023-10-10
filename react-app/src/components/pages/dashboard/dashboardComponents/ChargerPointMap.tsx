@@ -1,6 +1,6 @@
 import { TileLayer, Popup, MapContainer, Marker } from 'react-leaflet';
-import { manageChargerStation } from '@/remote-access';
-import { ChargerStation } from '@/remote-access/types';
+import { manageChargerPoint } from '@/remote-access';
+import { ChargerPoint } from '@/remote-access/types';
 import React, { useState, useEffect } from 'react';
 import {
   Typography, Card, CardContent, List, ListItem,
@@ -11,22 +11,22 @@ import { Helmet } from 'react-helmet';
 import { ChevronRight } from '@material-ui/icons';
 import { LeafletMouseEvent, Map } from 'leaflet';
 
-interface ChargerStationMapState {
+interface ChargerPointMapState {
   loaded?: boolean
-  stations: ChargerStation[]
+  stations: ChargerPoint[]
   error?: boolean
   errorMessage?: string
 }
 
-interface ChargerStationMapProps {
+interface ChargerPointMapProps {
   fetchStations?: boolean
   enableAddMarker?: boolean
   onMapClick?: (lat: number, lon: number) => void
   hideTitleAndLoading?: boolean
 }
 
-const ChargerStationMap = ({ fetchStations = true, enableAddMarker = true, onMapClick, hideTitleAndLoading = false, ...rest }: ChargerStationMapProps) => {
-  const [state, setState] = useState<ChargerStationMapState>({
+const ChargerPointMap = ({ fetchStations = true, enableAddMarker = true, onMapClick, hideTitleAndLoading = false, ...rest }: ChargerPointMapProps) => {
+  const [state, setState] = useState<ChargerPointMapState>({
     loaded: false,
     stations: []
   });
@@ -36,7 +36,7 @@ const ChargerStationMap = ({ fetchStations = true, enableAddMarker = true, onMap
   const loadStations = async () => {
     setState(prevState => ({ ...prevState, loaded: false }));
     try {
-      const stations = await manageChargerStation.getAllChargerStations();
+      const stations = await manageChargerPoint.getAllChargerPoints();
       setState({
         loaded: true,
         stations,
@@ -168,4 +168,4 @@ const ChargerStationMap = ({ fetchStations = true, enableAddMarker = true, onMap
     </>);
 };
 
-export default ChargerStationMap;
+export default ChargerPointMap;

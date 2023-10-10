@@ -5,7 +5,7 @@ import { Replay } from '@material-ui/icons';
 import ChargerTable from './page-components/ChargerTable';
 import ChargerEditPanel from './page-components/ChargerEditPanel';
 import { useParams } from 'react-router-dom';
-import ChargerStationAccordian from './page-components/ChargerStationAccordian';
+import ChargerPointAccordian from './page-components/ChargerPointAccordian';
 import { manageCharger } from '@/remote-access';
 import { Charger } from '@/remote-access/types';
 
@@ -120,7 +120,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 const ChargersPage = (props: any) => {
   const params = useParams();
-  const stationId = (params as any).stationId;
+  const chargerPointId = (params as any).chargerPointId;
   const classes = useStyles();
   const [state, setState] = useState<any>({
     loaded: false
@@ -135,7 +135,7 @@ const ChargersPage = (props: any) => {
       ...state,
       loaded: false
     });
-    const [chargers, error] = await manageCharger.getAllChargers(Number(stationId));
+    const [chargers, error] = await manageCharger.getAllChargers(Number(chargerPointId));
     if (chargers) {
       setState({
         loaded: true,
@@ -211,8 +211,8 @@ const ChargersPage = (props: any) => {
                     </IconButton>
                   </Toolbar>
                 </AppBar>
-                {stationId &&
-                  <ChargerStationAccordian stationId={stationId} reload={loadChargers} />
+                {chargerPointId &&
+                  <ChargerPointAccordian chargerPointId={chargerPointId} reload={loadChargers} />
                 }
                 <Paper elevation={2}>
                   <ChargerTable

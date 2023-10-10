@@ -136,7 +136,7 @@ export default function MiniDrawer() {
       children: [
         { id: 'Flexicharge', icon: <img className={classes.itemLogo} src={FlexichargeLogoDark} alt="logo" />, location: '/Dashboard', active: false },
         { id: 'Dashboard', icon: <DashboardIcon />, location: '/Dashboard', active: false },
-        { id: 'Charger Station', icon: <EvStationIcon />, location: '/Dashboard/stations' },
+        { id: 'Charger Points', icon: <EvStationIcon />, location: '/Dashboard/chargerpoints' },
         { id: 'Chargers', icon: <BatteryChargingFullIcon />, location: '/Dashboard/chargers' },
         { id: 'Invoices', icon: <Receipt />, location: '/Dashboard/invoices' },
         { id: 'Users', icon: <PeopleIcon />, location: '/Dashboard/users' }

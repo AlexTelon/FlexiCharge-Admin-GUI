@@ -1,5 +1,5 @@
 import { manageCharger } from '@/remote-access';
-import { ChargerStation } from '@/remote-access/types';
+import { ChargerPoint } from '@/remote-access/types';
 import { Button, Collapse, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControl, FormHelperText, Input, InputLabel, LinearProgress, List, ListItem, ListItemText, Theme } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 import { useTheme } from '@material-ui/styles';
@@ -9,7 +9,7 @@ import { v4 as uuidv4 } from 'uuid';
 interface AddChargerDialogProps {
   open: boolean
   handleClose: () => void
-  station: ChargerStation
+  station: ChargerPoint
   reload: () => void
 }
 

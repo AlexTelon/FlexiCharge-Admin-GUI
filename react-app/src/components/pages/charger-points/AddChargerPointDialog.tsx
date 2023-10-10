@@ -9,9 +9,9 @@ import {
   LinearProgress, Fade, InputAdornment
 } from '@material-ui/core';
 import { CheckCircle, Close } from '@material-ui/icons';
-import { manageChargerStation } from '@/remote-access';
+import { manageChargerPoint } from '@/remote-access';
 import { Alert } from '@material-ui/lab';
-import ChargerStationMap from '../dashboard/dashboardComponents/ChargerStationMap';
+import ChargerPointMap from '../dashboard/dashboardComponents/ChargerPointMap';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -68,7 +68,7 @@ const AddSingleStationDialog = ({ open, handleClose }: any) => {
     console.log("submit clicked");
     if (fields.name && fields.price && fields.longitude && fields.latitude) {
       setLoading(true);
-      const result = await manageChargerStation.addChargerStation({
+      const result = await manageChargerPoint.addChargerPoint({
         name: fields.name,
         location: [fields.latitude, fields.longitude],
         price: fields.price * 100,
@@ -177,7 +177,7 @@ const AddSingleStationDialog = ({ open, handleClose }: any) => {
                   startAdornment={ <InputAdornment position="start">SEK</InputAdornment> }
                 />
               </FormControl>
-              <ChargerStationMap 
+              <ChargerPointMap 
                 onMapClick={handleMapClick} 
                 enableAddMarker={true} 
                 fetchStations={false} 

@@ -7,8 +7,8 @@ import {
 import { ChevronRight, Close } from '@material-ui/icons';
 import { createStyles, makeStyles, useTheme } from '@material-ui/styles';
 import React, { FC, useEffect, useState } from 'react';
-import { manageChargerStation } from '@/remote-access';
-import { ChargerStation } from '@/remote-access/types';
+import { manageChargerPoint } from '@/remote-access';
+import { ChargerPoint } from '@/remote-access/types';
 import { Alert } from '@material-ui/lab';
 import { Link } from 'react-router-dom';
 
@@ -37,17 +37,17 @@ const useStyle = makeStyles((theme: Theme) =>
   })
 );
 
-interface ChargerStationEditPanelProps {
-  stationId?: number
+interface ChargerPointEditPanelProps {
+  chargerPointId?: number
   setActiveStationId: any
   reload: any
 }
 
-const ChargerStationEditPanel: FC<ChargerStationEditPanelProps> = ({ stationId, setActiveStationId, reload }) => {
+const ChargerPointEditPanel: FC<ChargerPointEditPanelProps> = ({ chargerPointId, setActiveStationId, reload }) => {
   const classes = useStyle();
 
   const [deleteDialogOpen, setDeleteDialogOpen] = useState<boolean>(false);
-  const [station, setStation] = useState<ChargerStation>();
+  const [station, setStation] = useState<ChargerPoint>();
   const [fields, setFields] = useState<any>();
   const [errorState, setErrorState] = useState<any>({});
   const [loading, setLoading] = useState(false);
@@ -60,24 +60,24 @@ const ChargerStationEditPanel: FC<ChargerStationEditPanelProps> = ({ stationId, 
   };
 
   useEffect(() => {
-    if (stationId) {
-      manageChargerStation.getChargerStationById(stationId).then((chargerStation) => {
-        if (chargerStation === null) return;
+    if (chargerPointId) {
+      manageChargerPoint.getChargerPointById(chargerPointId).then((chargerPoint) => {
+        if (chargerPoint === null) return;
         setFields({
-          name: chargerStation.name,
-          longitude: chargerStation.location[1],
-          latitude: chargerStation.location[0],
-          price: chargerStation.price / 100
+          name: chargerPoint.name,
+          longitude: chargerPoint.location[1],
+          latitude: chargerPoint.location[0],
+          price: chargerPoint.price / 100
         });
-        setStation(chargerStation);
+        setStation(chargerPoint);
       });
     }
-  }, [stationId]);
+  }, [chargerPointId]);
 
   const handleSaveClick = async () => {
-    if (fields.name && fields.price && fields.longitude && fields.latitude && stationId) {
+    if (fields.name && fields.price && fields.longitude && fields.latitude && chargerPointId) {
       setLoading(true);
-      const result = await manageChargerStation.updateChargerStation(stationId, {
+      const result = await manageChargerPoint.updateChargerPoint(chargerPointId, {
         name: fields.name,
         location: [Number(fields.latitude), Number(fields.longitude)],
         price: Number(fields.price * 100),
@@ -126,9 +126,9 @@ const ChargerStationEditPanel: FC<ChargerStationEditPanelProps> = ({ stationId, 
   };
 
   const handleDelete = async () => {
-    if (stationId) {
+    if (chargerPointId) {
       setLoading(true);
-      const wasSuccess = await manageChargerStation.deleteChargerStation(stationId);
+      const wasSuccess = await manageChargerPoint.deleteChargerPoint(chargerPointId);
       setLoading(false);
       if (!wasSuccess) {
         setErrorState({
@@ -139,7 +139,7 @@ const ChargerStationEditPanel: FC<ChargerStationEditPanelProps> = ({ stationId, 
         reload();
       }
       setDeleteDialogOpen(false);
-      stationId = 0;
+      chargerPointId = 0;
     }
   };
 
@@ -148,7 +148,7 @@ const ChargerStationEditPanel: FC<ChargerStationEditPanelProps> = ({ stationId, 
       {loading &&
         <LinearProgress />
       }
-      {station && stationId && (
+      {station && chargerPointId && (
         <>
           <AppBar position="static" elevation={0} className={classes.panelAppBar}>
             <Toolbar variant="dense">
@@ -287,4 +287,4 @@ const ChargerStationEditPanel: FC<ChargerStationEditPanelProps> = ({ stationId, 
   );
 };
 
-export default ChargerStationEditPanel;
+export default ChargerPointEditPanel;

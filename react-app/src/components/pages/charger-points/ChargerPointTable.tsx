@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/prefer-optional-chain */
 import { Theme, useTheme, useMediaQuery, TableProps, TableContainer, LinearProgress, Table, TableHead, TableRow, TableCell, Checkbox, TableBody, TablePagination } from '@material-ui/core';
 import React, { useState, useEffect } from 'react';
-import { ChargerStation } from '@/remote-access/types';
-import ChargerStationTableRow from './ChargerStationTableRow';
+import { ChargerPoint } from '@/remote-access/types';
+import ChargerPointTableRow from './ChargerPointTableRow';
 
 interface HeadCell {
   id: string
@@ -13,7 +13,7 @@ interface HeadCell {
 const headCells: HeadCell[] = [
   {
     id: 'name',
-    label: 'Station Name',
+    label: 'Charger-Point Name',
     alignRight: false
   },
   {
@@ -28,13 +28,13 @@ const headCells: HeadCell[] = [
   }
 ];
 
-interface ChargerStationTableHeadProps {
+interface ChargerPointTableHeadProps {
   numSelected: number
   rowCount: number
   handleSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void
 }
 
-const ChargerStationTableHead = (props: ChargerStationTableHeadProps) => {
+const ChargerPointTableHead = (props: ChargerPointTableHeadProps) => {
   const { rowCount, numSelected, handleSelectAllClick } = props;
   return (
     <>
@@ -47,7 +47,7 @@ const ChargerStationTableHead = (props: ChargerStationTableHeadProps) => {
               checked={rowCount > 0 && numSelected === rowCount}
               onChange={handleSelectAllClick}
               inputProps={{
-                'aria-label': 'select all stations'
+                'aria-label': 'select all chargepoints'
               }}
             />
           </TableCell>
@@ -65,32 +65,32 @@ const ChargerStationTableHead = (props: ChargerStationTableHeadProps) => {
   );
 };
 
-interface StationTableState {
+interface ChargerPointTableState {
   loaded?: boolean
-  stations?: ChargerStation[]
+  chargerPoints?: ChargerPoint[]
   error?: boolean
   errorMessage?: string
 }
 
-const ChargerStationsTable = (props: any) => {
+const ChargerPointsTable = (props: any) => {
   const theme: Theme = useTheme();
   /* const [state, setState] = useState<StationTableState>({
     loaded: props.loaded,
-    stations: props.stations
+    chargerPoints: props.chargerPoints
   }); */
-  const state: StationTableState = {
+  const state: ChargerPointTableState = {
     loaded: props.loaded,
-    stations: props.stations
+    chargerPoints: props.chargerPoints
   };
   const [selected, setSelected] = useState<readonly number[]>([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
   /* const loadStations = () => {
-    chargerStationCollection.getAllChargerStations().then((stations) => {
+    chargerPointCollection.getAllChargerPoints().then((chargerPoints) => {
       setState({
         loaded: true,
-        stations
+        chargerPoints
       });
     }).catch((_) => {
       setState({
@@ -106,8 +106,8 @@ const ChargerStationsTable = (props: any) => {
   }, []); */
 
   useEffect(() => {
-    setPage(0); // Reset the page to 0 when stations change
-  }, [props.stations]);
+    setPage(0); // Reset the page to 0 when chargerPoints change
+  }, [props.chargerPoints]);
 
   const isSmallScreen = useMediaQuery((theme: Theme) => theme.breakpoints.down('xs'));
   const tableProps: TableProps = {
@@ -116,7 +116,7 @@ const ChargerStationsTable = (props: any) => {
 
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
-      const newSelecteds = state.stations?.map((station) => station.chargePointID);
+      const newSelecteds = state.chargerPoints?.map((chargerPoint) => chargerPoint.chargePointID);
       if (newSelecteds === undefined) return;
       setSelected(newSelecteds);
       return;
@@ -133,12 +133,12 @@ const ChargerStationsTable = (props: any) => {
     setPage(0);
   };
 
-  const handleSelect = (stationId: number) => {
-    const selectedIndex = selected.indexOf(stationId);
+  const handleSelect = (chargerPointId: number) => {
+    const selectedIndex = selected.indexOf(chargerPointId);
     let newSelected: readonly number[] = [];
 
     if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, stationId);
+      newSelected = newSelected.concat(selected, chargerPointId);
     } else if (selectedIndex === 0) {
       newSelected = newSelected.concat(selected.slice(1));
     } else if (selectedIndex === selected.length - 1) {
@@ -153,7 +153,7 @@ const ChargerStationsTable = (props: any) => {
     setSelected(newSelected);
   };
 
-  const isSelected = (stationId: number) => selected.includes(stationId);
+  const isSelected = (chargerPointId: number) => selected.includes(chargerPointId);
 
   return (
     <>
@@ -167,35 +167,35 @@ const ChargerStationsTable = (props: any) => {
           <LinearProgress />
         }
         <Table {...tableProps} stickyHeader aria-label="sticky table">
-          <ChargerStationTableHead
+          <ChargerPointTableHead
             numSelected={selected.length}
-            rowCount={state.stations ? state.stations.length : 6}
+            rowCount={state.chargerPoints ? state.chargerPoints.length : 6}
             handleSelectAllClick={handleSelectAllClick}
           />
           <TableBody>
-            {state.stations?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((station, index) => {
-                const isItemSelected = isSelected(station.chargePointID);
+            {state.chargerPoints?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              .map((chargerPoint, index) => {
+                const isItemSelected = isSelected(chargerPoint.chargePointID);
                 return (
-                  <ChargerStationTableRow
-                    key={station.chargePointID}
-                    station={station}
+                  <ChargerPointTableRow
+                    key={chargerPoint.chargePointID}
+                    chargerPoint={chargerPoint}
                     handleSelect={handleSelect}
                     selected={isItemSelected}
                     {...props}
                   >
-                  </ChargerStationTableRow>
+                  </ChargerPointTableRow>
                 );
               })
             }
           </TableBody>
         </Table>
       </TableContainer>
-      {state.stations &&
+      {state.chargerPoints &&
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
-          count={state.stations ? state.stations.length : 0}
+          count={state.chargerPoints ? state.chargerPoints.length : 0}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}
@@ -206,4 +206,4 @@ const ChargerStationsTable = (props: any) => {
   );
 };
 
-export default ChargerStationsTable;
+export default ChargerPointsTable;

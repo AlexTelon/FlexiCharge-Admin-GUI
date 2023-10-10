@@ -5,21 +5,21 @@ import {
 import { ExpandMore } from '@material-ui/icons';
 import { useTheme } from '@material-ui/styles';
 import React, { FC, useState } from 'react';
-import AddSingleStationDialog from './AddStationDialog';
+import AddSingleStationDialog from './AddChargerPointDialog';
 
-interface ChargerStationSettingsAccordianProps {
-  selectedStations: readonly string[]
+interface ChargerPointSettingsAccordianProps {
+  selectedChargerPoints: readonly string[]
   reload: any
 };
 
-const ChargerStationsSettingsAccordian: FC<ChargerStationSettingsAccordianProps> = ({ selectedStations, reload }) => {
+const ChargerPointsSettingsAccordian: FC<ChargerPointSettingsAccordianProps> = ({ selectedChargerPoints, reload }) => {
   const theme: Theme = useTheme();
-  const [openAddStationDialog, setOpenAddStationDialog] = useState<boolean>(false);
-  const handleOpenAddStationDialog = () => {
-    setOpenAddStationDialog(true);
+  const [openAddChargerPointDialog, setOpenAddChargerPointDialog] = useState<boolean>(false);
+  const handleOpenAddChargerPointDialog = () => {
+    setOpenAddChargerPointDialog(true);
   };
-  const handleCloseAddStationDialog = () => {
-    setOpenAddStationDialog(false);
+  const handleCloseAddChargerPointDialog = () => {
+    setOpenAddChargerPointDialog(false);
     reload();
   };
 
@@ -33,7 +33,7 @@ const ChargerStationsSettingsAccordian: FC<ChargerStationSettingsAccordianProps>
         <Grid container id="charger-stations-actions-panel">
           <Grid item xs={9} md={10}>
             <Typography>
-              {selectedStations.length} Selected
+              {selectedChargerPoints.length} Selected
             </Typography>
           </Grid>
           <Grid item xs={3} md={2}>
@@ -49,15 +49,15 @@ const ChargerStationsSettingsAccordian: FC<ChargerStationSettingsAccordianProps>
           variant="contained"
           color="primary"
           style={{ color: theme.flexiCharge.primary.white }}
-          onClick={handleOpenAddStationDialog}
+          onClick={handleOpenAddChargerPointDialog}
         >
               Add Station
         </Button>
       </AccordionActions>
 
-      <AddSingleStationDialog open={openAddStationDialog} handleClose={handleCloseAddStationDialog} />
+      <AddSingleStationDialog open={openAddChargerPointDialog} handleClose={handleCloseAddChargerPointDialog} />
     </Accordion>
   );
 };
 
-export default ChargerStationsSettingsAccordian;
+export default ChargerPointsSettingsAccordian;

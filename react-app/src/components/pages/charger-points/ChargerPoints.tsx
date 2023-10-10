@@ -9,13 +9,13 @@ import {
   InputBase
 } from '@material-ui/core';
 import React, { useState, useRef, useEffect } from 'react';
-import ChargerStationEditPanel from './ChargerStationEditPanel';
+import ChargerPointEditPanel from './ChargerPointEditPanel';
 import { Helmet } from 'react-helmet';
 import { Replay } from '@material-ui/icons';
-import ChargerStationsTable from './ChargerStationTable';
-import ChargerStationsSettingsAccordian from './ChargerStationsSettingsAccordian';
-import { manageChargerStation } from '@/remote-access';
-import { ChargerStation } from '@/remote-access/types';
+import ChargerPointsTable from './ChargerPointTable';
+import ChargerPointsSettingsAccordian from './ChargerPointsSettingsAccordian';
+import { manageChargerPoint } from '@/remote-access';
+import { ChargerPoint } from '@/remote-access/types';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -103,56 +103,56 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   }
 }));
 
-const ChargerStations = () => {
+const ChargerPoints = () => {
   const classes = useStyles();
   const [state, setState] = useState<any>({
     loaded: false
   });
-  const [searchedStations, setSearchedStations] = useState<ChargerStation[]>([]);
+  const [searchedChargerPoints, setSearchedChargerPoints] = useState<ChargerPoint[]>([]);
   const [search, setSearch] = useState<string>();
-  const [activeStationId, setActiveStationId] = useState<number>();
-  const [selectedStations, setSelectedStations] = useState<readonly string[]>([]);
-  const stationsTable = useRef(null);
+  const [activeChargerPointId, setActiveChargerPointId] = useState<number>();
+  const [selectedChargerPoints, setSelectedChargerPoints] = useState<readonly string[]>([]);
+  const chargerPointsTable = useRef(null);
 
-  const handleStationEditClicked = (stationId: number) => {
-    setActiveStationId(stationId);
+  const handleChargerPointEditClicked = (chargerPointId: number) => {
+    setActiveChargerPointId(chargerPointId);
   };
 
   const handleSearch = (searchText: string) => {
     setSearch(searchText);
     if (searchText !== '') {
-      const stations = state.stations.filter((station: ChargerStation) => {
-        return station.chargePointID === Number(searchText)
-          || station.name.toLowerCase().includes(searchText.toLowerCase());
+      const chargerPoints = state.chargerPoints.filter((chargerPoint: ChargerPoint) => {
+        return chargerPoint.chargePointID === Number(searchText)
+          || chargerPoint.name.toLowerCase().includes(searchText.toLowerCase());
       });
-      setSearchedStations(stations);
+      setSearchedChargerPoints(chargerPoints);
     } else {
       setSearch(undefined);
-      loadStations();
+      loadChargerPoints();
     }
   };
 
-  const loadStations = () => {
+  const loadChargerPoints = () => {
     setState({
       ...state,
       loaded: false
     });
-    manageChargerStation.getAllChargerStations().then((stations) => {
+    manageChargerPoint.getAllChargerPoints().then((chargerPoints) => {
       setState({
         loaded: true,
-        stations
+        chargerPoints
       });
     }).catch((_) => {
       setState({
         loaded: true,
         error: true,
-        errorMessage: 'Failed to load stations'
+        errorMessage: 'Failed to load chargerPoints'
       });
     });
   };
 
   useEffect(() => {
-    loadStations();
+    loadChargerPoints();
   }, []);
 
   return (
@@ -167,13 +167,13 @@ const ChargerStations = () => {
               <Grid
                 item
                 xs={12}
-                md={activeStationId ? 8 : 12}
-                lg={activeStationId ? 9 : 12}
+                md={activeChargerPointId ? 8 : 12}
+                lg={activeChargerPointId ? 9 : 12}
               >
                 <AppBar position="static" className={classes.contentAppBar} elevation={1}>
                   <Toolbar variant="dense">
                     <Typography className={classes.contentTitle} variant="h6">
-                      Charger Stations
+                      Charger Points
                     </Typography>
                     <Search color="primary">
                       <SearchIconWrapper>
@@ -187,23 +187,23 @@ const ChargerStations = () => {
                       />
                     </Search>
                     <IconButton edge="end"
-                      aria-label="charger stations reload"
+                      aria-label="charger chargerPoints reload"
                       aria-haspopup="true"
-                      aria-controls="charger-stations-reload"
+                      aria-controls="charger-chargerPoints-reload"
                       color="inherit"
-                      onClick={() => { loadStations(); setSearch(undefined); }}
+                      onClick={() => { loadChargerPoints(); setSearch(undefined); }}
                     >
                       <Replay />
                     </IconButton>
                   </Toolbar>
                 </AppBar>
-                <ChargerStationsSettingsAccordian reload={loadStations} selectedStations={selectedStations} />
+                <ChargerPointsSettingsAccordian reload={loadChargerPoints} selectedChargerPoints={selectedChargerPoints} />
                 <Paper elevation={2}>
-                  <ChargerStationsTable loaded={state.loaded} stations={search !== undefined ? searchedStations : state.stations} ref={stationsTable} setSelectedStations={setSelectedStations} editClicked={handleStationEditClicked} classes={classes} />
+                  <ChargerPointsTable loaded={state.loaded} chargerPoints={search !== undefined ? searchedChargerPoints : state.chargerPoints} ref={chargerPointsTable} setSelectedChargerPoints={setSelectedChargerPoints} editClicked={handleChargerPointEditClicked} classes={classes} />
                 </Paper>
               </Grid>
               <Grid item xs={12} md={4} lg={3}>
-                <ChargerStationEditPanel reload={loadStations} stationId={activeStationId} setActiveStationId={setActiveStationId} />
+                <ChargerPointEditPanel reload={loadChargerPoints} chargerPointId={activeChargerPointId} setActiveChargerPointId={setActiveChargerPointId} />
               </Grid>
             </Grid>
           </Container>
@@ -213,4 +213,4 @@ const ChargerStations = () => {
   );
 };
 
-export default ChargerStations;
+export default ChargerPoints;

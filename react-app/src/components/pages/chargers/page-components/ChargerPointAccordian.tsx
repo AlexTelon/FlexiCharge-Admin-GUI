@@ -1,5 +1,5 @@
-import { manageChargerStation } from '@/remote-access';
-import { ChargerStation } from '@/remote-access/types';
+import { manageChargerPoint } from '@/remote-access';
+import { ChargerPoint } from '@/remote-access/types';
 import {
   Accordion, AccordionActions, AccordionDetails,
   AccordionSummary, Button, Divider, Grid, ListItemText,
@@ -9,32 +9,32 @@ import { ExpandMore } from '@material-ui/icons';
 import React, { FC, useEffect, useState } from 'react';
 import AddChargerDialog from './AddChargerDialog';
 
-interface ChargerStationAccordionProps {
-  stationId: number
+interface ChargerPointAccordionProps {
+  chargerPointId: number
   reload: () => void
 }
 
-interface ChargerStationAccordianState {
+interface ChargerPointAccordianState {
   loaded: boolean
-  station?: ChargerStation
+  station?: ChargerPoint
   openAddStationDialog: boolean
 }
 
-const ChargerStationAccordian: FC<ChargerStationAccordionProps> = ({ stationId, reload }) => {
+const ChargerPointAccordian: FC<ChargerPointAccordionProps> = ({ chargerPointId, reload }) => {
   const theme: Theme = useTheme();
-  const [state, setState] = useState<ChargerStationAccordianState>({
+  const [state, setState] = useState<ChargerPointAccordianState>({
     loaded: false,
     openAddStationDialog: false
   });
 
   const loadStation = () => {
-    if (stationId) {
-      manageChargerStation.getChargerStationById(stationId).then((chargerStation) => {
-        if (chargerStation === null) return;
+    if (chargerPointId) {
+      manageChargerPoint.getChargerPointById(chargerPointId).then((chargerPoint) => {
+        if (chargerPoint === null) return;
         setState({
           ...state,
           loaded: true,
-          station: chargerStation
+          station: chargerPoint
         });
       });
     }
@@ -42,7 +42,7 @@ const ChargerStationAccordian: FC<ChargerStationAccordionProps> = ({ stationId, 
 
   useEffect(() => {
     loadStation();
-  }, [stationId]);
+  }, [chargerPointId]);
 
   const handleOpenAddStationDialog = () => {
     setState({
@@ -130,4 +130,4 @@ const ChargerStationAccordian: FC<ChargerStationAccordionProps> = ({ stationId, 
   );
 };
 
-export default ChargerStationAccordian;
+export default ChargerPointAccordian;
