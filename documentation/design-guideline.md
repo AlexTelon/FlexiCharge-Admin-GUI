@@ -51,7 +51,9 @@ The following fonts comes from [mobile_design_guideline.pdf](FlexiCharge_design_
 
 ## Template
 
-The following mockups are based on a agreed design with my-pages ([Design-meeting board](Designmeeting%20board.JPG)).<br/>
+The following mockups are based on an agreed design with my-pages <br/> 
+[New-desing-meeting-board](desingmeeting%20board%202.JPG). <br/>
+[Old-design-meeting board](Designmeeting%20board.JPG).<br/>
 Mockup src: https://www.figma.com/file/zUllMvjNNKqVRWAXHDdKqE/Flexicharge-Admin-Gui?type=design&node-id=0%3A1&mode=design&t=XngIHANmkddyVPwN-1
 
 ### Buttons
