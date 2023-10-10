@@ -39,11 +39,11 @@ const useStyle = makeStyles((theme: Theme) =>
 
 interface ChargerPointEditPanelProps {
   chargerPointId?: number
-  setActiveStationId: any
+  setActiveChargerPointId: any
   reload: any
 }
 
-const ChargerPointEditPanel: FC<ChargerPointEditPanelProps> = ({ chargerPointId, setActiveStationId, reload }) => {
+const ChargerPointEditPanel: FC<ChargerPointEditPanelProps> = ({ chargerPointId, setActiveChargerPointId, reload }) => {
   const classes = useStyle();
 
   const [deleteDialogOpen, setDeleteDialogOpen] = useState<boolean>(false);
@@ -135,7 +135,7 @@ const ChargerPointEditPanel: FC<ChargerPointEditPanelProps> = ({ chargerPointId,
           alert: 'Could not delete Charger Station'
         });
       } else {
-        setActiveStationId(undefined);
+        setActiveChargerPointId(undefined);
         reload();
       }
       setDeleteDialogOpen(false);
@@ -159,7 +159,7 @@ const ChargerPointEditPanel: FC<ChargerPointEditPanelProps> = ({ chargerPointId,
                 aria-label="deselect charger"
                 aria-controls="charger-info"
                 color="inherit"
-                onClick={() => setActiveStationId(undefined) }
+                onClick={() => setActiveChargerPointId(undefined) }
               >
                 <Close />
               </IconButton>
