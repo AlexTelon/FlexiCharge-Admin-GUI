@@ -54,10 +54,20 @@ The following fonts comes from [mobile_design_guideline.pdf](FlexiCharge_design_
 The following mockups are based on a agreed design with my-pages ([Design-meeting board](Designmeeting%20board.JPG)).<br/>
 Mockup src: https://www.figma.com/file/zUllMvjNNKqVRWAXHDdKqE/Flexicharge-Admin-Gui?type=design&node-id=0%3A1&mode=design&t=XngIHANmkddyVPwN-1
 
-### PC
+### Buttons
+1. **Action button** <br/>
+White text brand-color background, should be the most common button.
+2. **Inverted button** <br/>
+Green text no background, used on opposite actions: cancel etc.
+3. **Warning button** <br/>
+Black text with warning-color background, used on update actions: update charger ect.
+4. **Danger button** <br/>
+Black text with danger-color background, used on irreversible actions: delete account ect.
+
+### PC Mockup
 
 ![pc-mockups.png](pc-mockups.png)
 
-### Phone
+### Phone Mockup
 
 ![phone-mockupspng.png](phone-mockupspng.png)
