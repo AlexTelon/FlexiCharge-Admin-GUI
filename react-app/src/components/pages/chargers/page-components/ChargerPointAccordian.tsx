@@ -70,7 +70,7 @@ const ChargerPointAccordian: FC<ChargerPointAccordionProps> = ({ chargerPointId,
             <Grid container id="charger-chargePoint-panel-header">
               <Grid item xs={9} md={10}>
                 <Typography>
-                  Viewing Chargers in Charger Point: {state.chargePoint.chargePointID}, {state.chargePoint?.name}
+                  Viewing Chargers in Charge-point: {state.chargePoint.chargePointID}, {state.chargePoint?.name}
                 </Typography>
               </Grid>
               <Grid item xs={3} md={2}>
@@ -84,7 +84,7 @@ const ChargerPointAccordian: FC<ChargerPointAccordionProps> = ({ chargerPointId,
               <Grid item xl={3}>
                 <ListItemText
                   primary={state.chargePoint.chargePointID}
-                  secondary="Charger Point ID"
+                  secondary="Charge-point ID"
                 />
               </Grid>
               <Grid item xl={3}>

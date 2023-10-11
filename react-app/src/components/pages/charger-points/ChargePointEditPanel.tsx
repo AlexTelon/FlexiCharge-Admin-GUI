@@ -43,7 +43,7 @@ interface ChargerPointEditPanelProps {
   reload: any
 }
 
-const ChargerPointEditPanel: FC<ChargerPointEditPanelProps> = ({ chargerPointId, setActiveChargerPointId, reload }) => {
+const ChargePointEditPanel: FC<ChargerPointEditPanelProps> = ({ chargerPointId, setActiveChargerPointId, reload }) => {
   const classes = useStyle();
 
   const [deleteDialogOpen, setDeleteDialogOpen] = useState<boolean>(false);
@@ -132,7 +132,7 @@ const ChargerPointEditPanel: FC<ChargerPointEditPanelProps> = ({ chargerPointId,
       setLoading(false);
       if (!wasSuccess) {
         setErrorState({
-          alert: 'Could not delete Charger Point'
+          alert: 'Could not delete Charge-point'
         });
       } else {
         setActiveChargerPointId(undefined);
@@ -259,14 +259,14 @@ const ChargerPointEditPanel: FC<ChargerPointEditPanelProps> = ({ chargerPointId,
                   fullScreen={fullScreen}
                   open={deleteDialogOpen}
                   onClose={handleDeleteDialogClose}
-                  aria-labelledby="delete-charger-point-dialog"
+                  aria-labelledby="delete-charge-point-dialog"
                 >
                   <Box>
-                    <DialogTitle id="delete-charger-point-dialog">Are you sure?</DialogTitle>
+                    <DialogTitle id="delete-charge-point-dialog">Are you sure?</DialogTitle>
                     <DialogContent>
-                      Are you sure you want to delete this Charger Point?
+                      Are you sure you want to delete this Charge-point?
                       <br />
-                      Deleting a Charger Point marks it as <em>Inactive</em> in the database
+                      Deleting a Charge-point marks it as <em>Inactive</em> in the database
                     </DialogContent>
                     <DialogActions>
                       <Button autoFocus onClick={handleDeleteDialogClose} color="primary">
@@ -287,4 +287,4 @@ const ChargerPointEditPanel: FC<ChargerPointEditPanelProps> = ({ chargerPointId,
   );
 };
 
-export default ChargerPointEditPanel;
+export default ChargePointEditPanel;

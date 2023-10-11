@@ -49,7 +49,7 @@ export default class ManageChargerPoint implements IChargerPoint {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         const stationIndex = this.stations.findIndex((station) => station.chargePointID === chargerPointId);
-        if (stationIndex === -1) return [null, { errorMessage: 'Could not find the requested Charger Point' }];
+        if (stationIndex === -1) return [null, { errorMessage: 'Could not find the requested Charge-point' }];
 
         const errorObj = this.validateFields(fields);
         if (Object.keys(errorObj).length > 0) resolve([null, errorObj]);

@@ -153,7 +153,7 @@ const AddSingleStationDialog = ({ open, handleClose }: any) => {
         }
 
         <DialogTitle id="add-charger-point-dialog-title">
-          Add a Charger Point
+          Add a Charge-point
           <IconButton
             onClick={cleanClose}
             className={classes.dialogClose}

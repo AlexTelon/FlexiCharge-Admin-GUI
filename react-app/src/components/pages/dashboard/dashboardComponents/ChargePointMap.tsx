@@ -97,7 +97,7 @@ const ChargerPointMap = ({ fetchChargePoints = true, enableAddMarker = true, onM
         }
         <CardContent>
           {!hideTitleAndLoading && (
-            <Typography variant="h6" gutterBottom>Charge Points Map</Typography>
+            <Typography variant="h6" gutterBottom>Charge-points Map</Typography>
           )}
           <MapContainer 
             id="charger-station-map"

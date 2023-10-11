@@ -9,7 +9,7 @@ import {
   InputBase
 } from '@material-ui/core';
 import React, { useState, useRef, useEffect } from 'react';
-import ChargerPointEditPanel from './ChargePointEditPanel';
+import ChargePointEditPanel from './ChargePointEditPanel';
 import { Helmet } from 'react-helmet';
 import { Replay } from '@material-ui/icons';
 import ChargerPointsTable from './ChargePointTable';
@@ -173,7 +173,7 @@ const ChargePoints = () => {
                 <AppBar position="static" className={classes.contentAppBar} elevation={1}>
                   <Toolbar variant="dense">
                     <Typography className={classes.contentTitle} variant="h6">
-                      Charge Points
+                      Charge-points
                     </Typography>
                     <Search color="primary">
                       <SearchIconWrapper>
@@ -203,7 +203,7 @@ const ChargePoints = () => {
                 </Paper>
               </Grid>
               <Grid item xs={12} md={4} lg={3}>
-                <ChargerPointEditPanel reload={loadChargerPoints} chargerPointId={activeChargerPointId} setActiveChargerPointId={setActiveChargerPointId} />
+                <ChargePointEditPanel reload={loadChargerPoints} chargerPointId={activeChargerPointId} setActiveChargerPointId={setActiveChargerPointId} />
               </Grid>
             </Grid>
           </Container>

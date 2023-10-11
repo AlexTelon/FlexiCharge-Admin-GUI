@@ -100,7 +100,7 @@ const ChargerEditPanel: FC<ChargerEditPanelProps> = ({ connectorID, setActivecon
               <ListItem>
                 <ListItemText
                   primary={charger.chargePointID}
-                  secondary="Charger Point ID"
+                  secondary="Charge-point ID"
                 />
               </ListItem>
               <ListItem>
