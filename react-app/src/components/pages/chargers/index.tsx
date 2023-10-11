@@ -125,9 +125,9 @@ const ChargersPage = (props: any) => {
   const [state, setState] = useState<any>({
     loaded: false
   });
-  const [activeChargerID, setActiveChargerID] = useState<number>();
-  const editClicked = (chargerID: number) => {
-    setActiveChargerID(chargerID);
+  const [activeconnectorID, setActiveconnectorID] = useState<number>();
+  const editClicked = (connectorID: number) => {
+    setActiveconnectorID(connectorID);
   };
 
   const loadChargers = async () => {
@@ -157,7 +157,7 @@ const ChargersPage = (props: any) => {
   const handleSearch = (searchText: string) => {
     if (searchText !== '') {
       const chargers = state.chargers.filter((charger: Charger) => {
-        return `${charger.chargerID}`.includes(searchText)
+        return `${charger.connectorID}`.includes(searchText)
           || charger.serialNumber?.toLowerCase().includes(searchText.toLowerCase());
       });
       setState({
@@ -184,8 +184,8 @@ const ChargersPage = (props: any) => {
             <Grid container spacing={1} className={`${classes.contentContainer}`}>
               <Grid
                 item xs={12}
-                md={activeChargerID !== undefined ? 8 : 12}
-                lg={activeChargerID !== undefined ? 9 : 12}
+                md={activeconnectorID !== undefined ? 8 : 12}
+                lg={activeconnectorID !== undefined ? 9 : 12}
               >
                 <AppBar position='static' className={classes.contentAppBar} elevation={1}>
                   <Toolbar variant='dense'>
@@ -224,10 +224,10 @@ const ChargersPage = (props: any) => {
                 </Paper>
               </Grid>
               <Grid item xs={12} md={4} lg={3}>
-                {activeChargerID &&
+                {activeconnectorID &&
                   <ChargerEditPanel
-                    chargerID={activeChargerID}
-                    setActiveChargerID={setActiveChargerID}
+                    connectorID={activeconnectorID}
+                    setActiveconnectorID={setActiveconnectorID}
                     reload={loadChargers}
                   />
                 }

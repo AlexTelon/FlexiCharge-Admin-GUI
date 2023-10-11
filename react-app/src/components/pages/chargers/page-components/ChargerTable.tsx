@@ -60,7 +60,7 @@ const ChargerTable: FC<ChargerTableProps> = ({ loaded, chargers, ...props }: any
         <Table {...tableProps} stickyHeader aria-label='sticky table'>
           <TableHead>
             <TableRow>
-              <TableCell>Charger ID</TableCell>
+              <TableCell>Connector ID</TableCell>
               <TableCell>Serial Number</TableCell>
               <TableCell>Charger Point ID</TableCell>
               <TableCell>Status</TableCell>
@@ -73,7 +73,7 @@ const ChargerTable: FC<ChargerTableProps> = ({ loaded, chargers, ...props }: any
                 .map((charger: Charger) => {
                   return (
                     <ChargerRow
-                      key={charger.chargerID}
+                      key={charger.connectorID}
                       charger={charger}
                       {...props}
                       classes={props.classes}
