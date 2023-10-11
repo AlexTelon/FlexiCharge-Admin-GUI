@@ -1,18 +1,18 @@
 export interface Charger {
-  chargerID: number
-  serialNumber?: string
+  connectorID: number
   location: [number, number]
+  serialNumber?: string
   chargePointID: number
   status: number
 }
 
 export interface ICharger {
-  addCharger: (fields: Omit<Charger, 'chargerID' | 'status'>) => Promise<[Charger | null, any | null]>
+  addCharger: (fields: Omit<Charger, 'connectorID' | 'status'>) => Promise<[Charger | null, any | null]>
   getAllChargers: (chargePointID?: number) => Promise<[Charger[] | null, any | null]>
   getAllAvailableChargers: () => Promise<[Charger[] | null, any | null]>
-  getChargerById: (chargerId: number) => Promise<[Charger | null, any | null]>
-  updateChargerById: (chargerId: number, fields: Omit<Charger, 'chargerID'>) => Promise<[Charger | null, any | null]>
-  deleteChargerById: (chargerId: number) => Promise<any>
+  getChargerById: (connectorID: number) => Promise<[Charger | null, any | null]>
+  updateChargerById: (connectorID: number, fields: Omit<Charger, 'connectorID'>) => Promise<[Charger | null, any | null]>
+  deleteChargerById: (connectorID: number) => Promise<any>
 }
 
 export interface ChargerValidationError {

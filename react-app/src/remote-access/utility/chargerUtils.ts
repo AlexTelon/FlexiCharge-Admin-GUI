@@ -18,7 +18,7 @@ export const ChargerValidator = {
     return false;
   },
 
-  validateFields(fields: Omit<Charger, 'chargerID'>, chargers: Charger[]): ChargerValidationError {
+  validateFields(fields: Omit<Charger, 'connectorID'>, chargers: Charger[]): ChargerValidationError {
     const errorObj: ChargerValidationError = {};
     if (fields.location && !this.isValidLatitude(fields.location[0])) {
       errorObj.latitude = 'Latitude must be a number within range -90 to 90';

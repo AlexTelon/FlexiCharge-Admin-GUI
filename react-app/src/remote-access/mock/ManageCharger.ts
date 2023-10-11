@@ -21,20 +21,20 @@ export default class ManageCharger implements ICharger {
     });
   }
 
-  public async getChargerById(chargerId: number): Promise<[Charger | null, any | null]> {
+  public async getChargerById(connectorID: number): Promise<[Charger | null, any | null]> {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
-        resolve([this.chargers.filter((charger) => charger.chargerID === chargerId)[0] || null, null]);
+        resolve([this.chargers.filter((charger) => charger.connectorID === connectorID)[0] || null, null]);
       }, 100);
     });
   }
 
-  public async addCharger(fields: Omit<Charger, 'chargerID' | 'status'>): Promise<[Charger | null, any | null]> {
+  public async addCharger(fields: Omit<Charger, 'connectorID' | 'status'>): Promise<[Charger | null, any | null]> {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         const charger: Charger = {
           ...fields,
-          chargerID: this.chargers.length + 1,
+          connectorID: this.chargers.length + 1,
           status: 0
         };
         this.chargers.push(charger);
@@ -43,10 +43,10 @@ export default class ManageCharger implements ICharger {
     });
   }
 
-  public async updateChargerById(chargerId: number, fields: Omit<Charger, 'chargerID'>): Promise<[Charger | null, any | null]> {
+  public async updateChargerById(connectorID: number, fields: Omit<Charger, 'connectorID'>): Promise<[Charger | null, any | null]> {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
-        const chargerIndex = this.chargers.findIndex(charger => charger.chargerID === chargerId);
+        const chargerIndex = this.chargers.findIndex(charger => charger.connectorID === connectorID);
         if (chargerIndex === -1) {
           resolve([null, { errorMessage: 'Could not find the requested Charger' }]);
           return;
@@ -69,11 +69,14 @@ export default class ManageCharger implements ICharger {
     });
   }
 
-  public async deleteChargerById(chargerId: number): Promise<boolean> {
+  public async deleteChargerById(connectorID: number): Promise<boolean> {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
-        const chargerIndex = this.chargers.findIndex((charger) => charger.chargerID === chargerId);
-        if (chargerIndex === -1) { resolve(false); return; }
+        const chargerIndex = this.chargers.findIndex((charger) => charger.connectorID === connectorID);
+        if (chargerIndex === -1) {
+          resolve(false);
+          return;
+        }
 
         this.chargers.splice(chargerIndex, 1);
         resolve(true);

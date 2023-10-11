@@ -189,7 +189,7 @@ const LoginFields: FC<LoginFieldProps> = ({ setLoading }) => {
     setLoading(false);
   };
 
-  if (localStorage.getItem('isAuthenticated')) {
+  if (sessionStorage.getItem('isAuthenticated')) {
     return (
       <Redirect to="/dashboard" />
     );
