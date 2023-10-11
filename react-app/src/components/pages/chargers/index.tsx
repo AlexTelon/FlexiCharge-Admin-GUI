@@ -118,9 +118,10 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   }
 }));
 
-const ChargersPage = (props: any) => {
+const ChargersPage = () => {
   const params = useParams();
-  const chargePointId = (params as any).chargePointId;
+  const chargePointId = (params as any).pointId;
+  console.log(chargePointId);
   const classes = useStyles();
   const [state, setState] = useState<any>({
     loaded: false
