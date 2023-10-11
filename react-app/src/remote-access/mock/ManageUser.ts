@@ -1,6 +1,5 @@
 /* eslint-disable no-useless-escape */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { promises } from 'dns';
 import { mockUsers } from '../../__mock-data__/users';
 import { User, IUser } from '../types';
 
@@ -10,7 +9,6 @@ export default class ManageUser implements IUser {
   async getAllUsers(): Promise<[User[], any | null]> {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
-        console.log([this.users, null]);
         resolve([this.users, null]);
       }, 1000);
     });
@@ -83,7 +81,13 @@ export default class ManageUser implements IUser {
         const userIndex = this.users.findIndex((users) => users.username === username);
         if (userIndex === -1) return [null, { errorMessage: 'Could not find the requested Manage User' }];
 
-        this.users = this.users.filter((user) => user !== this.users[userIndex]);
+        if (userIndex === -1) {
+          return reject(new Error('User not found'));
+        }
+
+        this.users.splice(userIndex, 1);
+
+        resolve(true);
       });
     });
   }

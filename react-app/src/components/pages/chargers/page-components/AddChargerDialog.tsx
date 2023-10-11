@@ -3,7 +3,8 @@ import { ChargerStation } from '@/remote-access/types';
 import { Button, Collapse, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControl, FormHelperText, Input, InputLabel, LinearProgress, List, ListItem, ListItemText, Theme } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 import { useTheme } from '@material-ui/styles';
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 
 interface AddChargerDialogProps {
   open: boolean
@@ -26,6 +27,7 @@ const AddChargerDialog: FC<AddChargerDialogProps> = ({ open, handleClose, statio
   const theme: Theme = useTheme();
   const [state, setState] = useState<AddChargerDialogState>({
     loading: false,
+    serialNumber: uuidv4(),
     errorState: {}
   });
 
@@ -35,6 +37,12 @@ const AddChargerDialog: FC<AddChargerDialogProps> = ({ open, handleClose, statio
       serialNumber: newSerialNumber
     });
   };
+
+  useEffect(() => {
+    if (open) {
+      handleSerialNumberChange(uuidv4());
+    }
+  }, [open]);
 
   const handleAddClick = () => {
     if (state.serialNumber !== undefined) {
@@ -118,6 +126,12 @@ const AddChargerDialog: FC<AddChargerDialogProps> = ({ open, handleClose, statio
               />
             </ListItem>
             <ListItem>
+              <ListItemText 
+                primary={state.serialNumber}
+                secondary="Serial Number"
+              />
+            </ListItem>
+            <ListItem>
               <ListItemText>
                 The status of this charger will be set to <b>Available</b> by default.
               </ListItemText>
@@ -141,7 +155,6 @@ const AddChargerDialog: FC<AddChargerDialogProps> = ({ open, handleClose, statio
             </FormHelperText>
           </FormControl>
         </form>
-
       </DialogContent>
       <DialogActions>
         <Button

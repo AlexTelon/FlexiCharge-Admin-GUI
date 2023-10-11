@@ -118,7 +118,7 @@ const DashboardHome = () => {
         lg={5}
         xl={4}
       >
-        <ChargerStationMap />
+        <ChargerStationMap fetchStations={true} enableAddMarker={false} />
       </Grid>
     </Grid>
   );
@@ -135,13 +135,13 @@ const Dashboard = (props: any) => {
       <Box sx={{ display: 'flex', width: '100%' }}>
         <Navbar />
         <Box component="main" style={{ width: '100%' }}>
-          <AppBar position="sticky" className={classes.appBar} >
+          {/* <AppBar position="sticky" className={classes.appBar} >
             <Toolbar variant="dense">
               <Typography variant="h6">
                 Flexi Charge
               </Typography>
             </Toolbar>
-          </AppBar>
+          </AppBar> */}
           <Route path="/dashboard" exact render={() => (<DashboardHome />)} />
           <Route path="/dashboard/stations" exact render={() => (<ChargerStations />)} />
           <Route path="/dashboard/chargers" exact render={(props) => (<ChargersPage {...props} />)} />
@@ -162,6 +162,7 @@ export const DashboardRoute = ({ ...rest }) => {
       return localStorage.getItem('isAuthenticated')
         ? <Dashboard />
         : <Redirect to='/login' />;
+        
     }} />
   );
 };
