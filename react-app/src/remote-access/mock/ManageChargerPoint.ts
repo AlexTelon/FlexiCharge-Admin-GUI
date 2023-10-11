@@ -2,12 +2,12 @@ import { mockChargerPoints } from '@/__mock-data__';
 import { ChargePoint, IChargerPoint } from '../types';
 
 export default class ManageChargerPoint implements IChargerPoint {
-  stations = mockChargerPoints;
+  points = mockChargerPoints;
 
   async getAllChargerPoints(): Promise<ChargePoint[]> {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
-        resolve(this.stations);
+        resolve(this.points);
       }, 1000);
     });
   }
@@ -18,7 +18,7 @@ export default class ManageChargerPoint implements IChargerPoint {
       // If not found then try remote
 
       setTimeout(() => {
-        resolve(this.stations.filter((station) => station.chargePointID === chargerPointId)[0] || null);
+        resolve(this.points.filter((point) => point.chargePointID === chargerPointId)[0] || null);
       }, 100);
     });
   }
@@ -37,9 +37,9 @@ export default class ManageChargerPoint implements IChargerPoint {
         
         const chargePoint: ChargePoint = {
           ...fields,
-          chargePointID: this.stations.length + 1
+          chargePointID: this.points.length + 1
         };
-        this.stations.push(chargePoint);
+        this.points.push(chargePoint);
         resolve([chargePoint.chargePointID, null]);
       }, 1000);
     });
@@ -48,26 +48,26 @@ export default class ManageChargerPoint implements IChargerPoint {
   async updateChargerPoint(chargerPointId: number, fields: Omit<ChargePoint, 'chargePointID'>): Promise<[ChargePoint | null, any | null]> {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
-        const stationIndex = this.stations.findIndex((station) => station.chargePointID === chargerPointId);
-        if (stationIndex === -1) return [null, { errorMessage: 'Could not find the requested Charge-point' }];
+        const pointIndex = this.points.findIndex((point) => point.chargePointID === chargerPointId);
+        if (pointIndex === -1) return [null, { errorMessage: 'Could not find the requested Charge-point' }];
 
         const errorObj = this.validateFields(fields);
         if (Object.keys(errorObj).length > 0) resolve([null, errorObj]);
 
         const chargePoint = {
           ...fields,
-          chargePointID: this.stations[stationIndex].chargePointID
+          chargePointID: this.points[pointIndex].chargePointID
         };
 
-        this.stations[stationIndex] = chargePoint;
+        this.points[pointIndex] = chargePoint;
         resolve([chargePoint, null]);
       }, 1000);
     });
   }
 
   private isNametaken(name: string) {
-    for (const station of this.stations) {
-      if (station.name === name) return true;
+    for (const point of this.points) {
+      if (point.name === name) return true;
     }
     return false;
   }

@@ -62,7 +62,7 @@ const ChargerPointMap = ({ fetchChargePoints = true, enableAddMarker = true, onM
     // Leaflet style overrides
     const mapStyle = document.createElement('style');
     mapStyle.innerText = `
-      #charger-station-map .leaflet-popup-content p {
+      #charger-point-map .leaflet-popup-content p {
         margin: 0;
       }
     `;
@@ -100,7 +100,7 @@ const ChargerPointMap = ({ fetchChargePoints = true, enableAddMarker = true, onM
             <Typography variant="h6" gutterBottom>Charge-points Map</Typography>
           )}
           <MapContainer 
-            id="charger-station-map"
+            id="charger-point-map"
             center={[57.78088050269488, 14.161473514345374]} 
             zoom={13} 
             minZoom={5}
@@ -115,41 +115,41 @@ const ChargerPointMap = ({ fetchChargePoints = true, enableAddMarker = true, onM
               attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
-            {state.chargePoints.map(station => (
+            {state.chargePoints.map(point => (
               <Marker
-                key={station.chargePointID}
+                key={point.chargePointID}
                 position={[
-                  station.location[0],
-                  station.location[1]
+                  point.location[0],
+                  point.location[1]
                 ]}
               >
                 <Popup>
                   <Typography>
-                    {station.name}
+                    {point.name}
                   </Typography>
                   <List dense={true}>
                     <ListItem>
                       <ListItemText
-                        primary={station.chargePointID}
+                        primary={point.chargePointID}
                         secondary="Station ID"
                       />
                     </ListItem>
                     <ListItem>
                       <ListItemText
-                        primary={`${station.location[0]}, ${station.location[1]}`}
+                        primary={`${point.location[0]}, ${point.location[1]}`}
                         secondary="Latitude, Longitude"
                       />
                     </ListItem>
                     <ListItem>
                       <ListItemText
-                        primary={`SEK ${station.price / 100}`}
+                        primary={`SEK ${point.price / 100}`}
                         secondary="Price"
                       />
                     </ListItem>
                     <ListItem>
                       <Button
                         component={Link}
-                        to={`/dashboard/chargers/${station.chargePointID}`}
+                        to={`/dashboard/chargers/${point.chargePointID}`}
                         variant="text"
                         color="primary"
                         endIcon={<ChevronRight />}

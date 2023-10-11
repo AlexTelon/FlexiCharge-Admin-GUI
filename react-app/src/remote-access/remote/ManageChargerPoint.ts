@@ -4,7 +4,7 @@ import axiosInstance from '../utility/axios-instance';
 import { ChargePoint, IChargerPoint } from '../types';
 
 export default class ManageChargerPoint implements IChargerPoint {
-  stations = mockChargerPoints;
+  points = mockChargerPoints;
 
   async getAllChargerPoints(): Promise<ChargePoint[]> {
     const response = await axiosInstance.get(`${FLEXICHARGE_API_URL}/chargePoints`, {

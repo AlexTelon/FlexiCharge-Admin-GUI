@@ -28,8 +28,8 @@ const chargingStationComp = (props: any) => {
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
-    manageChargerPoint.getAllChargerPoints().then((stations) => {
-      setNumStations(stations.length);
+    manageChargerPoint.getAllChargerPoints().then((points) => {
+      setNumStations(points.length);
       setLoaded(true);
     });
   }, []);

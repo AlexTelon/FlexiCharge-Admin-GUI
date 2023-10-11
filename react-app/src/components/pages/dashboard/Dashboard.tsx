@@ -141,7 +141,7 @@ const Dashboard = (props: any) => {
           <ProtectedRoute path='/dashboard/chargers' exact>
             <ChargersPage />
           </ProtectedRoute>
-          <ProtectedRoute path='/dashboard/chargers/:stationId' exact>
+          <ProtectedRoute path='/dashboard/chargers/:pointId' exact>
             <ChargersPage />
           </ProtectedRoute>
           <ProtectedRoute path='/dashboard/invoices' exact>

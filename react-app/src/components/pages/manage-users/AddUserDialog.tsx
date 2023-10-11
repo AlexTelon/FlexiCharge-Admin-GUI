@@ -132,7 +132,7 @@ const AddSingleUserDialog = ({ open, handleClose }: any) => {
               </FormControl>
               <FormControl style={{ marginTop: 12 }} fullWidth variant="outlined" error={errorState.email !== undefined}>
                 <InputLabel htmlFor="user-email-input">Email</InputLabel>
-                <Input id="user-email-input" aria-describedby="station-email-helper" onChange={handleEmailChange} value={email} />
+                <Input id="user-email-input" aria-describedby="point-email-helper" onChange={handleEmailChange} value={email} />
                 <FormHelperText id="user-email-helper">
                   {errorState.email
                     ? `${errorState.email} | Email adress`
@@ -142,7 +142,7 @@ const AddSingleUserDialog = ({ open, handleClose }: any) => {
               </FormControl>
               <FormControl style={{ marginTop: 12 }} fullWidth variant="outlined" error={errorState.role !== undefined}>
                 <InputLabel htmlFor="user-phone-number-input">Phone number</InputLabel>
-                <Input id="user-phone-number-input" aria-describedby="station-phone-number-helper" onChange={handlePhoneNumberChange} value={phoneNumber} />
+                <Input id="user-phone-number-input" aria-describedby="point-phone-number-helper" onChange={handlePhoneNumberChange} value={phoneNumber} />
                 <FormHelperText id="user-phone-number-helper">
                   {errorState.phoneNumber
                     ? `${errorState.phoneNumber} | Phone number`

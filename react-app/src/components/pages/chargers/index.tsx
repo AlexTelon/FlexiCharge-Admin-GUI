@@ -67,7 +67,7 @@ const useStyles = makeStyles((theme: Theme) =>
       maxHeight: '600px',
       marginTop: theme.spacing(1)
     },
-    stationNameCell: {
+    pointNameCell: {
       maxWidth: '15vw'
     }
   })
