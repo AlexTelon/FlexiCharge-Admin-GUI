@@ -3,7 +3,7 @@
 import { createContainer, asClass, Lifetime, InjectionMode } from 'awilix';
 // change /mock/ to /remote/ to use api data
 
-import AuthenticationProvider from './remote-access/remote/AuthenticationProvider';
+import AuthenticationProvider from './remote-access/mock/AuthenticationProvider';
 import ManageUser from './remote-access/remote/ManageUser';
 import ManageAdmin from './remote-access/remote/ManageAdmin';
 import ManageTransaction from './remote-access/remote/ManageTransaction';
