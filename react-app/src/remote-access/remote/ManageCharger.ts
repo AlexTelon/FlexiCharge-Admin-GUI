@@ -3,7 +3,7 @@ import { FLEXICHARGE_API_URL } from '@/appConfig';
 import axiosInstance from '../utility/axios-instance';
 
 export default class ManageCharger implements ICharger {
-  public async addCharger(fields: Omit<Charger, 'chargerID' | 'status'>): Promise<[Charger | null, any | null]> {
+  public async addCharger(fields: Omit<Charger, 'connectorID' | 'status'>): Promise<[Charger | null, any | null]> {
     try {
       const res = await axiosInstance.post(`${FLEXICHARGE_API_URL}/chargers/`, fields, {
         headers: {
@@ -61,9 +61,9 @@ export default class ManageCharger implements ICharger {
     }
   }
 
-  public async getChargerById(chargerId: number): Promise<[Charger | null, any | null]> {
+  public async getChargerById(connectorID: number): Promise<[Charger | null, any | null]> {
     try {
-      const res = await axiosInstance.get(`${FLEXICHARGE_API_URL}/chargers/${chargerId}`, {
+      const res = await axiosInstance.get(`${FLEXICHARGE_API_URL}/chargers/${connectorID}`, {
         headers: {
           Authorization: `Bearer ${sessionStorage.getItem('token')}`
         }
@@ -74,9 +74,9 @@ export default class ManageCharger implements ICharger {
     }
   }
 
-  public async updateChargerById(chargerId: number, fields: Omit<Charger, 'chargerID'>): Promise<[Charger | null, any | null]> {
+  public async updateChargerById(connectorID: number, fields: Omit<Charger, 'connectorID'>): Promise<[Charger | null, any | null]> {
     try {
-      const res = await axiosInstance.put(`${FLEXICHARGE_API_URL}/chargers/${chargerId}`, fields, {
+      const res = await axiosInstance.put(`${FLEXICHARGE_API_URL}/chargers/${connectorID}`, fields, {
         headers: {
           Authorization: `Bearer ${sessionStorage.getItem('token')}`
         }
@@ -87,9 +87,9 @@ export default class ManageCharger implements ICharger {
     }
   }
   
-  public async deleteChargerById(chargerId: number): Promise<any> {
+  public async deleteChargerById(connectorID: number): Promise<any> {
     try {
-      const res = await axiosInstance.delete(`${FLEXICHARGE_API_URL}/chargers/${chargerId}`, {
+      const res = await axiosInstance.delete(`${FLEXICHARGE_API_URL}/chargers/${connectorID}`, {
         headers: {
           Authorization: `Bearer ${sessionStorage.getItem('token')}`
         }

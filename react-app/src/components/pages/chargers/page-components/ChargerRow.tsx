@@ -7,8 +7,8 @@ import { Edit } from '@material-ui/icons';
 import React, { FC } from 'react';
 
 interface ChargerRowProps {
-  editClicked: (chargerID: number) => void
-  deleteClicked: (chargerID: number) => void
+  editClicked: (connectorID: number) => void
+  deleteClicked: (connectorID: number) => void
   charger: Charger
   classes: any
 }
@@ -35,7 +35,7 @@ const ChargerRow: FC<ChargerRowProps> = ({ charger, classes, editClicked, delete
               className={classes.stationNameCell}
               noWrap
             >
-              {charger.chargerID}
+              {charger.connectorID}
             </Typography>
           </Box>
         </TableCell>
@@ -57,7 +57,7 @@ const ChargerRow: FC<ChargerRowProps> = ({ charger, classes, editClicked, delete
             style={{ color: theme.flexiCharge.primary.white }}
             variant="contained"
             color="primary"
-            onClick={() => editClicked(charger.chargerID)}
+            onClick={() => editClicked(charger.connectorID)}
           >
             Edit
           </Button>

@@ -9,9 +9,9 @@ describe('manage charger test', () => {
   const chargers = mockChargers;
 
   test('getCharger should return the charger with the specified id', async () => {
-    const chargerId = 1;
-    const [retrievedCharger, error] = await manageCharger.getChargerById(chargerId);
-    expect(retrievedCharger).toEqual(chargers.find(charger => charger.chargerID === chargerId));
+    const connectorID = 1;
+    const [retrievedCharger, error] = await manageCharger.getChargerById(connectorID);
+    expect(retrievedCharger).toEqual(chargers.find(charger => charger.connectorID === connectorID));
     expect(error).toBeNull();
   });
 
@@ -24,7 +24,7 @@ describe('manage charger test', () => {
 
   test('addCharger should add a new charger to the list', async () => {
     const newCharger = {
-      chargerID: 5,
+      connectorID: 5,
       status: 0,
       location: [34.3456, 67.3465] as [number, number],
       chargePointID: 1
@@ -47,20 +47,20 @@ describe('manage charger test', () => {
   });
 
   test('updateChargerById should update the charger with the specified id', async () => {
-    const chargerId = 1;
+    const connectorID = 1;
     const updatedFields = {
       status: 1,
       location: [56.40568, 23.0948] as [number, number],
       chargePointID: 1
     };
-    const [updatedCharger, error] = await manageCharger.updateChargerById(chargerId, updatedFields);
-    expect(updatedCharger).toEqual({ ...chargers.find(charger => charger.chargerID === chargerId), ...updatedFields });
+    const [updatedCharger, error] = await manageCharger.updateChargerById(connectorID, updatedFields);
+    expect(updatedCharger).toEqual({ ...chargers.find(charger => charger.connectorID === connectorID), ...updatedFields });
     expect(error).toBeNull();
   });
 
   test('deleteChargerById should delete the charger with the specified id', async () => {
-    const chargerId = 1;
-    const result = await manageCharger.deleteChargerById(chargerId);
+    const connectorID = 1;
+    const result = await manageCharger.deleteChargerById(connectorID);
     expect(result).toBe(true);
   });
 });

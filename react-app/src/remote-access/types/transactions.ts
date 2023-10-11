@@ -11,7 +11,7 @@ export interface Transaction {
   client_token: string
   paymentConfirmed: boolean
   meterStart: null
-  chargerID: number
+  connectorID: number
 }
   
 export interface ITransaction {
