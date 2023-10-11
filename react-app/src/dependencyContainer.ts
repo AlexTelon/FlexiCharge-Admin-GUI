@@ -3,14 +3,14 @@
 import { createContainer, asClass, Lifetime, InjectionMode } from 'awilix';
 // change /mock/ to /remote/ to use api data
 
-import AuthenticationProvider from './remote-access/remote/AuthenticationProvider';
+/* import AuthenticationProvider from './remote-access/remote/AuthenticationProvider';
 import ManageUser from './remote-access/remote/ManageUser';
 import ManageAdmin from './remote-access/remote/ManageAdmin';
 import ManageTransaction from './remote-access/remote/ManageTransaction';
 import ManageInvoice from './remote-access/remote/ManageInvoice';
 import ManageChargerPoint from './remote-access/remote/ManageChargerPoint';
-import ManageCharger from './remote-access/remote/ManageCharger';
-/*
+import ManageCharger from './remote-access/remote/ManageCharger'; */
+
 import AuthenticationProvider from './remote-access/mock/AuthenticationProvider';
 import ManageUser from './remote-access/mock/ManageUser';
 import ManageAdmin from './remote-access/mock/ManageAdmin';
@@ -18,7 +18,7 @@ import ManageTransaction from './remote-access/mock/ManageTransaction';
 import ManageInvoice from './remote-access/mock/ManageInvoice';
 import ManageChargerPoint from './remote-access/mock/ManageChargerPoint';
 import ManageCharger from './remote-access/mock/ManageCharger';
-*/
+
 
 const container = createContainer({
   injectionMode: InjectionMode.CLASSIC

@@ -1,10 +1,10 @@
 import { mockChargerPoints } from '@/__mock-data__';
-import { ChargerPoint, IChargerPoint } from '../types';
+import { ChargePoint, IChargerPoint } from '../types';
 
 export default class ManageChargerPoint implements IChargerPoint {
   stations = mockChargerPoints;
 
-  async getAllChargerPoints(): Promise<ChargerPoint[]> {
+  async getAllChargerPoints(): Promise<ChargePoint[]> {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         resolve(this.stations);
@@ -12,7 +12,7 @@ export default class ManageChargerPoint implements IChargerPoint {
     });
   }
 
-  async getChargerPointById(chargerPointId: number): Promise<ChargerPoint | null> {
+  async getChargerPointById(chargerPointId: number): Promise<ChargePoint | null> {
     return new Promise((resolve, reject) => {
       // Look up in local
       // If not found then try remote
@@ -29,38 +29,38 @@ export default class ManageChargerPoint implements IChargerPoint {
     });
   }
 
-  async addChargerPoint(fields: Omit<ChargerPoint, 'chargePointID'>): Promise<[number | null, any | null]> {
+  async addChargerPoint(fields: Omit<ChargePoint, 'chargePointID'>): Promise<[number | null, any | null]> {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         const errorObj = this.validateFields(fields);
         if (Object.keys(errorObj).length > 0) resolve([null, errorObj]);
         
-        const chargerPoint: ChargerPoint = {
+        const chargePoint: ChargePoint = {
           ...fields,
           chargePointID: this.stations.length + 1
         };
-        this.stations.push(chargerPoint);
-        resolve([chargerPoint.chargePointID, null]);
+        this.stations.push(chargePoint);
+        resolve([chargePoint.chargePointID, null]);
       }, 1000);
     });
   }
 
-  async updateChargerPoint(chargerPointId: number, fields: Omit<ChargerPoint, 'chargePointID'>): Promise<[ChargerPoint | null, any | null]> {
+  async updateChargerPoint(chargerPointId: number, fields: Omit<ChargePoint, 'chargePointID'>): Promise<[ChargePoint | null, any | null]> {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         const stationIndex = this.stations.findIndex((station) => station.chargePointID === chargerPointId);
-        if (stationIndex === -1) return [null, { errorMessage: 'Could not find the requested Charger Station' }];
+        if (stationIndex === -1) return [null, { errorMessage: 'Could not find the requested Charger Point' }];
 
         const errorObj = this.validateFields(fields);
         if (Object.keys(errorObj).length > 0) resolve([null, errorObj]);
 
-        const chargerPoint = {
+        const chargePoint = {
           ...fields,
           chargePointID: this.stations[stationIndex].chargePointID
         };
 
-        this.stations[stationIndex] = chargerPoint;
-        resolve([chargerPoint, null]);
+        this.stations[stationIndex] = chargePoint;
+        resolve([chargePoint, null]);
       }, 1000);
     });
   }
@@ -80,7 +80,7 @@ export default class ManageChargerPoint implements IChargerPoint {
     return longitude >= -180 && longitude <= 80;
   }
 
-  private validateFields(fields: Omit<ChargerPoint, 'chargePointID'>): any | null {
+  private validateFields(fields: Omit<ChargePoint, 'chargePointID'>): any | null {
     const errorObj: any = {};
     if (fields.location[0] && ((isNaN(fields.location[0]) || !this.isValidLatitude(fields.location[1])))) {
       errorObj.latitude = 'Latitude must be a number within range -90 to 90';

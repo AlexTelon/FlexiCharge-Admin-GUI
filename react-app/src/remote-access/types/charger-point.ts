@@ -1,4 +1,4 @@
-export interface ChargerPoint {
+export interface ChargePoint {
   chargePointID: number
   name: string
   location: [number, number]
@@ -7,9 +7,9 @@ export interface ChargerPoint {
 }
 
 export interface IChargerPoint {
-  getAllChargerPoints: () => Promise<ChargerPoint[]>
-  getChargerPointById: (chargerPointId: number) => Promise<ChargerPoint | null>
-  addChargerPoint: (fields: Omit<ChargerPoint, 'chargePointID'>) => Promise<[number | null, any | null]>
-  updateChargerPoint: (chargerPointId: number, fields: Omit<ChargerPoint, 'chargePointID'>) => Promise<[ChargerPoint | null, any | null]>
+  getAllChargerPoints: () => Promise<ChargePoint[]>
+  getChargerPointById: (chargerPointId: number) => Promise<ChargePoint | null>
+  addChargerPoint: (fields: Omit<ChargePoint, 'chargePointID'>) => Promise<[number | null, any | null]>
+  updateChargerPoint: (chargerPointId: number, fields: Omit<ChargePoint, 'chargePointID'>) => Promise<[ChargePoint | null, any | null]>
   deleteChargerPoint: (chargerPointId: number) => Promise<boolean>
 }

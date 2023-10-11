@@ -8,7 +8,7 @@ import { ChevronRight, Close } from '@material-ui/icons';
 import { createStyles, makeStyles, useTheme } from '@material-ui/styles';
 import React, { FC, useEffect, useState } from 'react';
 import { manageChargerPoint } from '@/remote-access';
-import { ChargerPoint } from '@/remote-access/types';
+import { ChargePoint } from '@/remote-access/types';
 import { Alert } from '@material-ui/lab';
 import { Link } from 'react-router-dom';
 
@@ -47,7 +47,7 @@ const ChargerPointEditPanel: FC<ChargerPointEditPanelProps> = ({ chargerPointId,
   const classes = useStyle();
 
   const [deleteDialogOpen, setDeleteDialogOpen] = useState<boolean>(false);
-  const [station, setStation] = useState<ChargerPoint>();
+  const [station, setStation] = useState<ChargePoint>();
   const [fields, setFields] = useState<any>();
   const [errorState, setErrorState] = useState<any>({});
   const [loading, setLoading] = useState(false);
@@ -61,15 +61,15 @@ const ChargerPointEditPanel: FC<ChargerPointEditPanelProps> = ({ chargerPointId,
 
   useEffect(() => {
     if (chargerPointId) {
-      manageChargerPoint.getChargerPointById(chargerPointId).then((chargerPoint) => {
-        if (chargerPoint === null) return;
+      manageChargerPoint.getChargerPointById(chargerPointId).then((chargePoint) => {
+        if (chargePoint === null) return;
         setFields({
-          name: chargerPoint.name,
-          longitude: chargerPoint.location[1],
-          latitude: chargerPoint.location[0],
-          price: chargerPoint.price / 100
+          name: chargePoint.name,
+          longitude: chargePoint.location[1],
+          latitude: chargePoint.location[0],
+          price: chargePoint.price / 100
         });
-        setStation(chargerPoint);
+        setStation(chargePoint);
       });
     }
   }, [chargerPointId]);
@@ -132,7 +132,7 @@ const ChargerPointEditPanel: FC<ChargerPointEditPanelProps> = ({ chargerPointId,
       setLoading(false);
       if (!wasSuccess) {
         setErrorState({
-          alert: 'Could not delete Charger Station'
+          alert: 'Could not delete Charger Point'
         });
       } else {
         setActiveChargerPointId(undefined);
@@ -259,14 +259,14 @@ const ChargerPointEditPanel: FC<ChargerPointEditPanelProps> = ({ chargerPointId,
                   fullScreen={fullScreen}
                   open={deleteDialogOpen}
                   onClose={handleDeleteDialogClose}
-                  aria-labelledby="delete-station-dialog"
+                  aria-labelledby="delete-charger-point-dialog"
                 >
                   <Box>
-                    <DialogTitle id="delelte-station-dialog">Are you sure?</DialogTitle>
+                    <DialogTitle id="delete-charger-point-dialog">Are you sure?</DialogTitle>
                     <DialogContent>
-                      Are you sure you want to delete this Charger Station?
+                      Are you sure you want to delete this Charger Point?
                       <br />
-                      Deleting a Charger Station marks it as <em>Inactive</em> in the database
+                      Deleting a Charger Point marks it as <em>Inactive</em> in the database
                     </DialogContent>
                     <DialogActions>
                       <Button autoFocus onClick={handleDeleteDialogClose} color="primary">

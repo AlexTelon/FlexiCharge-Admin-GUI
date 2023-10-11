@@ -201,9 +201,9 @@ const ChargersPage = (props: any) => {
                       />
                     </Search>
                     <IconButton edge='end'
-                      aria-label='charger stations filters'
+                      aria-label='charge points filters'
                       aria-haspopup='true'
-                      aria-controls='charger-stations-filters'
+                      aria-controls='charger-points-filters'
                       color='inherit'
                       onClick={loadChargers}
                     >

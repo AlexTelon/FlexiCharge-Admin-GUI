@@ -53,7 +53,7 @@ const chargingStationComp = (props: any) => {
               gutterBottom
               variant="h6"
             >
-              Active Charger Points
+              Active Charge Points
             </Typography>
             <Typography
               color="textPrimary"

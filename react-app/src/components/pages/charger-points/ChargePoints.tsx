@@ -9,13 +9,13 @@ import {
   InputBase
 } from '@material-ui/core';
 import React, { useState, useRef, useEffect } from 'react';
-import ChargerPointEditPanel from './ChargerPointEditPanel';
+import ChargerPointEditPanel from './ChargePointEditPanel';
 import { Helmet } from 'react-helmet';
 import { Replay } from '@material-ui/icons';
-import ChargerPointsTable from './ChargerPointTable';
-import ChargerPointsSettingsAccordian from './ChargerPointsSettingsAccordian';
+import ChargerPointsTable from './ChargePointTable';
+import ChargerPointsSettingsAccordian from './ChargePointsSettingsAccordian';
 import { manageChargerPoint } from '@/remote-access';
-import { ChargerPoint } from '@/remote-access/types';
+import { ChargePoint } from '@/remote-access/types';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -103,12 +103,12 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   }
 }));
 
-const ChargerPoints = () => {
+const ChargePoints = () => {
   const classes = useStyles();
   const [state, setState] = useState<any>({
     loaded: false
   });
-  const [searchedChargerPoints, setSearchedChargerPoints] = useState<ChargerPoint[]>([]);
+  const [searchedChargerPoints, setSearchedChargerPoints] = useState<ChargePoint[]>([]);
   const [search, setSearch] = useState<string>();
   const [activeChargerPointId, setActiveChargerPointId] = useState<number>();
   const [selectedChargerPoints, setSelectedChargerPoints] = useState<readonly string[]>([]);
@@ -121,11 +121,11 @@ const ChargerPoints = () => {
   const handleSearch = (searchText: string) => {
     setSearch(searchText);
     if (searchText !== '') {
-      const chargerPoints = state.chargerPoints.filter((chargerPoint: ChargerPoint) => {
-        return chargerPoint.chargePointID === Number(searchText)
-          || chargerPoint.name.toLowerCase().includes(searchText.toLowerCase());
+      const chargePoints = state.chargePoints.filter((chargePoint: ChargePoint) => {
+        return chargePoint.chargePointID === Number(searchText)
+          || chargePoint.name.toLowerCase().includes(searchText.toLowerCase());
       });
-      setSearchedChargerPoints(chargerPoints);
+      setSearchedChargerPoints(chargePoints);
     } else {
       setSearch(undefined);
       loadChargerPoints();
@@ -137,16 +137,16 @@ const ChargerPoints = () => {
       ...state,
       loaded: false
     });
-    manageChargerPoint.getAllChargerPoints().then((chargerPoints) => {
+    manageChargerPoint.getAllChargerPoints().then((chargePoints) => {
       setState({
         loaded: true,
-        chargerPoints
+        chargePoints
       });
     }).catch((_) => {
       setState({
         loaded: true,
         error: true,
-        errorMessage: 'Failed to load chargerPoints'
+        errorMessage: 'Failed to load chargePoints'
       });
     });
   };
@@ -173,7 +173,7 @@ const ChargerPoints = () => {
                 <AppBar position="static" className={classes.contentAppBar} elevation={1}>
                   <Toolbar variant="dense">
                     <Typography className={classes.contentTitle} variant="h6">
-                      Charger Points
+                      Charge Points
                     </Typography>
                     <Search color="primary">
                       <SearchIconWrapper>
@@ -187,9 +187,9 @@ const ChargerPoints = () => {
                       />
                     </Search>
                     <IconButton edge="end"
-                      aria-label="charger chargerPoints reload"
+                      aria-label="charger chargePoints reload"
                       aria-haspopup="true"
-                      aria-controls="charger-chargerPoints-reload"
+                      aria-controls="charger-chargePoints-reload"
                       color="inherit"
                       onClick={() => { loadChargerPoints(); setSearch(undefined); }}
                     >
@@ -199,7 +199,7 @@ const ChargerPoints = () => {
                 </AppBar>
                 <ChargerPointsSettingsAccordian reload={loadChargerPoints} selectedChargerPoints={selectedChargerPoints} />
                 <Paper elevation={2}>
-                  <ChargerPointsTable loaded={state.loaded} chargerPoints={search !== undefined ? searchedChargerPoints : state.chargerPoints} ref={chargerPointsTable} setSelectedChargerPoints={setSelectedChargerPoints} editClicked={handleChargerPointEditClicked} classes={classes} />
+                  <ChargerPointsTable loaded={state.loaded} chargePoints={search !== undefined ? searchedChargerPoints : state.chargePoints} ref={chargerPointsTable} setSelectedChargerPoints={setSelectedChargerPoints} editClicked={handleChargerPointEditClicked} classes={classes} />
                 </Paper>
               </Grid>
               <Grid item xs={12} md={4} lg={3}>
@@ -213,4 +213,4 @@ const ChargerPoints = () => {
   );
 };
 
-export default ChargerPoints;
+export default ChargePoints;

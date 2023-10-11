@@ -1,23 +1,23 @@
 import { FLEXICHARGE_API_URL } from '@/appConfig';
 import { mockChargerPoints } from '@/__mock-data__';
 import axios from 'axios';
-import { ChargerPoint, IChargerPoint } from '../types';
+import { ChargePoint, IChargerPoint } from '../types';
 
 export default class ManageChargerPoint implements IChargerPoint {
   stations = mockChargerPoints;
 
-  async getAllChargerPoints(): Promise<ChargerPoint[]> {
+  async getAllChargerPoints(): Promise<ChargePoint[]> {
     const response = await axios.get(`${FLEXICHARGE_API_URL}/chargePoints`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`
       }
     });
 
-    const chargerPoints = response.data;
-    return chargerPoints;
+    const chargePoints = response.data;
+    return chargePoints;
   }
 
-  async getChargerPointById(chargerPointId: number): Promise<ChargerPoint | null> {
+  async getChargerPointById(chargerPointId: number): Promise<ChargePoint | null> {
     try {
       const reponse = await axios.get(`${FLEXICHARGE_API_URL}/chargePoints/${chargerPointId}`, {
         headers: {
@@ -25,8 +25,8 @@ export default class ManageChargerPoint implements IChargerPoint {
         }
       });
 
-      const chargerPoint = reponse.data;
-      return chargerPoint;
+      const chargePoint = reponse.data;
+      return chargePoint;
     } catch (error: any) {
       if (error.response) {
         return null;
@@ -35,7 +35,7 @@ export default class ManageChargerPoint implements IChargerPoint {
     }
   }
 
-  async addChargerPoint(fields: Omit<ChargerPoint, 'chargePointID'>): Promise<[number | null, any | null]> {
+  async addChargerPoint(fields: Omit<ChargePoint, 'chargePointID'>): Promise<[number | null, any | null]> {
     console.log('addChargerPoint');
     try {
       console.log('addChargerPoint - validating fields:', fields);
@@ -106,7 +106,7 @@ export default class ManageChargerPoint implements IChargerPoint {
     }
   }
 
-  async updateChargerPoint(chargerPointId: number, fields: Omit<ChargerPoint, 'chargePointID'>): Promise<[ChargerPoint | null, any | null]> {
+  async updateChargerPoint(chargerPointId: number, fields: Omit<ChargePoint, 'chargePointID'>): Promise<[ChargePoint | null, any | null]> {
     try {
       const errorObj = this.validateFields(fields);
       if (Object.keys(errorObj).length > 0) return [null, errorObj];
@@ -149,7 +149,7 @@ export default class ManageChargerPoint implements IChargerPoint {
     return longitude >= -180 && longitude <= 180;
   }
 
-  private validateFields(fields: Omit<ChargerPoint, 'chargePointID'>): any | null {
+  private validateFields(fields: Omit<ChargePoint, 'chargePointID'>): any | null {
     const errorObj: any = {};
     if (!Array.isArray(fields.location) || fields.location.length < 2) {
       errorObj.location = 'Location must be an array with at least two elements (latitude and longitude)';

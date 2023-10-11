@@ -5,16 +5,16 @@ import {
   Collapse, Grid, ListItemText
 } from '@material-ui/core';
 import { Edit } from '@material-ui/icons';
-import { ChargerPoint } from '@/remote-access/types';
+import { ChargePoint } from '@/remote-access/types';
 import { Link } from 'react-router-dom';
 interface ChargerPointTableRowProps {
-  chargerPoint: ChargerPoint
+  chargePoint: ChargePoint
   editClicked: (chargerPointId: number) => void
   selected: boolean
   handleSelect: (chargerPointId: number) => void
 }
 
-const ChargerPointTableRow: FC<ChargerPointTableRowProps> = ({ chargerPoint, editClicked, selected, handleSelect }) => {
+const ChargerPointTableRow: FC<ChargerPointTableRowProps> = ({ chargePoint, editClicked, selected, handleSelect }) => {
   const [open, setOpen] = useState(false);
   const chargerPointRow = useRef(null);
 
@@ -23,7 +23,7 @@ const ChargerPointTableRow: FC<ChargerPointTableRowProps> = ({ chargerPoint, edi
     <>
       <TableRow
         hover
-        key={chargerPoint.chargePointID}
+        key={chargePoint.chargePointID}
         ref={chargerPointRow}
         onClick={() => setOpen(!open)}
         style={{ backgroundColor: open ? 'rgba(240,240,240,1)' : theme.flexiCharge.primary.white }}
@@ -32,7 +32,7 @@ const ChargerPointTableRow: FC<ChargerPointTableRowProps> = ({ chargerPoint, edi
           <Checkbox
             color="primary"
             checked={selected}
-            onChange={() => { handleSelect(chargerPoint.chargePointID); } }
+            onChange={() => { handleSelect(chargePoint.chargePointID); } }
             onClick={(e) => e.stopPropagation()}
           />
         </TableCell>
@@ -49,18 +49,18 @@ const ChargerPointTableRow: FC<ChargerPointTableRowProps> = ({ chargerPoint, edi
               style={{ maxWidth: '15vw' }}
               noWrap
             >
-              {chargerPoint.name}
+              {chargePoint.name}
             </Typography>
           </Box>
         </TableCell>
         <TableCell>
-          SEK {chargerPoint.price / 100}
+          SEK {chargePoint.price / 100}
         </TableCell>
         <TableCell align="right">
           <Hidden xsDown>
             <Button
               component={Link}
-              to={`/dashboard/chargers/${chargerPoint.chargePointID}`}
+              to={`/dashboard/chargers/${chargePoint.chargePointID}`}
               variant="text"
               color="primary">
                 Manage Chargers
@@ -73,7 +73,7 @@ const ChargerPointTableRow: FC<ChargerPointTableRowProps> = ({ chargerPoint, edi
             color="primary"
             onClick={(e) => {
               e.stopPropagation();
-              editClicked(chargerPoint.chargePointID);
+              editClicked(chargePoint.chargePointID);
             }}
           >
             Edit
@@ -81,7 +81,7 @@ const ChargerPointTableRow: FC<ChargerPointTableRowProps> = ({ chargerPoint, edi
         </TableCell>
       </TableRow>
       <TableRow
-        key={`${chargerPoint.chargePointID}-info`}
+        key={`${chargePoint.chargePointID}-info`}
       >
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
           <Collapse in={open} timeout="auto" unmountOnExit>
@@ -89,31 +89,31 @@ const ChargerPointTableRow: FC<ChargerPointTableRowProps> = ({ chargerPoint, edi
               <Grid container spacing={5}>
                 <Grid item xl={2}>
                   <ListItemText
-                    primary={chargerPoint.chargePointID}
-                    secondary="chargerPoint ID"
+                    primary={chargePoint.chargePointID}
+                    secondary="chargePoint ID"
                   />
                 </Grid>
                 <Grid item xl={2}>
                   <ListItemText
-                    primary={chargerPoint.name}
+                    primary={chargePoint.name}
                     secondary="Name"
                   />
                 </Grid>
                 <Grid item xl={2}>
                   <ListItemText
-                    primary={`${chargerPoint.location[0]}, ${chargerPoint.location[1]}`}
+                    primary={`${chargePoint.location[0]}, ${chargePoint.location[1]}`}
                     secondary="Latitude, Longitude"
                   />
                 </Grid>
                 <Grid item xl={2}>
                   <ListItemText
-                    primary={`SEK ${chargerPoint.price / 100}`}
+                    primary={`SEK ${chargePoint.price / 100}`}
                     secondary="Price"
                   />
                 </Grid>
                 <Grid item xl={2}>
                   <ListItemText
-                    primary={`SEK ${(chargerPoint.klarnaReservationAmount ?? 0) / 100}`}
+                    primary={`SEK ${(chargePoint.klarnaReservationAmount ?? 0) / 100}`}
                     secondary="Klarna Reservation Amount"
                   />
                 </Grid>

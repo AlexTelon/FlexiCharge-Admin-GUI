@@ -11,7 +11,7 @@ import {
 import { CheckCircle, Close } from '@material-ui/icons';
 import { manageChargerPoint } from '@/remote-access';
 import { Alert } from '@material-ui/lab';
-import ChargerPointMap from '../dashboard/dashboardComponents/ChargerPointMap';
+import ChargerPointMap from '../dashboard/dashboardComponents/ChargePointMap';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -128,14 +128,14 @@ const AddSingleStationDialog = ({ open, handleClose }: any) => {
           </Fade>
         }
 
-        <DialogTitle id="add-station-dialog-title">
-          Add a Charger Station
+        <DialogTitle id="add-charger-point-dialog-title">
+          Add a Charger Point
           <IconButton
             onClick={cleanClose}
             className={classes.dialogClose}
             edge="end"
-            aria-label="add station dialog close"
-            aria-controls="add-station-dialog"
+            aria-label="add charger point dialog close"
+            aria-controls="add-charger-point-dialog"
             color="inherit"
           >
             <Close />
@@ -180,9 +180,9 @@ const AddSingleStationDialog = ({ open, handleClose }: any) => {
               <ChargerPointMap 
                 onMapClick={handleMapClick} 
                 enableAddMarker={true} 
-                fetchStations={false} 
+                fetchChargePoints={false} 
                 hideTitleAndLoading={true}
-                className={classes.smallMap} 
+                key={classes.smallMap} 
               />
               <FormControl style={{ marginTop: 12 }} fullWidth variant="outlined" error={errorState.latitude !== undefined}>
                 <FormHelperText id="station-latitude-helper">

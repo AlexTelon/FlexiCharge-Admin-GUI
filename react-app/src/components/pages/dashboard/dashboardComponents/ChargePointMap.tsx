@@ -1,6 +1,6 @@
 import { TileLayer, Popup, MapContainer, Marker } from 'react-leaflet';
 import { manageChargerPoint } from '@/remote-access';
-import { ChargerPoint } from '@/remote-access/types';
+import { ChargePoint } from '@/remote-access/types';
 import React, { useState, useEffect } from 'react';
 import {
   Typography, Card, CardContent, List, ListItem,
@@ -13,40 +13,40 @@ import { LeafletMouseEvent, Map } from 'leaflet';
 
 interface ChargerPointMapState {
   loaded?: boolean
-  stations: ChargerPoint[]
+  chargePoints: ChargePoint[]
   error?: boolean
   errorMessage?: string
 }
 
 interface ChargerPointMapProps {
-  fetchStations?: boolean
+  fetchChargePoints?: boolean
   enableAddMarker?: boolean
   onMapClick?: (lat: number, lon: number) => void
   hideTitleAndLoading?: boolean
 }
 
-const ChargerPointMap = ({ fetchStations = true, enableAddMarker = true, onMapClick, hideTitleAndLoading = false, ...rest }: ChargerPointMapProps) => {
+const ChargerPointMap = ({ fetchChargePoints = true, enableAddMarker = true, onMapClick, hideTitleAndLoading = false, ...rest }: ChargerPointMapProps) => {
   const [state, setState] = useState<ChargerPointMapState>({
     loaded: false,
-    stations: []
+    chargePoints: []
   });
   const [reloaded, setReload] = useState<boolean>(false);
   const [clickedMarker, setClickedMarker] = useState<[number, number] | null>(null);
 
-  const loadStations = async () => {
+  const loadChargerPoints = async () => {
     setState(prevState => ({ ...prevState, loaded: false }));
     try {
-      const stations = await manageChargerPoint.getAllChargerPoints();
+      const chargePoints = await manageChargerPoint.getAllChargerPoints();
       setState({
         loaded: true,
-        stations,
+        chargePoints,
         error: false,
         errorMessage: ''
       });
     } catch (error) {
       setState({
         loaded: true,
-        stations: [],
+        chargePoints: [],
         error: true,
         errorMessage: 'Failed to load'
       });
@@ -55,8 +55,8 @@ const ChargerPointMap = ({ fetchStations = true, enableAddMarker = true, onMapCl
   };
 
   useEffect(() => {
-    if (fetchStations) {
-      loadStations();
+    if (fetchChargePoints) {
+      loadChargerPoints();
     }
 
     // Leaflet style overrides
@@ -97,7 +97,7 @@ const ChargerPointMap = ({ fetchStations = true, enableAddMarker = true, onMapCl
         }
         <CardContent>
           {!hideTitleAndLoading && (
-            <Typography variant="h6" gutterBottom>Charger Stations Map</Typography>
+            <Typography variant="h6" gutterBottom>Charge Points Map</Typography>
           )}
           <MapContainer 
             id="charger-station-map"
@@ -115,7 +115,7 @@ const ChargerPointMap = ({ fetchStations = true, enableAddMarker = true, onMapCl
               attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
-            {state.stations.map(station => (
+            {state.chargePoints.map(station => (
               <Marker
                 key={station.chargePointID}
                 position={[
