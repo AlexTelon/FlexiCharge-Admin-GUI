@@ -14,3 +14,9 @@ export interface ICharger {
   updateChargerById: (chargerId: number, fields: Omit<Charger, 'chargerID'>) => Promise<[Charger | null, any | null]>
   deleteChargerById: (chargerId: number) => Promise<any>
 }
+
+export interface ChargerValidationError {
+  latitude?: string
+  longitude?: string
+  serialNumber?: string
+}
