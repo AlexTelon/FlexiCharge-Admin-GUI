@@ -1,6 +1,7 @@
 /* eslint-disable */
 /* eslint-disable react/jsx-no-undef */
 import React, { useEffect, FC, useState } from 'react';
+import {loginInfo } from '@/__mock-data__/login' ;
 import {
   Paper, makeStyles, createStyles, Theme, AppBar, Toolbar,
   Typography, InputAdornment, TextField, Button, LinearProgress,
@@ -86,6 +87,8 @@ const LoginFields: FC<LoginFieldProps> = ({ setLoading }) => {
   let [tempPassword, setTempPassword] = React.useState('');
   let [newPassword, setNewPassword] = React.useState('');
   let [verifyUsername, setVerifyUserame] = React.useState('');
+  let [username1, setUsername1] = React.useState(loginInfo.username);
+  let [password1, setPassword1] = React.useState(loginInfo.password);
   const [alertState, setAlertState] = useState<any>({});
   //const [successState, setSuccessState] = useState<any>({});
 
@@ -95,6 +98,17 @@ const LoginFields: FC<LoginFieldProps> = ({ setLoading }) => {
       resetTempPassword();
       resetNewPassword();
       resetVerifyUsername;
+
+    } else {
+      setSelectedForm('login')
+    }
+  };
+  const toggleForm1 = () => {
+    if(selectedForm === 'login'){
+      setSelectedForm('repassword');
+      showPassword();
+      showPassword2();
+      VerifyUsername;
 
     } else {
       setSelectedForm('login')
@@ -125,6 +139,21 @@ const LoginFields: FC<LoginFieldProps> = ({ setLoading }) => {
   const resetVerifyUsername = () => {
     setUsername(() => {
       return verifyUsername = ''
+    })
+  }
+  const showPassword = () => {
+    setPassword1(() => {
+      return password1 
+    })
+  }
+  const showPassword2 = () => {
+    setPassword1(() => {
+      return password1 
+    }) 
+  }
+  const VerifyUsername = () => {
+    setUsername1(() => {
+      return username1 = '' 
     })
   }
   const handleLoginClicked = async () => {
@@ -189,6 +218,23 @@ const LoginFields: FC<LoginFieldProps> = ({ setLoading }) => {
     setLoading(false);
   };
 
+  const handleRepasswordClicked = async () => {
+    if (username) {
+      setLoading(true);
+      if (username == loginInfo.username) {
+        setAlertState({
+          alertRepasswordSuccess:'Confirmed' + '  '+
+            'Password: ' + loginInfo.password
+        });
+      } else { 
+        setAlertState({
+          alertRepasswordError: 'Invalid credentials'
+        });
+      }
+    } 
+    setLoading(false);
+  };
+
   if (localStorage.getItem('isAuthenticated')) {
     return (
       <Redirect to="/dashboard" />
@@ -212,6 +258,16 @@ const LoginFields: FC<LoginFieldProps> = ({ setLoading }) => {
         {selectedForm === 'verify' && alertState.alertVerifyError !== undefined &&
           <>
             <Alert className={classes.alertBox} severity="warning">{alertState.alertVerifyError}</Alert>
+          </>
+        }
+        {selectedForm === 'repassword' && alertState.alertRepasswordSuccess !== undefined &&
+          <>
+            <Alert className={classes.alertBox} severity="success">{alertState.alertRepasswordSuccess}</Alert>
+          </>
+        }
+        {selectedForm === 'repassword' && alertState.alertRepasswordError !== undefined &&
+          <>
+            <Alert className={classes.alertBox} severity="warning">{alertState.alertRepasswordError}</Alert>
           </>
         }
         {selectedForm === 'login' &&
@@ -258,6 +314,15 @@ const LoginFields: FC<LoginFieldProps> = ({ setLoading }) => {
             underline='none'
             href='#'
             onClick={() => toggleForm()}
+            > Here</Link>
+          </Typography>
+          <Typography>
+            Have you forgot your password? Show password
+            <Link 
+            className={classes.link} 
+            underline='none'
+            href='#'
+            onClick={() => toggleForm1()}
             > Here</Link>
           </Typography>
           </>
@@ -326,6 +391,36 @@ const LoginFields: FC<LoginFieldProps> = ({ setLoading }) => {
             onClick={() => toggleForm()}
             > Here</Link>
           </Typography>
+          </>
+        }
+        {selectedForm === 'repassword' &&
+        <>
+           <TextField 
+            className={classes.inputField}
+            onChange={(e) => setUsername(e.target.value)}
+            label="Email"
+            size="small"
+            data-cy="username-input"
+            value={username}
+            error={alertState.usernameError !== undefined}
+            helperText={alertState.usernameError}
+            variant="standard" InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Person className={classes.inputIcon} />
+                </InputAdornment>
+              )
+            }} />
+            <Button onClick={handleRepasswordClicked} className={classes.buttonStyle} variant="outlined">confirm</Button>
+              <Typography>
+                Sign in
+                <Link 
+                className={classes.link} 
+                underline='none'
+                href='#'
+                onClick={() => toggleForm1()}
+                > Here</Link>
+              </Typography>
           </>
         }
       </form>
