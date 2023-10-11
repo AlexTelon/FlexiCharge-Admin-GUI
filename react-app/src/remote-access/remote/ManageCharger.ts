@@ -3,7 +3,7 @@ import { FLEXICHARGE_API_URL } from '@/appConfig';
 import axios from 'axios';
 
 export default class ManageCharger implements ICharger {
-  public async addCharger(fields: Omit<Charger, 'chargerID' | 'status'>): Promise<[Charger | null, any | null]> {
+  public async addCharger(fields: Omit<Charger, 'connectorID' | 'status'>): Promise<[Charger | null, any | null]> {
     try {
       const res = await axios.post(`${FLEXICHARGE_API_URL}/chargers/`, fields, {
         headers: {
@@ -61,9 +61,9 @@ export default class ManageCharger implements ICharger {
     }
   }
 
-  public async getChargerById(chargerId: number): Promise<[Charger | null, any | null]> {
+  public async getChargerById(connectorID: number): Promise<[Charger | null, any | null]> {
     try {
-      const res = await axios.get(`${FLEXICHARGE_API_URL}/chargers/${chargerId}`, {
+      const res = await axios.get(`${FLEXICHARGE_API_URL}/chargers/${connectorID}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`
         }
@@ -74,9 +74,9 @@ export default class ManageCharger implements ICharger {
     }
   }
 
-  public async updateChargerById(chargerId: number, fields: Omit<Charger, 'chargerID'>): Promise<[Charger | null, any | null]> {
+  public async updateChargerById(connectorID: number, fields: Omit<Charger, 'connectorID'>): Promise<[Charger | null, any | null]> {
     try {
-      const res = await axios.put(`${FLEXICHARGE_API_URL}/chargers/${chargerId}`, fields, {
+      const res = await axios.put(`${FLEXICHARGE_API_URL}/chargers/${connectorID}`, fields, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`
         }
@@ -87,9 +87,9 @@ export default class ManageCharger implements ICharger {
     }
   }
   
-  public async deleteChargerById(chargerId: number): Promise<any> {
+  public async deleteChargerById(connectorID: number): Promise<any> {
     try {
-      const res = await axios.delete(`${FLEXICHARGE_API_URL}/chargers/${chargerId}`, {
+      const res = await axios.delete(`${FLEXICHARGE_API_URL}/chargers/${connectorID}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`
         }
