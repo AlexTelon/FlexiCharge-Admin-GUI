@@ -22,10 +22,10 @@ This is to provide a context dense way to communicate intended product functiona
 
 ### Adding charge posts
 
-Charlies new charger station have been installed. 
+Charlies new charge-point have been installed. 
 Now he wants to open it upp for users to charge from.
 To be able to service more users and make more money.
-* Add a new charger station.
+* Add a new charge-point.
 * Register how many chargers there are.
 * Make the station easily findable.
 * Set a charging price
@@ -36,7 +36,7 @@ Charlie needs to do specific operations on a charger.
 He needs to find this specific charger in a fast way, so that he can do the operations without wasting billable time.
 * List all chargers.
 * Find charger by id.
-* Find charger station by area.
+* Find charge-point by area.
 
 ### Changing charging station price
 
@@ -59,17 +59,30 @@ Steve now wants to register the charger as broken, to give customers and Charlie
 One of FlexiCharges chargers stations have been removed.
 Charlie wants to remove that charger from any customer view.
 Because he does not want to trick customers to chargers that no longer exists.
-* Mark charger as removed.
+* Mark charger as inactive.
 
 ***
 ## Customer Service
+
+### Find invoices
+Steve needs to manage a selection of invoices.
+He needs to find the invoices, so that he can apply operations to them.
+* List all database invoice entries.
+* Filter invoices on user ids.
+* filter on transaction ids.
+* Filter on whether they were auto-generated.
 
 ### Nullification
 The charger charging johns EV short-circuited and gave him an outrageous invoice.
 Steve wants to help him be fairly billed.
 Therefor Steve sets the charging price for the bad session to 0 sek.
-* Steve needs to have the ability to change customer charging costs for a session.
-* Steve needs to send out a new updated invoice and invalidate the old one.
+* Change customer charging costs for a session.
+* Invalidate a invoice.
+
+### New Invoice
+Steve has deleted an invoice and wants to add a new one.
+So that we can get paid even in exceptional cases.
+* Create a new invoice from a selection of charging sessions.
 
 ***
 ## User Management
@@ -82,3 +95,7 @@ He now needs to find the user account in a fast way, so that he can do the opera
 * Search by id
 * Search by contact information
 * filter by charging dates.
+
+### Reset user password
+Steve is helping a user who lost his password.
+He now needs to help reset the users' password, so the user can remain a customer.

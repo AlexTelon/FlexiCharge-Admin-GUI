@@ -119,7 +119,7 @@ const DashboardHome = () => {
         lg={5}
         xl={4}
       >
-        <ChargerStationMap />
+        <ChargerStationMap fetchStations={true} enableAddMarker={false} />
       </Grid>
     </Grid>
   );
@@ -175,6 +175,7 @@ export const DashboardRoute = ({ ...rest }) => {
       return sessionStorage.getItem('isAuthenticated')
         ? <Dashboard />
         : <Redirect to='/login' />;
+        
     }} />
   );
 };
