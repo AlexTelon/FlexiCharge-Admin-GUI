@@ -112,10 +112,10 @@ const ChargePoints = () => {
   const [search, setSearch] = useState<string>();
   const [activeChargerPointId, setActiveChargerPointId] = useState<number>();
   const [selectedChargerPoints, setSelectedChargerPoints] = useState<readonly string[]>([]);
-  const chargerPointsTable = useRef(null);
+  const chargePointsTable = useRef(null);
 
-  const handleChargerPointEditClicked = (chargerPointId: number) => {
-    setActiveChargerPointId(chargerPointId);
+  const handleChargerPointEditClicked = (chargePointId: number) => {
+    setActiveChargerPointId(chargePointId);
   };
 
   const handleSearch = (searchText: string) => {
@@ -199,11 +199,11 @@ const ChargePoints = () => {
                 </AppBar>
                 <ChargerPointsSettingsAccordian reload={loadChargerPoints} selectedChargerPoints={selectedChargerPoints} />
                 <Paper elevation={2}>
-                  <ChargerPointsTable loaded={state.loaded} chargePoints={search !== undefined ? searchedChargerPoints : state.chargePoints} ref={chargerPointsTable} setSelectedChargerPoints={setSelectedChargerPoints} editClicked={handleChargerPointEditClicked} classes={classes} />
+                  <ChargerPointsTable loaded={state.loaded} chargePoints={search !== undefined ? searchedChargerPoints : state.chargePoints} ref={chargePointsTable} setSelectedChargerPoints={setSelectedChargerPoints} editClicked={handleChargerPointEditClicked} classes={classes} />
                 </Paper>
               </Grid>
               <Grid item xs={12} md={4} lg={3}>
-                <ChargePointEditPanel reload={loadChargerPoints} chargerPointId={activeChargerPointId} setActiveChargerPointId={setActiveChargerPointId} />
+                <ChargePointEditPanel reload={loadChargerPoints} chargePointId={activeChargerPointId} setActiveChargerPointId={setActiveChargerPointId} />
               </Grid>
             </Grid>
           </Container>

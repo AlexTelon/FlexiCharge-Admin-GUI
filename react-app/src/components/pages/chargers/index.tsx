@@ -120,7 +120,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 const ChargersPage = (props: any) => {
   const params = useParams();
-  const chargerPointId = (params as any).chargerPointId;
+  const chargePointId = (params as any).chargePointId;
   const classes = useStyles();
   const [state, setState] = useState<any>({
     loaded: false
@@ -135,7 +135,7 @@ const ChargersPage = (props: any) => {
       ...state,
       loaded: false
     });
-    const [chargers, error] = await manageCharger.getAllChargers(Number(chargerPointId));
+    const [chargers, error] = await manageCharger.getAllChargers(Number(chargePointId));
     if (chargers) {
       setState({
         loaded: true,
@@ -211,8 +211,8 @@ const ChargersPage = (props: any) => {
                     </IconButton>
                   </Toolbar>
                 </AppBar>
-                {chargerPointId &&
-                  <ChargerPointAccordian chargerPointId={chargerPointId} reload={loadChargers} />
+                {chargePointId &&
+                  <ChargerPointAccordian chargePointId={chargePointId} reload={loadChargers} />
                 }
                 <Paper elevation={2}>
                   <ChargerTable

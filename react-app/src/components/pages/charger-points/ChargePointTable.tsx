@@ -87,7 +87,7 @@ const ChargerPointsTable = (props: any) => {
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
   /* const loadStations = () => {
-    chargerPointCollection.getAllChargerPoints().then((chargePoints) => {
+    chargePointCollection.getAllChargerPoints().then((chargePoints) => {
       setState({
         loaded: true,
         chargePoints
@@ -133,12 +133,12 @@ const ChargerPointsTable = (props: any) => {
     setPage(0);
   };
 
-  const handleSelect = (chargerPointId: number) => {
-    const selectedIndex = selected.indexOf(chargerPointId);
+  const handleSelect = (chargePointId: number) => {
+    const selectedIndex = selected.indexOf(chargePointId);
     let newSelected: readonly number[] = [];
 
     if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, chargerPointId);
+      newSelected = newSelected.concat(selected, chargePointId);
     } else if (selectedIndex === 0) {
       newSelected = newSelected.concat(selected.slice(1));
     } else if (selectedIndex === selected.length - 1) {
@@ -153,7 +153,7 @@ const ChargerPointsTable = (props: any) => {
     setSelected(newSelected);
   };
 
-  const isSelected = (chargerPointId: number) => selected.includes(chargerPointId);
+  const isSelected = (chargePointId: number) => selected.includes(chargePointId);
 
   return (
     <>

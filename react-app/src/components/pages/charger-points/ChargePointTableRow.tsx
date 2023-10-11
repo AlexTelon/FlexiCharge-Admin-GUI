@@ -9,14 +9,14 @@ import { ChargePoint } from '@/remote-access/types';
 import { Link } from 'react-router-dom';
 interface ChargerPointTableRowProps {
   chargePoint: ChargePoint
-  editClicked: (chargerPointId: number) => void
+  editClicked: (chargePointId: number) => void
   selected: boolean
-  handleSelect: (chargerPointId: number) => void
+  handleSelect: (chargePointId: number) => void
 }
 
 const ChargerPointTableRow: FC<ChargerPointTableRowProps> = ({ chargePoint, editClicked, selected, handleSelect }) => {
   const [open, setOpen] = useState(false);
-  const chargerPointRow = useRef(null);
+  const chargePointRow = useRef(null);
 
   const theme: Theme = useTheme();
   return (
@@ -24,7 +24,7 @@ const ChargerPointTableRow: FC<ChargerPointTableRowProps> = ({ chargePoint, edit
       <TableRow
         hover
         key={chargePoint.chargePointID}
-        ref={chargerPointRow}
+        ref={chargePointRow}
         onClick={() => setOpen(!open)}
         style={{ backgroundColor: open ? 'rgba(240,240,240,1)' : theme.flexiCharge.primary.white }}
       >

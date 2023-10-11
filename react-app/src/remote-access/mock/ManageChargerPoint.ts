@@ -12,18 +12,18 @@ export default class ManageChargerPoint implements IChargerPoint {
     });
   }
 
-  async getChargerPointById(chargerPointId: number): Promise<ChargePoint | null> {
+  async getChargerPointById(chargePointId: number): Promise<ChargePoint | null> {
     return new Promise((resolve, reject) => {
       // Look up in local
       // If not found then try remote
 
       setTimeout(() => {
-        resolve(this.points.filter((point) => point.chargePointID === chargerPointId)[0] || null);
+        resolve(this.points.filter((point) => point.chargePointID === chargePointId)[0] || null);
       }, 100);
     });
   }
 
-  async deleteChargerPoint(chargerPointId: number): Promise<boolean> {
+  async deleteChargerPoint(chargePointId: number): Promise<boolean> {
     return new Promise((resolve, reject) => {
       resolve(false);
     });
@@ -45,10 +45,10 @@ export default class ManageChargerPoint implements IChargerPoint {
     });
   }
 
-  async updateChargerPoint(chargerPointId: number, fields: Omit<ChargePoint, 'chargePointID'>): Promise<[ChargePoint | null, any | null]> {
+  async updateChargerPoint(chargePointId: number, fields: Omit<ChargePoint, 'chargePointID'>): Promise<[ChargePoint | null, any | null]> {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
-        const pointIndex = this.points.findIndex((point) => point.chargePointID === chargerPointId);
+        const pointIndex = this.points.findIndex((point) => point.chargePointID === chargePointId);
         if (pointIndex === -1) return [null, { errorMessage: 'Could not find the requested Charge-point' }];
 
         const errorObj = this.validateFields(fields);

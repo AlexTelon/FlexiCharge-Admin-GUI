@@ -38,12 +38,12 @@ const useStyle = makeStyles((theme: Theme) =>
 );
 
 interface ChargerPointEditPanelProps {
-  chargerPointId?: number
+  chargePointId?: number
   setActiveChargerPointId: any
   reload: any
 }
 
-const ChargePointEditPanel: FC<ChargerPointEditPanelProps> = ({ chargerPointId, setActiveChargerPointId, reload }) => {
+const ChargePointEditPanel: FC<ChargerPointEditPanelProps> = ({ chargePointId, setActiveChargerPointId, reload }) => {
   const classes = useStyle();
 
   const [deleteDialogOpen, setDeleteDialogOpen] = useState<boolean>(false);
@@ -60,8 +60,8 @@ const ChargePointEditPanel: FC<ChargerPointEditPanelProps> = ({ chargerPointId, 
   };
 
   useEffect(() => {
-    if (chargerPointId) {
-      manageChargerPoint.getChargerPointById(chargerPointId).then((chargePoint) => {
+    if (chargePointId) {
+      manageChargerPoint.getChargerPointById(chargePointId).then((chargePoint) => {
         if (chargePoint === null) return;
         setFields({
           name: chargePoint.name,
@@ -72,12 +72,12 @@ const ChargePointEditPanel: FC<ChargerPointEditPanelProps> = ({ chargerPointId, 
         setPoint(chargePoint);
       });
     }
-  }, [chargerPointId]);
+  }, [chargePointId]);
 
   const handleSaveClick = async () => {
-    if (fields.name && fields.price && fields.longitude && fields.latitude && chargerPointId) {
+    if (fields.name && fields.price && fields.longitude && fields.latitude && chargePointId) {
       setLoading(true);
-      const result = await manageChargerPoint.updateChargerPoint(chargerPointId, {
+      const result = await manageChargerPoint.updateChargerPoint(chargePointId, {
         name: fields.name,
         location: [Number(fields.latitude), Number(fields.longitude)],
         price: Number(fields.price * 100),
@@ -126,9 +126,9 @@ const ChargePointEditPanel: FC<ChargerPointEditPanelProps> = ({ chargerPointId, 
   };
 
   const handleDelete = async () => {
-    if (chargerPointId) {
+    if (chargePointId) {
       setLoading(true);
-      const wasSuccess = await manageChargerPoint.deleteChargerPoint(chargerPointId);
+      const wasSuccess = await manageChargerPoint.deleteChargerPoint(chargePointId);
       setLoading(false);
       if (!wasSuccess) {
         setErrorState({
@@ -139,7 +139,7 @@ const ChargePointEditPanel: FC<ChargerPointEditPanelProps> = ({ chargerPointId, 
         reload();
       }
       setDeleteDialogOpen(false);
-      chargerPointId = 0;
+      chargePointId = 0;
     }
   };
 
@@ -148,7 +148,7 @@ const ChargePointEditPanel: FC<ChargerPointEditPanelProps> = ({ chargerPointId, 
       {loading &&
         <LinearProgress />
       }
-      {point && chargerPointId && (
+      {point && chargePointId && (
         <>
           <AppBar position="static" elevation={0} className={classes.panelAppBar}>
             <Toolbar variant="dense">

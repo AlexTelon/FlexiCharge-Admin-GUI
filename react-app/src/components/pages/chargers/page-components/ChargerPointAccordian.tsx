@@ -10,7 +10,7 @@ import React, { FC, useEffect, useState } from 'react';
 import AddChargerDialog from './AddChargerDialog';
 
 interface ChargerPointAccordionProps {
-  chargerPointId: number
+  chargePointId: number
   reload: () => void
 }
 
@@ -20,7 +20,7 @@ interface ChargerPointAccordianState {
   openAddStationDialog: boolean
 }
 
-const ChargerPointAccordian: FC<ChargerPointAccordionProps> = ({ chargerPointId, reload }) => {
+const ChargerPointAccordian: FC<ChargerPointAccordionProps> = ({ chargePointId, reload }) => {
   const theme: Theme = useTheme();
   const [state, setState] = useState<ChargerPointAccordianState>({
     loaded: false,
@@ -28,8 +28,8 @@ const ChargerPointAccordian: FC<ChargerPointAccordionProps> = ({ chargerPointId,
   });
 
   const loadStation = () => {
-    if (chargerPointId) {
-      manageChargerPoint.getChargerPointById(chargerPointId).then((chargePoint) => {
+    if (chargePointId) {
+      manageChargerPoint.getChargerPointById(chargePointId).then((chargePoint) => {
         if (chargePoint === null) return;
         setState({
           ...state,
@@ -42,7 +42,7 @@ const ChargerPointAccordian: FC<ChargerPointAccordionProps> = ({ chargerPointId,
 
   useEffect(() => {
     loadStation();
-  }, [chargerPointId]);
+  }, [chargePointId]);
 
   const handleOpenAddStationDialog = () => {
     setState({

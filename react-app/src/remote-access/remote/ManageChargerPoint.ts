@@ -17,9 +17,9 @@ export default class ManageChargerPoint implements IChargerPoint {
     return chargePoints;
   }
 
-  async getChargerPointById(chargerPointId: number): Promise<ChargePoint | null> {
+  async getChargerPointById(chargePointId: number): Promise<ChargePoint | null> {
     try {
-      const reponse = await axiosInstance.get(`${FLEXICHARGE_API_URL}/chargePoints/${chargerPointId}`, {
+      const reponse = await axiosInstance.get(`${FLEXICHARGE_API_URL}/chargePoints/${chargePointId}`, {
         headers: {
           Authorization: `Bearer ${sessionStorage.getItem('token')}`
         }
@@ -74,9 +74,9 @@ export default class ManageChargerPoint implements IChargerPoint {
     }
   }
 
-  async deleteChargerPoint(chargerPointId: number): Promise<boolean> {
+  async deleteChargerPoint(chargePointId: number): Promise<boolean> {
     try {
-      const response = await axiosInstance.delete(`${FLEXICHARGE_API_URL}/chargePoints/${chargerPointId}`, {
+      const response = await axiosInstance.delete(`${FLEXICHARGE_API_URL}/chargePoints/${chargePointId}`, {
         headers: {
           Authorization: `Bearer ${sessionStorage.getItem('token')}`
         }
@@ -93,12 +93,12 @@ export default class ManageChargerPoint implements IChargerPoint {
     }
   }
 
-  async updateChargerPoint(chargerPointId: number, fields: Omit<ChargePoint, 'chargePointID'>): Promise<[ChargePoint | null, any | null]> {
+  async updateChargerPoint(chargePointId: number, fields: Omit<ChargePoint, 'chargePointID'>): Promise<[ChargePoint | null, any | null]> {
     try {
       const errorObj = this.validateFields(fields);
       if (Object.keys(errorObj).length > 0) return [null, errorObj];
 
-      const response = await axiosInstance.put(`${FLEXICHARGE_API_URL}/chargePoints/${chargerPointId}`, {
+      const response = await axiosInstance.put(`${FLEXICHARGE_API_URL}/chargePoints/${chargePointId}`, {
         ...fields
       }, {
         headers: {
