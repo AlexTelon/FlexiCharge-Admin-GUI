@@ -1,12 +1,9 @@
 import { type IAuthenticationProvider } from '../types';
 import { loginInfo } from '../../__mock-data__';
+import {resolve} from "chart.js/helpers";
 
 export default class AuthenticationProvider implements IAuthenticationProvider {
   public isAuthenticated: boolean = false;
-
-  getToken(): string | null {
-    return null;
-  }
 
   async login(username: string, password: string): Promise<[boolean, any | null]> {
     return new Promise((resolve, reject) => {
