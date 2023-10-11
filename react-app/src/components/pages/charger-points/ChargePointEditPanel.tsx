@@ -47,7 +47,7 @@ const ChargerPointEditPanel: FC<ChargerPointEditPanelProps> = ({ chargerPointId,
   const classes = useStyle();
 
   const [deleteDialogOpen, setDeleteDialogOpen] = useState<boolean>(false);
-  const [station, setStation] = useState<ChargePoint>();
+  const [point, setPoint] = useState<ChargePoint>();
   const [fields, setFields] = useState<any>();
   const [errorState, setErrorState] = useState<any>({});
   const [loading, setLoading] = useState(false);
@@ -69,7 +69,7 @@ const ChargerPointEditPanel: FC<ChargerPointEditPanelProps> = ({ chargerPointId,
           latitude: chargePoint.location[0],
           price: chargePoint.price / 100
         });
-        setStation(chargePoint);
+        setPoint(chargePoint);
       });
     }
   }, [chargerPointId]);
@@ -89,7 +89,7 @@ const ChargerPointEditPanel: FC<ChargerPointEditPanelProps> = ({ chargerPointId,
         });
         setLoading(false);
       } else if (result[0] !== null) {
-        setStation(result[0]);
+        setPoint(result[0]);
         setLoading(false);
         setErrorState({});
         reload();
@@ -105,11 +105,11 @@ const ChargerPointEditPanel: FC<ChargerPointEditPanelProps> = ({ chargerPointId,
   };
 
   const handleCancelClick = () => {
-    if (station) {
+    if (point) {
       setFields({
-        name: station.name,
-        longitude: station.location[1],
-        latitude: station.location[0]
+        name: point.name,
+        longitude: point.location[1],
+        latitude: point.location[0]
       });
     }
   };
@@ -148,12 +148,12 @@ const ChargerPointEditPanel: FC<ChargerPointEditPanelProps> = ({ chargerPointId,
       {loading &&
         <LinearProgress />
       }
-      {station && chargerPointId && (
+      {point && chargerPointId && (
         <>
           <AppBar position="static" elevation={0} className={classes.panelAppBar}>
             <Toolbar variant="dense">
               <Typography className={classes.panelTitle} variant="h5">
-                Station Info
+                Charge-point Info
               </Typography>
               <IconButton
                 aria-label="deselect charger"
@@ -172,47 +172,47 @@ const ChargerPointEditPanel: FC<ChargerPointEditPanelProps> = ({ chargerPointId,
             }
             <Box sx={{ px: 4 }}>
               <FormControl fullWidth variant="filled" error={errorState.name !== undefined}>
-                <InputLabel htmlFor="station-name-input">Name</InputLabel>
+                <InputLabel htmlFor="point-name-input">Name</InputLabel>
                 <Input
-                  id="station-name-input"
-                  aria-describedby="station-name-helper"
+                  id="point-name-input"
+                  aria-describedby="point-name-helper"
                   value={fields.name}
                   onChange={(e) => { handleInputChange('name', e.target.value); }}
                 />
               </FormControl>
               <FormControl style={{ marginTop: 12 }} fullWidth variant="filled" error={errorState.price !== undefined}>
-                <InputLabel htmlFor="station-price-input">Price</InputLabel>
+                <InputLabel htmlFor="point-price-input">Price</InputLabel>
                 <Input
-                  id="station-price-input"
-                  aria-describedby="station-price-helper"
+                  id="point-price-input"
+                  aria-describedby="point-price-helper"
                   value={fields.price}
                   type="number"
                   onChange={(e) => { handleInputChange('price', e.target.value); }}
                   startAdornment={ <InputAdornment position="end" style={{ marginRight: 10 }}>SEK</InputAdornment> }
                 />
-                <FormHelperText id="station-price-helper">Station Price</FormHelperText>
+                <FormHelperText id="point-price-helper">Point Price</FormHelperText>
               </FormControl>
               <FormControl style={{ marginTop: 12 }} fullWidth variant="filled" error={errorState.latitude !== undefined}>
-                <InputLabel htmlFor="station-latitude-input">Latitude</InputLabel>
+                <InputLabel htmlFor="point-latitude-input">Latitude</InputLabel>
                 <Input
-                  id="station-latitude-input"
-                  aria-describedby="station-latitude-helper"
+                  id="point-latitude-input"
+                  aria-describedby="point-latitude-helper"
                   type="number"
                   value={fields.latitude}
                   onChange={(e) => { handleInputChange('latitude', e.target.value); }} 
                 />
-                <FormHelperText id="station-latitude-helper">Geographic Coordinate</FormHelperText>
+                <FormHelperText id="point-latitude-helper">Geographic Coordinate</FormHelperText>
               </FormControl>
               <FormControl style={{ marginTop: 12 }} fullWidth variant="filled" error={errorState.longitude !== undefined}>
-                <InputLabel htmlFor="station-longitude-input">Longitude</InputLabel>
+                <InputLabel htmlFor="point-longitude-input">Longitude</InputLabel>
                 <Input
-                  id="station-longitude-input"
-                  aria-describedby="station-longitude-helper"
+                  id="point-longitude-input"
+                  aria-describedby="point-longitude-helper"
                   type="number"
                   value={fields.longitude}
                   onChange={(e) => { handleInputChange('longitude', e.target.value); }}
                 />
-                <FormHelperText id="station-longitude-helper">Geographic Coordinate</FormHelperText>
+                <FormHelperText id="point-longitude-helper">Geographic Coordinate</FormHelperText>
               </FormControl>
               <Box display="flex" sx={{ flexDirection: 'row-reverse', py: 1 }}>
                 <Button variant="contained" color="primary" className={classes.saveButton} onClick={handleSaveClick} >
@@ -228,7 +228,7 @@ const ChargerPointEditPanel: FC<ChargerPointEditPanelProps> = ({ chargerPointId,
           <Box sx={{ py: 2, px: 4 }}>
             <Button
               component={Link}
-              to={`/dashboard/chargers/${station.chargePointID}`}
+              to={`/dashboard/chargers/${point.chargePointID}`}
               variant="text"
               color="primary"
               fullWidth
@@ -246,9 +246,9 @@ const ChargerPointEditPanel: FC<ChargerPointEditPanelProps> = ({ chargerPointId,
             <Grid container>
               <Grid item lg={8}>
                 <Typography variant="caption">
-                  Delete this Station
+                  Delete this Charge-point
                   <br />
-                  A deleted station is marked as Inactive
+                  A deleted Charge-point is marked as Inactive
                 </Typography>
               </Grid>
               <Grid item xs={12} lg={4}>
