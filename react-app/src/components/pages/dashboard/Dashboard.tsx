@@ -1,10 +1,7 @@
-/* eslint-disable */
-/* eslint-disable react/jsx-no-undef */
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Helmet } from 'react-helmet';
-import { AppBar, Box, Grid, Toolbar, Typography } from '@material-ui/core';
+import { Box, Grid } from '@material-ui/core';
 import { Route, Redirect, useHistory } from 'react-router-dom';
-import { authenticationProvider } from '@/remote-access';
 import ChargePoints from '../charger-points/ChargePoints';
 import Navbar from './dashboardComponents/Navbar';
 import ChargePoint from './dashboardComponents/ChargePoint';
@@ -17,7 +14,6 @@ import UsersDashboardComponent from './dashboardComponents/Users';
 import Sales from './dashboardComponents/Sales';
 import ChargerPointMap from './dashboardComponents/ChargePointMap';
 import AdminsDashboardComponent from './dashboardComponents/Admins';
-import axios from 'axios';
 import { ProtectedRoute } from '@/components/protectedRoute/ProttectedRoute';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -126,7 +122,7 @@ const DashboardHome = () => {
 };
 
 const Dashboard = (props: any) => {
-  const classes = useStyles();
+  // const classes = useStyles();
 
   return (
     <>
@@ -139,7 +135,7 @@ const Dashboard = (props: any) => {
           <ProtectedRoute path='/dashboard' exact>
             <DashboardHome />
           </ProtectedRoute>
-          <ProtectedRoute path='/dashboard/stations' exact>
+          <ProtectedRoute path='/dashboard/chargepoints' exact>
             <ChargePoints />
           </ProtectedRoute>
           <ProtectedRoute path='/dashboard/chargers' exact>
@@ -168,7 +164,6 @@ export const DashboardRoute = ({ ...rest }) => {
       return sessionStorage.getItem('isAuthenticated')
         ? <Dashboard />
         : <Redirect to='/login' />;
-        
     }} />
   );
 };
