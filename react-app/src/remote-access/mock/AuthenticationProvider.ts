@@ -1,9 +1,14 @@
 import { type IAuthenticationProvider } from '../types';
 import { loginInfo } from '../../__mock-data__';
-import {resolve} from "chart.js/helpers";
+import { resolve } from 'chart.js/helpers';
 
 export default class AuthenticationProvider implements IAuthenticationProvider {
   public isAuthenticated: boolean = false;
+
+  async getToken(): Promise<string | null> {
+    return null;
+    // Todo!
+  }
 
   async login(username: string, password: string): Promise<[boolean, any | null]> {
     return new Promise((resolve, reject) => {
@@ -32,5 +37,13 @@ export default class AuthenticationProvider implements IAuthenticationProvider {
         }
       }, 3000);
     });
+  }
+
+  logout(): void {
+    this.isAuthenticated = false;
+    sessionStorage.removeItem('token');
+    sessionStorage.removeItem('isAuthenticated');
+    sessionStorage.removeItem('username');
+    location.reload();
   }
 }

@@ -74,7 +74,7 @@ const ChargerEditPanel: FC<ChargerEditPanelProps> = ({ connectorID, setActivecon
                   aria-label="deselect charger"
                   aria-controls="charger-info"
                   color="inherit"
-                  onClick={() => setActiveconnectorID(undefined)}
+                  onClick={() => { setActiveconnectorID(undefined); }}
                 >
                   <Close />
                 </IconButton>

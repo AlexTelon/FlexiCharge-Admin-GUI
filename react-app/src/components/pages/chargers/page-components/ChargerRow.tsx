@@ -57,7 +57,7 @@ const ChargerRow: FC<ChargerRowProps> = ({ charger, classes, editClicked, delete
             style={{ color: theme.flexiCharge.primary.white }}
             variant="contained"
             color="primary"
-            onClick={() => editClicked(charger.connectorID)}
+            onClick={() => { editClicked(charger.connectorID); }}
           >
             Edit
           </Button>
