@@ -145,7 +145,7 @@ const AddChargerDialog: FC<AddChargerDialogProps> = ({ open, handleClose, statio
               id="charger-serial-number"
               aria-describedby="charger-serial-number-helper"
               value={state.serialNumber}
-              onChange={(e) => handleSerialNumberChange(e.target.value)}
+              onChange={(e) => { handleSerialNumberChange(e.target.value); }}
             />
             <FormHelperText id="charger-serial-number-helper">
               {state.errorState.serialNumber

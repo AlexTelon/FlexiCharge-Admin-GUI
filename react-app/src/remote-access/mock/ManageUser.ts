@@ -82,7 +82,7 @@ export default class ManageUser implements IUser {
         if (userIndex === -1) return [null, { errorMessage: 'Could not find the requested Manage User' }];
 
         if (userIndex === -1) {
-          return reject(new Error('User not found'));
+          reject(new Error('User not found')); return;
         }
 
         this.users.splice(userIndex, 1);

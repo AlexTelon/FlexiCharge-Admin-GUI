@@ -9,7 +9,7 @@ import {
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { ChevronRight } from '@material-ui/icons';
-import { LeafletMouseEvent, Map } from 'leaflet';
+import { type LeafletMouseEvent, type Map } from 'leaflet';
 
 interface ChargerStationMapState {
   loaded?: boolean
