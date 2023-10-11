@@ -18,6 +18,7 @@ import Sales from './dashboardComponents/Sales';
 import ChargerStationMap from './dashboardComponents/ChargerStationMap';
 import AdminsDashboardComponent from './dashboardComponents/Admins';
 import axios from 'axios';
+import NotFoundPage from '../NotFoundPage';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -148,6 +149,12 @@ const Dashboard = (props: any) => {
           <Route path="/dashboard/chargers/:stationId" exact render={(props) => (<ChargersPage {...props} />)} />
           <Route path="/dashboard/invoices" exact render={() => (<InvoicesPage />) } />
           <Route path="/dashboard/users" exact render={() => (<ManageUsers />) } />
+          <Route path="/dashboard/*" exact render={() => (<NotFoundPage />) } />
+          <Route path="/stations/*" exact render={() => (<NotFoundPage />) } />
+          <Route path="/chargers/*" exact render={() => (<NotFoundPage />) } />
+          <Route path="/chargers/:stationId/*" exact render={() => (<NotFoundPage />) } />
+          <Route path="/invoices/*" exact render={() => (<NotFoundPage />) } />
+          <Route path="/users/*" exact render={() => (<NotFoundPage />) } />
         </Box>
         <Box component="main" sx={{ flexGrow: 1 }}>
         </Box>
