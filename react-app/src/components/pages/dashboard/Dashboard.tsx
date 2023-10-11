@@ -136,13 +136,6 @@ const Dashboard = (props: any) => {
       <Box sx={{ display: 'flex', width: '100%' }}>
         <Navbar />
         <Box component="main" style={{ width: '100%' }}>
-          <AppBar position="sticky" className={classes.appBar} >
-            <Toolbar variant="dense">
-              <Typography variant="h6">
-                Flexi Charge
-              </Typography>
-            </Toolbar>
-          </AppBar>
           <ProtectedRoute path='/dashboard' exact>
             <DashboardHome />
           </ProtectedRoute>
