@@ -5,7 +5,7 @@ import {
 import { ExpandMore } from '@material-ui/icons';
 import { useTheme } from '@material-ui/styles';
 import React, { FC, useState } from 'react';
-import AddSingleStationDialog from './AddChargerPointDialog';
+import AddSinglePointDialog from './AddChargerPointDialog';
 
 interface ChargerPointSettingsAccordianProps {
   selectedChargerPoints: readonly string[]
@@ -27,10 +27,10 @@ const ChargerPointsSettingsAccordian: FC<ChargerPointSettingsAccordianProps> = (
     <Accordion defaultExpanded>
       <AccordionSummary
         expandIcon={<ExpandMore />}
-        aria-controls="charger-stations-actions-panel"
-        id="charger-stations-actions-panel-header"
+        aria-controls="charger-points-actions-panel"
+        id="charger-points-actions-panel-header"
       >
-        <Grid container id="charger-stations-actions-panel">
+        <Grid container id="charger-points-actions-panel">
           <Grid item xs={9} md={10}>
             <Typography>
               {selectedChargerPoints.length} Selected
@@ -51,11 +51,11 @@ const ChargerPointsSettingsAccordian: FC<ChargerPointSettingsAccordianProps> = (
           style={{ color: theme.flexiCharge.primary.white }}
           onClick={handleOpenAddChargerPointDialog}
         >
-              Add Station
+              Add Point
         </Button>
       </AccordionActions>
 
-      <AddSingleStationDialog open={openAddChargerPointDialog} handleClose={handleCloseAddChargerPointDialog} />
+      <AddSinglePointDialog open={openAddChargerPointDialog} handleClose={handleCloseAddChargerPointDialog} />
     </Accordion>
   );
 };
