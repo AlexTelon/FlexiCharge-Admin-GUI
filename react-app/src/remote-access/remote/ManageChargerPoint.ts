@@ -6,7 +6,7 @@ import { ChargePoint, IChargerPoint } from '../types';
 export default class ManageChargerPoint implements IChargerPoint {
   stations = mockChargerPoints;
 
-  async getAllChargerStations(): Promise<ChargePoint[]> {
+  async getAllChargerPoints(): Promise<ChargePoint[]> {
     const response = await axiosInstance.get(`${FLEXICHARGE_API_URL}/chargePoints`, {
       headers: {
         Authorization: `Bearer ${sessionStorage.getItem('token')}`
@@ -35,7 +35,7 @@ export default class ManageChargerPoint implements IChargerPoint {
     }
   }
 
-  async addChargerStation(fields: Omit<ChargePoint, 'chargePointID'>): Promise<[number | null, any | null]> {
+  async addChargerPoint(fields: Omit<ChargePoint, 'chargePointID'>): Promise<[number | null, any | null]> {
     try {
       const errorObj = this.validateFields(fields);
       if (Object.keys(errorObj).length > 0) {
