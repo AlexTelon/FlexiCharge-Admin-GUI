@@ -43,6 +43,15 @@ const AddSingleStationDialog = ({ open, handleClose }: any) => {
     });
   };
 
+  const handleCoordinateChange = (property: string, value: string) => {
+    if (/^\d*\.?\d{0,10}$/.test(value) || value === '') {
+      setFields({
+        ...fields,
+        [property]: value,
+      });
+    }
+  };
+  
   const handleMapClick = (lat: number, lon: number) => {
     setFields((prevFields: any) => ({ 
       ...prevFields,
@@ -65,16 +74,31 @@ const AddSingleStationDialog = ({ open, handleClose }: any) => {
   }, [fields]);
 
   const handleSubmitClicked = async () => {
-    console.log("submit clicked");
-    if (fields.name && fields.price && fields.longitude && fields.latitude) {
-      setLoading(true);
+    const latitude = parseFloat(fields.latitude);
+    const longitude = parseFloat(fields.longitude);
+  
+    const newErrorState = {
+      name: !fields.name ? 'Required' : undefined,
+      price: !fields.price ? 'Required' : undefined,
+      latitude: !fields.latitude || isNaN(latitude) ? 'Required or Invalid' : undefined,
+      longitude: !fields.longitude || isNaN(longitude) ? 'Required or Invalid' : undefined,
+    };
+  
+    if (newErrorState.name || newErrorState.price || newErrorState.latitude || newErrorState.longitude) {
+      setErrorState(newErrorState);
+      return;
+    }
+  
+    setLoading(true);
+  
+    try {
       const result = await manageChargerStation.addChargerStation({
         name: fields.name,
-        location: [fields.latitude, fields.longitude],
+        location: [latitude, longitude],
         price: fields.price * 100,
-        klarnaReservationAmount: 50000
+        klarnaReservationAmount: 50000,
       });
-      
+  
       if (result[1] !== null) {
         setErrorState({
           ...result[1]
@@ -86,16 +110,16 @@ const AddSingleStationDialog = ({ open, handleClose }: any) => {
         setTimeout(() => {
           cleanClose();
         }, 450);
-      }     
-    } else {
+      }
+    } catch (error) {
+      console.error("Error while adding station: ", error);
       setErrorState({
-        name: !fields.name ? 'Required' : undefined,
-        price: !fields.price ? 'Required' : undefined,
-        latitude: !fields.latitude ? 'Required' : undefined,
-        longitude: !fields.longitude ? 'Required' : undefined
+        alert: "An unexpected error occurred while adding the station. Please try again later."
       });
+      setLoading(false);
     }
   };
+  
   return (
     <>
       <Dialog
@@ -194,8 +218,14 @@ const AddSingleStationDialog = ({ open, handleClose }: any) => {
                 <Input
                   id="station-latitude-input"
                   aria-describedby="station-latitude-helper"
-                  type="number"
-                  onChange={(e) => handleInputChange('latitude', Number(e.target.value))}
+                  type="text"
+                  onKeyPress={(e) => {
+                    const validChars = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '.'];
+                    if (!validChars.includes(e.key)) {
+                      e.preventDefault();
+                    }
+                  }}
+                  onChange={(e) => handleCoordinateChange('latitude', e.target.value)}
                   value={fields.latitude}
                 />
               </FormControl>
@@ -209,8 +239,14 @@ const AddSingleStationDialog = ({ open, handleClose }: any) => {
                 <Input
                   id="station-longitude-input"
                   aria-describedby="station-longitude-helper"
-                  type="number"
-                  onChange={(e) => handleInputChange('longitude', Number(e.target.value))}
+                  type="text"
+                  onKeyPress={(e) => {
+                    const validChars = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '.'];
+                    if (!validChars.includes(e.key)) {
+                      e.preventDefault();
+                    }
+                  }}
+                  onChange={(e) => handleCoordinateChange('longitude', e.target.value)}
                   value={fields.longitude}
                 />
               </FormControl>
