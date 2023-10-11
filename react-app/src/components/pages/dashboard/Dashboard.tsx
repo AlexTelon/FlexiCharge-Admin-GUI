@@ -18,6 +18,7 @@ import Sales from './dashboardComponents/Sales';
 import ChargerStationMap from './dashboardComponents/ChargerStationMap';
 import AdminsDashboardComponent from './dashboardComponents/Admins';
 import axios from 'axios';
+import { ProtectedRoute } from '@/components/protectedRoute/ProttectedRoute';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -135,19 +136,31 @@ const Dashboard = (props: any) => {
       <Box sx={{ display: 'flex', width: '100%' }}>
         <Navbar />
         <Box component="main" style={{ width: '100%' }}>
-          {/* <AppBar position="sticky" className={classes.appBar} >
+          <AppBar position="sticky" className={classes.appBar} >
             <Toolbar variant="dense">
               <Typography variant="h6">
                 Flexi Charge
               </Typography>
             </Toolbar>
-          </AppBar> */}
-          <Route path="/dashboard" exact render={() => (<DashboardHome />)} />
-          <Route path="/dashboard/stations" exact render={() => (<ChargerStations />)} />
-          <Route path="/dashboard/chargers" exact render={(props) => (<ChargersPage {...props} />)} />
-          <Route path="/dashboard/chargers/:stationId" exact render={(props) => (<ChargersPage {...props} />)} />
-          <Route path="/dashboard/invoices" exact render={() => (<InvoicesPage />) } />
-          <Route path="/dashboard/users" exact render={() => (<ManageUsers />) } />
+          </AppBar>
+          <ProtectedRoute path='/dashboard' exact>
+            <DashboardHome />
+          </ProtectedRoute>
+          <ProtectedRoute path='/dashboard/stations' exact>
+            <ChargerStations />
+          </ProtectedRoute>
+          <ProtectedRoute path='/dashboard/chargers' exact>
+            <ChargersPage />
+          </ProtectedRoute>
+          <ProtectedRoute path='/dashboard/chargers/:stationId' exact>
+            <ChargersPage />
+          </ProtectedRoute>
+          <ProtectedRoute path='/dashboard/invoices' exact>
+            <InvoicesPage />
+          </ProtectedRoute>
+          <ProtectedRoute path='/dashboard/users' exact>
+            <ManageUsers />
+          </ProtectedRoute>
         </Box>
         <Box component="main" sx={{ flexGrow: 1 }}>
         </Box>
@@ -159,7 +172,7 @@ const Dashboard = (props: any) => {
 export const DashboardRoute = ({ ...rest }) => {
   return (
     <Route {...rest} render={() => {
-      return localStorage.getItem('isAuthenticated')
+      return sessionStorage.getItem('isAuthenticated')
         ? <Dashboard />
         : <Redirect to='/login' />;
         

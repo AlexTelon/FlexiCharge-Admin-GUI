@@ -13,7 +13,7 @@ export default class AuthenticationProvider implements IAuthenticationProvider {
       setTimeout(() => {
         if (username === loginInfo.username && password === loginInfo.password) {
           this.isAuthenticated = true;
-          localStorage.setItem('isAuthenticated', 'true');
+          sessionStorage.setItem('isAuthenticated', 'true');
           resolve([true, {}]);
         } else {
           this.isAuthenticated = false;
