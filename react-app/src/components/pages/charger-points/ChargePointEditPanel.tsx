@@ -74,7 +74,7 @@ const ChargePointEditPanel: FC<ChargerPointEditPanelProps> = ({ chargePointId, s
   }, [chargePointId]);
 
   const handleSaveClick = async () => {
-    if (fields.name && fields.price && fields.longitude && fields.latitude && chargePointId) {
+    if (fields.name && fields.longitude && fields.latitude && chargePointId) {
       setLoading(true);
       const result = await manageChargerPoint.updateChargerPoint(chargePointId, {
         name: fields.name,
