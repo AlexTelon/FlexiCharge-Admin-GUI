@@ -99,13 +99,13 @@ const AddChargerDialog: FC<AddChargerDialogProps> = ({ open, handleClose, charge
           Chager: {state.successfulAddedSerialNumber} Added
         </Alert>
       </Collapse>
-      <DialogTitle>Add Chargers to a chargePoint</DialogTitle>
+      <DialogTitle>Add Chargers to a Charge-point</DialogTitle>
       {state.errorState.alert &&
         <Alert style={{ width: '100%' }} severity="warning">{state.errorState.alert}</Alert>
       }
       <DialogContent>
         <DialogContentText>
-          Point Info for chargePoint {chargePoint.chargePointID}
+          Point Info for Charge-point {chargePoint.chargePointID}
           <List dense={true}>
             <ListItem>
               <ListItemText
