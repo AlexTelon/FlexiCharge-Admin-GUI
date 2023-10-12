@@ -1,6 +1,5 @@
 import { type IAuthenticationProvider } from '../types';
 import { loginInfo } from '../../__mock-data__';
-import { resolve } from 'chart.js/helpers';
 
 export default class AuthenticationProvider implements IAuthenticationProvider {
   public isAuthenticated: boolean = false;
