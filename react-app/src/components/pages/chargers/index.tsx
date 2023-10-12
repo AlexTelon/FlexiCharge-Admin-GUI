@@ -5,7 +5,7 @@ import { Replay } from '@material-ui/icons';
 import ChargerTable from './page-components/ChargerTable';
 import ChargerEditPanel from './page-components/ChargerEditPanel';
 import { useParams } from 'react-router-dom';
-import ChargerStationAccordian from './page-components/ChargerStationAccordian';
+import ChargerPointAccordian from './page-components/ChargerPointAccordian';
 import { manageCharger } from '@/remote-access';
 import { type Charger } from '@/remote-access/types';
 
@@ -67,7 +67,7 @@ const useStyles = makeStyles((theme: Theme) =>
       maxHeight: '600px',
       marginTop: theme.spacing(1)
     },
-    stationNameCell: {
+    pointNameCell: {
       maxWidth: '15vw'
     }
   })
@@ -118,9 +118,10 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   }
 }));
 
-const ChargersPage = (props: any) => {
+const ChargersPage = () => {
   const params = useParams();
-  const stationId = (params as any).stationId;
+  const chargePointId = (params as any).pointId;
+  console.log(chargePointId);
   const classes = useStyles();
   const [state, setState] = useState<any>({
     loaded: false
@@ -135,7 +136,7 @@ const ChargersPage = (props: any) => {
       ...state,
       loaded: false
     });
-    const [chargers, error] = await manageCharger.getAllChargers(Number(stationId));
+    const [chargers, error] = await manageCharger.getAllChargers(Number(chargePointId));
     if (chargers) {
       setState({
         loaded: true,
@@ -201,9 +202,9 @@ const ChargersPage = (props: any) => {
                       />
                     </Search>
                     <IconButton edge='end'
-                      aria-label='charger stations filters'
+                      aria-label='charge points filters'
                       aria-haspopup='true'
-                      aria-controls='charger-stations-filters'
+                      aria-controls='charger-points-filters'
                       color='inherit'
                       onClick={loadChargers}
                     >
@@ -211,8 +212,8 @@ const ChargersPage = (props: any) => {
                     </IconButton>
                   </Toolbar>
                 </AppBar>
-                {stationId &&
-                  <ChargerStationAccordian stationId={stationId} reload={loadChargers} />
+                {chargePointId &&
+                  <ChargerPointAccordian chargePointId={chargePointId} reload={loadChargers} />
                 }
                 <Paper elevation={2}>
                   <ChargerTable

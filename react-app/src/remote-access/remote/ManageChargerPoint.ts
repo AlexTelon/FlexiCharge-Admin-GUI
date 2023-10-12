@@ -1,32 +1,32 @@
 import { FLEXICHARGE_API_URL } from '@/appConfig';
-import { mockChargerStations } from '@/__mock-data__';
+import { mockChargerPoints } from '@/__mock-data__';
 import axiosInstance from '../utility/axios-instance';
-import { type ChargerStation, type IChargerStation } from '../types';
+import { type ChargePoint, type IChargerPoint } from '../types';
 
-export default class ManageChargerStation implements IChargerStation {
-  stations = mockChargerStations;
+export default class ManageChargerPoint implements IChargerPoint {
+  points = mockChargerPoints;
 
-  async getAllChargerStations(): Promise<ChargerStation[]> {
+  async getAllChargerPoints(): Promise<ChargePoint[]> {
     const response = await axiosInstance.get(`${FLEXICHARGE_API_URL}/chargePoints`, {
       headers: {
         Authorization: `Bearer ${sessionStorage.getItem('token')}`
       }
     });
 
-    const chargerStations = response.data;
-    return chargerStations;
+    const chargePoints = response.data;
+    return chargePoints;
   }
 
-  async getChargerStationById(stationId: number): Promise<ChargerStation | null> {
+  async getChargerPointById(chargePointId: number): Promise<ChargePoint | null> {
     try {
-      const reponse = await axiosInstance.get(`${FLEXICHARGE_API_URL}/chargePoints/${stationId}`, {
+      const reponse = await axiosInstance.get(`${FLEXICHARGE_API_URL}/chargePoints/${chargePointId}`, {
         headers: {
           Authorization: `Bearer ${sessionStorage.getItem('token')}`
         }
       });
 
-      const chargerStation = reponse.data;
-      return chargerStation;
+      const chargePoint = reponse.data;
+      return chargePoint;
     } catch (error: any) {
       if (error.response) {
         return null;
@@ -35,7 +35,7 @@ export default class ManageChargerStation implements IChargerStation {
     }
   }
 
-  async addChargerStation(fields: Omit<ChargerStation, 'chargePointID'>): Promise<[number | null, any | null]> {
+  async addChargerPoint(fields: Omit<ChargePoint, 'chargePointID'>): Promise<[number | null, any | null]> {
     try {
       const errorObj = this.validateFields(fields);
       if (Object.keys(errorObj).length > 0) {
@@ -74,9 +74,9 @@ export default class ManageChargerStation implements IChargerStation {
     }
   }
 
-  async deleteChargerStation(stationId: number): Promise<boolean> {
+  async deleteChargerPoint(chargePointId: number): Promise<boolean> {
     try {
-      const response = await axiosInstance.delete(`${FLEXICHARGE_API_URL}/chargePoints/${stationId}`, {
+      const response = await axiosInstance.delete(`${FLEXICHARGE_API_URL}/chargePoints/${chargePointId}`, {
         headers: {
           Authorization: `Bearer ${sessionStorage.getItem('token')}`
         }
@@ -93,12 +93,12 @@ export default class ManageChargerStation implements IChargerStation {
     }
   }
 
-  async updateChargerStation(stationId: number, fields: Omit<ChargerStation, 'chargePointID'>): Promise<[ChargerStation | null, any | null]> {
+  async updateChargerPoint(chargePointId: number, fields: Omit<ChargePoint, 'chargePointID'>): Promise<[ChargePoint | null, any | null]> {
     try {
       const errorObj = this.validateFields(fields);
       if (Object.keys(errorObj).length > 0) return [null, errorObj];
 
-      const response = await axiosInstance.put(`${FLEXICHARGE_API_URL}/chargePoints/${stationId}`, {
+      const response = await axiosInstance.put(`${FLEXICHARGE_API_URL}/chargePoints/${chargePointId}`, {
         ...fields
       }, {
         headers: {
@@ -136,7 +136,7 @@ export default class ManageChargerStation implements IChargerStation {
     return longitude >= -180 && longitude <= 180;
   }
 
-  private validateFields(fields: Omit<ChargerStation, 'chargePointID'>): any | null {
+  private validateFields(fields: Omit<ChargePoint, 'chargePointID'>): any | null {
     const errorObj: any = {};
     if (!Array.isArray(fields.location) || fields.location.length < 2) {
       errorObj.location = 'Location must be an array with at least two elements (latitude and longitude)';

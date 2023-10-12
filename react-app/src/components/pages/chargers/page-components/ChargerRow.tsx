@@ -32,7 +32,7 @@ const ChargerRow: FC<ChargerRowProps> = ({ charger, classes, editClicked, delete
             <Typography
               color='textPrimary'
               variant='body1'
-              className={classes.stationNameCell}
+              className={classes.pointNameCell}
               noWrap
             >
               {charger.connectorID}

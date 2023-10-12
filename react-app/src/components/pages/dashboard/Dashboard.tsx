@@ -1,13 +1,10 @@
-/* eslint-disable */
-/* eslint-disable react/jsx-no-undef */
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Helmet } from 'react-helmet';
-import { AppBar, Box, Grid, Toolbar, Typography } from '@material-ui/core';
+import { Box, Grid } from '@material-ui/core';
 import { Route, Redirect, useHistory } from 'react-router-dom';
-import { authenticationProvider } from '@/remote-access';
-import ChargerStations from '../charger-stations/ChargerStations';
+import ChargePoints from '../charger-points/ChargePoints';
 import Navbar from './dashboardComponents/Navbar';
-import ChargerStation from './dashboardComponents/ChargerStation';
+import ChargePoint from './dashboardComponents/ChargePoint';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import Chargers from './dashboardComponents/Chargers';
 import ChargersPage from '../chargers';
@@ -15,9 +12,8 @@ import InvoicesPage from '../invoices/InvoicesPage';
 import ManageUsers from '../manage-users/ManageUsers';
 import UsersDashboardComponent from './dashboardComponents/Users';
 import Sales from './dashboardComponents/Sales';
-import ChargerStationMap from './dashboardComponents/ChargerStationMap';
+import ChargerPointMap from './dashboardComponents/ChargePointMap';
 import AdminsDashboardComponent from './dashboardComponents/Admins';
-import axios from 'axios';
 import { ProtectedRoute } from '@/components/protectedRoute/ProttectedRoute';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -90,7 +86,7 @@ const DashboardHome = () => {
       </Grid>
       <Grid
         onClick={() => {
-          history.push('/dashboard/stations');
+          history.push('/dashboard/chargepoints');
         }}
         className={classes.BoxSpacing}
         item
@@ -99,7 +95,7 @@ const DashboardHome = () => {
         xl={3}
         xs={12}
       >
-        <ChargerStation className={classes.hoverEffect} />
+        <ChargePoint className={classes.hoverEffect} />
       </Grid>
       <Grid
         className={classes.BoxSpacing}
@@ -119,14 +115,14 @@ const DashboardHome = () => {
         lg={5}
         xl={4}
       >
-        <ChargerStationMap fetchStations={true} enableAddMarker={false} />
+        <ChargerPointMap fetchChargePoints={true} enableAddMarker={false} />
       </Grid>
     </Grid>
   );
 };
 
 const Dashboard = (props: any) => {
-  const classes = useStyles();
+  // const classes = useStyles();
 
   return (
     <>
@@ -136,23 +132,16 @@ const Dashboard = (props: any) => {
       <Box sx={{ display: 'flex', width: '100%' }}>
         <Navbar />
         <Box component="main" style={{ width: '100%' }}>
-          <AppBar position="sticky" className={classes.appBar} >
-            <Toolbar variant="dense">
-              <Typography variant="h6">
-                Flexi Charge
-              </Typography>
-            </Toolbar>
-          </AppBar>
           <ProtectedRoute path='/dashboard' exact>
             <DashboardHome />
           </ProtectedRoute>
-          <ProtectedRoute path='/dashboard/stations' exact>
-            <ChargerStations />
+          <ProtectedRoute path='/dashboard/chargepoints' exact>
+            <ChargePoints />
           </ProtectedRoute>
           <ProtectedRoute path='/dashboard/chargers' exact>
             <ChargersPage />
           </ProtectedRoute>
-          <ProtectedRoute path='/dashboard/chargers/:stationId' exact>
+          <ProtectedRoute path='/dashboard/chargers/:pointId' exact>
             <ChargersPage />
           </ProtectedRoute>
           <ProtectedRoute path='/dashboard/invoices' exact>
@@ -175,7 +164,6 @@ export const DashboardRoute = ({ ...rest }) => {
       return sessionStorage.getItem('isAuthenticated')
         ? <Dashboard />
         : <Redirect to='/login' />;
-        
     }} />
   );
 };

@@ -1,5 +1,5 @@
-import { manageChargerStation } from '@/remote-access';
-import { type ChargerStation } from '@/remote-access/types';
+import { manageChargerPoint } from '@/remote-access';
+import { type ChargePoint } from '@/remote-access/types';
 import {
   Accordion, AccordionActions, AccordionDetails,
   AccordionSummary, Button, Divider, Grid, ListItemText,
@@ -9,68 +9,68 @@ import { ExpandMore } from '@material-ui/icons';
 import React, { type FC, useEffect, useState } from 'react';
 import AddChargerDialog from './AddChargerDialog';
 
-interface ChargerStationAccordionProps {
-  stationId: number
+interface ChargerPointAccordionProps {
+  chargePointId: number
   reload: () => void
 }
 
-interface ChargerStationAccordianState {
+interface ChargerPointAccordianState {
   loaded: boolean
-  station?: ChargerStation
-  openAddStationDialog: boolean
+  chargePoint?: ChargePoint
+  openAddPointDialog: boolean
 }
 
-const ChargerStationAccordian: FC<ChargerStationAccordionProps> = ({ stationId, reload }) => {
+const ChargerPointAccordian: FC<ChargerPointAccordionProps> = ({ chargePointId, reload }) => {
   const theme: Theme = useTheme();
-  const [state, setState] = useState<ChargerStationAccordianState>({
+  const [state, setState] = useState<ChargerPointAccordianState>({
     loaded: false,
-    openAddStationDialog: false
+    openAddPointDialog: false
   });
 
-  const loadStation = () => {
-    if (stationId) {
-      manageChargerStation.getChargerStationById(stationId).then((chargerStation) => {
-        if (chargerStation === null) return;
+  const loadPoint = () => {
+    if (chargePointId) {
+      manageChargerPoint.getChargerPointById(chargePointId).then((chargePoint) => {
+        if (chargePoint === null) return;
         setState({
           ...state,
           loaded: true,
-          station: chargerStation
+          chargePoint: chargePoint
         });
       });
     }
   };
 
   useEffect(() => {
-    loadStation();
-  }, [stationId]);
+    loadPoint();
+  }, [chargePointId]);
 
-  const handleOpenAddStationDialog = () => {
+  const handleOpenAddPointDialog = () => {
     setState({
       ...state,
-      openAddStationDialog: true
+      openAddPointDialog: true
     });
   };
 
-  const handleCloseAddStationDialog = () => {
+  const handleCloseAddPointDialog = () => {
     setState({
       ...state,
-      openAddStationDialog: false
+      openAddPointDialog: false
     });
   };
 
   return (
     <>
-      {state.station &&
+      {state.chargePoint &&
         <Accordion defaultExpanded>
           <AccordionSummary
             expandIcon={<ExpandMore />}
-            aria-controls="charger-station-panel"
-            id="charger-station-panel-header"
+            aria-controls="charger-chargePoint-panel"
+            id="charger-chargePoint-panel-header"
           >
-            <Grid container id="charger-station-panel-header">
+            <Grid container id="charger-chargePoint-panel-header">
               <Grid item xs={9} md={10}>
                 <Typography>
-                  Viewing Chargers in Charger Station: {state.station.chargePointID}, {state.station?.name}
+                  Viewing Chargers in Charge-point: {state.chargePoint.chargePointID}, {state.chargePoint?.name}
                 </Typography>
               </Grid>
               <Grid item xs={3} md={2}>
@@ -83,25 +83,25 @@ const ChargerStationAccordian: FC<ChargerStationAccordionProps> = ({ stationId, 
             <Grid container spacing={5}>
               <Grid item xl={3}>
                 <ListItemText
-                  primary={state.station.chargePointID}
-                  secondary="Station ID"
+                  primary={state.chargePoint.chargePointID}
+                  secondary="Charge-point ID"
                 />
               </Grid>
               <Grid item xl={3}>
                 <ListItemText
-                  primary={state.station.name}
+                  primary={state.chargePoint.name}
                   secondary="Name"
                 />
               </Grid>
               <Grid item xl={3}>
                 <ListItemText
-                  primary={`${state.station.location[0]}, ${state.station.location[1]}`}
+                  primary={`${state.chargePoint.location[0]}, ${state.chargePoint.location[1]}`}
                   secondary="Latitude, Longitude"
                 />
               </Grid>
               <Grid item xl={3}>
                 <ListItemText
-                  primary={`SEK ${state.station.price / 100}`}
+                  primary={`SEK ${state.chargePoint.price / 100}`}
                   secondary="Price"
                 />
               </Grid>
@@ -112,16 +112,16 @@ const ChargerStationAccordian: FC<ChargerStationAccordionProps> = ({ stationId, 
               variant="contained"
               color="primary"
               style={{ color: theme.flexiCharge.primary.white }}
-              onClick={() => { handleOpenAddStationDialog(); }}
+              onClick={() => handleOpenAddPointDialog()}
             >
                 Add Chargers
             </Button>
           </AccordionActions>
 
           <AddChargerDialog
-            open={state.openAddStationDialog}
-            handleClose={handleCloseAddStationDialog}
-            station={state.station}
+            open={state.openAddPointDialog}
+            handleClose={handleCloseAddPointDialog}
+            chargePoint={state.chargePoint}
             reload={reload}
           />
         </Accordion>
@@ -130,4 +130,4 @@ const ChargerStationAccordian: FC<ChargerStationAccordionProps> = ({ stationId, 
   );
 };
 
-export default ChargerStationAccordian;
+export default ChargerPointAccordian;

@@ -1,5 +1,5 @@
 /* eslint-disable react/react-in-jsx-scope */
-import { manageChargerStation } from '@/remote-access';
+import { manageChargerPoint } from '@/remote-access';
 import {
   Card,
   CardContent,
@@ -22,14 +22,14 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const chargingStationComp = (props: any) => {
+const chargingPointComp = (props: any) => {
   const classes = useStyles();
-  const [numStations, setNumStations] = useState<number>();
+  const [numPoints, setNumPoints] = useState<number>();
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
-    manageChargerStation.getAllChargerStations().then((stations) => {
-      setNumStations(stations.length);
+    manageChargerPoint.getAllChargerPoints().then((points) => {
+      setNumPoints(points.length);
       setLoaded(true);
     });
   }, []);
@@ -53,13 +53,13 @@ const chargingStationComp = (props: any) => {
               gutterBottom
               variant="h6"
             >
-              Active Charger Stations
+              Active Charge-points
             </Typography>
             <Typography
               color="textPrimary"
               variant="h3"
             >
-              {numStations}
+              {numPoints}
             </Typography>
           </Grid>
           <Grid item>
@@ -85,4 +85,4 @@ const chargingStationComp = (props: any) => {
   );
 };
 
-export default chargingStationComp;
+export default chargingPointComp;
