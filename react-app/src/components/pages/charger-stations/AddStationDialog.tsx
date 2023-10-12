@@ -51,12 +51,12 @@ const AddSingleStationDialog = ({ open, handleClose }: any) => {
       });
     }
   };
-  
+
   const handleMapClick = (lat: number, lon: number) => {
-    setFields((prevFields: any) => ({ 
+    setFields((prevFields: any) => ({
       ...prevFields,
-      latitude: lat, 
-      longitude: lon 
+      latitude: lat,
+      longitude: lon
     }));
     console.log(lat, lon);
   };
@@ -76,29 +76,28 @@ const AddSingleStationDialog = ({ open, handleClose }: any) => {
   const handleSubmitClicked = async () => {
     const latitude = parseFloat(fields.latitude);
     const longitude = parseFloat(fields.longitude);
-  
+
     const newErrorState = {
       name: !fields.name ? 'Required' : undefined,
       price: !fields.price ? 'Required' : undefined,
       latitude: !fields.latitude || isNaN(latitude) ? 'Required or Invalid' : undefined,
       longitude: !fields.longitude || isNaN(longitude) ? 'Required or Invalid' : undefined,
     };
-  
+
     if (newErrorState.name || newErrorState.price || newErrorState.latitude || newErrorState.longitude) {
       setErrorState(newErrorState);
       return;
     }
-  
+
     setLoading(true);
-  
+
     try {
       const result = await manageChargerStation.addChargerStation({
         name: fields.name,
         location: [latitude, longitude],
-        price: fields.price * 100,
         klarnaReservationAmount: 50000,
       });
-  
+
       if (result[1] !== null) {
         setErrorState({
           ...result[1]
@@ -119,7 +118,7 @@ const AddSingleStationDialog = ({ open, handleClose }: any) => {
       setLoading(false);
     }
   };
-  
+
   return (
     <>
       <Dialog
@@ -173,8 +172,8 @@ const AddSingleStationDialog = ({ open, handleClose }: any) => {
             <Box sx={{ px: 2 }}>
               <FormControl style={{ marginTop: 12 }} fullWidth variant="outlined" error={errorState.name !== undefined}>
                 <FormHelperText id="station-name-helper">
-                  {errorState.name 
-                    ? `${errorState.name} | Station Name` 
+                  {errorState.name
+                    ? `${errorState.name} | Station Name`
                     : 'Station Name'
                   }
                 </FormHelperText>
@@ -185,29 +184,15 @@ const AddSingleStationDialog = ({ open, handleClose }: any) => {
                   value={fields.name}
                 />
               </FormControl>
-              <FormControl style={{ marginTop: 12, marginBottom: 18 }} fullWidth variant="outlined" error={errorState.price !== undefined}>
-                <FormHelperText id="station-price-helper">
-                  {errorState.price
-                    ? `${errorState.price} | Station Price`
-                    : 'Station Price'
-                  }
-                </FormHelperText>
-                <Input
-                  id="station-price-input"
-                  aria-describedby="station-price-helper"
-                  type="number"
-                  onChange={(e) => { handleInputChange('price', Number(e.target.value)); }}
-                  value={fields.price}
-                  startAdornment={ <InputAdornment position="start">SEK</InputAdornment> }
+              <FormControl style={{ marginTop: 18, marginBottom: 18 }} fullWidth variant="outlined" error={errorState.price !== undefined}>
+                <ChargerStationMap
+                  onMapClick={handleMapClick}
+                  enableAddMarker={true}
+                  fetchStations={false}
+                  hideTitleAndLoading={true}
+                  className={classes.smallMap}
                 />
               </FormControl>
-              <ChargerStationMap 
-                onMapClick={handleMapClick} 
-                enableAddMarker={true} 
-                fetchStations={false} 
-                hideTitleAndLoading={true}
-                className={classes.smallMap} 
-              />
               <FormControl style={{ marginTop: 12 }} fullWidth variant="outlined" error={errorState.latitude !== undefined}>
                 <FormHelperText id="station-latitude-helper">
                   {errorState.latitude

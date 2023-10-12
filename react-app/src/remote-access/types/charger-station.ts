@@ -2,7 +2,6 @@ export interface ChargerStation {
   chargePointID: number
   name: string
   location: [number, number]
-  price: number
   klarnaReservationAmount: number | null
 }
 
