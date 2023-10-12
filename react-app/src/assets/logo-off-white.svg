@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="78px"
+   height="85px"
+   viewBox="0 0 78 85"
+   version="1.1"
+   id="svg3"
+   sodipodi:docname="logo-off-white.svg"
+   inkscape:version="1.3 (0e150ed6c4, 2023-07-21)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <sodipodi:namedview
+     id="namedview3"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="4.7294118"
+     inkscape:cx="34.676617"
+     inkscape:cy="32.139303"
+     inkscape:window-width="960"
+     inkscape:window-height="1008"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg3" />
+  <title
+     id="title1">Group 3</title>
+  <defs
+     id="defs3">
+    <linearGradient
+       id="linearGradient3"
+       inkscape:collect="always">
+      <stop
+         style="stop-color:#f0c200;stop-opacity:1;"
+         offset="0"
+         id="stop4" />
+      <stop
+         style="stop-color:#78bd7f;stop-opacity:1;"
+         offset="0.76602566"
+         id="stop6" />
+      <stop
+         style="stop-color:#409c68;stop-opacity:1;"
+         offset="1"
+         id="stop5" />
+    </linearGradient>
+    <polygon
+       id="path-1"
+       points="0 0 76.864 0 76.864 84.583 0 84.583" />
+    <linearGradient
+       x1="0%"
+       y1="53.5902097%"
+       x2="95.6453238%"
+       y2="53.5902097%"
+       id="linearGradient-3">
+      <stop
+         stop-color="#F9E300"
+         offset="0%"
+         id="stop1" />
+      <stop
+         stop-color="#77BD75"
+         offset="77.4448689%"
+         id="stop2" />
+      <stop
+         stop-color="#409C68"
+         offset="100%"
+         id="stop3" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3"
+       id="linearGradient5"
+       x1="0.2"
+       y1="42.2915"
+       x2="77.064"
+       y2="42.2915"
+       gradientUnits="userSpaceOnUse" />
+  </defs>
+  <g
+     id="Symbols"
+     stroke="none"
+     stroke-width="1"
+     fill="none"
+     fill-rule="evenodd"
+     style="fill:#e5e5e5;fill-opacity:1"
+     inkscape:transform-center-x="1.6912427"
+     inkscape:transform-center-y="-0.63442799">
+    <g
+       id="Logo/2row/color-and-black"
+       transform="translate(-63,-1)"
+       style="fill:#e5e5e5;fill-opacity:1">
+      <g
+         id="Group-3"
+         transform="translate(63.2,1)"
+         style="fill:#e5e5e5;fill-opacity:1">
+        <g
+           id="Clip-2"
+           style="fill:#e5e5e5;fill-opacity:1" />
+        <path
+           d="m 64.5068,33.1669 v 20.497 c 0,1.885 -1.006,3.628 -2.639,4.57 l -19.697,11.373 c -1.633,0.942 -3.645,0.942 -5.278,0 l -12.017,-6.938 -16.554,4.711 28.571,16.496 c 1.633,0.943 3.645,0.943 5.278,0 l 32.055,-18.507 c 1.633,-0.943 2.639,-2.685 2.639,-4.571 v -34.359 z m -62.308,25.277 v -34.659 c 0,-1.886 1.006,-3.628 2.639,-4.571 l 32.055,-18.507 c 1.633,-0.943 3.645,-0.943 5.278,0 l 34.694,20.031 -40.782,22.933 7.3,7.702 -40.71,12.745 h -10e-4 l -2.672,0.837 14.841,-8.08 0.012,0.007 16.115,-8.728 -8.564,-9.771 30.974,-16.936 -11.207,-6.471 c -1.633,-0.943 -3.645,-0.943 -5.278,0 l -19.697,11.373 c -1.633,0.942 -2.639,2.685 -2.639,4.57 v 20.576 z"
+           id="Fill-1"
+           fill="url(#linearGradient-3)"
+           mask="url(#mask-2)"
+           style="fill:#e5e5e5;fill-opacity:1" />
+      </g>
+    </g>
+  </g>
+  <metadata
+     id="metadata6">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:title>Group 3</dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+</svg>

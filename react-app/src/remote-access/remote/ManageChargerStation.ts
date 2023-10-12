@@ -1,15 +1,15 @@
 import { FLEXICHARGE_API_URL } from '@/appConfig';
 import { mockChargerStations } from '@/__mock-data__';
-import axios from 'axios';
+import axiosInstance from '../utility/axios-instance';
 import { ChargerStation, IChargerStation } from '../types';
 
 export default class ManageChargerStation implements IChargerStation {
   stations = mockChargerStations;
 
   async getAllChargerStations(): Promise<ChargerStation[]> {
-    const response = await axios.get(`${FLEXICHARGE_API_URL}/chargePoints`, {
+    const response = await axiosInstance.get(`${FLEXICHARGE_API_URL}/chargePoints`, {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`
+        Authorization: `Bearer ${sessionStorage.getItem('token')}`
       }
     });
 
@@ -19,9 +19,9 @@ export default class ManageChargerStation implements IChargerStation {
 
   async getChargerStationById(stationId: number): Promise<ChargerStation | null> {
     try {
-      const reponse = await axios.get(`${FLEXICHARGE_API_URL}/chargePoints/${stationId}`, {
+      const reponse = await axiosInstance.get(`${FLEXICHARGE_API_URL}/chargePoints/${stationId}`, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`
+          Authorization: `Bearer ${sessionStorage.getItem('token')}`
         }
       });
 
@@ -38,13 +38,15 @@ export default class ManageChargerStation implements IChargerStation {
   async addChargerStation(fields: Omit<ChargerStation, 'chargePointID'>): Promise<[number | null, any | null]> {
     try {
       const errorObj = this.validateFields(fields);
-      if (Object.keys(errorObj).length > 0) return [null, errorObj];
+      if (Object.keys(errorObj).length > 0) {
+        return [null, errorObj];
+      }
 
-      const response = await axios.post(`${FLEXICHARGE_API_URL}/chargePoints`, {
+      const response = await axiosInstance.post(`${FLEXICHARGE_API_URL}/chargePoints`, {
         ...fields
       }, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`
+          Authorization: `Bearer ${sessionStorage.getItem('token')}`
         }
       });
 
@@ -56,8 +58,10 @@ export default class ManageChargerStation implements IChargerStation {
     } catch (error: any) {
       if (error.response) {
         const errorObj: any = {};
-        if (error.response.data.includes('dbUniqueConstraintError')) {
+        if (typeof error.response.data === 'string' && error.response.data.includes('dbUniqueConstraintError')) {
           errorObj.name = 'Name is taken';
+        } else if (error.response.data && typeof error.response.data === 'object' && error.response.data.message) {
+          errorObj.error = error.response.data.message;
         } else {
           errorObj.error = 'An error occured';
         }
@@ -72,9 +76,9 @@ export default class ManageChargerStation implements IChargerStation {
 
   async deleteChargerStation(stationId: number): Promise<boolean> {
     try {
-      const response = await axios.delete(`${FLEXICHARGE_API_URL}/chargePoints/${stationId}`, {
+      const response = await axiosInstance.delete(`${FLEXICHARGE_API_URL}/chargePoints/${stationId}`, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`
+          Authorization: `Bearer ${sessionStorage.getItem('token')}`
         }
       });
       if (response.status === 204) {
@@ -94,11 +98,11 @@ export default class ManageChargerStation implements IChargerStation {
       const errorObj = this.validateFields(fields);
       if (Object.keys(errorObj).length > 0) return [null, errorObj];
 
-      const response = await axios.put(`${FLEXICHARGE_API_URL}/chargePoints/${stationId}`, {
+      const response = await axiosInstance.put(`${FLEXICHARGE_API_URL}/chargePoints/${stationId}`, {
         ...fields
       }, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`
+          Authorization: `Bearer ${sessionStorage.getItem('token')}`
         }
       });
 
@@ -129,16 +133,21 @@ export default class ManageChargerStation implements IChargerStation {
   }
 
   private isValidLongitude(longitude: number) {
-    return longitude >= -180 && longitude <= 80;
+    return longitude >= -180 && longitude <= 180;
   }
 
   private validateFields(fields: Omit<ChargerStation, 'chargePointID'>): any | null {
     const errorObj: any = {};
-    if (fields.location[0] && ((isNaN(fields.location[0]) || !this.isValidLatitude(fields.location[1])))) {
+    if (!Array.isArray(fields.location) || fields.location.length < 2) {
+      errorObj.location = 'Location must be an array with at least two elements (latitude and longitude)';
+      return errorObj;
+    }
+
+    if (fields.location[0] == null || isNaN(fields.location[0]) || !this.isValidLatitude(fields.location[0])) {
       errorObj.latitude = 'Latitude must be a number and within range -90 to 90';
     }
-    if (fields.location[1] && (isNaN(fields.location[1]) || !this.isValidLongitude(fields.location[0]))) {
-      errorObj.longitude = 'Longitude must be a number and within range -180 to 80';
+    if (fields.location[1] == null || isNaN(fields.location[1]) || !this.isValidLongitude(fields.location[1])) {
+      errorObj.longitude = 'Longitude must be a number and within range -180 to 180';
     }
     return errorObj;
   }
