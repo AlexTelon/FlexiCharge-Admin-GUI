@@ -131,7 +131,7 @@ const ChargerPointMap = ({ fetchChargePoints = true, enableAddMarker = true, onM
                     <ListItem>
                       <ListItemText
                         primary={point.chargePointID}
-                        secondary="Station ID"
+                        secondary="Point ID"
                       />
                     </ListItem>
                     <ListItem>

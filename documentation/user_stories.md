@@ -38,7 +38,7 @@ He needs to find this specific charger in a fast way, so that he can do the oper
 * Find charger by id.
 * Find charge-point by area.
 
-### Changing charging point price
+### Changing charging Charge-point price
 
 Charlie monitor this month's electricity prices which have risen.
 He now wants to increase the prices att the charging points, so that the company does not lose money.

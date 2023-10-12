@@ -105,7 +105,7 @@ const AddChargerDialog: FC<AddChargerDialogProps> = ({ open, handleClose, charge
       }
       <DialogContent>
         <DialogContentText>
-          Station Info for chargePoint {chargePoint.chargePointID}
+          Point Info for chargePoint {chargePoint.chargePointID}
           <List dense={true}>
             <ListItem>
               <ListItemText

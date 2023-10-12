@@ -74,7 +74,7 @@ interface ChargerPointTableState {
 
 const ChargerPointsTable = (props: any) => {
   const theme: Theme = useTheme();
-  /* const [state, setState] = useState<StationTableState>({
+  /* const [state, setState] = useState<PointTableState>({
     loaded: props.loaded,
     chargePoints: props.chargePoints
   }); */
@@ -86,7 +86,7 @@ const ChargerPointsTable = (props: any) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
-  /* const loadStations = () => {
+  /* const loadPoints = () => {
     chargePointCollection.getAllChargerPoints().then((chargePoints) => {
       setState({
         loaded: true,
@@ -102,7 +102,7 @@ const ChargerPointsTable = (props: any) => {
   };
 
   useEffect(() => {
-    loadStations();
+    loadPoints();
   }, []); */
 
   useEffect(() => {

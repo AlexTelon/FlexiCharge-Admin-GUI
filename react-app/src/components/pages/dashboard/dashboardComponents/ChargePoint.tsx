@@ -22,14 +22,14 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const chargingStationComp = (props: any) => {
+const chargingPointComp = (props: any) => {
   const classes = useStyles();
-  const [numStations, setNumStations] = useState<number>();
+  const [numPoints, setNumPoints] = useState<number>();
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
     manageChargerPoint.getAllChargerPoints().then((points) => {
-      setNumStations(points.length);
+      setNumPoints(points.length);
       setLoaded(true);
     });
   }, []);
@@ -59,7 +59,7 @@ const chargingStationComp = (props: any) => {
               color="textPrimary"
               variant="h3"
             >
-              {numStations}
+              {numPoints}
             </Typography>
           </Grid>
           <Grid item>
@@ -85,4 +85,4 @@ const chargingStationComp = (props: any) => {
   );
 };
 
-export default chargingStationComp;
+export default chargingPointComp;

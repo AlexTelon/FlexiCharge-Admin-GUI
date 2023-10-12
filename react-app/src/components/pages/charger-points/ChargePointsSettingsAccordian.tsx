@@ -51,7 +51,7 @@ const ChargerPointsSettingsAccordian: FC<ChargerPointSettingsAccordianProps> = (
           style={{ color: theme.flexiCharge.primary.white }}
           onClick={handleOpenAddChargerPointDialog}
         >
-              Add Point
+              Add Charge-point
         </Button>
       </AccordionActions>
 

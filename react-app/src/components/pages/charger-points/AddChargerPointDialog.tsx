@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const AddSingleStationDialog = ({ open, handleClose }: any) => {
+const AddSinglePointDialog = ({ open, handleClose }: any) => {
   const classes = useStyles();
   const theme: Theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
@@ -174,8 +174,8 @@ const AddSingleStationDialog = ({ open, handleClose }: any) => {
               <FormControl style={{ marginTop: 12 }} fullWidth variant="outlined" error={errorState.name !== undefined}>
                 <FormHelperText id="point-name-helper">
                   {errorState.name 
-                    ? `${errorState.name} | Station Name` 
-                    : 'Station Name'
+                    ? `${errorState.name} | Charge-point Name`
+                    : 'Charge-point Name'
                   }
                 </FormHelperText>
                 <Input
@@ -188,8 +188,8 @@ const AddSingleStationDialog = ({ open, handleClose }: any) => {
               <FormControl style={{ marginTop: 12, marginBottom: 18 }} fullWidth variant="outlined" error={errorState.price !== undefined}>
                 <FormHelperText id="point-price-helper">
                   {errorState.price
-                    ? `${errorState.price} | Station Price`
-                    : 'Station Price'
+                    ? `${errorState.price} | Charge-point Price`
+                    : 'Charge-point Price'
                   }
                 </FormHelperText>
                 <Input
@@ -272,4 +272,4 @@ const AddSingleStationDialog = ({ open, handleClose }: any) => {
   );
 };
 
-export default AddSingleStationDialog;
+export default AddSinglePointDialog;

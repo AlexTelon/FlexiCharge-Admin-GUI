@@ -17,17 +17,17 @@ interface ChargerPointAccordionProps {
 interface ChargerPointAccordianState {
   loaded: boolean
   chargePoint?: ChargePoint
-  openAddStationDialog: boolean
+  openAddPointDialog: boolean
 }
 
 const ChargerPointAccordian: FC<ChargerPointAccordionProps> = ({ chargePointId, reload }) => {
   const theme: Theme = useTheme();
   const [state, setState] = useState<ChargerPointAccordianState>({
     loaded: false,
-    openAddStationDialog: false
+    openAddPointDialog: false
   });
 
-  const loadStation = () => {
+  const loadPoint = () => {
     if (chargePointId) {
       manageChargerPoint.getChargerPointById(chargePointId).then((chargePoint) => {
         if (chargePoint === null) return;
@@ -41,20 +41,20 @@ const ChargerPointAccordian: FC<ChargerPointAccordionProps> = ({ chargePointId, 
   };
 
   useEffect(() => {
-    loadStation();
+    loadPoint();
   }, [chargePointId]);
 
-  const handleOpenAddStationDialog = () => {
+  const handleOpenAddPointDialog = () => {
     setState({
       ...state,
-      openAddStationDialog: true
+      openAddPointDialog: true
     });
   };
 
-  const handleCloseAddStationDialog = () => {
+  const handleCloseAddPointDialog = () => {
     setState({
       ...state,
-      openAddStationDialog: false
+      openAddPointDialog: false
     });
   };
 
@@ -112,15 +112,15 @@ const ChargerPointAccordian: FC<ChargerPointAccordionProps> = ({ chargePointId, 
               variant="contained"
               color="primary"
               style={{ color: theme.flexiCharge.primary.white }}
-              onClick={() => handleOpenAddStationDialog()}
+              onClick={() => handleOpenAddPointDialog()}
             >
                 Add Chargers
             </Button>
           </AccordionActions>
 
           <AddChargerDialog
-            open={state.openAddStationDialog}
-            handleClose={handleCloseAddStationDialog}
+            open={state.openAddPointDialog}
+            handleClose={handleCloseAddPointDialog}
             chargePoint={state.chargePoint}
             reload={reload}
           />

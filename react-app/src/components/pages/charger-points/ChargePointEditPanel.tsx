@@ -190,7 +190,7 @@ const ChargePointEditPanel: FC<ChargerPointEditPanelProps> = ({ chargePointId, s
                   onChange={(e) => { handleInputChange('price', e.target.value); }}
                   startAdornment={ <InputAdornment position="end" style={{ marginRight: 10 }}>SEK</InputAdornment> }
                 />
-                <FormHelperText id="point-price-helper">Point Price</FormHelperText>
+                <FormHelperText id="point-price-helper">Charge-point Price</FormHelperText>
               </FormControl>
               <FormControl style={{ marginTop: 12 }} fullWidth variant="filled" error={errorState.latitude !== undefined}>
                 <InputLabel htmlFor="point-latitude-input">Latitude</InputLabel>
