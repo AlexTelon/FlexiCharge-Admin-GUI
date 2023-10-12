@@ -5,6 +5,7 @@ export interface User {
   name?: string
   family_name?: string
   email: string
+  phoneNumber?: string
   created?: string
   lastModified?: string
   enabled?: boolean
@@ -32,7 +33,7 @@ export interface Admin {
   emailVerified?: boolean
   name?: string
   family_name?: string
-  email?: string
+  email: string
   created?: string
   lastModified?: string
   enabled?: boolean

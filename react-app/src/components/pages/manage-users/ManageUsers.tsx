@@ -1,13 +1,13 @@
 /* eslint-disable react/jsx-no-undef */
 import React, { useEffect, useRef, useState } from 'react';
 import {
-  createStyles, makeStyles, Theme, Box, 
+  createStyles, makeStyles, type Theme, Box, 
   AppBar, Toolbar, Typography, Container, Grid, 
   IconButton, Paper, Tab, alpha, InputBase, styled 
 } from '@material-ui/core';
 import { Helmet } from 'react-helmet';
 import { Replay } from '@material-ui/icons';
-import { Admin, User } from '@/remote-access/types';
+import { type Admin, type User } from '@/remote-access/types';
 import { manageAdmin, manageUser } from '@/remote-access';
 import ManageUsersEditPanel from '@/components/manage-users/Users/ManageUsersEditPanel';
 import ManageAdminsEditPanel from '@/components/manage-users/Admins/ManageAdminEditPanel';

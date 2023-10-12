@@ -1,30 +1,37 @@
 /* eslint-disable */
 /* eslint-disable react/jsx-no-undef */
-import { IAuthenticationProvider } from '../types/authentication-provider';
+import { IAuthenticationProvider } from '@/remote-access/types';
 import { FLEXICHARGE_API_URL } from '@/appConfig';
-import axios from 'axios';
+import axiosInstance from '../utility/axios-instance';
 
 export default class AuthenticationProvider implements IAuthenticationProvider {
   public isAuthenticated: boolean = false;
   private token: string | null = null;
   private username: string | null = null;
   
-  getToken(): string | null {
-    axios.get(`${FLEXICHARGE_API_URL}/admin/${localStorage.getItem('username')}`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`
-      }
-    }).catch((error) => {
+  async getToken(): Promise<string | null> {
+    try {
+      const response = await axiosInstance.get(`${FLEXICHARGE_API_URL}/admin/${sessionStorage.getItem('username')}`, {
+        headers: {
+          Authorization: `Bearer ${sessionStorage.getItem('token')}`
+        }
+      });
+      // Assuming API returns the token
+      this.token = response.data.token; 
+      return this.token;
+    } catch (error: any) {
       if (error.response && error.response.status === 401) {
-        location.reload();
+        this.isAuthenticated = false;
+        this.token = null;
+        this.username = null;
       }
-    });
-    return this.token;
-  }
+      return null;
+    }
+  }  
 
   async login(username: string, password: string): Promise<[boolean, any | null]> {
     try {
-      const response = await axios({
+      const response = await axiosInstance({
         url: `${FLEXICHARGE_API_URL}/admin/sign-in`,
         method: 'post',
         timeout: 3000,
@@ -38,9 +45,9 @@ export default class AuthenticationProvider implements IAuthenticationProvider {
       this.username = response.data.username;
       this.isAuthenticated = true;
 
-      localStorage.setItem('token', `${this.token}`);
-      localStorage.setItem('isAuthenticated', `${this.isAuthenticated}`);
-      localStorage.setItem('username', `${this.username}`);
+      sessionStorage.setItem('token', `${this.token}`);
+      sessionStorage.setItem('isAuthenticated', `${this.isAuthenticated}`);
+      sessionStorage.setItem('username', `${this.username}`);
 
       return [true, {}];
     } catch (error: any) {
@@ -64,9 +71,9 @@ export default class AuthenticationProvider implements IAuthenticationProvider {
     }
   }
   
-  async getAdminSession(username: string, tempPassword: string, newPassword: string): Promise <Boolean> {
+  async getAdminSession(username: string, tempPassword: string, newPassword: string): Promise <boolean> {
     try {
-      const response = await axios({
+      const response = await axiosInstance({
         url: `${FLEXICHARGE_API_URL}/admin/sign-in`,
         method: 'post',
         timeout: 3000,
@@ -88,7 +95,7 @@ export default class AuthenticationProvider implements IAuthenticationProvider {
   }
   async verifyAdmin(username: string, newPassword: string, session: string): Promise<[boolean, any | null]> {
     try {
-      const response = await axios({
+      const response = await axiosInstance({
         url: `${FLEXICHARGE_API_URL}/admin/force-change-password`,
         method: 'post',
         timeout: 3000,
@@ -103,5 +110,15 @@ export default class AuthenticationProvider implements IAuthenticationProvider {
     } catch (error: any) {
         return [this.isAuthenticated, { invalidCredentials: true }]
     }
+  }
+
+  logout(): void {
+    this.isAuthenticated = false;
+    this.token = null;
+    this.username = null;
+    sessionStorage.removeItem('token');
+    sessionStorage.removeItem('isAuthenticated');
+    sessionStorage.removeItem('username');
+    location.reload();
   }
 }

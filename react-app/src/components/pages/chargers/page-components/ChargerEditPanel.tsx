@@ -1,25 +1,25 @@
-import { Charger } from '@/remote-access/types';
-import { AppBar, Box, Button, Dialog, DialogActions, DialogTitle, Divider, Grid, IconButton, LinearProgress, List, ListItem, ListItemText, Paper, Theme, Toolbar, Typography } from '@material-ui/core';
-import React, { FC, FormEvent, useEffect, useState } from 'react';
+import { type Charger } from '@/remote-access/types';
+import { AppBar, Box, Button, Dialog, DialogActions, DialogTitle, Divider, Grid, IconButton, LinearProgress, List, ListItem, ListItemText, Paper, type Theme, Toolbar, Typography } from '@material-ui/core';
+import React, { type FC, type FormEvent, useEffect, useState } from 'react';
 import { manageCharger } from '@/remote-access';
 import { useTheme } from '@material-ui/styles';
 import { Close, Delete } from '@material-ui/icons';
 import { Alert } from '@material-ui/lab';
 
 interface ChargerEditPanelProps {
-  chargerID: number
-  setActiveChargerID: (chargerID: number | undefined) => void
+  connectorID: number
+  setActiveconnectorID: (connectorID: number | undefined) => void
   reload: () => void
 }
 
-const ChargerEditPanel: FC<ChargerEditPanelProps> = ({ chargerID, setActiveChargerID, reload }) => {
+const ChargerEditPanel: FC<ChargerEditPanelProps> = ({ connectorID, setActiveconnectorID, reload }) => {
   const theme: Theme = useTheme();
   const [charger, setCharger] = useState<Charger>();
   const [loading, setLoading] = useState(false);
   const [errorState, setErrorState] = useState<any>({});
 
   const loadCharger = async () => {
-    const [charger, error] = await manageCharger.getChargerById(chargerID);
+    const [charger, error] = await manageCharger.getChargerById(connectorID);
     if (error) {
       setErrorState({
         alert: 'lmao'
@@ -32,7 +32,7 @@ const ChargerEditPanel: FC<ChargerEditPanelProps> = ({ chargerID, setActiveCharg
 
   useEffect(() => {
     loadCharger();
-  }, [chargerID]);
+  }, [connectorID]);
 
   const [openDelete, setDeleteOpen] = useState(false);
   const handleDeleteClicked = () => {
@@ -43,10 +43,10 @@ const ChargerEditPanel: FC<ChargerEditPanelProps> = ({ chargerID, setActiveCharg
     setDeleteOpen(false);
   };
 
-  const onDeleteCharger = async (event: FormEvent<HTMLFormElement>, chargerId: number) => {
+  const onDeleteCharger = async (event: FormEvent<HTMLFormElement>, connectorID: number) => {
     event.preventDefault();
-    await manageCharger.deleteChargerById(chargerId);
-    setActiveChargerID(undefined);
+    await manageCharger.deleteChargerById(connectorID);
+    setActiveconnectorID(undefined);
     reload();
   };
 
@@ -74,7 +74,7 @@ const ChargerEditPanel: FC<ChargerEditPanelProps> = ({ chargerID, setActiveCharg
                   aria-label="deselect charger"
                   aria-controls="charger-info"
                   color="inherit"
-                  onClick={() => setActiveChargerID(undefined)}
+                  onClick={() => { setActiveconnectorID(undefined); }}
                 >
                   <Close />
                 </IconButton>
@@ -87,8 +87,8 @@ const ChargerEditPanel: FC<ChargerEditPanelProps> = ({ chargerID, setActiveCharg
               }
               <ListItem>
                 <ListItemText
-                  primary={charger.chargerID}
-                  secondary="Charger ID"
+                  primary={charger.connectorID}
+                  secondary="Connector ID"
                 />
               </ListItem>
               <ListItem>
@@ -100,7 +100,7 @@ const ChargerEditPanel: FC<ChargerEditPanelProps> = ({ chargerID, setActiveCharg
               <ListItem>
                 <ListItemText
                   primary={charger.chargePointID}
-                  secondary="Charger Station ID"
+                  secondary="Charge-point ID"
                 />
               </ListItem>
               <ListItem>
@@ -131,16 +131,16 @@ const ChargerEditPanel: FC<ChargerEditPanelProps> = ({ chargerID, setActiveCharg
                       backgroundColor: theme.flexiCharge.accent.error,
                       color: theme.flexiCharge.primary.white
                     }}
-                    onClick={() => handleDeleteClicked()}
+                    onClick={() => { handleDeleteClicked(); }}
                   >
                     Delete
                   </Button>
                 </Grid>
               </Grid>
               <Dialog open={openDelete} onClose={handleCloseDelete}>
-                <DialogTitle>Are you sure you want to delete charger {charger.chargerID}?</DialogTitle>
+                <DialogTitle>Are you sure you want to delete charger {charger.connectorID}?</DialogTitle>
                 <DialogActions>
-                  <form onSubmit={(e) => { onDeleteCharger(e, charger.chargerID); }}>
+                  <form onSubmit={(e) => { onDeleteCharger(e, charger.connectorID); }}>
                     <Button type="button" autoFocus onClick={handleCloseDelete}>
                       Cancel
                     </Button>

@@ -1,4 +1,4 @@
-import { User } from '../types';
+import { type User } from '../types';
 
 export const toUserAttributes = (fields: Omit<User, 'username'>): any[] => {
   const userAttributes = [];
@@ -30,7 +30,8 @@ export const fromUserAttributes = (userAttributes: any[]): Partial<User> => {
 
 export const convertRemoteUsersToLocal = (remoteUser: any): User => {
   const attributes = fromUserAttributes(remoteUser.UserAttributes ?? remoteUser.Attributes);
-  const localUser: User = {
+  return {
+    email: remoteUser.username,
     username: remoteUser.Username,
     userStatus: remoteUser.userStatus,
     enabled: remoteUser.Enabled,
@@ -38,7 +39,6 @@ export const convertRemoteUsersToLocal = (remoteUser: any): User => {
     lastModified: remoteUser.lastModified,
     ...attributes
   };
-  return localUser;
 };
 
 export const convertRemoteUserToLocal = (remoteUser: any): User => {

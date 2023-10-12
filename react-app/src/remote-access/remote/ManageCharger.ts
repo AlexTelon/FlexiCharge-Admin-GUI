@@ -1,13 +1,13 @@
-import { Charger, ICharger } from '../types';
+import { type Charger, type ICharger } from '../types';
 import { FLEXICHARGE_API_URL } from '@/appConfig';
-import axios from 'axios';
+import axiosInstance from '../utility/axios-instance';
 
 export default class ManageCharger implements ICharger {
-  public async addCharger(fields: Omit<Charger, 'chargerID' | 'status'>): Promise<[Charger | null, any | null]> {
+  public async addCharger(fields: Omit<Charger, 'connectorID' | 'status'>): Promise<[Charger | null, any | null]> {
     try {
-      const res = await axios.post(`${FLEXICHARGE_API_URL}/chargers/`, fields, {
+      const res = await axiosInstance.post(`${FLEXICHARGE_API_URL}/chargers/`, fields, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`
+          Authorization: `Bearer ${sessionStorage.getItem('token')}`
         }
       });
       return [res.data, null];
@@ -30,9 +30,9 @@ export default class ManageCharger implements ICharger {
 
   public async getAllChargers(chargePointID?: number): Promise<[Charger[] | null, any | null]> {
     try {
-      const res = await axios.get(`${FLEXICHARGE_API_URL}/chargers`, {
+      const res = await axiosInstance.get(`${FLEXICHARGE_API_URL}/chargers`, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`
+          Authorization: `Bearer ${sessionStorage.getItem('token')}`
         }
       });
       const chargers = res.data as Charger[];
@@ -50,9 +50,9 @@ export default class ManageCharger implements ICharger {
 
   public async getAllAvailableChargers(): Promise<[Charger[] | null, any | null]> {
     try {
-      const res = await axios.get(`${FLEXICHARGE_API_URL}/chargers/available`, {
+      const res = await axiosInstance.get(`${FLEXICHARGE_API_URL}/chargers/available`, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`
+          Authorization: `Bearer ${sessionStorage.getItem('token')}`
         }
       });
       return [res.data as Charger[], null];
@@ -61,11 +61,11 @@ export default class ManageCharger implements ICharger {
     }
   }
 
-  public async getChargerById(chargerId: number): Promise<[Charger | null, any | null]> {
+  public async getChargerById(connectorID: number): Promise<[Charger | null, any | null]> {
     try {
-      const res = await axios.get(`${FLEXICHARGE_API_URL}/chargers/${chargerId}`, {
+      const res = await axiosInstance.get(`${FLEXICHARGE_API_URL}/chargers/${connectorID}`, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`
+          Authorization: `Bearer ${sessionStorage.getItem('token')}`
         }
       });
       return [res.data as Charger, null];
@@ -74,11 +74,11 @@ export default class ManageCharger implements ICharger {
     }
   }
 
-  public async updateChargerById(chargerId: number, fields: Omit<Charger, 'chargerID'>): Promise<[Charger | null, any | null]> {
+  public async updateChargerById(connectorID: number, fields: Omit<Charger, 'connectorID'>): Promise<[Charger | null, any | null]> {
     try {
-      const res = await axios.put(`${FLEXICHARGE_API_URL}/chargers/${chargerId}`, fields, {
+      const res = await axiosInstance.put(`${FLEXICHARGE_API_URL}/chargers/${connectorID}`, fields, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`
+          Authorization: `Bearer ${sessionStorage.getItem('token')}`
         }
       });
       return [res.data, null];
@@ -87,11 +87,11 @@ export default class ManageCharger implements ICharger {
     }
   }
   
-  public async deleteChargerById(chargerId: number): Promise<any> {
+  public async deleteChargerById(connectorID: number): Promise<any> {
     try {
-      const res = await axios.delete(`${FLEXICHARGE_API_URL}/chargers/${chargerId}`, {
+      const res = await axiosInstance.delete(`${FLEXICHARGE_API_URL}/chargers/${connectorID}`, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`
+          Authorization: `Bearer ${sessionStorage.getItem('token')}`
         }
       });
       return [res.data, null];

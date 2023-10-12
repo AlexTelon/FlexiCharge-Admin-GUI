@@ -1,17 +1,17 @@
 /* eslint-disable no-useless-escape */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-import { InvoiceCollection, IInvoice } from '../types';
+import { type InvoiceCollection, type IInvoice } from '../types';
 import { FLEXICHARGE_API_URL } from '@/appConfig';
-import axios from 'axios';
+import axiosInstance from '../utility/axios-instance';
 import { authenticationProvider } from '..';
 
 export default class ManageInvoice implements IInvoice {
   public async getInvoiceByUserId(id: any, status: string): Promise<[InvoiceCollection[] | null, any | null]> {
     try {
-      const res = await axios.get(`${FLEXICHARGE_API_URL}/invoices/${id}`, {
+      const res = await axiosInstance.get(`${FLEXICHARGE_API_URL}/invoices/${id}`, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`
+          Authorization: `Bearer ${sessionStorage.getItem('token')}`
         }
       });
       return [res.data, null];
@@ -27,11 +27,11 @@ export default class ManageInvoice implements IInvoice {
       if (month) params.month = month;
       if (status) params.status = status;
 
-      const res = await axios.get(`${FLEXICHARGE_API_URL}/invoices/`, {
+      const res = await axiosInstance.get(`${FLEXICHARGE_API_URL}/invoices/`, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`
+          Authorization: `Bearer ${sessionStorage.getItem('token')}`
         },
-        params: params
+        params
       });
       return [res.data, null];
     } catch (error: any) {

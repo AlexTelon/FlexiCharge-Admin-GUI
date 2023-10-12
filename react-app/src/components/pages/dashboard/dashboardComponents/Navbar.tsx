@@ -1,15 +1,14 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import clsx from 'clsx';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import { createStyles, makeStyles, type Theme, useTheme } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-// import { ReactComponent as Title } from '../../assets/title.svg';
+import FlexichargeLogoDark from '@/assets/logo-dark-min.svg';
+import FlexichargeTitleDark from '@/assets/title-dark-min.svg';
 import { Icon } from '@material-ui/core';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import EvStationIcon from '@material-ui/icons/EvStation';
@@ -18,22 +17,11 @@ import PeopleIcon from '@material-ui/icons/People';
 import { useHistory } from 'react-router';
 import { Receipt } from '@material-ui/icons';
 
-// import MenuIcon from '@material-ui/icons/Menu';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+
+import LogoutConfirmationDialog from './LogoutConfirmationDialog';
 
 const drawerWidth = 240;
-
-const categories = [
-  {
-    id: '',
-    children: [
-      { id: 'Dashboard', icon: <DashboardIcon />, location: '/Dashboard', active: false },
-      { id: 'Charger Station', icon: <EvStationIcon />, location: '/Dashboard/stations' },
-      { id: 'Chargers', icon: <BatteryChargingFullIcon />, location: '/Dashboard/chargers' },
-      { id: 'Invoices', icon: <Receipt />, location: '/Dashboard/invoices' },
-      { id: 'Users', icon: <PeopleIcon />, location: '/Dashboard/users' }
-    ]
-  }
-];
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -80,7 +68,7 @@ const useStyles = makeStyles((theme: Theme) =>
       paddingLeft: theme.spacing(1)
     },
     categoryHeader: {
-      paddingTop: theme.spacing(3),
+      paddingTop: 0,
       paddingLeft: theme.spacing(3),
       display: 'flex'
     },
@@ -105,6 +93,10 @@ const useStyles = makeStyles((theme: Theme) =>
       color: theme.flexiCharge.primary.darkGrey,
       paddingTop: theme.spacing(0)
     },
+    itemLogo: {
+      width: '25px',
+      height: '25px'
+    },
     itemText: {
       fontSize: 'inherit',
       paddingLeft: theme.spacing(2),
@@ -115,32 +107,58 @@ const useStyles = makeStyles((theme: Theme) =>
       [theme.breakpoints.up('sm')]: {
         display: 'none'
       }
+    },
+    flexichargeLogo: {
+      background: 'linear-gradient(90deg, #f0c200 0%, #76bd76 77%, #409c68 100%)',
+      '&:hover,&:focus': {
+        backgroundColor: theme.flexiCharge.accent.secondary
+      }
+    },
+    flexichargeTitle: {
+      paddingLeft: theme.spacing(2),
+      paddingRight: theme.spacing(2),
+      paddingTop: theme.spacing(1),
+      width: '150px'
     }
   })
 );
 
 export default function MiniDrawer() {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
-  const [mobileOpen, setMobileOpen] = React.useState(false);
+  const theme = useTheme();
+  const isDesktop = useMediaQuery(theme.breakpoints.up('md'));
+  const [open, setOpen] = React.useState(isDesktop);
+  const [logoutDialogOpen, setLogoutDialogOpen] = useState(false);
 
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
+  const categories = [
+    {
+      id: '',
+      children: [
+        { id: 'Flexicharge', icon: <img className={classes.itemLogo} src={FlexichargeLogoDark} alt="logo" />, location: '/Dashboard', active: false },
+        { id: 'Dashboard', icon: <DashboardIcon />, location: '/Dashboard', active: false },
+        { id: 'Charge-points', icon: <EvStationIcon />, location: '/Dashboard/chargepoints' },
+        { id: 'Chargers', icon: <BatteryChargingFullIcon />, location: '/Dashboard/chargers' },
+        { id: 'Invoices', icon: <Receipt />, location: '/Dashboard/invoices' },
+        { id: 'Users', icon: <PeopleIcon />, location: '/Dashboard/users' }
+      ]
+    }
+  ];
 
-  const handleDrawerClose = () => {
-    setOpen(false);
-  };
-
-  const handleDrawerToogle = () => {
-    setMobileOpen(!mobileOpen);
-  };
+  useEffect(() => {
+    setOpen(isDesktop);
+  }, [isDesktop]);
 
   const handleLogout = () => {
-    localStorage.removeItem('isAuthenticated');
-    localStorage.removeItem('token');
-    localStorage.removeItem('username');
+    sessionStorage.clear();
     window.location.reload();
+  };
+
+  const handleCloseLogoutDialog = () => {
+    setLogoutDialogOpen(false);
+  };
+
+  const handleOpenLogoutDialog = () => {
+    setLogoutDialogOpen(true);
   };
 
   const history = useHistory();
@@ -149,8 +167,7 @@ export default function MiniDrawer() {
     <>
       <Drawer
         variant="permanent"
-        open={mobileOpen}
-        onClose={handleDrawerToogle}
+        open={open}
         className={clsx(classes.drawer, {
           [classes.drawerOpen]: open,
           [classes.drawerClose]: !open
@@ -162,76 +179,66 @@ export default function MiniDrawer() {
           })
         }}
       >
-        {/* <Divider />
-        <List className={classes.categoryHeader}>
-          <Title />
-        </List> */}
-        
-        {categories.map(({ id, children }) => 
 
+        {categories.map(({ id, children }) =>
           <React.Fragment key={id}>
-            <ListItem className={classes.categoryHeader}>
+            <ListItem
+              style={{ marginTop: '-16px' }}
+              className={clsx(classes.categoryHeader)}>
               <ListItemText classes={{
                 primary: classes.itemText
               }}>
                 {id}
               </ListItemText>
             </ListItem>
+
             {children.map(({ id: childId, icon, location: pathLocation }) => (
               <ListItem
                 key={childId}
                 button
                 color="primary"
-                className= {clsx(classes.item)}
+                className={clsx(classes.item, {
+                  [classes.flexichargeLogo]: childId === 'Flexicharge'
+                })}
                 onClick={() => {
                   history.push(pathLocation);
                 }}
                 data-cy={`${childId}-btn`}
               >
                 <ListItemIcon color='primary' className={classes.itemIcon}>{icon}</ListItemIcon>
-                <ListItemText classes={{ primary: classes.itemText }}>
-                  {childId}
-                </ListItemText>
+                {childId === 'Flexicharge' ?
+                  (
+                    <ListItemIcon className={classes.itemIcon}>
+                      <img className={classes.flexichargeTitle} src={FlexichargeTitleDark} alt="title" />
+                    </ListItemIcon>
+                  )
+                  :
+                  (
+                    <ListItemText classes={{ primary: classes.itemText }}>
+                      {childId}
+                    </ListItemText>
+                  )
+                }
               </ListItem>
             ))}
           </React.Fragment>
-        
+
         )}
-        {/* 
+
         <Divider />
-  
-        <List>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            edge="start"
-            onClick={handleDrawerToogle}
-            className={classes.MenuButton}
-          >
-            <MenuIcon />
-          </IconButton>
-        </List> */}
-              
-        <Divider />
-        
+
         <List className={classes.navBotSection}>
-          <ListItem button onClick={() => { handleLogout(); }}>
+          <ListItem button onClick={handleOpenLogoutDialog}>
             <ListItemIcon>
               <Icon className={classes.itemIcon}>logout</Icon>
             </ListItemIcon>
             <ListItemText>Sign out</ListItemText>
           </ListItem>
-          <Divider />
-          <ListItem
-            button
-
-            onClick={() => {
-              !open ? handleDrawerOpen() : handleDrawerClose();
-            }}
-            className={classes.openDrawButton}
-          >
-            {!open ? <ChevronRightIcon color="inherit" /> : <ChevronLeftIcon />}
-          </ListItem>
+          <LogoutConfirmationDialog
+            open={logoutDialogOpen}
+            handleLogout={handleLogout}
+            handleClose={handleCloseLogoutDialog}
+          />
         </List>
       </Drawer>
     </>

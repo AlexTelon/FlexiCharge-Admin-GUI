@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
-import { AppBar, Box, createStyles, makeStyles, Theme, Toolbar, Typography, Container, Grid, IconButton, Paper, alpha, InputBase, styled } from '@material-ui/core';
+import { AppBar, Box, createStyles, makeStyles, type Theme, Toolbar, Typography, Container, Grid, IconButton, Paper, alpha, InputBase, styled } from '@material-ui/core';
 import { Replay } from '@material-ui/icons';
 import ChargerTable from './page-components/ChargerTable';
 import ChargerEditPanel from './page-components/ChargerEditPanel';
 import { useParams } from 'react-router-dom';
-import ChargerStationAccordian from './page-components/ChargerStationAccordian';
+import ChargerPointAccordian from './page-components/ChargerPointAccordian';
 import { manageCharger } from '@/remote-access';
-import { Charger } from '@/remote-access/types';
+import { type Charger } from '@/remote-access/types';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -67,7 +67,7 @@ const useStyles = makeStyles((theme: Theme) =>
       maxHeight: '600px',
       marginTop: theme.spacing(1)
     },
-    stationNameCell: {
+    pointNameCell: {
       maxWidth: '15vw'
     }
   })
@@ -118,16 +118,17 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   }
 }));
 
-const ChargersPage = (props: any) => {
+const ChargersPage = () => {
   const params = useParams();
-  const stationId = (params as any).stationId;
+  const chargePointId = (params as any).pointId;
+  console.log(chargePointId);
   const classes = useStyles();
   const [state, setState] = useState<any>({
     loaded: false
   });
-  const [activeChargerID, setActiveChargerID] = useState<number>();
-  const editClicked = (chargerID: number) => {
-    setActiveChargerID(chargerID);
+  const [activeconnectorID, setActiveconnectorID] = useState<number>();
+  const editClicked = (connectorID: number) => {
+    setActiveconnectorID(connectorID);
   };
 
   const loadChargers = async () => {
@@ -135,7 +136,7 @@ const ChargersPage = (props: any) => {
       ...state,
       loaded: false
     });
-    const [chargers, error] = await manageCharger.getAllChargers(Number(stationId));
+    const [chargers, error] = await manageCharger.getAllChargers(Number(chargePointId));
     if (chargers) {
       setState({
         loaded: true,
@@ -157,7 +158,7 @@ const ChargersPage = (props: any) => {
   const handleSearch = (searchText: string) => {
     if (searchText !== '') {
       const chargers = state.chargers.filter((charger: Charger) => {
-        return `${charger.chargerID}`.includes(searchText)
+        return `${charger.connectorID}`.includes(searchText)
           || charger.serialNumber?.toLowerCase().includes(searchText.toLowerCase());
       });
       setState({
@@ -184,8 +185,8 @@ const ChargersPage = (props: any) => {
             <Grid container spacing={1} className={`${classes.contentContainer}`}>
               <Grid
                 item xs={12}
-                md={activeChargerID !== undefined ? 8 : 12}
-                lg={activeChargerID !== undefined ? 9 : 12}
+                md={activeconnectorID !== undefined ? 8 : 12}
+                lg={activeconnectorID !== undefined ? 9 : 12}
               >
                 <AppBar position='static' className={classes.contentAppBar} elevation={1}>
                   <Toolbar variant='dense'>
@@ -201,9 +202,9 @@ const ChargersPage = (props: any) => {
                       />
                     </Search>
                     <IconButton edge='end'
-                      aria-label='charger stations filters'
+                      aria-label='charge points filters'
                       aria-haspopup='true'
-                      aria-controls='charger-stations-filters'
+                      aria-controls='charger-points-filters'
                       color='inherit'
                       onClick={loadChargers}
                     >
@@ -211,8 +212,8 @@ const ChargersPage = (props: any) => {
                     </IconButton>
                   </Toolbar>
                 </AppBar>
-                {stationId &&
-                  <ChargerStationAccordian stationId={stationId} reload={loadChargers} />
+                {chargePointId &&
+                  <ChargerPointAccordian chargePointId={chargePointId} reload={loadChargers} />
                 }
                 <Paper elevation={2}>
                   <ChargerTable
@@ -224,10 +225,10 @@ const ChargersPage = (props: any) => {
                 </Paper>
               </Grid>
               <Grid item xs={12} md={4} lg={3}>
-                {activeChargerID &&
+                {activeconnectorID &&
                   <ChargerEditPanel
-                    chargerID={activeChargerID}
-                    setActiveChargerID={setActiveChargerID}
+                    connectorID={activeconnectorID}
+                    setActiveconnectorID={setActiveconnectorID}
                     reload={loadChargers}
                   />
                 }

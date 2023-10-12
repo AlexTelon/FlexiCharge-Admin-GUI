@@ -1,9 +1,9 @@
 import {
   Accordion, AccordionSummary, Grid, Typography,
-  AccordionDetails, Divider, AccordionActions, Button, Theme, useTheme
+  AccordionDetails, Divider, AccordionActions, Button, type Theme, useTheme
 } from '@material-ui/core';
 import { ExpandMore } from '@material-ui/icons';
-import React, { FC, useState } from 'react';
+import React, { type FC, useState } from 'react';
 import AddSingleAdminDialog from './AddAdminDialog';
 import AddIcon from '@material-ui/icons/Add';
   
