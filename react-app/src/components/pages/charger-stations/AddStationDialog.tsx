@@ -95,7 +95,6 @@ const AddSingleStationDialog = ({ open, handleClose }: any) => {
       const result = await manageChargerStation.addChargerStation({
         name: fields.name,
         location: [latitude, longitude],
-        price: fields.price * 100,
         klarnaReservationAmount: 50000,
       });
 
@@ -185,21 +184,15 @@ const AddSingleStationDialog = ({ open, handleClose }: any) => {
                   value={fields.name}
                 />
               </FormControl>
-              <FormControl style={{ marginTop: 12, marginBottom: 18 }} fullWidth variant="outlined" error={errorState.price !== undefined}>
-                <FormHelperText id="station-price-helper">
-                  {errorState.price
-                    ? `${errorState.price} | Station Price`
-                    : 'Station Price'
-                  }
-                </FormHelperText>
+              <FormControl style={{ marginTop: 18, marginBottom: 18 }} fullWidth variant="outlined" error={errorState.price !== undefined}>
+                <ChargerStationMap
+                  onMapClick={handleMapClick}
+                  enableAddMarker={true}
+                  fetchStations={false}
+                  hideTitleAndLoading={true}
+                  className={classes.smallMap}
+                />
               </FormControl>
-              <ChargerStationMap
-                onMapClick={handleMapClick}
-                enableAddMarker={true}
-                fetchStations={false}
-                hideTitleAndLoading={true}
-                className={classes.smallMap}
-              />
               <FormControl style={{ marginTop: 12 }} fullWidth variant="outlined" error={errorState.latitude !== undefined}>
                 <FormHelperText id="station-latitude-helper">
                   {errorState.latitude

@@ -120,12 +120,6 @@ const AddChargerDialog: FC<AddChargerDialogProps> = ({ open, handleClose, statio
               />
             </ListItem>
             <ListItem>
-              <ListItemText
-                primary={station.price / 100}
-                secondary="Price in SEK"
-              />
-            </ListItem>
-            <ListItem>
               <ListItemText 
                 primary={state.serialNumber}
                 secondary="Serial Number"
