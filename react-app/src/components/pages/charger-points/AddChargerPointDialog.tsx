@@ -93,9 +93,10 @@ const AddSinglePointDialog = ({ open, handleClose }: any) => {
 
     try {
       const result = await manageChargerPoint.addChargerPoint({
-        name: fields.name,
-        location: [latitude, longitude],
-        klarnaReservationAmount: 50000,
+          name: fields.name,
+          location: [latitude, longitude],
+          klarnaReservationAmount: 50000,
+          price: 0
       });
 
       if (result[1] !== null) {

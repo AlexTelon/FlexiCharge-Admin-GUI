@@ -62,7 +62,7 @@ const ChargerPointMap = ({ fetchChargePoints = true, enableAddMarker = true, onM
     // Leaflet style overrides
     const mapStyle = document.createElement('style');
     mapStyle.innerText = `
-      #charger-point-map .leaflet-popup-content p {
+      #charger-station-map .leaflet-popup-content p {
         margin: 0;
       }
     `;
@@ -97,16 +97,17 @@ const ChargerPointMap = ({ fetchChargePoints = true, enableAddMarker = true, onM
         }
         <CardContent>
           {!hideTitleAndLoading && (
-            <Typography variant="h6" gutterBottom>Charge-points Map</Typography>
+            <Typography variant="h6" gutterBottom>Charger Stations Map</Typography>
           )}
           <MapContainer 
-            id="charger-point-map"
+            id="charger-station-map"
             center={[57.78088050269488, 14.161473514345374]} 
             zoom={13} 
             minZoom={5}
             maxZoom={25}
             maxBounds={[[-90, -180], [90, 180]]}
             style={{ height: 510, width: '100%' }}
+            // @ts-expect-error  when ready does not seem to read the function signature correctly
             whenCreated={(mapInstance: Map) => {
               console.log('Map instance created!');
               mapInstance.on('click', handleMapClick);
@@ -115,41 +116,41 @@ const ChargerPointMap = ({ fetchChargePoints = true, enableAddMarker = true, onM
               attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
-            {state.chargePoints.map(point => (
+            {state.chargePoints.map(station => (
               <Marker
-                key={point.chargePointID}
+                key={station.chargePointID}
                 position={[
-                  point.location[0],
-                  point.location[1]
+                  station.location[0],
+                  station.location[1]
                 ]}
               >
                 <Popup>
                   <Typography>
-                    {point.name}
+                    {station.name}
                   </Typography>
                   <List dense={true}>
                     <ListItem>
                       <ListItemText
-                        primary={point.chargePointID}
-                        secondary="Point ID"
+                        primary={station.chargePointID}
+                        secondary="Station ID"
                       />
                     </ListItem>
                     <ListItem>
                       <ListItemText
-                        primary={`${point.location[0]}, ${point.location[1]}`}
+                        primary={`${station.location[0]}, ${station.location[1]}`}
                         secondary="Latitude, Longitude"
                       />
                     </ListItem>
                     <ListItem>
                       <ListItemText
-                        primary={`SEK ${point.price / 100}`}
+                        primary={`SEK ${station.price / 100}`}
                         secondary="Price"
                       />
                     </ListItem>
                     <ListItem>
                       <Button
                         component={Link}
-                        to={`/dashboard/chargers/${point.chargePointID}`}
+                        to={`/dashboard/chargers/${station.chargePointID}`}
                         variant="text"
                         color="primary"
                         endIcon={<ChevronRight />}

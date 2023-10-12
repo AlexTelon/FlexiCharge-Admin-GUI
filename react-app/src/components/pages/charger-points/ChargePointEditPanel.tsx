@@ -79,7 +79,8 @@ const ChargePointEditPanel: FC<ChargerPointEditPanelProps> = ({ chargePointId, s
       const result = await manageChargerPoint.updateChargerPoint(chargePointId, {
         name: fields.name,
         location: [Number(fields.latitude), Number(fields.longitude)],
-        klarnaReservationAmount: 500
+        klarnaReservationAmount: 500,
+        price: 0
       });
       if (result[1] !== null) {
         setErrorState({
