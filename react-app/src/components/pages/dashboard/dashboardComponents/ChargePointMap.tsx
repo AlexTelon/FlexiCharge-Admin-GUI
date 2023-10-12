@@ -107,7 +107,6 @@ const ChargerPointMap = ({ fetchChargePoints = true, enableAddMarker = true, onM
             maxZoom={25}
             maxBounds={[[-90, -180], [90, 180]]}
             style={{ height: 510, width: '100%' }}
-            // @ts-expect-error  when ready does not seem to read the function signature correctly
             whenCreated={(mapInstance: Map) => {
               console.log('Map instance created!');
               mapInstance.on('click', handleMapClick);
