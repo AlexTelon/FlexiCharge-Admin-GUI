@@ -1,4 +1,4 @@
-import { Charger, ICharger } from '../types';
+import { type Charger, type ICharger } from '../types';
 import { ChargerValidator } from '../utility/chargerUtils';
 import { mockChargers } from '../../__mock-data__/chargers';
 
@@ -73,7 +73,10 @@ export default class ManageCharger implements ICharger {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         const chargerIndex = this.chargers.findIndex((charger) => charger.connectorID === connectorID);
-        if (chargerIndex === -1) return resolve(false);
+        if (chargerIndex === -1) {
+          resolve(false);
+          return;
+        }
 
         this.chargers.splice(chargerIndex, 1);
         resolve(true);

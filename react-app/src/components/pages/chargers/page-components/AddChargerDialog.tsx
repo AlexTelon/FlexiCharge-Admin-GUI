@@ -1,9 +1,9 @@
 import { manageCharger } from '@/remote-access';
-import { ChargePoint } from '@/remote-access/types';
-import { Button, Collapse, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControl, FormHelperText, Input, InputLabel, LinearProgress, List, ListItem, ListItemText, Theme } from '@material-ui/core';
+import { type ChargePoint } from '@/remote-access/types';
+import { Button, Collapse, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControl, FormHelperText, Input, InputLabel, LinearProgress, List, ListItem, ListItemText, type Theme } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 import { useTheme } from '@material-ui/styles';
-import React, { FC, useEffect, useState } from 'react';
+import React, { type FC, useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 interface AddChargerDialogProps {
@@ -120,7 +120,7 @@ const AddChargerDialog: FC<AddChargerDialogProps> = ({ open, handleClose, charge
               />
             </ListItem>
             <ListItem>
-              <ListItemText 
+              <ListItemText
                 primary={state.serialNumber}
                 secondary="Serial Number"
               />
@@ -139,7 +139,7 @@ const AddChargerDialog: FC<AddChargerDialogProps> = ({ open, handleClose, charge
               id="charger-serial-number"
               aria-describedby="charger-serial-number-helper"
               value={state.serialNumber}
-              onChange={(e) => handleSerialNumberChange(e.target.value)}
+              onChange={(e) => { handleSerialNumberChange(e.target.value); }}
             />
             <FormHelperText id="charger-serial-number-helper">
               {state.errorState.serialNumber
@@ -163,7 +163,7 @@ const AddChargerDialog: FC<AddChargerDialogProps> = ({ open, handleClose, charge
             backgroundColor: theme.flexiCharge.accent.primary,
             color: theme.flexiCharge.primary.white
           }}
-          onClick={() => handleAddClick()}
+          onClick={() => { handleAddClick(); }}
         >Add Charger</Button>
       </DialogActions>
     </Dialog>

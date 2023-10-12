@@ -78,8 +78,8 @@ const ManageUsersEditPanel: FC<ManageUsersEditPanelProps> = ({ username, setActi
     if (username && fields.name && fields.family_name) {
       setLoading(true);
       const result = await manageUser.updateUser(username, {
-        name: fields.name,
-        family_name: fields.family_name 
+        email: fields.name,
+        family_name: fields.family_name
       });
 
       if (result[1] !== null) {
@@ -145,15 +145,20 @@ const ManageUsersEditPanel: FC<ManageUsersEditPanelProps> = ({ username, setActi
   };
 
   const handleResetUserPassword = () => {
-    manageUser.resetUserPassword(user?.email).then((wasSuccess) => {
-      if (wasSuccess) {
-        console.log('success');
-      } else {
-        console.log('failed');
+      if (user) {
+          manageUser.resetUserPassword(user.email).then((wasSuccess) => {
+              if (wasSuccess) {
+                  console.log('success');
+              } else {
+                  console.log('failed');
+              }
+          }).catch((_: any) => {
+              console.log('error');
+          });
       }
-    }).catch((_: any) => {
-      console.log('error');
-    });
+      else {
+          throw new Error("HandleResetUserPassword received no user")
+      }
   };
 
   const handleClickOpen = () => {

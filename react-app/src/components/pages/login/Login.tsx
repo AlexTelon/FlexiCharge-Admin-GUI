@@ -10,8 +10,8 @@ import { Redirect } from 'react-router';
 import { Alert } from '@material-ui/lab';
 import { Lock, Person } from '@material-ui/icons';
 import { authenticationProvider } from '@/remote-access';
-import backgroundLogo from '@/assets/logo.svg';
-import backgroundTitle from '@/assets/title-dark.svg';
+import backgroundLogo from '@/assets/logo-gradient-min.svg';
+import backgroundTitle from '@/assets/title-dark-min.svg';
 import './Login.css';
 
 const useStyles = makeStyles((theme: Theme) =>

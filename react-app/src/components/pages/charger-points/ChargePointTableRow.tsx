@@ -1,11 +1,11 @@
-import React, { FC, useRef, useState } from 'react';
+import React, { type FC, useRef, useState } from 'react';
 import {
-  Theme, useTheme, TableRow, TableCell,
-  Checkbox, Box, Typography, Hidden, Button,
+  type Theme, useTheme, TableRow, TableCell,
+  Checkbox, Box, Typography, Button,
   Collapse, Grid, ListItemText
 } from '@material-ui/core';
 import { Edit } from '@material-ui/icons';
-import { ChargePoint } from '@/remote-access/types';
+import { type ChargePoint } from '@/remote-access/types';
 import { Link } from 'react-router-dom';
 interface ChargerPointTableRowProps {
   chargePoint: ChargePoint
@@ -25,7 +25,7 @@ const ChargerPointTableRow: FC<ChargerPointTableRowProps> = ({ chargePoint, edit
         hover
         key={chargePoint.chargePointID}
         ref={chargePointRow}
-        onClick={() => setOpen(!open)}
+        onClick={() => { setOpen(!open); }}
         style={{ backgroundColor: open ? 'rgba(240,240,240,1)' : theme.flexiCharge.primary.white }}
       >
         <TableCell padding="checkbox">
@@ -33,7 +33,7 @@ const ChargerPointTableRow: FC<ChargerPointTableRowProps> = ({ chargePoint, edit
             color="primary"
             checked={selected}
             onChange={() => { handleSelect(chargePoint.chargePointID); } }
-            onClick={(e) => e.stopPropagation()}
+            onClick={(e) => { e.stopPropagation(); }}
           />
         </TableCell>
         <TableCell>
@@ -54,7 +54,7 @@ const ChargerPointTableRow: FC<ChargerPointTableRowProps> = ({ chargePoint, edit
           </Box>
         </TableCell>
         <TableCell align="right">
-          <Hidden xsDown>
+          <Box component={Button} sx={{ display: { xl: 'none', xs: 'block' } }}>
             <Button
               component={Link}
               to={`/dashboard/chargers/${chargePoint.chargePointID}`}
@@ -62,7 +62,7 @@ const ChargerPointTableRow: FC<ChargerPointTableRowProps> = ({ chargePoint, edit
               color="primary">
                 Manage Chargers
             </Button>
-          </Hidden>
+          </Box>
           <Button
             startIcon={<Edit />}
             style={{ color: theme.flexiCharge.primary.white }}

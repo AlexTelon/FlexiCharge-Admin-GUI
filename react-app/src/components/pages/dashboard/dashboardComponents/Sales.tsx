@@ -1,6 +1,6 @@
 import React from 'react';
 import { Bar } from 'react-chartjs-2';
-import { Box, Button, Card, CardContent, CardHeader, Divider, Theme } from '@material-ui/core';
+import { Box, Button, Card, CardContent, CardHeader, Divider, type Theme } from '@material-ui/core';
 import { ArrowRight } from '@material-ui/icons';
 import { useTheme } from '@material-ui/styles';
 

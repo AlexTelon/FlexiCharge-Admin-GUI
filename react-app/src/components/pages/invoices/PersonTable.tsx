@@ -1,11 +1,11 @@
 import {
-  useMediaQuery, Theme, TableProps, TableContainer,
+  useMediaQuery, type Theme, type TableProps, TableContainer,
   Table, TableHead, TableRow, TableCell, TableBody,
   TablePagination, LinearProgress
 } from '@material-ui/core';
 import PersonRow from './PersonRow';
-import { Invoice } from '@/remote-access/types';
-import React, { FC, useState } from 'react';
+import { type Invoice } from '@/remote-access/types';
+import React, { type FC, useState } from 'react';
 
 interface PersonTableProps {
   loaded: boolean

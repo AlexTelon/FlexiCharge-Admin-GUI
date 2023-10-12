@@ -1,4 +1,4 @@
-import { User } from '@/remote-access/types';
+import { type User } from '@/remote-access/types';
 
 export const mockUsers: User[] = [
   { username: '1', name: 'Jonas Doe', email: 'user1@flexicharge.com' },

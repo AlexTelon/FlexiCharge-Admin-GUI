@@ -8,7 +8,7 @@ import {
   Typography,
   createStyles,
   makeStyles,
-  Theme,
+  type Theme,
   LinearProgress
 } from '@material-ui/core';
 import EvStationIcon from '@material-ui/icons/EvStation';

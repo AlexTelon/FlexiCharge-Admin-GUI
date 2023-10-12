@@ -1,7 +1,7 @@
 /* eslint-disable no-useless-escape */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { mockUsers } from '../../__mock-data__/users';
-import { User, IUser } from '../types';
+import { type User, type IUser } from '../types';
 
 export default class ManageUser implements IUser {
   users = mockUsers;
@@ -82,7 +82,7 @@ export default class ManageUser implements IUser {
         if (userIndex === -1) return [null, { errorMessage: 'Could not find the requested Manage User' }];
 
         if (userIndex === -1) {
-          return reject(new Error('User not found'));
+          reject(new Error('User not found')); return;
         }
 
         this.users.splice(userIndex, 1);

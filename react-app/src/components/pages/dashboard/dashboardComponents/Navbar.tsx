@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import clsx from 'clsx';
-import { createStyles, makeStyles, Theme, useTheme } from '@material-ui/core/styles';
+import { createStyles, makeStyles, type Theme, useTheme } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import FlexichargeLogoDark from '@/assets/logo-dark.svg';
-import FlexichargeTitleDark from '@/assets/title-dark.svg';
+import FlexichargeLogoDark from '@/assets/logo-dark-min.svg';
+import FlexichargeTitleDark from '@/assets/title-dark-min.svg';
 import { Icon } from '@material-ui/core';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import EvStationIcon from '@material-ui/icons/EvStation';

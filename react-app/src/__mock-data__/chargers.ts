@@ -1,4 +1,4 @@
-import { Charger } from '../remote-access/types';
+import { type Charger } from '../remote-access/types';
 
 export const mockChargers: Charger[] = [ 
   { connectorID: 0, chargePointID: 0, location: [57.720497118, 12.03499986], status: 1 },

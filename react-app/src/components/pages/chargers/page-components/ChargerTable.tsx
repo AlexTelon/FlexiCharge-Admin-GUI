@@ -1,11 +1,11 @@
 import {
-  useMediaQuery, Theme, TableProps, TableContainer,
+  useMediaQuery, type Theme, type TableProps, TableContainer,
   Table, TableHead, TableRow, TableCell, TableBody,
   TablePagination, LinearProgress
 } from '@material-ui/core';
 import ChargerRow from './ChargerRow';
-import { Charger } from '@/remote-access/types';
-import React, { FC, useState, useEffect } from 'react';
+import { type Charger } from '@/remote-access/types';
+import React, { type FC, useState, useEffect } from 'react';
 
 interface ChargerTableProps {
   chargers: Charger[]

@@ -1,7 +1,7 @@
 /* eslint-disable no-useless-escape */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-import { InvoiceCollection, IInvoice } from '../types';
+import { type InvoiceCollection, type IInvoice } from '../types';
 import { FLEXICHARGE_API_URL } from '@/appConfig';
 import axiosInstance from '../utility/axios-instance';
 import { authenticationProvider } from '..';
@@ -31,7 +31,7 @@ export default class ManageInvoice implements IInvoice {
         headers: {
           Authorization: `Bearer ${sessionStorage.getItem('token')}`
         },
-        params: params
+        params
       });
       return [res.data, null];
     } catch (error: any) {

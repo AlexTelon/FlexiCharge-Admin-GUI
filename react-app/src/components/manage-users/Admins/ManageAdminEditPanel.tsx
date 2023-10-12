@@ -2,15 +2,15 @@
 import { 
   AppBar, Box, Button, Dialog, DialogActions, DialogContent, 
   DialogTitle, Divider, FormControl, Grid, IconButton, Input, 
-  InputLabel, LinearProgress, Paper, Theme, Toolbar, Typography, 
+  InputLabel, LinearProgress, Paper, type Theme, Toolbar, Typography, 
   useMediaQuery 
 } from '@material-ui/core';
 import { Close } from '@material-ui/icons';
 import { Alert } from '@material-ui/lab';
 import { createStyles, makeStyles, useTheme } from '@material-ui/styles';
-import React, { FC, useEffect, useState } from 'react';
+import React, { type FC, useEffect, useState } from 'react';
 import { manageAdmin } from '../../../remote-access';
-import { Admin } from '../../../remote-access/types';
+import { type Admin } from '../../../remote-access/types';
 
 const useStyle = makeStyles((theme: Theme) => 
 
@@ -163,7 +163,7 @@ const ManageAdminsEditPanel: FC<ManageAdminsEditPanelProps> = ({ username, setAc
                   id="username-input"
                   aria-describedby="username-helper"
                   value={fields.name}
-                  onChange={(e) => handleInputChange('name', e.target.value) }
+                  onChange={(e) => { handleInputChange('name', e.target.value); } }
                 />
               </FormControl>
               <FormControl fullWidth variant="filled" error={errorState.email !== undefined}>
@@ -172,7 +172,7 @@ const ManageAdminsEditPanel: FC<ManageAdminsEditPanelProps> = ({ username, setAc
                   id="email-input"
                   aria-describedby="email-helper"
                   value={fields.email}
-                  onChange={(e) => handleInputChange('email', e.target.value) }
+                  onChange={(e) => { handleInputChange('email', e.target.value); } }
                 />
               </FormControl>
               {/* <FormControl fullWidth variant="filled" error={errorState.password !== undefined}>

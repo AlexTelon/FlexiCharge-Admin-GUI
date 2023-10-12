@@ -1,5 +1,5 @@
 import { mockChargerPoints } from '@/__mock-data__';
-import { ChargePoint, IChargerPoint } from '../types';
+import { type ChargePoint, type IChargerPoint } from '../types';
 
 export default class ManageChargerPoint implements IChargerPoint {
   points = mockChargerPoints;

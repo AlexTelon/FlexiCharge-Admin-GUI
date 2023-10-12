@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/prefer-optional-chain */
-import { Theme, useTheme, useMediaQuery, TableProps, TableContainer, LinearProgress, Table, TableHead, TableRow, TableCell, Checkbox, TableBody, TablePagination } from '@material-ui/core';
+import { type Theme, useTheme, useMediaQuery, type TableProps, TableContainer, LinearProgress, Table, TableHead, TableRow, TableCell, Checkbox, TableBody, TablePagination } from '@material-ui/core';
 import React, { useState, useEffect } from 'react';
-import { ChargePoint } from '@/remote-access/types';
+import { type ChargePoint } from '@/remote-access/types';
 import ChargePointTableRow from './ChargePointTableRow';
 
 interface HeadCell {

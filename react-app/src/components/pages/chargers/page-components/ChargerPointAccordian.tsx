@@ -1,12 +1,12 @@
 import { manageChargerPoint } from '@/remote-access';
-import { ChargePoint } from '@/remote-access/types';
+import { type ChargePoint } from '@/remote-access/types';
 import {
   Accordion, AccordionActions, AccordionDetails,
   AccordionSummary, Button, Divider, Grid, ListItemText,
-  Theme, Typography, useTheme
+  type Theme, Typography, useTheme
 } from '@material-ui/core';
 import { ExpandMore } from '@material-ui/icons';
-import React, { FC, useEffect, useState } from 'react';
+import React, { type FC, useEffect, useState } from 'react';
 import AddChargerDialog from './AddChargerDialog';
 
 interface ChargerPointAccordionProps {
@@ -34,7 +34,7 @@ const ChargerPointAccordian: FC<ChargerPointAccordionProps> = ({ chargePointId, 
         setState({
           ...state,
           loaded: true,
-          chargePoint: chargePoint
+          chargePoint
         });
       });
     }
@@ -112,7 +112,7 @@ const ChargerPointAccordian: FC<ChargerPointAccordionProps> = ({ chargePointId, 
               variant="contained"
               color="primary"
               style={{ color: theme.flexiCharge.primary.white }}
-              onClick={() => handleOpenAddPointDialog()}
+              onClick={() => { handleOpenAddPointDialog(); }}
             >
                 Add Chargers
             </Button>

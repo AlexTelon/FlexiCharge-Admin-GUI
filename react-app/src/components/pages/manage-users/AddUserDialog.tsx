@@ -1,9 +1,24 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 import React, { useState } from 'react';
 import {
-  Theme, useTheme, useMediaQuery, Dialog,
-  DialogTitle, IconButton, DialogContent, Box,
-  FormControl, InputLabel, Input, FormHelperText, DialogActions, Button, makeStyles, createStyles, LinearProgress, Fade
+  type Theme,
+  useTheme,
+  useMediaQuery,
+  Dialog,
+  DialogTitle,
+  IconButton,
+  DialogContent,
+  Box,
+  FormControl,
+  InputLabel,
+  Input,
+  FormHelperText,
+  DialogActions,
+  Button,
+  makeStyles,
+  createStyles,
+  LinearProgress,
+  Fade
 } from '@material-ui/core';
 import { CheckCircle, Close } from '@material-ui/icons';
 import { manageUser } from '@/remote-access';
@@ -43,7 +58,7 @@ const AddSingleUserDialog = ({ open, handleClose }: any) => {
     if (name && email && phoneNumber) {
       setLoading(true);
       const result = await manageUser.addUser({
-        name,
+        username: name,
         email,
         phoneNumber
       });
@@ -60,7 +75,7 @@ const AddSingleUserDialog = ({ open, handleClose }: any) => {
           setSuccess(false);
           handleClose();
         }, 450);
-      } 
+      }
     } else {
       setErrorState({
         name: !name ? 'Required' : undefined,
@@ -79,31 +94,31 @@ const AddSingleUserDialog = ({ open, handleClose }: any) => {
         id="add-user-dialog"
       >
         {loading &&
-          <LinearProgress />
+                    <LinearProgress />
         }
 
         {success &&
-          <Fade in={true}>
-            <Box
-              style={{
-                position: 'absolute',
-                backgroundColor: theme.flexiCharge.accent.primary,
-                zIndex: 9999,
-                height: '100%',
-                width: '100%',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center'
-              }}
-            >
-              <CheckCircle style={{ color: theme.flexiCharge.primary.white, fontSize: 72 }} />
+                    <Fade in={true}>
+                      <Box
+                        style={{
+                          position: 'absolute',
+                          backgroundColor: theme.flexiCharge.accent.primary,
+                          zIndex: 9999,
+                          height: '100%',
+                          width: '100%',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center'
+                        }}
+                      >
+                        <CheckCircle style={{ color: theme.flexiCharge.primary.white, fontSize: 72 }} />
 
-            </Box>
-          </Fade>
+                      </Box>
+                    </Fade>
         }
 
         <DialogTitle id="add-user-dialog-title">
-          Add a User
+                    Add a User
           <IconButton
             onClick={handleClose}
             className={classes.dialogClose}
@@ -117,20 +132,23 @@ const AddSingleUserDialog = ({ open, handleClose }: any) => {
         </DialogTitle>
         <DialogContent>
           {errorState.alert !== undefined &&
-            <Alert style={{ width: '100%' }} severity="warning">{errorState.alert}</Alert>
+                        <Alert style={{ width: '100%' }} severity="warning">{errorState.alert}</Alert>
           }
           <form>
             <Box>
-              <FormControl style={{ marginTop: 12 }} fullWidth variant="outlined" error={errorState.name !== undefined}>
+              <FormControl style={{ marginTop: 12 }} fullWidth variant="outlined"
+                error={errorState.name !== undefined}>
                 <InputLabel htmlFor="user-name-input">Name</InputLabel>
-                <Input id="user-name-input" aria-describedby="user-name-helper" onChange={handleNameChange} value={name} />
+                <Input id="user-name-input" aria-describedby="user-name-helper"
+                  onChange={handleNameChange} value={name} />
                 {errorState.name &&
-                  <FormHelperText id="user-address-helper">
-                    {errorState.name}
-                  </FormHelperText>
+                                    <FormHelperText id="user-address-helper">
+                                      {errorState.name}
+                                    </FormHelperText>
                 }
               </FormControl>
-              <FormControl style={{ marginTop: 12 }} fullWidth variant="outlined" error={errorState.email !== undefined}>
+              <FormControl style={{ marginTop: 12 }} fullWidth variant="outlined"
+                error={errorState.email !== undefined}>
                 <InputLabel htmlFor="user-email-input">Email</InputLabel>
                 <Input id="user-email-input" aria-describedby="point-email-helper" onChange={handleEmailChange} value={email} />
                 <FormHelperText id="user-email-helper">
@@ -140,7 +158,8 @@ const AddSingleUserDialog = ({ open, handleClose }: any) => {
                   }
                 </FormHelperText>
               </FormControl>
-              <FormControl style={{ marginTop: 12 }} fullWidth variant="outlined" error={errorState.role !== undefined}>
+              <FormControl style={{ marginTop: 12 }} fullWidth variant="outlined"
+                error={errorState.role !== undefined}>
                 <InputLabel htmlFor="user-phone-number-input">Phone number</InputLabel>
                 <Input id="user-phone-number-input" aria-describedby="point-phone-number-helper" onChange={handlePhoneNumberChange} value={phoneNumber} />
                 <FormHelperText id="user-phone-number-helper">
@@ -155,7 +174,7 @@ const AddSingleUserDialog = ({ open, handleClose }: any) => {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">
-            Cancel
+                        Cancel
           </Button>
           <Button
             autoFocus
@@ -164,7 +183,7 @@ const AddSingleUserDialog = ({ open, handleClose }: any) => {
             variant="contained"
             color="primary"
           >
-            Add
+                        Add
           </Button>
         </DialogActions>
       </Dialog>

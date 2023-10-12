@@ -1,4 +1,4 @@
-import { Charger, ChargerValidationError } from '../types';
+import { type Charger, type ChargerValidationError } from '../types';
 
 export const ChargerValidator = {
   isValidLatitude(latitude: number): boolean {

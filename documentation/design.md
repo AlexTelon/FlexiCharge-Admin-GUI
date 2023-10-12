@@ -30,18 +30,18 @@ the primary colours should comprise a majority of each page.
 
 ### Gradient
 
-![logo-gradient.svg](..%2Freact-app%2Fsrc%2Fassets%2Flogo-gradient.svg)<br/>
-![title-gradient.svg](..%2Freact-app%2Fsrc%2Fassets%2Ftitle-gradient.svg)
+![logo-gradient.svg](images%2Flogo-gradient.svg)<br/>
+![title-gradient.svg](images%2Ftitle-gradient.svg)
 
 ### Off-white
 
-![logo-off-white.svg](..%2Freact-app%2Fsrc%2Fassets%2Flogo-off-white.svg)<br/>
-![title-off-white.svg](..%2Freact-app%2Fsrc%2Fassets%2Ftitle-off-white.svg)
+![logo-off-white.svg](images%2Flogo-off-white.svg)<br/>
+![title-off-white.svg](images%2Ftitle-off-white.svg)
 
 ### Dark
 
-![logo-dark.svg](..%2Freact-app%2Fsrc%2Fassets%2Flogo-dark.svg)<br/>
-![title-dark.svg](..%2Freact-app%2Fsrc%2Fassets%2Ftitle-dark.svg)
+![logo-dark.svg](images%2Flogo-dark.svg)<br/>
+![title-dark.svg](images%2Ftitle-dark.svg)
 
 ## Fonts
 

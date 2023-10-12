@@ -1,14 +1,14 @@
 import {
   Paper, AppBar, Toolbar, Typography,
-  IconButton, Divider, Box, Button, Theme, FormControl, InputLabel,
+  IconButton, Divider, Box, Button, type Theme, FormControl, InputLabel,
   Input, FormHelperText, Grid, useMediaQuery, Dialog, DialogTitle,
   DialogContent, DialogActions, LinearProgress
 } from '@material-ui/core';
 import { ChevronRight, Close } from '@material-ui/icons';
 import { createStyles, makeStyles, useTheme } from '@material-ui/styles';
-import React, { FC, useEffect, useState } from 'react';
+import React, { type FC, useEffect, useState } from 'react';
 import { manageChargerPoint } from '@/remote-access';
-import { ChargePoint } from '@/remote-access/types';
+import { type ChargePoint } from '@/remote-access/types';
 import { Alert } from '@material-ui/lab';
 import { Link } from 'react-router-dom';
 
@@ -79,7 +79,8 @@ const ChargePointEditPanel: FC<ChargerPointEditPanelProps> = ({ chargePointId, s
       const result = await manageChargerPoint.updateChargerPoint(chargePointId, {
         name: fields.name,
         location: [Number(fields.latitude), Number(fields.longitude)],
-        klarnaReservationAmount: 500
+        klarnaReservationAmount: 500,
+        price: 0
       });
       if (result[1] !== null) {
         setErrorState({
