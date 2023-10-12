@@ -2,7 +2,7 @@ import {
   Paper, AppBar, Toolbar, Typography,
   IconButton, Divider, Box, Button, Theme, FormControl, InputLabel,
   Input, FormHelperText, Grid, useMediaQuery, Dialog, DialogTitle,
-  DialogContent, DialogActions, LinearProgress, InputAdornment
+  DialogContent, DialogActions, LinearProgress
 } from '@material-ui/core';
 import { ChevronRight, Close } from '@material-ui/icons';
 import { createStyles, makeStyles, useTheme } from '@material-ui/styles';
@@ -66,8 +66,7 @@ const ChargePointEditPanel: FC<ChargerPointEditPanelProps> = ({ chargePointId, s
         setFields({
           name: chargePoint.name,
           longitude: chargePoint.location[1],
-          latitude: chargePoint.location[0],
-          price: chargePoint.price / 100
+          latitude: chargePoint.location[0]
         });
         setPoint(chargePoint);
       });
@@ -80,7 +79,6 @@ const ChargePointEditPanel: FC<ChargerPointEditPanelProps> = ({ chargePointId, s
       const result = await manageChargerPoint.updateChargerPoint(chargePointId, {
         name: fields.name,
         location: [Number(fields.latitude), Number(fields.longitude)],
-        price: Number(fields.price * 100),
         klarnaReservationAmount: 500
       });
       if (result[1] !== null) {
@@ -97,7 +95,6 @@ const ChargePointEditPanel: FC<ChargerPointEditPanelProps> = ({ chargePointId, s
     } else {
       setErrorState({
         name: !fields.name ? 'Required' : undefined,
-        price: !fields.price ? 'Required' : undefined,
         latitude: !fields.latitude ? 'Required' : undefined,
         longitude: !fields.longitude ? 'Required' : undefined
       });
@@ -179,18 +176,6 @@ const ChargePointEditPanel: FC<ChargerPointEditPanelProps> = ({ chargePointId, s
                   value={fields.name}
                   onChange={(e) => { handleInputChange('name', e.target.value); }}
                 />
-              </FormControl>
-              <FormControl style={{ marginTop: 12 }} fullWidth variant="filled" error={errorState.price !== undefined}>
-                <InputLabel htmlFor="point-price-input">Price</InputLabel>
-                <Input
-                  id="point-price-input"
-                  aria-describedby="point-price-helper"
-                  value={fields.price}
-                  type="number"
-                  onChange={(e) => { handleInputChange('price', e.target.value); }}
-                  startAdornment={ <InputAdornment position="end" style={{ marginRight: 10 }}>SEK</InputAdornment> }
-                />
-                <FormHelperText id="point-price-helper">Charge-point Price</FormHelperText>
               </FormControl>
               <FormControl style={{ marginTop: 12 }} fullWidth variant="filled" error={errorState.latitude !== undefined}>
                 <InputLabel htmlFor="point-latitude-input">Latitude</InputLabel>

@@ -53,10 +53,10 @@ const AddSinglePointDialog = ({ open, handleClose }: any) => {
   };
 
   const handleMapClick = (lat: number, lon: number) => {
-    setFields((prevFields: any) => ({ 
+    setFields((prevFields: any) => ({
       ...prevFields,
-      latitude: lat, 
-      longitude: lon 
+      latitude: lat,
+      longitude: lon
     }));
     console.log(lat, lon);
   };
@@ -95,7 +95,6 @@ const AddSinglePointDialog = ({ open, handleClose }: any) => {
       const result = await manageChargerPoint.addChargerPoint({
         name: fields.name,
         location: [latitude, longitude],
-        price: fields.price * 100,
         klarnaReservationAmount: 50000,
       });
 
@@ -173,7 +172,7 @@ const AddSinglePointDialog = ({ open, handleClose }: any) => {
             <Box sx={{ px: 2 }}>
               <FormControl style={{ marginTop: 12 }} fullWidth variant="outlined" error={errorState.name !== undefined}>
                 <FormHelperText id="point-name-helper">
-                  {errorState.name 
+                  {errorState.name
                     ? `${errorState.name} | Charge-point Name`
                     : 'Charge-point Name'
                   }
@@ -185,7 +184,7 @@ const AddSinglePointDialog = ({ open, handleClose }: any) => {
                   value={fields.name}
                 />
               </FormControl>
-              <FormControl style={{ marginTop: 12, marginBottom: 18 }} fullWidth variant="outlined" error={errorState.price !== undefined}>
+              <FormControl style={{ marginTop: 18, marginBottom: 18 }} fullWidth variant="outlined" error={errorState.price !== undefined}>
                 <FormHelperText id="point-price-helper">
                   {errorState.price
                     ? `${errorState.price} | Charge-point Price`
@@ -202,8 +201,8 @@ const AddSinglePointDialog = ({ open, handleClose }: any) => {
                 />
               </FormControl>
               <ChargerPointMap
-                onMapClick={handleMapClick} 
-                enableAddMarker={true} 
+                onMapClick={handleMapClick}
+                enableAddMarker={true}
                 fetchChargePoints={false}
                 hideTitleAndLoading={true}
                 key={classes.smallMap}
