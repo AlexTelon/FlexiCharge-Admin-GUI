@@ -5,7 +5,7 @@ import { Route, Redirect, useHistory } from 'react-router-dom';
 import ChargePoints from '../charger-points/ChargePoints';
 import Navbar from './dashboardComponents/Navbar';
 import ChargePoint from './dashboardComponents/ChargePoint';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import { createStyles, makeStyles, type Theme } from '@material-ui/core/styles';
 import Chargers from './dashboardComponents/Chargers';
 import ChargersPage from '../chargers';
 import InvoicesPage from '../invoices/InvoicesPage';

@@ -1,6 +1,6 @@
 import { manageCharger } from '@/remote-access';
 import { type ChargePoint } from '@/remote-access/types';
-import { Button, Collapse, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControl, FormHelperText, Input, InputLabel, LinearProgress, List, ListItem, ListItemText, Theme } from '@material-ui/core';
+import { Button, Collapse, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControl, FormHelperText, Input, InputLabel, LinearProgress, List, ListItem, ListItemText, type Theme } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 import { useTheme } from '@material-ui/styles';
 import React, { type FC, useEffect, useState } from 'react';

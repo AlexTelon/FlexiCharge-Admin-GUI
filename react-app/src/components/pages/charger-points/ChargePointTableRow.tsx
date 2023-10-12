@@ -25,7 +25,7 @@ const ChargerPointTableRow: FC<ChargerPointTableRowProps> = ({ chargePoint, edit
         hover
         key={chargePoint.chargePointID}
         ref={chargePointRow}
-        onClick={() => setOpen(!open)}
+        onClick={() => { setOpen(!open); }}
         style={{ backgroundColor: open ? 'rgba(240,240,240,1)' : theme.flexiCharge.primary.white }}
       >
         <TableCell padding="checkbox">
@@ -33,7 +33,7 @@ const ChargerPointTableRow: FC<ChargerPointTableRowProps> = ({ chargePoint, edit
             color="primary"
             checked={selected}
             onChange={() => { handleSelect(chargePoint.chargePointID); } }
-            onClick={(e) => e.stopPropagation()}
+            onClick={(e) => { e.stopPropagation(); }}
           />
         </TableCell>
         <TableCell>

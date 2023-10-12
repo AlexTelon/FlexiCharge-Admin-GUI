@@ -34,7 +34,7 @@ const ChargerPointAccordian: FC<ChargerPointAccordionProps> = ({ chargePointId, 
         setState({
           ...state,
           loaded: true,
-          chargePoint: chargePoint
+          chargePoint
         });
       });
     }
@@ -112,7 +112,7 @@ const ChargerPointAccordian: FC<ChargerPointAccordionProps> = ({ chargePointId, 
               variant="contained"
               color="primary"
               style={{ color: theme.flexiCharge.primary.white }}
-              onClick={() => handleOpenAddPointDialog()}
+              onClick={() => { handleOpenAddPointDialog(); }}
             >
                 Add Chargers
             </Button>
