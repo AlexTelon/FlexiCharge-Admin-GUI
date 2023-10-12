@@ -79,7 +79,7 @@ const AddSinglePointDialog = ({ open, handleClose }: any) => {
 
     const newErrorState = {
       name: !fields.name ? 'Required' : undefined,
-      price: !fields.price ? 'Required' : undefined,
+      price: undefined,
       latitude: !fields.latitude || isNaN(latitude) ? 'Required or Invalid' : undefined,
       longitude: !fields.longitude || isNaN(longitude) ? 'Required or Invalid' : undefined,
     };
