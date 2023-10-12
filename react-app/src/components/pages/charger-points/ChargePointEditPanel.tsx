@@ -7,8 +7,8 @@ import {
 import { ChevronRight, Close } from '@material-ui/icons';
 import { createStyles, makeStyles, useTheme } from '@material-ui/styles';
 import React, { FC, useEffect, useState } from 'react';
-import { manageChargerStation } from '@/remote-access';
-import { ChargerStation } from '@/remote-access/types';
+import { manageChargerPoint } from '@/remote-access';
+import { ChargePoint } from '@/remote-access/types';
 import { Alert } from '@material-ui/lab';
 import { Link } from 'react-router-dom';
 
@@ -37,17 +37,17 @@ const useStyle = makeStyles((theme: Theme) =>
   })
 );
 
-interface ChargerStationEditPanelProps {
-  stationId?: number
-  setActiveStationId: any
+interface ChargerPointEditPanelProps {
+  chargePointId?: number
+  setActiveChargerPointId: any
   reload: any
 }
 
-const ChargerStationEditPanel: FC<ChargerStationEditPanelProps> = ({ stationId, setActiveStationId, reload }) => {
+const ChargePointEditPanel: FC<ChargerPointEditPanelProps> = ({ chargePointId, setActiveChargerPointId, reload }) => {
   const classes = useStyle();
 
   const [deleteDialogOpen, setDeleteDialogOpen] = useState<boolean>(false);
-  const [station, setStation] = useState<ChargerStation>();
+  const [point, setPoint] = useState<ChargePoint>();
   const [fields, setFields] = useState<any>();
   const [errorState, setErrorState] = useState<any>({});
   const [loading, setLoading] = useState(false);
@@ -60,23 +60,23 @@ const ChargerStationEditPanel: FC<ChargerStationEditPanelProps> = ({ stationId, 
   };
 
   useEffect(() => {
-    if (stationId) {
-      manageChargerStation.getChargerStationById(stationId).then((chargerStation) => {
-        if (chargerStation === null) return;
+    if (chargePointId) {
+      manageChargerPoint.getChargerPointById(chargePointId).then((chargePoint) => {
+        if (chargePoint === null) return;
         setFields({
-          name: chargerStation.name,
-          longitude: chargerStation.location[1],
-          latitude: chargerStation.location[0]
+          name: chargePoint.name,
+          longitude: chargePoint.location[1],
+          latitude: chargePoint.location[0]
         });
-        setStation(chargerStation);
+        setPoint(chargePoint);
       });
     }
-  }, [stationId]);
+  }, [chargePointId]);
 
   const handleSaveClick = async () => {
-    if (fields.name && fields.longitude && fields.latitude && stationId) {
+    if (fields.name && fields.price && fields.longitude && fields.latitude && chargePointId) {
       setLoading(true);
-      const result = await manageChargerStation.updateChargerStation(stationId, {
+      const result = await manageChargerPoint.updateChargerPoint(chargePointId, {
         name: fields.name,
         location: [Number(fields.latitude), Number(fields.longitude)],
         klarnaReservationAmount: 500
@@ -87,7 +87,7 @@ const ChargerStationEditPanel: FC<ChargerStationEditPanelProps> = ({ stationId, 
         });
         setLoading(false);
       } else if (result[0] !== null) {
-        setStation(result[0]);
+        setPoint(result[0]);
         setLoading(false);
         setErrorState({});
         reload();
@@ -102,11 +102,11 @@ const ChargerStationEditPanel: FC<ChargerStationEditPanelProps> = ({ stationId, 
   };
 
   const handleCancelClick = () => {
-    if (station) {
+    if (point) {
       setFields({
-        name: station.name,
-        longitude: station.location[1],
-        latitude: station.location[0]
+        name: point.name,
+        longitude: point.location[1],
+        latitude: point.location[0]
       });
     }
   };
@@ -123,20 +123,20 @@ const ChargerStationEditPanel: FC<ChargerStationEditPanelProps> = ({ stationId, 
   };
 
   const handleDelete = async () => {
-    if (stationId) {
+    if (chargePointId) {
       setLoading(true);
-      const wasSuccess = await manageChargerStation.deleteChargerStation(stationId);
+      const wasSuccess = await manageChargerPoint.deleteChargerPoint(chargePointId);
       setLoading(false);
       if (!wasSuccess) {
         setErrorState({
-          alert: 'Could not delete Charger Station'
+          alert: 'Could not delete Charge-point'
         });
       } else {
-        setActiveStationId(undefined);
+        setActiveChargerPointId(undefined);
         reload();
       }
       setDeleteDialogOpen(false);
-      stationId = 0;
+      chargePointId = 0;
     }
   };
 
@@ -145,18 +145,18 @@ const ChargerStationEditPanel: FC<ChargerStationEditPanelProps> = ({ stationId, 
       {loading &&
         <LinearProgress />
       }
-      {station && stationId && (
+      {point && chargePointId && (
         <>
           <AppBar position="static" elevation={0} className={classes.panelAppBar}>
             <Toolbar variant="dense">
               <Typography className={classes.panelTitle} variant="h5">
-                Station Info
+                Charge-point Info
               </Typography>
               <IconButton
                 aria-label="deselect charger"
                 aria-controls="charger-info"
                 color="inherit"
-                onClick={() => setActiveStationId(undefined) }
+                onClick={() => setActiveChargerPointId(undefined) }
               >
                 <Close />
               </IconButton>
@@ -169,35 +169,35 @@ const ChargerStationEditPanel: FC<ChargerStationEditPanelProps> = ({ stationId, 
             }
             <Box sx={{ px: 4 }}>
               <FormControl fullWidth variant="filled" error={errorState.name !== undefined}>
-                <InputLabel htmlFor="station-name-input">Name</InputLabel>
+                <InputLabel htmlFor="point-name-input">Name</InputLabel>
                 <Input
-                  id="station-name-input"
-                  aria-describedby="station-name-helper"
+                  id="point-name-input"
+                  aria-describedby="point-name-helper"
                   value={fields.name}
                   onChange={(e) => { handleInputChange('name', e.target.value); }}
                 />
               </FormControl>
               <FormControl style={{ marginTop: 12 }} fullWidth variant="filled" error={errorState.latitude !== undefined}>
-                <InputLabel htmlFor="station-latitude-input">Latitude</InputLabel>
+                <InputLabel htmlFor="point-latitude-input">Latitude</InputLabel>
                 <Input
-                  id="station-latitude-input"
-                  aria-describedby="station-latitude-helper"
+                  id="point-latitude-input"
+                  aria-describedby="point-latitude-helper"
                   type="number"
                   value={fields.latitude}
                   onChange={(e) => { handleInputChange('latitude', e.target.value); }} 
                 />
-                <FormHelperText id="station-latitude-helper">Geographic Coordinate</FormHelperText>
+                <FormHelperText id="point-latitude-helper">Geographic Coordinate</FormHelperText>
               </FormControl>
               <FormControl style={{ marginTop: 12 }} fullWidth variant="filled" error={errorState.longitude !== undefined}>
-                <InputLabel htmlFor="station-longitude-input">Longitude</InputLabel>
+                <InputLabel htmlFor="point-longitude-input">Longitude</InputLabel>
                 <Input
-                  id="station-longitude-input"
-                  aria-describedby="station-longitude-helper"
+                  id="point-longitude-input"
+                  aria-describedby="point-longitude-helper"
                   type="number"
                   value={fields.longitude}
                   onChange={(e) => { handleInputChange('longitude', e.target.value); }}
                 />
-                <FormHelperText id="station-longitude-helper">Geographic Coordinate</FormHelperText>
+                <FormHelperText id="point-longitude-helper">Geographic Coordinate</FormHelperText>
               </FormControl>
               <Box display="flex" sx={{ flexDirection: 'row-reverse', py: 1 }}>
                 <Button variant="contained" color="primary" className={classes.saveButton} onClick={handleSaveClick} >
@@ -213,7 +213,7 @@ const ChargerStationEditPanel: FC<ChargerStationEditPanelProps> = ({ stationId, 
           <Box sx={{ py: 2, px: 4 }}>
             <Button
               component={Link}
-              to={`/dashboard/chargers/${station.chargePointID}`}
+              to={`/dashboard/chargers/${point.chargePointID}`}
               variant="text"
               color="primary"
               fullWidth
@@ -231,9 +231,9 @@ const ChargerStationEditPanel: FC<ChargerStationEditPanelProps> = ({ stationId, 
             <Grid container>
               <Grid item lg={8}>
                 <Typography variant="caption">
-                  Delete this Station
+                  Delete this Charge-point
                   <br />
-                  A deleted station is marked as Inactive
+                  A deleted Charge-point is marked as Inactive
                 </Typography>
               </Grid>
               <Grid item xs={12} lg={4}>
@@ -244,14 +244,14 @@ const ChargerStationEditPanel: FC<ChargerStationEditPanelProps> = ({ stationId, 
                   fullScreen={fullScreen}
                   open={deleteDialogOpen}
                   onClose={handleDeleteDialogClose}
-                  aria-labelledby="delete-station-dialog"
+                  aria-labelledby="delete-charge-point-dialog"
                 >
                   <Box>
-                    <DialogTitle id="delelte-station-dialog">Are you sure?</DialogTitle>
+                    <DialogTitle id="delete-charge-point-dialog">Are you sure?</DialogTitle>
                     <DialogContent>
-                      Are you sure you want to delete this Charger Station?
+                      Are you sure you want to delete this Charge-point?
                       <br />
-                      Deleting a Charger Station marks it as <em>Inactive</em> in the database
+                      Deleting a Charge-point marks it as <em>Inactive</em> in the database
                     </DialogContent>
                     <DialogActions>
                       <Button autoFocus onClick={handleDeleteDialogClose} color="primary">
@@ -272,4 +272,4 @@ const ChargerStationEditPanel: FC<ChargerStationEditPanelProps> = ({ stationId, 
   );
 };
 
-export default ChargerStationEditPanel;
+export default ChargePointEditPanel;

@@ -62,7 +62,7 @@ const ChargerTable: FC<ChargerTableProps> = ({ loaded, chargers, ...props }: any
             <TableRow>
               <TableCell>Connector ID</TableCell>
               <TableCell>Serial Number</TableCell>
-              <TableCell>Charger Station ID</TableCell>
+              <TableCell>Charge-point ID</TableCell>
               <TableCell>Status</TableCell>
               <TableCell align='right'>Actions</TableCell>
             </TableRow>

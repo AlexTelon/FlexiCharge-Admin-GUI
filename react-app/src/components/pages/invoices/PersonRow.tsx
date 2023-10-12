@@ -41,7 +41,7 @@ const PersonRow: FC<PersonRowProps> = ({ invoice, classes, ...props }) => {
             <Typography
               color='textPrimary'
               variant='body1'
-              className={classes.stationNameCell}
+              className={classes.pointNameCell}
               noWrap
             >
               {invoice.invoiceID}

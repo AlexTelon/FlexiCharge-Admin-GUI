@@ -9,9 +9,9 @@ import {
   LinearProgress, Fade, InputAdornment
 } from '@material-ui/core';
 import { CheckCircle, Close } from '@material-ui/icons';
-import { manageChargerStation } from '@/remote-access';
+import { manageChargerPoint } from '@/remote-access';
 import { Alert } from '@material-ui/lab';
-import ChargerStationMap from '../dashboard/dashboardComponents/ChargerStationMap';
+import ChargerPointMap from '../dashboard/dashboardComponents/ChargePointMap';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const AddSingleStationDialog = ({ open, handleClose }: any) => {
+const AddSinglePointDialog = ({ open, handleClose }: any) => {
   const classes = useStyles();
   const theme: Theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
@@ -92,7 +92,7 @@ const AddSingleStationDialog = ({ open, handleClose }: any) => {
     setLoading(true);
 
     try {
-      const result = await manageChargerStation.addChargerStation({
+      const result = await manageChargerPoint.addChargerPoint({
         name: fields.name,
         location: [latitude, longitude],
         klarnaReservationAmount: 50000,
@@ -111,9 +111,9 @@ const AddSingleStationDialog = ({ open, handleClose }: any) => {
         }, 450);
       }
     } catch (error) {
-      console.error("Error while adding station: ", error);
+      console.error("Error while adding point: ", error);
       setErrorState({
-        alert: "An unexpected error occurred while adding the station. Please try again later."
+        alert: "An unexpected error occurred while adding the point. Please try again later."
       });
       setLoading(false);
     }
@@ -125,8 +125,8 @@ const AddSingleStationDialog = ({ open, handleClose }: any) => {
         fullScreen={fullScreen}
         open={open}
         onClose={cleanClose}
-        aria-labelledby="add-station-dialog-title"
-        id="add-station-dialog"
+        aria-labelledby="add-point-dialog-title"
+        id="add-point-dialog"
       >
         {loading &&
           <LinearProgress />
@@ -151,14 +151,14 @@ const AddSingleStationDialog = ({ open, handleClose }: any) => {
           </Fade>
         }
 
-        <DialogTitle id="add-station-dialog-title">
-          Add a Charger Station
+        <DialogTitle id="add-charger-point-dialog-title">
+          Add a Charge-point
           <IconButton
             onClick={cleanClose}
             className={classes.dialogClose}
             edge="end"
-            aria-label="add station dialog close"
-            aria-controls="add-station-dialog"
+            aria-label="add charger point dialog close"
+            aria-controls="add-charger-point-dialog"
             color="inherit"
           >
             <Close />
@@ -171,38 +171,52 @@ const AddSingleStationDialog = ({ open, handleClose }: any) => {
           <form>
             <Box sx={{ px: 2 }}>
               <FormControl style={{ marginTop: 12 }} fullWidth variant="outlined" error={errorState.name !== undefined}>
-                <FormHelperText id="station-name-helper">
+                <FormHelperText id="point-name-helper">
                   {errorState.name
-                    ? `${errorState.name} | Station Name`
-                    : 'Station Name'
+                    ? `${errorState.name} | Charge-point Name`
+                    : 'Charge-point Name'
                   }
                 </FormHelperText>
                 <Input
-                  id="station-name-input"
-                  aria-describedby="station-name-helper"
+                  id="point-name-input"
+                  aria-describedby="point-name-helper"
                   onChange={(e) => { handleInputChange('name', e.target.value); }}
                   value={fields.name}
                 />
               </FormControl>
               <FormControl style={{ marginTop: 18, marginBottom: 18 }} fullWidth variant="outlined" error={errorState.price !== undefined}>
-                <ChargerStationMap
-                  onMapClick={handleMapClick}
-                  enableAddMarker={true}
-                  fetchStations={false}
-                  hideTitleAndLoading={true}
-                  className={classes.smallMap}
+                <FormHelperText id="point-price-helper">
+                  {errorState.price
+                    ? `${errorState.price} | Charge-point Price`
+                    : 'Charge-point Price'
+                  }
+                </FormHelperText>
+                <Input
+                  id="point-price-input"
+                  aria-describedby="point-price-helper"
+                  type="number"
+                  onChange={(e) => { handleInputChange('price', Number(e.target.value)); }}
+                  value={fields.price}
+                  startAdornment={ <InputAdornment position="start">SEK</InputAdornment> }
                 />
               </FormControl>
+              <ChargerPointMap
+                onMapClick={handleMapClick}
+                enableAddMarker={true}
+                fetchChargePoints={false}
+                hideTitleAndLoading={true}
+                key={classes.smallMap}
+              />
               <FormControl style={{ marginTop: 12 }} fullWidth variant="outlined" error={errorState.latitude !== undefined}>
-                <FormHelperText id="station-latitude-helper">
+                <FormHelperText id="point-latitude-helper">
                   {errorState.latitude
                     ? `${errorState.latitude} | Geographic Coordinate`
                     : 'Latitude'
                   }
                 </FormHelperText>
                 <Input
-                  id="station-latitude-input"
-                  aria-describedby="station-latitude-helper"
+                  id="point-latitude-input"
+                  aria-describedby="point-latitude-helper"
                   type="text"
                   onKeyPress={(e) => {
                     const validChars = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '.'];
@@ -215,15 +229,15 @@ const AddSingleStationDialog = ({ open, handleClose }: any) => {
                 />
               </FormControl>
               <FormControl style={{ marginTop: 12 }} fullWidth variant="outlined" error={errorState.longitude !== undefined}>
-                <FormHelperText id="station-longitude-helper">
+                <FormHelperText id="point-longitude-helper">
                   {errorState.longitude
                     ? `${errorState.longitude} | Geographic Coordinate`
                     : 'Longitude'
                   }
                 </FormHelperText>
                 <Input
-                  id="station-longitude-input"
-                  aria-describedby="station-longitude-helper"
+                  id="point-longitude-input"
+                  aria-describedby="point-longitude-helper"
                   type="text"
                   onKeyPress={(e) => {
                     const validChars = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '.'];
@@ -257,4 +271,4 @@ const AddSingleStationDialog = ({ open, handleClose }: any) => {
   );
 };
 
-export default AddSingleStationDialog;
+export default AddSinglePointDialog;

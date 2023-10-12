@@ -1,6 +1,6 @@
 import { TileLayer, Popup, MapContainer, Marker } from 'react-leaflet';
-import { manageChargerStation } from '@/remote-access';
-import { ChargerStation } from '@/remote-access/types';
+import { manageChargerPoint } from '@/remote-access';
+import { ChargePoint } from '@/remote-access/types';
 import React, { useState, useEffect } from 'react';
 import {
   Typography, Card, CardContent, List, ListItem,
@@ -11,42 +11,42 @@ import { Helmet } from 'react-helmet';
 import { ChevronRight } from '@material-ui/icons';
 import { LeafletMouseEvent, Map } from 'leaflet';
 
-interface ChargerStationMapState {
+interface ChargerPointMapState {
   loaded?: boolean
-  stations: ChargerStation[]
+  chargePoints: ChargePoint[]
   error?: boolean
   errorMessage?: string
 }
 
-interface ChargerStationMapProps {
-  fetchStations?: boolean
+interface ChargerPointMapProps {
+  fetchChargePoints?: boolean
   enableAddMarker?: boolean
   onMapClick?: (lat: number, lon: number) => void
   hideTitleAndLoading?: boolean
 }
 
-const ChargerStationMap = ({ fetchStations = true, enableAddMarker = true, onMapClick, hideTitleAndLoading = false, ...rest }: ChargerStationMapProps) => {
-  const [state, setState] = useState<ChargerStationMapState>({
+const ChargerPointMap = ({ fetchChargePoints = true, enableAddMarker = true, onMapClick, hideTitleAndLoading = false, ...rest }: ChargerPointMapProps) => {
+  const [state, setState] = useState<ChargerPointMapState>({
     loaded: false,
-    stations: []
+    chargePoints: []
   });
   const [reloaded, setReload] = useState<boolean>(false);
   const [clickedMarker, setClickedMarker] = useState<[number, number] | null>(null);
 
-  const loadStations = async () => {
+  const loadChargerPoints = async () => {
     setState(prevState => ({ ...prevState, loaded: false }));
     try {
-      const stations = await manageChargerStation.getAllChargerStations();
+      const chargePoints = await manageChargerPoint.getAllChargerPoints();
       setState({
         loaded: true,
-        stations,
+        chargePoints,
         error: false,
         errorMessage: ''
       });
     } catch (error) {
       setState({
         loaded: true,
-        stations: [],
+        chargePoints: [],
         error: true,
         errorMessage: 'Failed to load'
       });
@@ -55,14 +55,14 @@ const ChargerStationMap = ({ fetchStations = true, enableAddMarker = true, onMap
   };
 
   useEffect(() => {
-    if (fetchStations) {
-      loadStations();
+    if (fetchChargePoints) {
+      loadChargerPoints();
     }
 
     // Leaflet style overrides
     const mapStyle = document.createElement('style');
     mapStyle.innerText = `
-      #charger-station-map .leaflet-popup-content p {
+      #charger-point-map .leaflet-popup-content p {
         margin: 0;
       }
     `;
@@ -97,10 +97,10 @@ const ChargerStationMap = ({ fetchStations = true, enableAddMarker = true, onMap
         }
         <CardContent>
           {!hideTitleAndLoading && (
-            <Typography variant="h6" gutterBottom>Charger Stations Map</Typography>
+            <Typography variant="h6" gutterBottom>Charge-points Map</Typography>
           )}
           <MapContainer 
-            id="charger-station-map"
+            id="charger-point-map"
             center={[57.78088050269488, 14.161473514345374]} 
             zoom={13} 
             minZoom={5}
@@ -115,41 +115,41 @@ const ChargerStationMap = ({ fetchStations = true, enableAddMarker = true, onMap
               attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
-            {state.stations.map(station => (
+            {state.chargePoints.map(point => (
               <Marker
-                key={station.chargePointID}
+                key={point.chargePointID}
                 position={[
-                  station.location[0],
-                  station.location[1]
+                  point.location[0],
+                  point.location[1]
                 ]}
               >
                 <Popup>
                   <Typography>
-                    {station.name}
+                    {point.name}
                   </Typography>
                   <List dense={true}>
                     <ListItem>
                       <ListItemText
-                        primary={station.chargePointID}
-                        secondary="Station ID"
+                        primary={point.chargePointID}
+                        secondary="Point ID"
                       />
                     </ListItem>
                     <ListItem>
                       <ListItemText
-                        primary={`${station.location[0]}, ${station.location[1]}`}
+                        primary={`${point.location[0]}, ${point.location[1]}`}
                         secondary="Latitude, Longitude"
                       />
                     </ListItem>
                     <ListItem>
                       <ListItemText
-                        primary={`SEK ${station.price / 100}`}
+                        primary={`SEK ${point.price / 100}`}
                         secondary="Price"
                       />
                     </ListItem>
                     <ListItem>
                       <Button
                         component={Link}
-                        to={`/dashboard/chargers/${station.chargePointID}`}
+                        to={`/dashboard/chargers/${point.chargePointID}`}
                         variant="text"
                         color="primary"
                         endIcon={<ChevronRight />}
@@ -168,4 +168,4 @@ const ChargerStationMap = ({ fetchStations = true, enableAddMarker = true, onMap
     </>);
 };
 
-export default ChargerStationMap;
+export default ChargerPointMap;

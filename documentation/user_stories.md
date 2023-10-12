@@ -27,7 +27,7 @@ Now he wants to open it upp for users to charge from.
 To be able to service more users and make more money.
 * Add a new charge-point.
 * Register how many chargers there are.
-* Make the station easily findable.
+* Make the point easily findable.
 * Set a charging price
 
 ### Finding charger
@@ -38,10 +38,10 @@ He needs to find this specific charger in a fast way, so that he can do the oper
 * Find charger by id.
 * Find charge-point by area.
 
-### Changing charging station price
+### Changing charging Charge-point price
 
 Charlie monitor this month's electricity prices which have risen.
-He now wants to increase the prices att the charging stations, so that the company does not lose money.
+He now wants to increase the prices att the charging points, so that the company does not lose money.
 * Change charging prices.
 * Change prices for many / all chargers.
 
@@ -50,13 +50,13 @@ He now wants to increase the prices att the charging stations, so that the compa
 A customer has reported a broken charger to Steve.
 Steve now wants to register the charger as broken, to give customers and Charlie a heads-up.
 * Find charger by id.
-* Register a charger in a charging station as disabled.
+* Register a charger in a charging point as disabled.
 * Unregister a charger as disabled.
 * Make it easy for charlie to find a disabled charger.
 
 ### Removing a charger
 
-One of FlexiCharges chargers stations have been removed.
+One of FlexiCharges chargers points have been removed.
 Charlie wants to remove that charger from any customer view.
 Because he does not want to trick customers to chargers that no longer exists.
 * Mark charger as inactive.
