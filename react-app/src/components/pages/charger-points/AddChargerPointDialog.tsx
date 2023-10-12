@@ -186,21 +186,6 @@ const AddSinglePointDialog = ({ open, handleClose }: any) => {
                 />
               </FormControl>
               <FormControl style={{ marginTop: 18, marginBottom: 18 }} fullWidth variant="outlined" error={errorState.price !== undefined}>
-                <FormHelperText id="point-price-helper">
-                  {errorState.price
-                    ? `${errorState.price} | Charge-point Price`
-                    : 'Charge-point Price'
-                  }
-                </FormHelperText>
-                <Input
-                  id="point-price-input"
-                  aria-describedby="point-price-helper"
-                  type="number"
-                  onChange={(e) => { handleInputChange('price', Number(e.target.value)); }}
-                  value={fields.price}
-                  startAdornment={ <InputAdornment position="start">SEK</InputAdornment> }
-                />
-              </FormControl>
               <ChargerPointMap
                 onMapClick={handleMapClick}
                 enableAddMarker={true}
@@ -208,6 +193,7 @@ const AddSinglePointDialog = ({ open, handleClose }: any) => {
                 hideTitleAndLoading={true}
                 key={classes.smallMap}
               />
+              </FormControl>
               <FormControl style={{ marginTop: 12 }} fullWidth variant="outlined" error={errorState.latitude !== undefined}>
                 <FormHelperText id="point-latitude-helper">
                   {errorState.latitude
