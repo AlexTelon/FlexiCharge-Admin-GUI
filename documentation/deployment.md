@@ -1,10 +1,8 @@
-# Deployment
-
-## Web URL and deployment
-### Web URL
+# AWS Deployment
+## Web URL
 * http://flexicharge-admin-gui.s3-website-eu-west-1.amazonaws.com/login
-### How to deploy the latest version of the program
-#### First time setup
+## How to deploy the latest version of the program
+### First time setup
 * It is recommended that you deploy the program as a ```bucket``` through the Amazon web service (AWS) ``S3``. Make sure that this is done through the Knowit AWS account and that you have access to your ```access key``` & ```secret key```
 * Start of by configuring the ```AWS Command Line Interface``` by opening any terminal and
     * write ```aws configure```
@@ -36,6 +34,6 @@
 * Your files in the build folder should at this point be in the AWS ```bucket```. To open the deployed release, go once again to the ```properties``` header in your ```bucket``` and at the bottom there should be a link that takes you to it!
 
 
-##### Common issues
+### Common issues
 * Your build of the program cannot get global variables from your ```.env``` files. Instead you are left with ```undefined``` variables. Avoid this by putting global variables directly in the ```appConfig.ts``` files instead, where they can be read.
 * After having done an inital release, your next releases may act weirdly or not work at all as intended. This is most of the time fixed by ```clearing your browser cache``` and redeploying the project.

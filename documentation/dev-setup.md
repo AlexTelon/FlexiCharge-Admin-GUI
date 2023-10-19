@@ -1,17 +1,19 @@
 
 # Development setup
 
-## Requirements
+## Run the web-app
+
+### Requirements
 * Docker and its version should be at least 18.09 or later
 * ```.env``` file in root of project
 
-## Setting everything up
+### Setting everything up
 * Make sure you have Docker installed on your device
 * If installed simply launch it and leave it as is. Do not do anything with it!
 * Clone or fork the GitHub repository into a directory of choice on your device.
 * If you decided to clone the project, clone it into your directory of choice using ```git clone```.
 * Open the project in your IDE (Integrated Development Environment) of choice.
-* Create a ```.env``` file in the root of the project. The ```.env``` file should contain the following information:
+* Create a ```.env``` file in the root of the project. The easiest way to do this is to copy and rename the ```exampla.env```. The ```.env``` file should contain the following information:
 ```
     APP_NAME=name_of_app
     REACT_APP_DEV_PORT=port_number
@@ -28,13 +30,13 @@
 * After you have run docker compose up ```--build``` the first time you only need to run ```docker compose up``` (or ```docker-compose``` up depending on the Docker version) henceforth.
 * The Admin GUI for FlexiCharge should now be running on port ```localhost:8080```.
 
-## For Developers
+## Development environment
 * The following is needed for the development process:
-1. NodeJS stable
+1. NodeJS stable (18.0 +)
 2. Yarn
 3. Docker version 18.09 or later
-4. ```.env``` file in root of project
 5. Git
+6. An IDE of your choice (if VS code use the eslint plugin)
 * Since the Admin GUI is dependent on the implementations of several other squads, its data-fetching structure is constructed in such a way that the program can fetch both ```remote data``` (dynamic data from the HTTP squad) or ```mock data``` that we created and that exist within the Admin GUI program.
 * During the initial state and early development of this product many squads will not have their dynamic data and requests ready for the Admin squad. Since the Admin squad is dependent on provided requests from other squads it may be a good idea to work with mock data in order to get an idea of how the Admin GUI works.
 * To swiftly ```toggle``` between mock and dynamic, visit the ```dependencyContainer.ts``` file. From there toggle between mockdata or remote.
@@ -46,8 +48,9 @@
 
 ## Working with Git branches
 * The Admin GUI has a ```main``` branch and a ```dev``` branch. The ```main``` branch is the branch that is deployed to the web and the ```dev``` branch is the branch that is used for development.
-* There is a ```feature``` branch. This branch is used for development of new features. When a feature is done, it is merged into the ```dev``` branch.
-* There is a ```bugfix``` branch. This branch is used for fixing bugs. When a bug is fixed, it is merged into the ```dev``` branch.
+* ~~There is a ```feature``` branch. This branch is used for development of new features. When a feature is done, it is merged into the ```dev``` branch.~~
+* ~~There is a ```bugfix``` branch. This branch is used for fixing bugs. When a bug is fixed, it is merged into the ```dev``` branch.~~
+* There is a documentation branch for adding to this documentation.
 
 * When pull requests are made, they need to be reviewed by at least one other person before they can be merged into the ```dev``` branch.
 * The pull request triggers a ```GitHub Action``` that runs the unit tests and lint. If the unit tests fail, the pull request cannot be merged into the ```dev``` branch.
