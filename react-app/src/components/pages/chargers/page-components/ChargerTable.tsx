@@ -1,11 +1,11 @@
 import {
-  useMediaQuery, Theme, TableProps, TableContainer,
+  useMediaQuery, type Theme, type TableProps, TableContainer,
   Table, TableHead, TableRow, TableCell, TableBody,
   TablePagination, LinearProgress
 } from '@material-ui/core';
 import ChargerRow from './ChargerRow';
-import { Charger } from '@/remote-access/types';
-import React, { FC, useState } from 'react';
+import { type Charger } from '@/remote-access/types';
+import React, { type FC, useState, useEffect } from 'react';
 
 interface ChargerTableProps {
   chargers: Charger[]
@@ -23,6 +23,13 @@ const ChargerTable: FC<ChargerTableProps> = ({ loaded, chargers, ...props }: any
     page: 0,
     rowsPerPage: 5
   });
+
+  useEffect(() => {
+    setState((prevState) => ({
+      ...prevState,
+      page: 0
+    }));
+  }, [chargers]);
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setState({
@@ -53,9 +60,9 @@ const ChargerTable: FC<ChargerTableProps> = ({ loaded, chargers, ...props }: any
         <Table {...tableProps} stickyHeader aria-label='sticky table'>
           <TableHead>
             <TableRow>
-              <TableCell>Charger ID</TableCell>
+              <TableCell>Connector ID</TableCell>
               <TableCell>Serial Number</TableCell>
-              <TableCell>Charger Station ID</TableCell>
+              <TableCell>Charge-point ID</TableCell>
               <TableCell>Status</TableCell>
               <TableCell align='right'>Actions</TableCell>
             </TableRow>
@@ -66,7 +73,7 @@ const ChargerTable: FC<ChargerTableProps> = ({ loaded, chargers, ...props }: any
                 .map((charger: Charger) => {
                   return (
                     <ChargerRow
-                      key={charger.chargerID}
+                      key={charger.connectorID}
                       charger={charger}
                       {...props}
                       classes={props.classes}

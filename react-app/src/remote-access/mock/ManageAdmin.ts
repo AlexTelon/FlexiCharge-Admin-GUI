@@ -1,7 +1,7 @@
 /* eslint-disable no-useless-escape */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { mockAdmins } from '../../__mock-data__/admins';
-import { Admin, IAdmin } from '../types';
+import { type Admin, type IAdmin } from '../types';
 
 export default class ManageAdmin implements IAdmin {
   admins = mockAdmins;

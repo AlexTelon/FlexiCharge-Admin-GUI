@@ -1,5 +1,5 @@
 export * from './authentication-provider';
-export * from './charger-station';
+export * from './charger-point';
 export * from './charger';
 export * from './users';
 export * from './transactions';

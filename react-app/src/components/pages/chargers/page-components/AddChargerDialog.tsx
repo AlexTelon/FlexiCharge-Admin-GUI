@@ -1,14 +1,15 @@
 import { manageCharger } from '@/remote-access';
-import { ChargerStation } from '@/remote-access/types';
-import { Button, Collapse, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControl, FormHelperText, Input, InputLabel, LinearProgress, List, ListItem, ListItemText, Theme } from '@material-ui/core';
+import { type ChargePoint } from '@/remote-access/types';
+import { Button, Collapse, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControl, FormHelperText, Input, InputLabel, LinearProgress, List, ListItem, ListItemText, type Theme } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 import { useTheme } from '@material-ui/styles';
-import React, { FC, useState } from 'react';
+import React, { type FC, useEffect, useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 
 interface AddChargerDialogProps {
   open: boolean
   handleClose: () => void
-  station: ChargerStation
+  chargePoint: ChargePoint
   reload: () => void
 }
 
@@ -22,10 +23,11 @@ interface AddChargerDialogState {
   }
 }
 
-const AddChargerDialog: FC<AddChargerDialogProps> = ({ open, handleClose, station, reload }) => {
+const AddChargerDialog: FC<AddChargerDialogProps> = ({ open, handleClose, chargePoint, reload }) => {
   const theme: Theme = useTheme();
   const [state, setState] = useState<AddChargerDialogState>({
     loading: false,
+    serialNumber: uuidv4(),
     errorState: {}
   });
 
@@ -36,6 +38,12 @@ const AddChargerDialog: FC<AddChargerDialogProps> = ({ open, handleClose, statio
     });
   };
 
+  useEffect(() => {
+    if (open) {
+      handleSerialNumberChange(uuidv4());
+    }
+  }, [open]);
+
   const handleAddClick = () => {
     if (state.serialNumber !== undefined) {
       setState({
@@ -45,8 +53,8 @@ const AddChargerDialog: FC<AddChargerDialogProps> = ({ open, handleClose, statio
 
       manageCharger.addCharger({
         serialNumber: state.serialNumber,
-        location: station.location,
-        chargePointID: station.chargePointID
+        location: chargePoint.location,
+        chargePointID: chargePoint.chargePointID
       }).then((result) => {
         if (result[1] !== null) {
           setState({
@@ -91,30 +99,30 @@ const AddChargerDialog: FC<AddChargerDialogProps> = ({ open, handleClose, statio
           Chager: {state.successfulAddedSerialNumber} Added
         </Alert>
       </Collapse>
-      <DialogTitle>Add Chargers to a station</DialogTitle>
+      <DialogTitle>Add Chargers to a Charge-point</DialogTitle>
       {state.errorState.alert &&
         <Alert style={{ width: '100%' }} severity="warning">{state.errorState.alert}</Alert>
       }
       <DialogContent>
         <DialogContentText>
-          Station Info for station {station.chargePointID}
+          Point Info for Charge-point {chargePoint.chargePointID}
           <List dense={true}>
             <ListItem>
               <ListItemText
-                primary={station.name}
+                primary={chargePoint.name}
                 secondary="Name"
               />
             </ListItem>
             <ListItem>
               <ListItemText
-                primary={`${station.location[0]}, ${station.location[1]}`}
+                primary={`${chargePoint.location[0]}, ${chargePoint.location[1]}`}
                 secondary="Latitude, Longitude"
               />
             </ListItem>
             <ListItem>
               <ListItemText
-                primary={station.price / 100}
-                secondary="Price in SEK"
+                primary={state.serialNumber}
+                secondary="Serial Number"
               />
             </ListItem>
             <ListItem>
@@ -131,7 +139,7 @@ const AddChargerDialog: FC<AddChargerDialogProps> = ({ open, handleClose, statio
               id="charger-serial-number"
               aria-describedby="charger-serial-number-helper"
               value={state.serialNumber}
-              onChange={(e) => handleSerialNumberChange(e.target.value)}
+              onChange={(e) => { handleSerialNumberChange(e.target.value); }}
             />
             <FormHelperText id="charger-serial-number-helper">
               {state.errorState.serialNumber
@@ -141,7 +149,6 @@ const AddChargerDialog: FC<AddChargerDialogProps> = ({ open, handleClose, statio
             </FormHelperText>
           </FormControl>
         </form>
-
       </DialogContent>
       <DialogActions>
         <Button
@@ -156,7 +163,7 @@ const AddChargerDialog: FC<AddChargerDialogProps> = ({ open, handleClose, statio
             backgroundColor: theme.flexiCharge.accent.primary,
             color: theme.flexiCharge.primary.white
           }}
-          onClick={() => handleAddClick()}
+          onClick={() => { handleAddClick(); }}
         >Add Charger</Button>
       </DialogActions>
     </Dialog>

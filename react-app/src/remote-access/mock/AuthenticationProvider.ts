@@ -1,11 +1,12 @@
-import { IAuthenticationProvider } from '../types';
+import { type IAuthenticationProvider } from '../types';
 import { loginInfo } from '../../__mock-data__';
 
 export default class AuthenticationProvider implements IAuthenticationProvider {
   public isAuthenticated: boolean = false;
 
-  getToken(): string | null {
+  async getToken(): Promise<string | null> {
     return null;
+    // Todo!
   }
 
   async login(username: string, password: string): Promise<[boolean, any | null]> {
@@ -13,7 +14,7 @@ export default class AuthenticationProvider implements IAuthenticationProvider {
       setTimeout(() => {
         if (username === loginInfo.username && password === loginInfo.password) {
           this.isAuthenticated = true;
-          localStorage.setItem('isAuthenticated', 'true');
+          sessionStorage.setItem('isAuthenticated', 'true');
           resolve([true, {}]);
         } else {
           this.isAuthenticated = false;
@@ -23,7 +24,7 @@ export default class AuthenticationProvider implements IAuthenticationProvider {
     });
   }
 
-  async getAdminSession(username: string, tempPassword: string, newPassword: string): Promise<Boolean> {
+  async getAdminSession(username: string, tempPassword: string, newPassword: string): Promise<boolean> {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         if (username === loginInfo.username && tempPassword === loginInfo.password) {
@@ -35,5 +36,13 @@ export default class AuthenticationProvider implements IAuthenticationProvider {
         }
       }, 3000);
     });
+  }
+
+  logout(): void {
+    this.isAuthenticated = false;
+    sessionStorage.removeItem('token');
+    sessionStorage.removeItem('isAuthenticated');
+    sessionStorage.removeItem('username');
+    location.reload();
   }
 }

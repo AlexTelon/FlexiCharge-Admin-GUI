@@ -1,14 +1,14 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 import React, { useState } from 'react';
 import {
-  Theme, useTheme, useMediaQuery, Dialog,
+  type Theme, useTheme, useMediaQuery, Dialog,
   DialogTitle, IconButton, DialogContent, Box,
   FormControl, InputLabel, Input, FormHelperText, DialogActions, Button, makeStyles, createStyles, LinearProgress, Fade
 } from '@material-ui/core';
 import { CheckCircle, Close } from '@material-ui/icons';
 import { manageUser } from '@/remote-access';
 import { Alert } from '@material-ui/lab';
-import { User } from '@/remote-access/types';
+import { type User } from '@/remote-access/types';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -120,7 +120,7 @@ const AddSingleUserDialog = ({ open, handleClose, setReload }: any) => {
             <Box>
               <FormControl style={{ marginTop: 12 }} fullWidth variant="outlined" error={errorState.name !== undefined}>
                 <InputLabel htmlFor="user-name-input">Name</InputLabel>
-                <Input id="user-name-input" aria-describedby="user-name-helper" onChange={(e) => handleInputChange('name', e.target.value)} value={fields.name} />
+                <Input id="user-name-input" aria-describedby="user-name-helper" onChange={(e) => { handleInputChange('name', e.target.value); }} value={fields.name} />
                 {errorState.name &&
                   <FormHelperText id="user-address-helper">
                     {errorState.name}
@@ -129,7 +129,7 @@ const AddSingleUserDialog = ({ open, handleClose, setReload }: any) => {
               </FormControl>
               <FormControl style={{ marginTop: 12 }} fullWidth variant="outlined" error={errorState.family_name !== undefined}>
                 <InputLabel htmlFor="user-family-name-input">Family name</InputLabel>
-                <Input id="user-family-name-input" aria-describedby="user-family-name-helper" onChange={(e) => handleInputChange('family_name', e.target.value)} value={fields.family_name} />
+                <Input id="user-family-name-input" aria-describedby="user-family-name-helper" onChange={(e) => { handleInputChange('family_name', e.target.value); }} value={fields.family_name} />
                 <FormHelperText id="user-family-name-helper">
                   {errorState.family_name
                     ? `${errorState.family_name} | Family name`
@@ -139,7 +139,7 @@ const AddSingleUserDialog = ({ open, handleClose, setReload }: any) => {
               </FormControl>
               <FormControl style={{ marginTop: 12 }} fullWidth variant="outlined" error={errorState.username !== undefined}>
                 <InputLabel htmlFor="user-email-input">Email</InputLabel>
-                <Input id="user-email-input" aria-describedby="user-email-helper" onChange={(e) => handleInputChange('username', e.target.value)} value={fields.email} />
+                <Input id="user-email-input" aria-describedby="user-email-helper" onChange={(e) => { handleInputChange('username', e.target.value); }} value={fields.email} />
                 <FormHelperText id="user-email-helper">
                   {errorState.username
                     ? `${errorState.username} | Email adress`
@@ -149,7 +149,7 @@ const AddSingleUserDialog = ({ open, handleClose, setReload }: any) => {
               </FormControl>
               <FormControl style={{ marginTop: 12 }} fullWidth variant="outlined" error={errorState.password !== undefined}>
                 <InputLabel htmlFor="user-password-input">Password</InputLabel>
-                <Input id="user-password-input" aria-describedby="user-password-helper" onChange={(e) => handleInputChange('password', e.target.value)} value={fields.password} />
+                <Input id="user-password-input" aria-describedby="user-password-helper" onChange={(e) => { handleInputChange('password', e.target.value); }} value={fields.password} />
                 <FormHelperText id="user-password-helper">
                   {errorState.password
                     ? `${errorState.password} | Password`

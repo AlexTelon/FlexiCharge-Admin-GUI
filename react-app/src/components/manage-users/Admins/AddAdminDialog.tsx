@@ -1,14 +1,14 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 import React, { useState } from 'react';
 import {
-  Theme, useTheme, useMediaQuery, Dialog,
+  type Theme, useTheme, useMediaQuery, Dialog,
   DialogTitle, IconButton, DialogContent, Box,
   FormControl, InputLabel, Input, FormHelperText, DialogActions, Button, makeStyles, createStyles, LinearProgress, Fade
 } from '@material-ui/core';
 import { CheckCircle, Close } from '@material-ui/icons';
 import { manageAdmin } from '../../../remote-access';
 import { Alert } from '@material-ui/lab';
-import { Admin } from '@/remote-access/types';
+import { type Admin } from '@/remote-access/types';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -119,7 +119,7 @@ const AddSingleAdminDialog = ({ open, handleClose, setReload }: any) => {
             <Box>
               <FormControl style={{ marginTop: 16 }} fullWidth variant="outlined" error={errorState.name !== undefined}>
                 <InputLabel htmlFor="admin-name-input">Name</InputLabel>
-                <Input id="admin-name-input" aria-describedby="admin-name-helper" onChange={(e) => handleInputChange('name', e.target.value)} value={fields.name} />
+                <Input id="admin-name-input" aria-describedby="admin-name-helper" onChange={(e) => { handleInputChange('name', e.target.value); }} value={fields.name} />
                 {errorState.name &&
                   <FormHelperText id="admin-address-helper">
                     {errorState.name}
@@ -128,7 +128,7 @@ const AddSingleAdminDialog = ({ open, handleClose, setReload }: any) => {
               </FormControl>
               <FormControl style={{ marginTop: 16 }} fullWidth variant="outlined" error={errorState.family_name !== undefined}>
                 <InputLabel htmlFor="admin-family-name-input">Family Name</InputLabel>
-                <Input id="admin-family-name-input" aria-describedby="admin-family-name-helper" onChange={(e) => handleInputChange('family_name', e.target.value)} value={fields.family_name} />
+                <Input id="admin-family-name-input" aria-describedby="admin-family-name-helper" onChange={(e) => { handleInputChange('family_name', e.target.value); }} value={fields.family_name} />
                 {errorState.family_name &&
                   <FormHelperText id="admin-family-name-helper">
                     {errorState.family_name}
@@ -137,7 +137,7 @@ const AddSingleAdminDialog = ({ open, handleClose, setReload }: any) => {
               </FormControl>
               <FormControl style={{ marginTop: 16 }} fullWidth variant="outlined" error={errorState.username !== undefined}>
                 <InputLabel htmlFor="admin-email-input">Email</InputLabel>
-                <Input id="admin-email-input" aria-describedby="admin-email-helper" onChange={(e) => handleInputChange('username', e.target.value)} value={fields.email} />
+                <Input id="admin-email-input" aria-describedby="admin-email-helper" onChange={(e) => { handleInputChange('username', e.target.value); }} value={fields.email} />
                 <FormHelperText id="admin-email-helper">
                   {errorState.username
                     ? `${errorState.username} | Email adress`

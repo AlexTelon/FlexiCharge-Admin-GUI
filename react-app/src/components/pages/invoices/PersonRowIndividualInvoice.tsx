@@ -31,7 +31,7 @@ return (
             <Typography
                 color='textPrimary'
                 variant='body1'
-                className={classes.stationNameCell}
+                className={classes.pointNameCell}
                 noWrap
             >
                 {individualInvoice.invoiceID}
