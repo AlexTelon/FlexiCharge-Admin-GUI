@@ -3,6 +3,8 @@
 
 * Right now nobody knows what purpose the charger serialNumber value has, so we have put a UUID in it simply ensure uniqueness.
 * The product manager said that all prices should be derived form a "global value" aka charging at a charger should cost the same everywhere. We removed the input for setting prices on the charge-points but now we need to await an endpoint to set the global one.
+* We may have broken the button to update charge-points in the last sprint, needs to be fixed.
+* Would recommend adding cypress or some other UI testing tool to prevent breaking more buttons in the future.
 ## Invoices and transactions
 * There have been a discussion over how invoices should work, so those endpoints will be remade... next year... assuming backend have kept good documentation.
 * There are endpoints for viewing transactions so what you could do is attach links to every user in the user table (user view) that brings you to a transaction page for that user.
